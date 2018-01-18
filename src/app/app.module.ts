@@ -11,7 +11,7 @@ import { Ng2AutoCompleteModule } from 'ng2-auto-complete';
 /*import { Ng2SimplePageScrollModule } from 'ng2-simple-page-scroll/ng2-simple-page-scroll';*/
 
 import { BasicServicesModule } from './Shared/Services/modules/basic.services.module'
-import { BasicDataServicesModule } from './Shared/Services/modules/basic.data.services.module'
+import { BasicDataServicesModule } from 'gg-basic-data-services'
 
 import { PlatformModule } from './Platforms/modules/platform.module'
 

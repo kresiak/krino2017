@@ -62,7 +62,8 @@
     "component": {
     },
     "build": {
-      "showCircularDependencies": false
+      "showCircularDependencies": false,
+      "preserveSymlinks": true
     }
   }
 }

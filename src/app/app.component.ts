@@ -8,10 +8,10 @@ import { AuthenticationStatusInfo, AuthService } from './Shared/Services/auth.se
 import { NotificationService } from './Shared/Services/notification.service'
 import { BasketService } from './Shared/Services/basket.service'
 import { MenuService } from './Shared/Services/menu.service'
-import { DataStore } from './Shared/Services/data.service'
-import { WebSocketService } from './Shared/Services/websocket.service';
+import { DataStore, WebSocketService, ConfigService } from 'gg-basic-data-services'
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser"
 import {TranslateService} from '@ngx-translate/core'
+import { environment } from '../environments/environment';
 
 @Component({
     //moduleId: module.id,
@@ -20,7 +20,11 @@ import {TranslateService} from '@ngx-translate/core'
 })
 export class AppComponent implements OnInit {
     constructor(private authService: AuthService, private dataStore: DataStore, private menuService: MenuService, private notificationService: NotificationService, private basketService: BasketService,
-        private route: ActivatedRoute, private router: Router, private modalService: NgbModal, private webSocketService: WebSocketService, private _sanitizer: DomSanitizer, public translate: TranslateService) {
+        private route: ActivatedRoute, private router: Router, private modalService: NgbModal, private webSocketService: WebSocketService, private _sanitizer: DomSanitizer, public translate: TranslateService,
+        private configService: ConfigService) {
+
+        this.configService.setProduction(environment.production)
+
         this.webSocketService.init()
         this.authService.initFromLocalStorage()
 
