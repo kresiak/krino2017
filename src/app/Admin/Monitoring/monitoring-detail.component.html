@@ -1,0 +1,77 @@
+<div class="card">
+    <div class="card-body">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-2 align-self-center"><b></b></div>
+                <div class="col-sm-3 align-self-center"><b>{{'ADMINISTRATION.MONITORING.COLUMN.FOCUS ON' | translate}}</b></div>
+                <div class="col-sm-3 align-self-center"><b>{{'ADMINISTRATION.MONITORING.COLUMN.THRESHOLD' | translate}}</b></div>
+                <div class="col-sm-3 align-self-center"><b>{{'ADMINISTRATION.MONITORING.COLUMN.GRANULARITY' | translate}}</b></div>
+            </div>
+            <div class="form-group row">
+                <label for="supplierId" class="col-sm-2 col-form-label col-xl-2">{{'ADMINISTRATION.MONITORING.LABEL.USERS' | translate}}</label>
+                <div class="col-sm-3 align-self-center">
+                    <gg-selector [selectableData]="selectableUsers" [selectedIds]="userIds" (selectionChanged)="userSelectionChanged($event)"></gg-selector>
+                </div>
+                <div class="col-sm-3 align-self-center">
+                    <gg-editor [content]="config.user.amount" [showControls]="true" [isMonetary]="true" (editSaved)="userExpensesChanged($event)"></gg-editor>
+                </div>
+                <div class="col-sm-3 align-self-center">
+                    <select>
+                        <option value="oneTime">{{'ADMINISTRATION.MONITORING.COLUMN.ONE TIME' | translate}}</option>
+                        <option value="oneDay">{{'ADMINISTRATION.MONITORING.COLUMN.ONE DAY' | translate}}</option>
+                        <option value="oneWeek">{{'ADMINISTRATION.MONITORING.COLUMN.ONE WEEK' | translate}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="supplierId" class="col-sm-2 col-form-label col-xl-2">{{'ADMINISTRATION.MONITORING.LABEL.ÉQUIPES' | translate}}</label>
+                <div class="col-sm-3 align-self-center">
+                    <gg-selector [selectableData]="selectableEquipes" [selectedIds]="equipeIds" (selectionChanged)="equipeSelectionChanged($event)"></gg-selector>
+                </div>
+                <div class="col-sm-3 align-self-center">
+                    <gg-editor [content]="config.equipe.amount" [showControls]="true" [isMonetary]="true" (editSaved)="equipeExpensesChanged($event)"></gg-editor>
+                </div>
+                <div class="col-sm-3 align-self-center">
+                    <select>
+                        <option value="oneTime">{{'ADMINISTRATION.MONITORING.COLUMN.ONE TIME' | translate}}</option>
+                        <option value="oneDay">{{'ADMINISTRATION.MONITORING.COLUMN.ONE DAY' | translate}}</option>
+                        <option value="oneWeek">{{'ADMINISTRATION.MONITORING.COLUMN.ONE WEEK' | translate}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="supplierId" class="col-sm-2 col-form-label col-xl-2">{{'ADMINISTRATION.MONITORING.LABEL.CATEGORIES' | translate}}</label>
+                <div class="col-sm-3 align-self-center">
+                    <gg-selector [selectableData]="selectableCategoriesObservable" [selectedIds]="categoryIds" (selectionChanged)="categorySelectionChanged($event)"></gg-selector>
+                </div>
+                <div class="col-sm-3 align-self-center">
+                    <gg-editor [content]="config.category.amount" [showControls]="true" [isMonetary]="true" (editSaved)="categoryExpensesChanged($event)"></gg-editor>
+                </div>
+                <div class="col-sm-3 align-self-center">
+                    <select>
+                        <option value="oneTime">{{'ADMINISTRATION.MONITORING.COLUMN.ONE TIME' | translate}}</option>
+                        <option value="oneDay">{{'ADMINISTRATION.MONITORING.COLUMN.ONE DAY' | translate}}</option>
+                        <option value="oneWeek">{{'ADMINISTRATION.MONITORING.COLUMN.ONE WEEK' | translate}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="supplierId" class="col-sm-2 col-form-label col-xl-2">{{'ADMINISTRATION.MONITORING.LABEL.OTPS' | translate}}</label>
+                <div class="col-sm-3 align-self-center">
+                    <gg-selector [selectableData]="selectableOtps" [selectedIds]="otpIds" (selectionChanged)="otpSelectionChanged($event)"></gg-selector>
+                </div>
+                <div class="col-sm-3 align-self-center">
+                    <gg-editor [content]="config.otp.amount" [showControls]="true" [isMonetary]="true" (editSaved)="otpExpensesChanged($event)"></gg-editor>
+                </div>
+                <div class="col-sm-3 align-self-center">
+                    <select>
+                        <option value="oneTime">{{'ADMINISTRATION.MONITORING.COLUMN.ONE TIME' | translate}}</option>
+                        <option value="oneDay">{{'ADMINISTRATION.MONITORING.COLUMN.ONE DAY' | translate}}</option>
+                        <option value="oneWeek">{{'ADMINISTRATION.MONITORING.COLUMN.ONE WEEK' | translate}}</option>
+                    </select>
+                </div>
+            </div>
+		</div>
+	</div>
+</div>
+		        

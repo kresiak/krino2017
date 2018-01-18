@@ -1,0 +1,44 @@
+<gg-search-box [objectTypeTranslationKey]="'GENERAL.USERS'" [objectsObservable]="usersObservable" [fnFilterObjects]="fnFilter"
+ (listChanged)="users=$event">
+	<ul searchHelp>
+		<li>{{'USER.SEARCH HELP.MSG1' | translate}}</li>
+	</ul>
+	<ngb-accordion accordion [closeOthers]="true" #acc="ngbAccordion" (panelChange)="beforeAccordionChange($event)" [activeIds]="state.openPanelId">
+		<ngb-panel [disabled]="true">
+			<ng-template ngbPanelTitle>
+				<div class="row">
+					<div class="col-sm-3"><b>{{'USER.COLUMN.FULL NAME' | translate}}</b></div>
+					<div class="col-sm-3"><b>{{'USER.COLUMN.EQUIPE(S)' | translate}}</b></div>
+					<div class="col-sm-2"><b>{{'USER.COLUMN.BLOCKED?' | translate}}</b></div>
+					<div class="col-sm-2"><b>{{'USER.COLUMN.ADMINISTRATOR?' | translate}}</b></div>
+					<div class="col-sm-2"><b>{{'USER.COLUMN.SUPER ADMINISTRATOR?' | translate}}</b></div>
+				</div>
+			</ng-template>
+			<ng-template ngbPanelContent>
+			</ng-template>
+		</ngb-panel>
+		<ngb-panel *ngFor="let user of users" [id]="user.data._id">
+			<ng-template ngbPanelTitle>
+				<div class="row" id="{{user.data._id}}">
+					<div class="col-sm-3" [style.font-weight]="user.data._id === state.openPanelId ? 'bold' : 'lighter'">{{user.annotation.fullName}}</div>
+					<div class="col-sm-3">{{user.annotation.equipesTxt}}</div>
+					<div class="col-sm-2">{{getBooleanText(user.data.isBlocked) | translate}}</div>
+					<div class="col-sm-2">{{getBooleanText(user.data.isAdmin) | translate}}</div>
+					<div class="col-sm-2">{{getBooleanText(user.data.isSuperAdmin) | translate}}</div>
+				</div>
+			</ng-template>
+			<ng-template ngbPanelContent>
+
+				<gg-user-detail [userObservable]="getUserObservable(user.data._id)" [state]="state[user.data._id]" [path]="path+'|P:'+user.data._id"
+				 (stateChanged)="childStateChanged($event, user.data._id)"></gg-user-detail>
+
+			</ng-template>
+		</ngb-panel>
+	</ngb-accordion>
+</gg-search-box>
+
+
+
+
+
+

@@ -1,0 +1,55 @@
+<div class="card">
+    <div class="card-body">
+        <div class="container-fluid">
+            <form [formGroup]="registerEnterForm" (ngSubmit)="saveUser(registerEnterForm.value, registerEnterForm.valid)">
+                <div class="form-group row">
+                    <label for="firstName" class="col-sm-2 col-form-label col-xl-2">{{'PUBLIC.IDENTIFICATION.LABEL.FIRST NAME' | translate}}:</label>
+                    <div class="col-sm-10">
+                        <input type="text" min="2" class="form-control" formControlName="firstName" id="firstName" placeholder="{{'PUBLIC.IDENTIFICATION.LABEL.FIRST NAME' | translate}}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="lastName" class="col-sm-2 col-form-label col-xl-2">{{'PUBLIC.IDENTIFICATION.LABEL.LAST NAME' | translate}}:</label>
+                    <div class="col-sm-10">
+                        <input type="text" min="2" class="form-control" formControlName="lastName" id="lastName" placeholder="{{'PUBLIC.IDENTIFICATION.LABEL.LAST NAME' | translate}}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="email" class="col-sm-2 col-form-label col-xl-2">{{'PUBLIC.IDENTIFICATION.LABEL.E-MAIL ADDRESS' | translate}}:</label>
+                    <div class="col-sm-10">
+                        <input type="text" min="2" class="form-control" formControlName="email" id="email" placeholder="{{'PUBLIC.IDENTIFICATION.LABEL.E-MAIL ADDRESS' | translate}}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="laboName" class="col-sm-2 col-form-label col-xl-2">{{'PUBLIC.IDENTIFICATION.LABEL.LABO' | translate}}:</label>
+                    <div class="col-sm-10">
+                        <input type="text" min="2" class="form-control" formControlName="laboName" id="laboName" placeholder="{{'PUBLIC.IDENTIFICATION.LABEL.LABO' | translate}}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="password" class="col-sm-2 col-form-label col-xl-2">{{'PUBLIC.IDENTIFICATION.LABEL.PASSWORD' | translate}}:</label>
+                    <div class="col-sm-10">
+                        <input type="password" min="2" class="form-control" formControlName="password" id="password" placeholder="{{'PUBLIC.IDENTIFICATION.LABEL.PASSWORD' | translate}}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="repeatPassword" class="col-sm-2 col-form-label col-xl-2">{{'PUBLIC.IDENTIFICATION.LABEL.REPEAT PASSWORD' | translate}}:</label>
+                    <div class="col-sm-10">
+                        <input type="password" min="2" class="form-control" formControlName="repeatPassword" id="repeatPassword" placeholder="{{'PUBLIC.IDENTIFICATION.LABEL.REPEAT PASSWORD' | translate}}">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3 col-md-2 col-lg-2">
+                        <button class="btn btn-success" type="submit" [disabled]="!registerEnterForm.valid">{{'FORM.SUBMIT' | translate}}</button>
+                    </div>
+                    <div class="col-sm-3 col-md-2 col-lg-2">
+                        <button class="btn btn-info" [disabled]="registerEnterForm.pristine" (click)="resetRegisterEnterForm()">{{'FORM.RESET' | translate}}</button>
+                    </div>
+                </div>
+            </form>
+            <div class="row" *ngIf="flagIsError" [style.color]="'red'">
+                There is an error: {{errorMsg}}
+            </div>
+        </div>
+    </div>
+</div>

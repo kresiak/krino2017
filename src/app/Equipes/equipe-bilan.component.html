@@ -1,0 +1,20 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-4 align-self-center">{{'EQUIPE.LABEL.SPENT ON REGULAR ORDERS' | translate}}</div>
+            <div class="col-sm-4 align-self-center">{{bilan.totalOrders | ggCurrency }}</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4 align-self-center">{{'EQUIPE.LABEL.SPENT ON FRIDGE ORDERS' | translate}}</div>
+            <div class="col-sm-4 align-self-center">{{bilan.totalFridgeOrders | ggCurrency }}</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4 align-self-center">{{'EQUIPE.LABEL.SPENT ON WEBSHOPPING ORDERS' | translate}}</div>
+            <div class="col-sm-4 align-self-center">{{bilan.totalVoucherOrders | ggCurrency }}</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4 align-self-center">{{'EQUIPE.LABEL.SPENT INTERNAL STOCK ORDERS' | translate}}</div>
+            <div class="col-sm-4 align-self-center">{{bilan.totalStockOrders | ggCurrency }}</div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,146 @@
+<div id="GGTOP"></div>
+<div class="card">
+    <div class="card-body">
+        <ngb-tabset *ngIf="authorizationStatusInfo?.isLoggedIn">
+            <ngb-tab title="{{'SAP.MENU.VIEW SAP ITEMS' | translate}}" id="tabView">
+                <ng-template ngbTabContent>
+
+                    <gg-sap-list [state]="state" [sapsObservable]="sapsObservable"></gg-sap-list>
+
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="{{'SAP.MENU.ATTRIBUTE TO EQUIPE' | translate}} ({{sapItemsToAttributeAll.length}})" *ngIf="sapItemsToAttribute" id="tabAttributeToEquipe">
+                <ng-template ngbTabContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <ngb-tabset>
+                                <ngb-tab title="{{'SAP.MENU.ATTRIBUTE TO EQUIPE' | translate}} ({{sapItemsToAttributeAll.length}})" *ngIf="sapItemsToAttribute"
+                                    id="tabAttributeToEquipeDoIt">
+                                    <ng-template ngbTabContent>
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <img src="images/refresh.png" (click)="refreshAttributionList()" class="imgSearch" placement="right" [ngbTooltip]="('SAP.ATTRIBUTION.LABEL.HIDE SAP ITEMS ALREADY ATTRIBUTED TIP') | translate"
+                                                    />
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-1 align-self-center"><b>{{'SAP.ATTRIBUTION.COLUMN.SAP ID' | translate}}</b></div>
+                                                    <div class="col-sm-1 align-self-center"><b>{{'SAP.ATTRIBUTION.COLUMN.LAST ACTIVITY' | translate}}</b></div>
+                                                    <div class="col-sm-1 align-self-center"><b>{{'SAP.ATTRIBUTION.COLUMN.ALREADY INVOICED' | translate}}</b></div>
+                                                    <div class="col-sm-1 align-self-center"><b>{{'SAP.ATTRIBUTION.COLUMN.REMAINING ENGAGED' | translate}}</b></div>
+                                                    <div class="col-sm-1 align-self-center"><b>{{'SAP.ATTRIBUTION.COLUMN.SUPPLIER' | translate}}</b></div>
+                                                    <div class="col-sm-1 align-self-center"><b>{{'SAP.ATTRIBUTION.COLUMN.OTP' | translate}}</b></div>
+                                                    <div class="col-sm-2 align-self-center"><b>{{'SAP.ATTRIBUTION.COLUMN.EQUIPE' | translate}}</b></div>
+                                                    <div class="col-sm-2 align-self-center"><b>{{'SAP.ATTRIBUTION.COLUMN.COMMENT' | translate}}</b></div>
+                                                </div>
+                                                <div *ngFor="let sapItem of sapItemsToAttribute">
+                                                    <div class="row">
+                                                        <div class="col-sm-1 align-self-center">
+                                                            {{sapItem.sapId}}
+                                                        </div>
+                                                        <div class="col-sm-1 align-self-center">
+                                                            {{sapItem.dateLastActivity}}
+                                                        </div>
+                                                        <div class="col-sm-1 align-self-center">
+                                                            {{sapItem.alreadyBilled | ggCurrency}}
+                                                        </div>
+                                                        <div class="col-sm-1 align-self-center">
+                                                            {{ sapItem.residuEngaged | ggCurrency}}
+                                                        </div>
+                                                        <div class="col-sm-1 align-self-center">
+                                                            <gg-text-compact [text]="!sapItem.mainData.data.isNoEngag ?  sapItem.mainData.data.supplier : sapItem.typesPiece" [numberOfChar]="10"></gg-text-compact>
+                                                        </div>
+                                                        <div class="col-sm-1 align-self-center">
+                                                            <gg-text-compact [text]="sapItem.mainData.annotation.otpTxt"></gg-text-compact>
+                                                        </div>
+                                                        <div class="col-sm-2 align-self-center">
+                                                            <gg-editor-autocomplete [selectableData]="equipeListObservable" [selectedId]="sapItem.equipeId" [editMode]="!sapItem.equipeId"
+                                                                (idChanged)="equipeChanged($event, sapItem)" [emptyContentText]="('SAP.ATTRIBUTION.ACTION.IGNORE FOR NOW' | translate)"
+                                                                (hasBeenCanceled)="equipeChangeCancelled(sapItem)"></gg-editor-autocomplete>
+                                                        </div>
+                                                        <div class="col-sm-2 align-self-center">
+                                                            <gg-editor [content]="sapItem.description" (editSaved)="descriptionChanged($event, sapItem)" [showControls]="true"></gg-editor>
+                                                        </div>
+                                                        <div class="col-sm-2 align-self-center">
+                                                            <button type="button" class="btn btn-link" (click)="sapItem.isClosed=!sapItem.isClosed">{{'SAP.ATTRIBUTION.ACTION.SHOW/HIDE OTP' | translate}}</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" [ngbCollapse]="!sapItem.isClosed">
+                                                        <gg-sap-detail [sapObservable]="getSapObservable(sapItem.sapId)"></gg-sap-detail>
+                                                    </div>
+                                                </div>
+                                                <div class="row" [innerHtml]="'SAP.ATTRIBUTION.LABEL.THERE ARE X ITEMS' | translate:{nb:sapItemsToAttributeAll.length}">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </ng-template>
+                                </ngb-tab>
+                                <ngb-tab title="{{'SAP.MENU.ALREADY ATTRIBUTED TO EQUIPE' | translate}}" id="tabAttributeToEquipeDone">
+                                    <ng-template ngbTabContent>
+                                        <gg-sap-list [state]="state" [sapsObservable]="sapsObservableAttributed"></gg-sap-list>
+                                    </ng-template>
+                                </ngb-tab>
+                            </ngb-tabset>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="{{'SAP.MENU.RESPONSABLES' | translate}}" id="tabResponsables">
+                <ng-template ngbTabContent>
+                    <div class="card" id>
+                        <div class="card-body">
+                            <ul>
+                                <li *ngFor="let resp of listResponsales">{{resp}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="{{'SAP.MENU.VIEW PIECE TYPES' | translate}}" id="tabPiecesInfo">
+                <ng-template ngbTabContent>
+                    <div class="card" id>
+                        <div class="card-body">
+
+                            <ngb-accordion [closeOthers]="true" #acc="ngbAccordion">
+                                <ngb-panel [disabled]="true">
+                                    <ng-template ngbPanelTitle>
+                                        <div class="row">
+                                            <div class="col-sm-3 "><b>{{'SAP.BY PIECE TYPE.COLUMN.PIECE TYPE' | translate}}</b></div>
+                                            <div class="col-sm-3 "><b>{{'SAP.BY PIECE TYPE.COLUMN.FIRST PIECE ID' | translate}}</b></div>
+                                            <div class="col-sm-3 "><b>{{'SAP.BY PIECE TYPE.COLUMN.LAST PIECE ID' | translate}}</b></div>
+                                            <div class="col-sm-3 "><b>{{'SAP.BY PIECE TYPE.COLUMN.NB' | translate}}</b></div>
+                                        </div>
+                                    </ng-template>
+                                </ngb-panel>
+                                <ngb-panel *ngFor="let info of sapPieceTypesInfo">
+                                    <ng-template ngbPanelTitle>
+                                        <div class="row">
+                                            <div class="col-sm-3 ">
+                                                {{info.pieceType}}
+                                            </div>
+                                            <div class="col-sm-3 ">
+                                                {{info.info.minSapId}}
+                                            </div>
+                                            <div class="col-sm-3 ">
+                                                {{info.info.maxSapId}}
+                                            </div>
+                                            <div class="col-sm-3 ">
+                                                {{info.info.nb}}
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template ngbPanelContent>
+                                        <gg-sap-list [state]="state" [sapsObservable]="getSapBytypeObservable(info.pieceType, info.length, info.firstChar)"></gg-sap-list>
+                                    </ng-template>
+                                </ngb-panel>
+                            </ngb-accordion>
+
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+        </ngb-tabset>
+        <h4 *ngIf="authorizationStatusInfo && !authorizationStatusInfo.isLoggedIn">{{'ERROR.NO LOGIN' | translate}}</h4>
+        </div>
+    </div>

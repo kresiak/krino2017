@@ -1,0 +1,53 @@
+<ngb-tabset [activeId]="state.selectedTabId">
+    <ngb-tab title="List of snapshots" id="tabListOfSnapshots" *ngIf=" observableSnapshots && ((observableSnapshots |async) || []).length > 0">
+        <ng-template ngbTabContent>
+            <div class="card">
+                <div class="card-body">
+                    <gg-platform-service-snapshot-list [observableSnapshots]="observableSnapshots"></gg-platform-service-snapshot-list>
+                </div>
+            </div>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Make a snapshot" id="tabMakeSnapshot">
+        <ng-template ngbTabContent>
+            <div class="card">
+                <div class="card-body">
+                    <div class="container-fluid">
+                        <form [formGroup]="snapshotForm" (ngSubmit)="snapshotService(snapshotForm.value, snapshotForm.valid)">
+                            <div class="form-group row">
+                                <label for="version" class="col-sm-3 col-form-label col-xl-3">{{'PLATFORM.SERVICE.SNAPSHOT.LABEL.VERSION OF SNAPSHOT' | translate}}:</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" formControlName="version" id="version" placeholder="{{'PLATFORM.SERVICE.SNAPSHOT.LABEL.VERSION OF SNAPSHOT' | translate}}">
+                                </div>
+                                <label for="description" class="col-sm-3 col-form-label col-xl-3">{{'PLATFORM.SERVICE.SNAPSHOT.LABEL.DESCRIPTION' | translate}}:</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" formControlName="description" id="description" placeholder="{{'PLATFORM.SERVICE.SNAPSHOT.LABEL.DESCRIPTION' | translate}}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3 col-md-2 col-lg-2">
+                                    <button class="btn btn-success" type="submit" [disabled]="!snapshotForm.valid">Snapshot</button>
+                                </div>
+                                <div class="col-sm-3 col-md-2 col-lg-2">
+                                    <button class="btn btn-info" [disabled]="snapshotForm.pristine" (click)="resetSnapshotForm()">{{'FORM.RESET' | translate}}</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Disabled snapshot(s)" id="tabDisabledSnapshots" *ngIf=" observableDisabledSnapshots && ((observableDisabledSnapshots |async) || []).length > 0">
+            <ng-template ngbTabContent>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                             <gg-platform-service-snapshot-list [observableSnapshots]="observableDisabledSnapshots"></gg-platform-service-snapshot-list>
+		                </div>
+                    </div>
+                </div>
+            </ng-template>
+        </ngb-tab>
+</ngb-tabset>

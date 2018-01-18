@@ -1,0 +1,104 @@
+<ng-template #popContent>{{(isRoot ? 'GENERAL.ACTION.CLICK HERE TO GO BACK TO LAST VIEW' : 'GENERAL.ACTION.CLICK HERE TO GET A DETAIL VIEW') | translate}}</ng-template>
+
+<ngb-tabset *ngIf="category" (tabChange)="beforeTabChange($event)" [activeId]="state.selectedTabId">
+	<ngb-tab title="{{'CATEGORY.MENU.INFO' | translate}}" id="tabInfo">
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-sm-3 align-self-center">{{'CATEGORY.LABEL.CATEGORY' | translate}}:</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor [content]="category.data.name" [showControls]="true" (editSaved)="nameCatUpdated($event)" [readOnly]="!authorizationStatusInfo?.isSuperAdministrator()"></gg-editor>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3 align-self-center">{{'CATEGORY.LABEL.NO OF ARTICLE' | translate}}:</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor [content]="category.data.noArticle" [showControls]="true" (editSaved)="noArticleUpdated($event)" [readOnly]="!authorizationStatusInfo?.isSuperAdministrator()"></gg-editor>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3 align-self-center">{{'CATEGORY.LABEL.GROUP MARCHANDISE' | translate}}:</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor [content]="category.data.groupMarch" [showControls]="true" (editSaved)="groupMUpdated($event)" [readOnly]="!authorizationStatusInfo?.isSuperAdministrator()"></gg-editor>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3 align-self-center">{{'CATEGORY.LABEL.IS BLOCKED' | translate}}:</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor-boolean [content]="category.data.isBlocked" (editSaved)="blockedUpdated($event)" [readOnly]="!authorizationStatusInfo?.isSuperAdministrator()"></gg-editor-boolean>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3 align-self-center">{{'CATEGORY.LABEL.OFFICE SPECIFIC' | translate}}:</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor-boolean [content]="category.data.isOffice" (editSaved)="isOfficUpdated($event)" [readOnly]="!authorizationStatusInfo?.isSuperAdministrator()"></gg-editor-boolean>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-3 align-self-center">{{'CATEGORY.COLUMN.CLASSIFICATIONS' | translate}}:</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-selector [selectableData]="selectableClassificationsObservable" [selectedIds]="selectedClassificationsObservable" (selectionChanged)="classificationSelectionChanged($event)"
+						 			[readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-selector>							
+						</div>
+					</div>
+
+					<div class="row" *ngIf="!configService.isProduction()">
+						<div class="col-sm-3">_id:</div>
+						<div class="col-sm-6">{{category.data._id}}</div>
+					</div>
+
+				</div>
+			</div>
+		</ng-template>
+	</ngb-tab>
+	<!--
+	<ngb-tab title="Add category" id="tabAddCategory">
+		<ng-template ngbTabContent>
+
+		</ng-template>
+	</ngb-tab>
+	-->
+
+	<ngb-tab id="tabComments">
+		<ng-template ngbTabTitle>
+			<gg-comments-tab-title [data]="category.data"></gg-comments-tab-title>
+		</ng-template>
+		<ng-template ngbTabContent>
+			<gg-comments-tab [data]="category.data" [dbTable]="'categories'" [urlPart]="'category'"></gg-comments-tab>
+		</ng-template>
+	</ngb-tab>
+
+	<ngb-tab title="{{'OTP.CLASSIFICATION.MENU.LIST CLASSIFICATION' | translate}}"  id="tabListOfClassifications">
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<gg-classification-list [classificationsObservable]="classificationObservable"></gg-classification-list>
+				</div>
+			</div>
+		</ng-template>
+	</ngb-tab>
+
+	<ngb-tab title="{{'CATEGORY.MENU.PRODUCTS' | translate}}" id="tabProducts">
+		<ng-template ngbTabContent>
+			<gg-product-list [productsObservable]="productsObservable" [state]="state.Products" [path]="path+'|O:Products'" (stateChanged)="childProductsStateChanged($event)"></gg-product-list>
+		</ng-template>
+	</ngb-tab>
+	<!--	<ngb-tab title="Open otps" id="tabOtps">
+		<ng-template ngbTabContent>
+            <gg-otp-list [otpsObservable]="otpsObservable" [state]="state.Otps" [path]="path+'|O:Otps'" (stateChanged)="childOtpsStateChanged($event)"></gg-otp-list>
+		</ng-template>
+	</ngb-tab>
+-->
+	<ngb-tab id="tabMax">
+		<ng-template ngbTabTitle><img src="images/maximize.png" [ngbPopover]="popContent" triggers="mouseenter:mouseleave" /></ng-template>
+		<ng-template ngbTabContent></ng-template>
+	</ngb-tab>
+	<ngb-tab id="gotoTop" *ngIf="!isRoot  && path!=='dashboard'">
+		<ng-template ngbTabTitle><img src="images/gototop.png" [ngbPopover]="'GENERAL.ACTION.GOTO TOP OF THE PAGE' | translate" triggers="mouseenter:mouseleave"
+			/></ng-template>
+		<ng-template ngbTabContent></ng-template>
+	</ngb-tab>
+
+</ngb-tabset>

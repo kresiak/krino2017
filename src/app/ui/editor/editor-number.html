@@ -1,0 +1,11 @@
+
+<input class="editor__editable-content" style="width:50px" type="number" [min]="minimumValue" step="1" [ngModel]="contentEdited" (ngModelChange)="validate($event)">     
+
+<div class="editor__output">{{content}}</div>
+<div *ngIf="!readOnly && !editMode" class="editor__controls">
+  <button (click)="edit()" class="editor__icon-edit"></button>
+</div>
+<div *ngIf="!readOnly && editMode" class="editor__controls">
+  <button (click)="save()" class="editor__icon-save"></button>
+  <button (click)="cancel()" class="editor__icon-cancel"></button>
+</div>

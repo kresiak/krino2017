@@ -1,0 +1,12 @@
+<ng-template #tipContent>
+    <div style="width:1000px">
+        <p>
+            <span *ngFor="let line of lines">
+                {{line}}
+                <br/>
+            </span>
+        </p>
+    </div>
+</ng-template>
+
+<span [ngbPopover]="tipContent" triggers="mouseenter:mouseleave" placement="right" [popoverTitle]="title" [style.color]="'red'">{{text}}</span>

@@ -1,0 +1,34 @@
+<gg-search-box [objectTypeTranslationKey]="'GENERAL.SUPPLIERSSAP'" [objectsObservable]="suppliersObservable" [fnFilterObjects]="filterSuppliers"  (listChanged)="suppliers= $event">
+	<ul searchHelp>
+		<li>{{'SUPPLIER.SEARCH HELP.MSG1' | translate}}</li>
+		<li>{{'SUPPLIER.SEARCH HELP.MSG7' | translate}}</li>
+	</ul>
+
+	<ngb-accordion accordion [closeOthers]="true" #acc="ngbAccordion" (panelChange)="beforeAccordionChange($event)" [activeIds]="state.openPanelId">
+		<ngb-panel [disabled]="true">
+			<ng-template ngbPanelTitle>
+				<div class="row">
+					<div class="col-sm-3"><b>{{'SUPPLIER.COLUMN.SUPPLIER' | translate}}</b></div>
+					<div class="col-sm-2"><b>{{'SUPPLIER.COLUMN.CITY' | translate}}</b></div>
+					<div class="col-sm-2"><b>{{'SUPPLIER.COLUMN.COUNTRY' | translate}}</b></div>
+					<div class="col-sm-2"><b>{{'SUPPLIER.COLUMN.SAP ID' | translate}}</b></div>
+				</div>
+			</ng-template>
+			<ng-template ngbPanelContent>
+			</ng-template>
+		</ngb-panel>
+		<ngb-panel *ngFor="let supplier of suppliers" [id]="supplier._id">
+			<ng-template ngbPanelTitle>
+				<div class="row" id="{{supplier._id}}">
+					<div class="col-sm-3" [style.font-weight]="supplier._id === state.openPanelId ? 'bold' : 'lighter'">{{supplier.name}}</div>
+					<div class="col-sm-2">{{supplier.city}}</div>
+					<div class="col-sm-2">{{supplier.country}}</div>
+					<div class="col-sm-2">{{supplier.sapId}}</div>
+				</div>
+			</ng-template>
+			<ng-template ngbPanelContent>
+				<gg-supplier-sap-detail [supplierObservable]="getSupplierObservable(supplier._id)"></gg-supplier-sap-detail>
+			</ng-template>
+		</ngb-panel>
+	</ngb-accordion>
+</gg-search-box>

@@ -1,0 +1,32 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div [formGroup]="searchForm">
+                <img src="images/search.png" placement="bottom"  />
+                
+                <input style="width: 300px;" type="search" [formControl]="searchControl" formControlName="searchControl" [ngbTooltip]="'PUBLIC.TEAMBUILDER.PERSONS.LABEL.SEARCH TIP' | translate">
+                <img src="images/close.png" (click)="resetSearchControl()" [ngbTooltip]="'PUBLIC.TEAMBUILDER.PERSONS.LABEL.RESET SEARCH TIP' | translate"/>
+                <span *ngIf="nbHits" class="gg-price">{{nbHits}} options	</span>&nbsp;
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-2" *ngIf="nbHitsShown < nbHits">
+                <div class="btn btn-sm btn-info" (click)="moreHits()" [ngbTooltip]="'GENERAL.HITS.NB HITS TXT' | translate:{nbHitsShown:nbHitsShown, nbHits:nbHits}">{{'GENERAL.SHOW MORE' | translate}}</div>
+            </div>
+        </div>
+
+        <div class="row" *ngFor="let person of persons">
+            <div class="col-sm-3 align-self-center">{{person.annotation.fullName}} <span *ngIf="person.annotation.functionsTxt">({{person.annotation.functionsTxt}})</span></div>
+            <div class="col-sm-2 align-self-center btn btn-warning btn-sm" *ngIf="isPersonAlreadySelected(person.data._id)" (click)="removePerson(person.data._id)" style="margin:5px">
+                {{'PUBLIC.TEAMBUILDER.PERSONS.LABEL.REMOVE PERSON' | translate}}
+            </div>            
+            <div class="col-sm-2 align-self-center btn btn-info btn-sm" *ngIf="!isPersonAlreadySelected(person.data._id)" (click)="addPerson(person.data._id)" style="margin:5px">
+                {{'PUBLIC.TEAMBUILDER.PERSONS.LABEL.ADD PERSON' | translate}}
+            </div>            
+            <div class="col-sm-4 align-self-center" *ngIf="person.data.web" >
+                <a target="_blank" [href]="person.data.web">{{'PUBLIC.TEAMBUILDER.PERSONS.LABEL.CLICK HERE' | translate}}</a>
+            </div>            
+        </div>
+    </div>
+</div>

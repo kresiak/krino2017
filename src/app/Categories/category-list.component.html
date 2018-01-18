@@ -1,0 +1,42 @@
+<gg-search-box [objectTypeTranslationKey]="'GENERAL.CATEGORIES'" [objectsObservable]="categoryObservable" [fnFilterObjects]="filterCategories" (listChanged)="categories=$event">
+	<ul searchHelp>
+		<li>{{'CATEGORY.SEARCH HELP.MSG1' | translate}}</li>
+		<li>{{'CATEGORY.SEARCH HELP.MSG2' | translate}}</li>
+		<li>{{'CATEGORY.SEARCH HELP.MSG3' | translate}}</li>
+	</ul>
+
+	<ngb-accordion accordion [closeOthers]="true" #acc="ngbAccordion" (panelChange)="beforeAccordionChange($event)" [activeIds]="state.openPanelId">
+		<ngb-panel [disabled]="true">
+			<ng-template ngbPanelTitle>
+				<div class="row">
+					<div class="col-sm-2"><b>{{'CATEGORY.COLUMN.CATEGORY' | translate}}</b></div>
+					<div class="col-sm-2"><b>{{'CATEGORY.COLUMN.SUPPLIER EXAMPLE' | translate}}</b></div>
+					<div class="col-sm-2"><b>{{'CATEGORY.COLUMN.CLASSIFICATIONS' | translate}}</b></div>
+					<div class="col-sm-2"><b>{{'CATEGORY.COLUMN.ARTICLE NB' | translate}}</b></div>
+					<div class="col-sm-2"><b>{{'CATEGORY.COLUMN.GROUP MARCHANDISE' | translate}}</b></div>
+				</div>
+			</ng-template>
+			<ng-template ngbPanelContent>
+			</ng-template>
+		</ngb-panel>
+		<ngb-panel *ngFor="let category of categories" [id]="category.data._id">
+			<ng-template ngbPanelTitle>
+				<div class="row" id="{{category.data._id}}">
+					<div class="col-sm-2" [style.font-weight]="category.data._id === state.openPanelId ? 'bold' : 'lighter'">{{category.data.name}}</div>
+					<div class="col-sm-2">{{category.annotation.supplierNames.length === 0 ? '' : category.annotation.supplierNames[0] }}</div>
+					<div class="col-sm-2">
+						<gg-text-compact [text]="category.annotation.classificationsTxt" [numberOfChar]="30"></gg-text-compact>
+					</div>
+					<div class="col-sm-2">{{category.data.noArticle }}</div>
+					<div class="col-sm-2">{{category.data.groupMarch }}</div>
+					<div class="col-sm-1" *ngIf="category.data.isBlocked" [style.color]="'red'" >{{ 'CATEGORY.LABEL.IS BLOCKED' | translate }}</div>
+					<div class="col-sm-1" *ngIf="!category.annotation.classificationsTxt && category.annotation.supplierNames.length !== 0" [style.color]="'red'" [ngbTooltip]="'CATEGORY.LABEL.PROBLEM TIP' | translate">{{ 'GENERAL.HELP.PROBLEM' | translate }}</div>
+				</div>
+			</ng-template>
+			<ng-template ngbPanelContent>
+				<gg-category-detail [categoryObservable]="getCategoryObservable(category.data._id)" [state]="state[category.data._id]" [path]="path+'|P:'+category.data._id"
+				 (stateChanged)="childStateChanged($event, category.data._id)"></gg-category-detail>
+			</ng-template>
+		</ngb-panel>
+	</ngb-accordion>
+</gg-search-box>

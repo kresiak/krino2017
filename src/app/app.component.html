@@ -1,0 +1,118 @@
+<ng-template ngbModalContainer></ng-template>
+
+<ng-template #tipOpenBasket>
+	<div style="font-size: 70%;" [innerHTML]="'LOGIN.BASKET.TIP' | translate"></div>
+</ng-template>
+
+<ng-template #tipLaboName>
+	<div style="font-size: 70%;" [innerHTML]="'LOGIN.LABO.TIP' | translate:{param:laboName}"></div>
+</ng-template>
+
+<ng-template #passwordModal let-c="close" let-d="dismiss">
+	<div class="modal-header" style="padding:2px;background-color:lightblue">
+		<h6 class="modal-title col-sm-10">{{laboName}}</h6>
+		<button type="button" class="close col-sm-2" aria-label="Close" (click)="d('Cross click')">
+			<span aria-hidden="true">&times;</span>
+			</button>
+	</div>
+	<div class="modal-body">
+		<div class="card" style="border:none">
+			<div class="card-body">
+				<input type="password" [(ngModel)]="password" style="height:32px;font-size:12px;" class="form-control" placeholder="{{'LOGIN.PWDWIN.LABEL' | translate}}">
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-info btn-sm" (click)="c('Close click')">{{'LOGIN.PWDWIN.BUTTON' | translate}}</button>
+	</div>
+</ng-template>
+
+
+<!--<nav class="navbar  navbar-default top-nav">-->
+<div class="card">
+	<div class="card-body">
+		<div class="row">
+			<div class="col-lg-4 col-md-2 align-self-center">
+				<a href="#"><img src="images/GIGAlogo.png" /></a>
+				<a href="#"><img id="ulgLogo" src="images/ULglogo.gif" /></a>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-3 align-self-center">
+				<h1 style="text-align:center">Krino 2017</h1>
+			</div>
+			<div class="col-lg-2 col-md-1 d-none d-md-block align-self-center">
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-4 col-lg-2 align-self-center" *ngIf="authorizationStatusInfo && laboName">
+				<div class="form-group">
+					<!-- USER -->
+					<input class="form-control" [ngModel]="userValue" style="margin-top:8px;height:32px;line-height:32px;font-size:12px;cursor:pointer;"
+					 ng2-auto-complete blank-option-text="{{'LOGIN.SELECT USER' | translate}}" [source]="usersShort" placeholder="{{'LOGIN.CHOOSE USER' | translate}}"
+					 [list-formatter]="autocompleListFormatter" (valueChanged)="userSelected($event)">
+
+					<!-- EQUIPE -->
+					<input [hidden]="!(authorizationStatusInfo.currentUserId && needsEquipeSelection)" [ngModel]="equipeValue" class="form-control"
+					 style="margin-top:8px;height:32px;line-height:32px;font-size:12px;cursor:pointer;" ng2-auto-complete blank-option-text="{{'LOGIN.SELECT EQUIPE' | translate}}"
+					 [source]="possibleEquipes" placeholder="{{'LOGIN.CHOOSE EQUIPE' | translate}}" [list-formatter]="autocompleListFormatter"
+					 (valueChanged)="equipeSelected($event)">
+
+					<div class="row">
+						<div class="col-sm-11 align-self-center" *ngIf="authorizationStatusInfo.isReadyForPassword()">
+							<button style="font-size:12px;" type="button" (click)="openModal(passwordModal)" class="form-control btn btn-link">{{'LOGIN.ENTER PWD' | translate}}</button>
+						</div>
+						<div class="col-sm-11 align-self-center" *ngIf="authorizationStatusInfo && !authorizationStatusInfo.isLoggedIn">
+							<button [ngbTooltip]="tipLaboName" placement="bottom" style="font-size:12px;" type="button" (click)="changeLabo()" class="form-control btn btn-link">{{'LOGIN.LABO.CHANGE' | translate}}  {{authorizationStatusInfo.isLoginError? ('(' + ('LOGIN.PWD ERR' | translate) + ')') : ''}}</button>
+						</div>
+
+					</div>
+				</div>
+				<div class="row" *ngIf="authorizationStatusInfo.isLoggedIn">
+					<div class="col-sm-9 align-self-center">
+						<label [ngbTooltip]="tipLaboName" placement="bottom" *ngIf="authorizationStatusInfo.isLoggedIn" style="font-size:12px;color:green;border-style:none"
+						 (click)="changeLabo()">{{laboName}}</label>
+					</div>
+					<div class="col-sm-2 align-self-center" *ngIf="nbProductsInBasket > 0 && !authorizationStatusInfo.isPassiveUser()">
+						<div class="col-sm-1"><img height="25" width="25" src="images/shopping-basket-info-icon.png" class="imgSearch" (click)="navigateToBasket()"
+							 placement="bottom" [ngbTooltip]="tipOpenBasket" /></div>
+					</div>
+				</div>
+
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-4 col-lg-2 align-self-center" *ngIf="!laboName && laboList && laboList.length > 0">
+				<div class="form-group">
+					<!-- LABO -->
+					<input class="form-control" style="margin-top:8px;height:32px;line-height:32px;font-size:12px;cursor:pointer;" ng2-auto-complete
+					 blank-option-text="{{'LOGIN.LABO.SELECT LABO' | translate}}" [source]="laboList" placeholder="{{'LOGIN.LABO.CHOOSE LABO' | translate}}"
+					 [list-formatter]="autocompleListFormatter" (valueChanged)="laboSelected($event)">
+				</div>
+			</div>
+		</div>
+		<div class="gg-scroll-text row" *ngIf="showScrollText && labManagerMessages && labManagerMessages.nbTotal > 0 && authorizationStatusInfo && authorizationStatusInfo.isAdministrator()">
+			<div class="col-sm-10 imgSearch" (click)="disableScrolling()">
+				<span [innerHtml]="'DASHBOARD.ALERTS.PLEASE CHECK YOUR DASHBOARD' | translate:{nbTotal:labManagerMessages.nbTotal}"></span>
+			</div>
+		</div>
+		<div class="gg-scroll-text row" *ngIf="showScrollText && labManagerMessages && labManagerMessages.validableOrders.length > 0 && authorizationStatusInfo && authorizationStatusInfo.isLoggedIn && !authorizationStatusInfo.isAdministrator()">
+			<div class="col-sm-10 imgSearch" (click)="disableScrolling()">
+				<span [innerHtml]="'DASHBOARD.ALERTS.PLEASE CHECK YOUR DASHBOARD' | translate:{nbTotal:labManagerMessages.validableOrders.length}"></span>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<!--</nav>-->
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+	<ul class="nav navbar-nav">
+		<li class="nav-item">
+			<img src="images/international.png" class="imgSearch" (click)="translate.use(translate.currentLang==='en' ? 'fr' : 'en')"
+			 placement="right" [ngbTooltip]="translate.currentLang==='en' ? 'Clicker ici pour Krino en français' : 'Click here to get Krino in English'"
+			/>
+		</li>
+		<li *ngFor="let menuItem of menu" [class.active]="menuItem.active" class="nav-item">
+			<a class="nav-link" [ngbTooltip]="menuItem.attractAttentionModeText" *ngIf="menuItem.isAttractAttentionMode" (click)="menuService.activateMenu(menuItem)"
+			 routerLink="{{menuItem.route}}"><span style="color: lightcoral">{{menuItem.titleKey ? (menuItem.titleKey | translate) : menuItem.title}} !!</span> </a>
+			<a class="nav-link" *ngIf="!menuItem.isAttractAttentionMode" (click)="menuService.activateMenu(menuItem)" routerLink="{{menuItem.route}}">{{menuItem.titleKey ? (menuItem.titleKey | translate) : menuItem.title}}</a>
+		</li>
+	</ul>
+</nav>
+
+<router-outlet></router-outlet>

@@ -1,0 +1,105 @@
+<div class="card" *ngIf="authorizationStatusInfo?.isAdministrator()">
+    <div class="card-body">
+        <ngb-tabset (tabChange)="beforeTabChange($event)" [activeId]="initTabId">
+            <ngb-tab title="{{'ADMINISTRATION.MENU.WEB SHOPPING' | translate}}" id="tabWebShopping">
+                <ng-template ngbTabContent>
+                    <gg-admin-webshopping [initTabId]="initTabId2"></gg-admin-webshopping>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Alex Kvasz" id="tabAK" *ngIf="false">
+                <ng-template ngbTabContent>
+                    <gg-admin-ak></gg-admin-ak>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="{{'ADMINISTRATION.MENU.MONITORING' | translate}}" id="tabMonitoring">
+                <ng-template ngbTabContent>
+                    <gg-monitoring-detail></gg-monitoring-detail>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="{{'ADMINISTRATION.MENU.LABORATORY' | translate}}" id="tabLaboratory">
+                <ng-template ngbTabContent>
+                    <gg-admin-labo></gg-admin-labo>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="{{'ADMINISTRATION.MENU.ALL LABORATORIES' | translate}}" id="tabLaboratories" *ngIf="authorizationStatusInfo.isSuperAdministrator()">
+                <ng-template ngbTabContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <ngb-tabset>
+                                <ngb-tab title="{{'ADMINISTRATION.LABOS.MENU.LIST OF LABORATORIES' | translate}}" id="tabListLaboratories">
+                                    <ng-template ngbTabContent>
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-sm-3 align-self-center"><b>{{'ADMINISTRATION.LABOS.COLUMN.LABO NAME' | translate}}</b></div>
+                                                    <div class="col-sm-2 align-self-center"><b>{{'ADMINISTRATION.LABOS.COLUMN.LABO SHORTCUT' | translate}}</b></div>
+                                                    <div class="col-sm-6 align-self-center"><b>{{'ADMINISTRATION.LABOS.COLUMN.RESPONSABLES' | translate}}</b></div>
+                                                </div>
+                                                <div *ngFor="let labo of laboList">
+                                                    <div class="row">
+                                                        <div class="col-sm-3 align-self-center">
+                                                            <gg-editor [content]="labo.name" [showControls]="true" (editSaved)="nameLaboUpdated($event, labo)"></gg-editor>
+                                                        </div>
+                                                        <div class="col-sm-2 align-self-center">
+                                                            <gg-editor [content]="labo.shortcut" [showControls]="true" (editSaved)="shortcutLaboUpdated($event, labo)" [readOnly]="!authorizationStatusInfo.isProgrammer()"></gg-editor>
+                                                        </div>
+                                                        <div class="col-sm-6 align-self-center">
+                                                            <gg-selector [canAddOption]="false" [selectableData]="responsablesSelectable" [selectedIds]="selectedRespIdsObservable(labo._id)" (selectionChanged)="responsablesSelectionChanged($event, labo)"></gg-selector>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </ngb-tab>
+                                <ngb-tab title="{{'ADMINISTRATION.LABOS.MENU.CREATE NEW LABORATORY' | translate}}" id="tabCreateNewLaboratory">
+                                    <ng-template ngbTabContent>
+                                        <gg-enter-labo></gg-enter-labo>
+                                    </ng-template>
+                                </ngb-tab>
+                            </ngb-tabset>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="{{'ADMINISTRATION.MENU.CURRENCIES' | translate}}" id="tabCurrencies" *ngIf="authorizationStatusInfo.isSuperAdministrator()">
+                <ng-template ngbTabContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <ngb-tabset>
+                                <ngb-tab title="{{'ADMINISTRATION.CURRENCIES.MENU.LIST OF CURRENCIES' | translate}}" id="tabListCurrencies">
+                                    <ng-template ngbTabContent>
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-sm-3 align-self-center"><b>{{'ADMINISTRATION.CURRENCIES.COLUMN.CURRENCY NAME' | translate}}</b></div>
+                                                    <div class="col-sm-2 align-self-center"><b>{{'ADMINISTRATION.CURRENCIES.COLUMN.CURRENCY CONVERSION' | translate}}</b></div>
+                                                </div>
+                                                <div *ngFor="let currency of currencyList">
+                                                    <div class="row">
+                                                        <div class="col-sm-3 align-self-center">
+                                                            <gg-editor [content]="currency.name" [showControls]="true" (editSaved)="nameCurrencyUpdated($event, currency)"></gg-editor>
+                                                        </div>
+                                                        <div class="col-sm-2 align-self-center">
+                                                            <gg-editor-number [content]="currency.conversionToEuro" (editSaved)="conversionToEuroUpdated($event, currency)"></gg-editor-number>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </ngb-tab>
+                                <ngb-tab title="{{'ADMINISTRATION.CURRENCIES.MENU.CREATE NEW CURRENCY' | translate}}" id="tabCreateNewCurrency">
+                                    <ng-template ngbTabContent>
+                                        <gg-enter-currency></gg-enter-currency>
+                                    </ng-template>
+                                </ngb-tab>
+                            </ngb-tabset>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+
+        </ngb-tabset>
+    </div>
+</div>

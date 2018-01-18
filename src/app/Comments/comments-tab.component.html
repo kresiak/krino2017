@@ -1,0 +1,8 @@
+<div class="row" *ngIf="privateMessages && privateMessages.length>0 && !dontShowOldMessages"> 
+    <div class="col-sm-5">{{'GENERAL.COMMENTS.PRIVATE COMMENTS MSG' | translate}}</div>
+    <div class="col-sm-3">
+        <button class="btn btn-info btn-sm" (click)="setMessagesAsRead()" [ngbTooltip]="'GENERAL.COMMENTS.PRIVATE COMMENTS TIP' | translate">{{'GENERAL.COMMENTS.PRIVATE COMMENTS BTN' | translate}}</button>
+    </div>
+</div>
+
+<gg-comments [comments]="data.comments" [allowNotifyUsers]="allowNotifyUsers" (commentsUpdated)="commentsHaveBeenUpdated($event)" (usersToBeNotified)="notifyUsers($event)" [dontShowOldMessages]="dontShowOldMessages"></gg-comments>

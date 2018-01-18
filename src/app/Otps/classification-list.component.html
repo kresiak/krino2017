@@ -1,0 +1,79 @@
+<gg-search-box [objectTypeTranslationKey]="'GENERAL.CLASSIFICATIONS'" [objectsObservable]="classificationsObservable" [fnFilterObjects]="filterClassifications"
+    (listChanged)="classificationsList= $event">
+    <ul searchHelp>
+		<li>{{'OTP.CLASSIFICATION.SEARCH HELP.MSG1' | translate}}</li>
+    </ul>
+
+    <ngb-accordion accordion [closeOthers]="true" #acc="ngbAccordion">
+        <ngb-panel [disabled]="true">
+            <ng-template ngbPanelTitle>
+                <div class="row">
+                    <div class="col-sm-2"><b>{{'OTP.CLASSIFICATION.COLUMN.NAME' | translate}}</b></div>
+                    <div class="col-sm-4"><b>{{'OTP.CLASSIFICATION.COLUMN.CATEGORIES' | translate}}</b></div>
+                    <div class="col-sm-2" [ngbTooltip]="'OTP.CLASSIFICATION.LABEL.CONSIDER ONLY ACTIVE OTPS THAT ARE OPEN TO ALL EQUIPES TIP' | translate"><b>{{'OTP.CLASSIFICATION.COLUMN.AVAILABLE UNRESTRICTED' | translate}}</b></div>
+                    <div class="col-sm-2" [ngbTooltip]="'OTP.CLASSIFICATION.LABEL.CONSIDER ONLY ACTIVE OTPS TIP' | translate"><b>{{'OTP.CLASSIFICATION.COLUMN.AVAILABLE RESTRICTED' | translate}}</b></div>
+                    <div class="col-sm-1" [ngbTooltip]="'OTP.CLASSIFICATION.LABEL.CONSIDER ALL OTPS TIP' | translate"><b>{{'OTP.CLASSIFICATION.COLUMN.NUMBER OTPS' | translate}}</b></div>
+                </div>
+            </ng-template>
+        </ngb-panel>
+        <ngb-panel *ngFor="let classificationsItem of classificationsList">
+            <ng-template ngbPanelTitle>
+                <div class="row" id="{{classificationsItem._id}}">
+                    <div class="col-sm-2">{{classificationsItem.data.name}}</div>
+                    <div class="col-sm-4">
+                        <gg-text-compact [text]="classificationsItem.annotation.categoriesTxt" [numberOfChar]="40"></gg-text-compact>
+                    </div>
+                    <div class="col-sm-2">{{classificationsItem.annotation.availableUnRestricted | ggCurrency}}
+                    </div>
+                    <div class="col-sm-2">{{classificationsItem.annotation.availableRestricted | ggCurrency}}</div>
+                    <div class="col-sm-1">{{((getOtpsObservableByClassification(classificationsItem.data._id) | async) || []).length}}</div>
+                </div>
+            </ng-template>
+            <ng-template ngbPanelContent>
+                <ngb-tabset>
+                    <ngb-tab title="{{'OTP.CLASSIFICATION.MENU.INFO' | translate}}" id="tabInfo">
+                        <ng-template ngbTabContent>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-sm-3 align-self-center"><b>{{'OTP.CLASSIFICATION.LABEL.NAME' | translate}}</b></div>
+                                        <div class="col-sm-8 align-self-center">
+                                            <gg-editor [content]="classificationsItem.data.name" [showControls]="true" (editSaved)="classificationsNameUpdated($event, classificationsItem)"
+                                                [readOnly]="!authorizationStatusInfo?.isAdministrator()">
+                                            </gg-editor>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3 align-self-center"><b>{{'OTP.CLASSIFICATION.LABEL.DESCRIPTION' | translate}}</b></div>
+                                        <div class="col-sm-8 align-self-center">
+                                            <gg-editor [content]="classificationsItem.data.description" [showControls]="true" (editSaved)="classificationsDescriptionUpdated($event, classificationsItem)"
+                                                [readOnly]="!authorizationStatusInfo?.isAdministrator()">
+                                            </gg-editor>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3 align-self-center"><b>{{'OTP.CLASSIFICATION.LABEL.PRODUCT CATEGORIES' | translate}}</b></div>
+                                        <div class="col-sm-8 align-self-center">
+                                            <gg-selector [selectableData]="selectableCategoriesObservable" [selectedIds]="getCategoriesObservable(classificationsItem.data._id)"
+                                                (selectionChanged)="categorySelectionChanged($event, classificationsItem)" (selectionOptionAdded)="categoryHasBeenAdded($event)"
+                                                [readOnly]="!authorizationStatusInfo?.isAdministrator()">
+                                            </gg-selector>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                    <ngb-tab title="{{'OTP.CLASSIFICATION.MENU.OTPS' | translate}} ({{((getOtpsObservableByClassification(classificationsItem.data._id) | async) || []).length}})"
+                        id="tabOtpsByClassification">
+                        <ng-template ngbTabContent>
+                            <gg-otp-list [otpsObservable]="getOtpsObservableByClassification(classificationsItem.data._id)"></gg-otp-list>
+                        </ng-template>
+                    </ngb-tab>
+
+                </ngb-tabset>
+            </ng-template>
+        </ngb-panel>
+    </ngb-accordion>
+
+</gg-search-box>

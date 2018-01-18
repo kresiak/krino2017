@@ -1,0 +1,121 @@
+<ng-template #mymodal let-c="close" let-d="dismiss">
+	<div class="modal-header">
+		<h6 class="modal-title" [innerHTML]="'PRODUCT.ACTIONS.CHOOSE OTP TITLE' | translate:{product:productForModalW.data.name}"></h6>
+		<button type="button" class="close" (click)="d('Cross click')">
+            <span >&times;</span>
+        </button>
+	</div>
+	<div class="modal-body">
+		<gg-otp-candidates [otpSelectable]="true" [selectedOtpId]="productForModalW.annotation.otp._id" (otpChosen)="otpUpdated($event, productForModalW)"
+		 [equipeId]="equipeIdForModalW" [classificationId]="classificationIdForModalW" [amount]="amountForModalW"></gg-otp-candidates>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-success" (click)="c({ })">{{'PRODUCT.ACTIONS.CHOOSE OTP BUTTON' | translate}}</button>
+	</div>
+</ng-template>
+
+
+<gg-search-box [objectTypeTranslationKey]="'GENERAL.PRODUCTS IN BASKET'" [objectsObservable]="productsObservable" [fnFilterObjects]="getFilterFn()"
+ [fnCalculateTotal]="calculateTotal" (listChanged)="setProducts($event)">
+	<gg-product-list-help searchHelp> </gg-product-list-help>
+
+	<div accordion>
+		<div class="row">
+			<div class="col-sm-3 col-md-3 align-self-center">
+				<b>{{'PRODUCT.COLUMN.PRODUCT' | translate}}</b>
+			</div>
+			<div class="col-sm-2 col-md-2 align-self-center">
+				<b>{{'PRODUCT.COLUMN.PRICE' | translate}}</b>
+			</div>
+
+			<div class="col-sm-1 col-md-1 align-self-center">
+				<b>{{'PRODUCT.COLUMN.QTY IN BASKET' | translate}}</b>
+			</div>
+			<div class="col-sm-2 col-md-2 align-self-center"><b>{{'PRODUCT.COLUMN.TOTAL' | translate}}</b></div>
+			<div class="col-sm-2 col-md-2 align-self-center" *ngIf="showColumn('otp')"><b>Otp</b></div>
+
+		</div>
+
+		<div *ngFor="let product of products">
+			<!--FOR-->
+			<div class="row" *ngIf="product && product.data" [style.color]="product.data.disabled ? 'red' : 'black'">
+				<div class="col-sm-3 col-md-3 align-self-center">
+					<gg-editor [content]="product.data.name" [showControls]="true" (editSaved)="descriptionUpdated($event, product)" class="imgSearch"
+					 (click)="navigateToProduct(product)" [readOnly]="true"></gg-editor>
+				</div>
+				<div class="col-sm-2 col-md-2 align-self-center">
+					<gg-editor [id]="product.data._id" [content]="product.data.price" [showControls]="true" [isMonetary]="true" [currency]="product.annotation.currency" (editSaved)="prixUpdated($event, product)"
+					 [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor>
+				</div>
+				<div class="col-sm-1 col-md-1 align-self-center">
+					<gg-editor-number *ngIf="product.annotation.hasCurrentUserPermissionToShop && !product.data.isFrigo && !product.data.disabled"
+					 [content]="product.annotation.quantity" (editSaved)="quantityBasketUpdated($event, product)" [readOnly]="isGroupedBasket && !product.annotation.isFixCost"></gg-editor-number>
+					<div *ngIf="!product.annotation.hasCurrentUserPermissionToShop && !product.data.isFrigo">{{product.annotation.quantity}} (Contact Labmanager)</div>
+					<gg-product-fridge-order-button *ngIf="product.data.isFrigo" [productObservable]="getProductObservable(product.data._id)"></gg-product-fridge-order-button>
+
+				</div>
+				<div class="col-sm-2 col-md-2 align-self-center" *ngIf="product.annotation.totalPrice" [ngbTooltip]="product.annotation.exchangeRate === 1 ? '' : ('1 ' + product.annotation.currency + ' = ' + product.annotation.exchangeRate + ' EUR')">{{product.annotation.totalPrice | ggCurrency}}</div>
+
+				<div class="col-sm-2 col-md-2 align-self-center" *ngIf="product.annotation.otp && product.annotation.otp._id && showColumn('otp')">
+					<div class="row">
+						<div class="col-sm-10 align-self-center nopadding">
+							<gg-editor-autocomplete [readOnly]="!authorizationStatusInfo?.isAdministrator()" [selectableData]="otpListObservable" [selectedId]="product.annotation.otp._id"
+							 (idChanged)="otpUpdated($event, product)" placement="bottom"  [ngbTooltip]="('PRODUCT.HELP.OTP DESCRIPTION IS' | translate) + ': ' + product.annotation.otp.description">
+							</gg-editor-autocomplete>
+						</div>
+						<div class="col-sm-1 align-self-center nopadding" *ngIf="authorizationStatusInfo?.isAdministrator() || authorizationStatusInfo?.isOtpAwareUser()">
+							<img class="imgSearch" [ngbTooltip]="'PRODUCT.HELP.CHOOSE OTP TIP' | translate" src="images/eye.png" (click)="openModal(mymodal, product)">
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-2 col-md-2 align-self-center" *ngIf="product.annotation.otp && !product.annotation.otp._id"><b>Otp problem!</b></div>
+				<div class="col-sm-1 col-md-1 align-self-center" *ngIf="authorizationStatusInfo?.hasEquipeId() && !isGroupedBasket && !product.annotation.isFixCost && !product.data.disabled"
+				 [ngbTooltip]="'PRODUCT.ACTIONS.SET AS NOT URGENT TIP' | translate">
+					<button type="button" class="btn btn-link" (click)="setNotUrgent(product)">{{'PRODUCT.ACTIONS.SET AS NOT URGENT' | translate}}</button>
+				</div>
+				<div class="col-sm-1 col-md-1 align-self-center" *ngIf="isGroupedBasket">
+					<button type="button" class="btn btn-link" (click)="product.annotation.isClosed=!product.annotation.isClosed">{{'GENERAL.TOGGLE DETAILS' | translate}}</button>
+				</div>
+			</div>
+			<div class="row" [ngbCollapse]="!product.annotation.isClosed">
+				<!--Only for grouped baskets-->
+				<div class="col-sm-12 col-md-12">
+					<div class="card">
+						<div class="row">
+							<div class="col-sm-2 col-md-2 align-self-center">{{'PRODUCT.COLUMN.WHEN' | translate}}</div>
+							<div class="col-sm-2 col-md-3 align-self-center">{{'PRODUCT.COLUMN.WHO' | translate}}</div>
+							<div class="col-sm-2 col-md-3 align-self-center">{{'PRODUCT.COLUMN.EQUIPE' | translate}}</div>
+							<div class="col-sm-2 col-md-2 align-self-center">{{'PRODUCT.COLUMN.HOW MANY' | translate}}</div>
+						</div>
+						<div class="card">
+							<div class="row" *ngFor="let item of product.annotation.basketItems; let itemPos = index">
+								<!--FOR-->
+								<div class="col-sm-2 col-md-2 align-self-center">
+									<gg-date-pointer [date]="item.data.date"></gg-date-pointer>
+								</div>
+								<div class="col-sm-2 col-md-3 align-self-center">{{item.annotation.userFullName}}</div>
+								<div class="col-sm-2 col-md-3 align-self-center">{{item.annotation.equipe}}</div>
+								<div class="col-sm-2 col-md-2 align-self-center">
+									<gg-editor-number [content]="item.data.quantity" (editSaved)="quantityGroupedBasketUpdated($event, product, itemPos)" [readOnly]="!authorizationStatusInfo || authorizationStatusInfo.isGroupOrdersUser() || (!authorizationStatusInfo.isAdministrator() && !authorizationStatusInfo.isThisUser(item.data.userId))">
+									</gg-editor-number>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="row gg-price" *ngIf="products && products.length > 1">
+			<div class="col-sm-3 col-md-3 align-self-center">
+			</div>
+			<div class="col-sm-2 col-md-2 align-self-center">
+			</div>
+			<div class="col-sm-1 col-md-1 align-self-center">{{'PRODUCT.LABEL.TOTAL' | translate}}</div>
+			<div class="col-sm-2 col-md-2 align-self-center">{{total | ggCurrency}}</div>
+		</div>
+
+	</div>
+
+</gg-search-box>

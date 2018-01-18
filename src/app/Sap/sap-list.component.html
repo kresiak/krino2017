@@ -1,0 +1,78 @@
+<gg-search-box [objectTypeTranslationKey]="'GENERAL.SAPS'" [objectsObservable]="sapsObservable" [fnFilterObjects]="fnFilterSap"
+ 	[sortFunctionObservable]="sortFnObservable" (listChanged)="setSaps($event)" >
+	<ul searchHelp>
+		<li>{{'SAP.SEARCH HELP.MSG1' | translate}}</li>
+		<li>{{'SAP.SEARCH HELP.MSG2' | translate}}</li>
+		<li>{{'SAP.SEARCH HELP.MSG3' | translate}}</li>
+		<li>{{'SAP.SEARCH HELP.MSG4' | translate}}</li>
+		<li>{{'SAP.SEARCH HELP.MSG5' | translate}}</li>
+		<li>{{'SAP.SEARCH HELP.MSG6' | translate}}</li>
+		<li>{{'SAP.SEARCH HELP.MSG7' | translate}}</li>
+		<li>{{'SAP.SEARCH HELP.MSG8' | translate}}</li>
+		<li>{{'SAP.SEARCH HELP.MSG9' | translate}}</li>
+		<li>{{'SAP.SEARCH HELP.MSG10' | translate}}</li>
+		<li>{{'SAP.SEARCH HELP.MSG11' | translate}}</li>
+		<li>{{'SAP.SEARCH HELP.MSG12' | translate}}</li>
+		<li>{{'SAP.SEARCH HELP.MSG13' | translate}}</li>
+		<li>{{'SAP.SEARCH HELP.MSG14' | translate}}</li>
+		<li>{{'SAP.SEARCH HELP.MSG15' | translate}}</li>
+		<li>{{'SAP.SEARCH HELP.MSG16' | translate}}</li>
+		<li>{{'SAP.SEARCH HELP.MSG17' | translate}}</li>
+		<li>{{'SAP.SEARCH HELP.MSG18' | translate}}</li>
+	</ul>
+
+
+	<ngb-accordion accordion [closeOthers]="true" #acc="ngbAccordion" (panelChange)="beforeAccordionChange($event)" [activeIds]="state.openPanelId">
+		<ngb-panel [disabled]="true">
+			<ng-template ngbPanelTitle>
+				<div class="row">
+					<div class="col-sm-1" (click)="setSortKey(SortKey.SapId)"><b>{{'SAP.COLUMN.SAP ID' | translate}}<span *ngIf="isSortKeySet(SortKey.SapId)">!</span> </b></div>
+					<div class="col-sm-1" (click)="setSortKey(SortKey.OurRef)"><b>{{'SAP.COLUMN.OUR REF' | translate}}<span *ngIf="isSortKeySet(SortKey.OurRef)">!</span></b></div>
+					<div class="col-sm-1" (click)="setSortKey(SortKey.EngagDate)"><b>{{'SAP.COLUMN.ENG. DATE' | translate}}<span *ngIf="isSortKeySet(SortKey.EngagDate)">!</span></b></div>
+					<div class="col-sm-1" (click)="setSortKey(SortKey.LastDate)"><b>{{'SAP.COLUMN.LAST ACTIVITY' | translate}}<span *ngIf="isSortKeySet(SortKey.LastDate)">!</span></b></div>
+					<div class="col-sm-1"><b>{{'SAP.COLUMN.ALREADY INVOICED' | translate}}</b></div>
+					<div class="col-sm-1"><b>{{'SAP.COLUMN.REMAINING ENGAGED' | translate}}</b></div>
+					<div class="col-sm-1"><b>{{'SAP.COLUMN.TYPE' | translate}}</b></div>
+					<div class="col-sm-1"><b>{{'SAP.COLUMN.SUPPLIER' | translate}}</b></div>
+					<div class="col-sm-2"><b>{{'SAP.COLUMN.OTP' | translate}}</b></div>
+					<div class="col-sm-2"><b>{{'SAP.COLUMN.EQUIPE' | translate}}</b></div>
+				</div>
+			</ng-template>
+			<ng-template ngbPanelContent>
+
+			</ng-template>
+		</ngb-panel>
+		<ngb-panel *ngFor="let sap of saps" [id]="sap.mainData.data.sapId.toString()">
+			<ng-template ngbPanelTitle>
+				<div class="row" id="{{sap.mainData.data.sapId}}">
+					<div class="col-sm-1" [style.font-weight]="sap.mainData.data.sapId === state.openPanelId ? 'bold' : 'lighter'">{{sap.mainData.data.sapId}}</div>
+					<div class="col-sm-1">{{sap.mainData.data.ourRef}}</div>
+					<div class="col-sm-1">{{sap.engaged ? sap.engaged.data.maxDate : ''}}</div>
+					<div class="col-sm-1">{{sap.dateLastActivity}}</div>
+					<div class="col-sm-1">{{sap.alreadyBilled | ggCurrency}}</div>
+					<div class="col-sm-1">{{ sap.residuEngaged | ggCurrency}}</div>
+					<div class="col-sm-1">{{sap.mainData.data.isNoEngag ? 'No engage' : (sap.isSuppr ? 'deleted' : (sap.hasFactureFinale ? 'final bill' : (sap.factured
+						? 'invoiced' : 'engaged')))}}</div>
+					<div class="col-sm-1">
+						<gg-text-compact [text]="!sap.mainData.data.isNoEngag ?  sap.mainData.data.supplier : sap.typesPiece" [numberOfChar]="10"></gg-text-compact>
+					</div>
+					<div class="col-sm-2">
+						<gg-text-compact [text]="sap.mainData.annotation.otpTxt" [extraTooltipText]="sap.mainData.data.resp"></gg-text-compact>
+					</div>
+					<div class="col-sm-2">
+						<gg-text-compact [text]="sap.equipeInfo || ''" [extraTooltipText]="sap.extraEquipeInfo"></gg-text-compact>
+					</div>
+				</div>
+			</ng-template>
+			<ng-template ngbPanelContent>
+				<gg-sap-detail [sapObservable]="getSapObservable(sap.mainData.data.sapId)" [state]="state[sap.mainData.data.sapId]" [path]="path+'|P:'+sap.mainData.data.sapId"
+				 (stateChanged)="childStateChanged($event, sap.mainData.data.sapId)"></gg-sap-detail>
+			</ng-template>
+		</ngb-panel>
+	</ngb-accordion>
+
+</gg-search-box>
+
+
+
+

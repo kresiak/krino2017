@@ -1,0 +1,53 @@
+<div class="card" *ngIf="sapItem">
+    <div class="card-body">
+        <br><br>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6 col-md-6">
+                    <div class="row" *ngIf="!sapItem.isNoEngag" >
+                        {{sapItem.supplier}} ({{sapItem.supplierId}})
+                    </div>
+                    <div class="row" *ngIf="sapItem.isNoEngag" >
+                        PIECE SANS ENGAGEMENT
+                    </div>
+                    <div class="row">
+                        {{sapItem.maxDate}} (last activity)
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6">
+                    <div class="row">
+                        Reference: {{sapItem.sapId}} / {{sapItem.ourRef ? sapItem.ourRef : 'no krino reference'}}
+                    </div>
+                    <div class="row">
+                        {{sapItem.client}}
+                    </div>
+                </div>
+            </div> <br><br>
+            <div >
+                <div class="row">
+                    <div class="col-sm-1"><b>{{'SAP.COLUMN.POSTE' | translate}}</b></div>
+                    <div class="col-sm-2"><b>{{'SAP.COLUMN.PRODUCT' | translate}}</b></div>
+                    <div class="col-sm-2 "><b>{{'SAP.COLUMN.OTP' | translate}}</b></div>
+                    <div class="col-sm-1"><b>{{'SAP.COLUMN.QTY' | translate}}</b></div>
+                    <div class="col-sm-1 "><b>{{'SAP.COLUMN.HTVA' | translate}}</b></div>
+                    <div class="col-sm-1 "><b>{{'SAP.COLUMN.TVAC' | translate}}</b></div>
+                    <div class="col-sm-1 "><b>{{'SAP.COLUMN.STATUS' | translate}}</b></div>
+                    <div class="col-sm-1" *ngIf="isFacture"><b>{{'SAP.COLUMN.PIECE' | translate}}</b></div>
+                    <div class="col-sm-1" *ngIf="isFacture"><b>{{'SAP.COLUMN.DATE CPT' | translate}}</b></div>
+
+                </div>
+                <div class="row" *ngFor="let item of sortedItems; let i = index">
+                    <div class="col-sm-1">{{i>0 && sortedItems[i-1].poste == item.poste ? '' :  item.poste + ' / ' + item.codeTva}}</div>
+                    <div class="col-sm-2"><gg-text-compact [text]="i>0 && sortedItems[i-1].poste == item.poste ? '' : item.product"></gg-text-compact></div>
+                    <div class="col-sm-2 ">{{item.otp}}</div>
+                    <div class="col-sm-1">{{item.quantity}}</div>
+                    <div class="col-sm-1">{{item.htva | ggCurrency}}</div>
+                    <div class="col-sm-1">{{item.tvac | ggCurrency}} </div>
+                    <div class="col-sm-1 ">{{item.isSuppr?'Suppr':''}} {{item.isBlocked?'Block':''}} {{item.isFactFinale?'FactFinal':''}} {{item.iChargUlter?'ChargUlt':''}}</div>
+                    <div class="col-sm-1" *ngIf="isFacture">{{item.pieceType}} / {{item.pieceId}}</div>
+                    <div class="col-sm-1" *ngIf="isFacture">{{item.dateComptable}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

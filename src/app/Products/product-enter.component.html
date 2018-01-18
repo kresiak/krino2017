@@ -1,0 +1,119 @@
+<div class="container-fluid">
+	<form [formGroup]="productForm" (ngSubmit)="save(productForm.value, productForm.valid)">
+		<div class="form-group row">
+			<label for="nameOfProduct" class="col-sm-2 col-form-label col-xl-2">{{'PRODUCT.LABEL.NAME OF PRODUCT' | translate}}</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" formControlName="nameOfProduct" id="nameOfProduct" placeholder="{{'PRODUCT.LABEL.NAME OF PRODUCT' | translate}}">
+			</div>
+			<!--<p *ngIf="productForm.controls.description.errors">This field is required!</p>-->
+		</div>
+		<div class="form-group row" [ngbTooltip]="'PRODUCT.LABEL.ENTER HERE A TEXT OF DESCRIPTION TIP' | translate" >
+			<label for="description" class="col-sm-2 col-form-label col-xl-2">{{'PRODUCT.LABEL.DESCRIPTION' | translate}}</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" formControlName="description" id="description" placeholder="{{'PRODUCT.LABEL.DESCRIPTION' | translate}}">
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="price" class="col-sm-2 col-form-label col-xl-2">{{'PRODUCT.LABEL.PRICE' | translate}}</label>
+			<div class="col-sm-6">
+				<input type="number" min="0" step="any" class="form-control" formControlName="price" id="price" placeholder="{{'PRODUCT.LABEL.PRICE PER UNIT PHOLDER' | translate}}">
+			</div>
+			<div class="col-sm-3">
+				<select class="custom-select" id="currency" formControlName="currency" [ngModel]="(!productToClone.data.currencyId) ? '-1' : productToClone.data.currencyId">
+                    <option [ngValue]="'-1'" >{{'PRODUCT.ACTIONS.OPEN THIS SELECT MENU' | translate}}</option>
+                    <option *ngFor="let currency of currencyData"  [ngValue]="currency.id" >{{currency.name}}</option>
+                </select>				
+			</div>
+			<!--<p *ngIf="productForm.controls.price.errors">This field is required!</p>-->
+		</div>
+		<div class="form-group row">
+			<label for="package" class="col-sm-2 col-form-label col-xl-2">{{'PRODUCT.LABEL.PACKAGE' | translate}}</label>
+			<div class="col-sm-10">
+				<input type="text" min="1" step="any" class="form-control" formControlName="package" id="package" placeholder="{{'PRODUCT.LABEL.PACKAGE' | translate}}">
+			</div>
+			<!--<p *ngIf="productForm.controls.package.errors">This field is required!</p>-->
+		</div>
+		<div class="form-group row">
+			<label for="category" class="col-sm-2 col-form-label col-xl-2">{{'PRODUCT.LABEL.CATEGORY' | translate}}</label>
+			<div class="col-sm-10">
+				<select class="custom-select" id="category" formControlName="category" (ngModelChange)="categoryChanged($event)" [ngModel]="(!productToClone.data.categoryIds || productToClone.data.categoryIds.length===0) ? '-1' : productToClone.data.categoryIds[0]">
+                    <option [ngValue]="'-1'" >{{'PRODUCT.ACTIONS.OPEN THIS SELECT MENU' | translate}}</option>
+                    <option *ngFor="let category of categoryData"  [ngValue]="category.id" >{{category.name}}</option>
+                </select>
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="catalogNr" class="col-sm-2 col-form-label col-xl-2">{{'PRODUCT.LABEL.CATALOG NR' | translate}}<span style="color: red" *ngIf="alreadyCatNrInDb">Already in database!</span> </label>
+			<div class="col-sm-10">
+				<input type="text" min="1" step="any" class="form-control" formControlName="catalogNr" id="catalogNr" placeholder="{{'PRODUCT.LABEL.CATALOG NR' | translate}}">
+			</div>
+			<!--<p *ngIf="productForm.controls.catalogNr.errors">This field is required!</p>-->
+		</div>
+		<div class="form-group row">
+			<label for="noarticle" class="col-sm-2 col-form-label col-xl-2">{{'PRODUCT.LABEL.NO OF ARTICLE' | translate}}</label>
+			<div class="col-sm-10">
+				<input type="text" min="1" step="any" class="form-control" formControlName="noarticle" id="noarticle" placeholder="{{'PRODUCT.LABEL.NO OF ARTICLE' | translate}}">
+			</div>
+			<!--<p *ngIf="productForm.controls.noarticle.errors">This field is required!</p>-->
+		</div>
+		<div class="form-group row">
+			<label for="groupMarch" class="col-sm-2 col-form-label col-xl-2">{{'PRODUCT.LABEL.GROUP MARCHANDISE' | translate}}</label>
+			<div class="col-sm-10">
+				<input type="text" min="1" step="any" class="form-control" formControlName="groupMarch" id="groupMarch" placeholder="{{'PRODUCT.LABEL.GROUP MARCHANDISE' | translate}}">
+			</div>
+			<!--<p *ngIf="productForm.controls.groupMarch.errors">This field is required!</p>-->
+		</div>
+		<div class="form-group row">
+			<label for="tva" class="col-sm-2 col-form-label col-xl-2">{{'PRODUCT.LABEL.VAT' | translate}}</label>
+			<div class="col-sm-10">
+				<input type="number" min="0" step="any" class="form-control" formControlName="tva" id="tva" placeholder="{{'PRODUCT.LABEL.VAT' | translate}}">
+			</div>
+			<!--<p *ngIf="productForm.controls.tva.errors">This field is required!</p>-->
+		</div>
+		<div class="form-group row">
+			<label for="disabled" class="col-sm-2 col-form-label col-xl-2 align-self-center">{{'PRODUCT.LABEL.IS DISABLED' | translate}}</label>
+			<div class="col-md-1 align-self-center">
+				<input type="checkbox" class="form-control" formControlName="disabled" id="disabled" class="isCheckbox">
+			</div>
+		</div>
+		<div class="form-group row" [ngbTooltip]="'PRODUCT.LABEL.DEFINE HERE IF ENCODING TIP' | translate">
+			<label for="needsLotNumber" class="col-sm-2 col-form-label col-xl-2 align-self-center">{{'PRODUCT.LABEL.MAY ENCODING NUMBER' | translate}}</label>
+			<div class="col-md-1 align-self-center">
+				<input type="checkbox" class="form-control" formControlName="needsLotNumber" id="needsLotNumber" class="isCheckbox">
+			</div>
+		</div>
+		<div class="form-group row" [ngbTooltip]="'PRODUCT.LABEL.DEFINE HERE IF THIS PRODUCT TIP' | translate">
+			<label for="isStock" class="col-sm-2 col-form-label col-xl-2 align-self-center">{{'PRODUCT.LABEL.MAY RESOLD STOCK' | translate}}</label>
+			<div class="col-md-1 align-self-center">
+				<input type="checkbox" class="form-control" formControlName="isStock" id="isStock" class="isCheckbox" #showhideStockDetail >
+			</div>
+		</div>
+	<div *ngIf="showhideStockDetail && showhideStockDetail.checked" >	
+		<div class="form-group row" [ngbTooltip]="'PRODUCT.LABEL.IF FOR EXAMPLE YOU BUY A BOX TIP' | translate">
+			<label for="divisionFactor" class="col-sm-2 col-form-label col-xl-2">{{'PRODUCT.LABEL.DIVISION FACTOR STOCK' | translate}}</label>
+			<div class="col-sm-10">
+				<input type="number" min="0" max="100" step="any" class="form-control" formControlName="divisionFactor" id="divisionFactor" placeholder="{{'PRODUCT.LABEL.DIVISION FACTOR STOCK' | translate}}" #divisionFactor>
+			</div>
+		</div>
+		<div class="form-group row" [style.color]="divisionFactor.value==='1' ? 'black' : 'red'" [ngbTooltip]="'PRODUCT.LABEL.ENTER HERE A TEXT TIP' | translate" >
+			<label for="stockPackage" class="col-sm-2 col-form-label col-xl-2">{{'PRODUCT.LABEL.STOCK PACKAGING' | translate}} {{divisionFactor.value==='1' ? '' : 'enter this!!!'}}</label>
+			<div class="col-sm-10">
+				<input type="text" min="1" step="any" class="form-control" formControlName="stockPackage" id="stockPackage" placeholder="{{'PRODUCT.LABEL.STOCK PACKAGING' | translate}}">
+			</div>
+		</div>
+	</div>
+        <div class="row">
+            <div class="col-sm-3 col-md-2 col-lg-2">
+                <button class="btn btn-success" type="submit" [disabled]="!productForm.valid || savingNewProduct">{{'FORM.SUBMIT' | translate}}</button>
+            </div>
+            <div class="col-sm-3 col-md-2 col-lg-2">
+                <button class="btn btn-info"  [disabled]="productForm.pristine || savingNewProduct" (click)="reset()">{{'FORM.RESET' | translate}}</button>
+            </div>
+        </div>
+		<div class="row" *ngIf="lastProductSaved">
+			<div class="col-sm-12">
+				Last product saved is: {{lastProductSaved}}
+			</div>
+		</div>
+	</form>
+</div>

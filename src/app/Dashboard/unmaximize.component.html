@@ -1,0 +1,8 @@
+<div [ngSwitch]="viewMode">
+  <ng-template [ngSwitchCase]="'equipes'" ngSwitchDefault> 
+      <gg-equipe-list [state]="state"></gg-equipe-list>
+   </ng-template>      
+   <ng-template [ngSwitchCase]="'list'"> 
+
+  </ng-template>
+</div>

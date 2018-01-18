@@ -1,0 +1,19 @@
+<div class="card-body">
+    <div class="row">
+        <div class="col-sm-2"><b>{{'OTP.CHECKER.COLUMN.PREFERENCE' | translate}}</b></div>
+        <div class="col-sm-3"><b>{{'OTP.CHECKER.COLUMN.OTP' | translate}}</b></div>
+        <div class="col-sm-2"><b>{{'OTP.CHECKER.COLUMN.EQUIPE' | translate}}</b></div>
+        <div class="col-sm-2"><b>{{'OTP.CHECKER.COLUMN.EXPIRES' | translate}}</b></div>
+        <div class="col-sm-2"><b>{{'OTP.CHECKER.COLUMN.AVAILABLE' | translate}}</b></div>
+        <div class="col-sm-1"><b>{{'OTP.CHECKER.COLUMN.PRIORTY' | translate}}</b></div>
+    </div>
+    <div class="row" *ngFor="let otp of otps; let i = index">
+        <div class="col-sm-2">{{i+1}}</div>
+        <div class="col-sm-3" [style.color]="otp.selected ? 'Darkcyan' : 'black'" [class.imgSearch]="otpSelectable" (click)="otpClicked(otp)" >{{otp.data.name}}</div>
+        <div class="col-sm-2">{{otp.annotation.equipe}} {{otp.data.isLimitedToOwner ? ('OTP.CHECKER.LABEL.EXCLUSIVE' | translate) : ''}} {{otp.data.userIds?.length ? ('OTP.CHECKER.LABEL.USER LIMITED' | translate) : ''}}</div>
+        <div class="col-sm-2" *ngIf="otp.annotation.currentPeriodAnnotation">{{ (otp.annotation.currentPeriodAnnotation.datNextCreance || otp.annotation.currentPeriodAnnotation.datEnd) | shortDate }} <span *ngIf="otp.annotation.currentPeriodAnnotation.datNextCreance">{{'OTP.COLUMN.CREANCE' | translate}}</span></div>
+        <div class="col-sm-2" *ngIf="!otp.annotation.currentPeriodAnnotation" [style.color]="'red'">Not for current period</div>
+        <div class="col-sm-2">{{otp.annotation.amountAvailable | ggCurrency}}</div>
+        <div class="col-sm-1">{{otp.data.priority}}</div>
+    </div>
+</div>

@@ -1,0 +1,9 @@
+<div id="GGTOP"></div>
+<div class="card" *ngIf="category">
+    <div class="card-body">
+        <h6>Category {{category.data.name}}</h6>
+        <gg-category-detail *ngIf="authorizationStatusInfo.isLoggedIn" [categoryObservable]="categoryObservable" [path]="'category|'+category.data._id"  [isRoot]="true" [state]="state"></gg-category-detail>        
+        <h4 *ngIf="!authorizationStatusInfo.isLoggedIn">{{'ERROR.NO LOGIN' | translate}}</h4>
+    </div>
+</div>
+

@@ -1,0 +1,4 @@
+<image-upload [url]="dataStore.getUploadUrl()" (uploadFinished)="onUploadFinished($event)" [beforeUpload]="onBeforeUpload"
+    (removed)="onRemoved($event)" [buttonCaption]="'UI.UPLOAD.SELECT IMAGES' | translate" [dropBoxMessage]="'UI.UPLOAD.DROP YOUR IMAGES HERE' | translate"
+    [clearButtonCaption]="'UI.UPLOAD.CLEAR' | translate" [max]="maxNbOfFiles"> 
+</image-upload>

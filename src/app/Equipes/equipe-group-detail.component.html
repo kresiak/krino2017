@@ -1,0 +1,70 @@
+<ngb-tabset *ngIf="equipeGroup" (tabChange)="beforeTabChange($event)" [activeId]="state.selectedTabId">
+	<ngb-tab title="{{'EQUIPE.MENU.INFO' | translate}}" id="tabInfo">
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-sm-4 align-self-center">{{'EQUIPE.LABEL.EQUIPE GROUP' | translate}}</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor [content]="equipeGroup.data.name" [showControls]="true" (editSaved)="nameUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4 align-self-center">{{'EQUIPE.LABEL.DESCRIPTION' | translate}}</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor [content]="equipeGroup.data.description" [showControls]="true" (editSaved)="descriptionUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4 align-self-center">{{'EQUIPE.LABEL.MEMBERS' | translate}}</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-selector #equipeSelector [selectedIds]="selectedEquipeIdsObservable" [selectableData]="selectableEquipes" (selectionChanged)="equipeSelectionChanged($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-selector>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-4">_id:</div>
+						<div class="col-sm-6">{{equipeGroup.data._id}}</div>
+					</div>
+
+				</div>
+			</div>
+		</ng-template>
+	</ngb-tab>
+
+	<ngb-tab id="tabComments">
+		<ng-template ngbTabTitle>
+			<gg-comments-tab-title [data]="equipeGroup.data"></gg-comments-tab-title>
+		</ng-template>
+		<ng-template ngbTabContent>
+			<gg-comments-tab [data]="equipeGroup.data" [dbTable]="'equipes.groups'"></gg-comments-tab>
+		</ng-template>
+	</ngb-tab>
+
+
+	<ngb-tab title="{{'EQUIPE.MENU.REPARTITION KEYS' | translate}}" id="tabRepartition">
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-sm-4 align-self-center">
+							<b>{{'EQUIPE.COLUMN.MEMBER EQUIPE' | translate}}</b>
+						</div>
+						<div class="col-sm-4  align-self-center"><b>%</b></div>
+						<div class="col-sm-2  align-self-center">
+							<b>{{'EQUIPE.COLUMN.FACTOR' | translate}}</b>
+						</div>
+					</div>
+
+					<div class="row" *ngFor="let item of equipeGroup.annotation.equipes">
+						<div class="col-sm-4 align-self-center">{{item.annotation.equipe}}</div>
+						<div class="col-sm-4 align-self-center">{{item.annotation.pc}}</div>
+						<div class="col-sm-2 align-self-center">
+							<gg-editor-number [content]="item.data.weight" (editSaved)="weightupdated(item.data, $event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-number>
+						</div>
+					</div>
+				</div>
+			</div>
+		</ng-template>
+	</ngb-tab>
+</ngb-tabset>

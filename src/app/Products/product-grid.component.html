@@ -1,0 +1,49 @@
+<gg-search-box [objectTypeTranslationKey]="'GENERAL.PRODUCTS'" [objectsObservable]="productsObservable" [fnFilterObjects]="getFilterFn()" (listChanged)="setProducts($event)" >
+	<gg-product-list-help searchHelp> </gg-product-list-help>
+
+	<div accordion>	   
+		<div class="row ">
+			<div class="col-sm-3 col-md-4 align-self-center">
+				<b>{{'PRODUCT.COLUMN.PRODUCT' | translate}}</b>
+			</div>
+			<div class="col-sm-2 col-md-3 align-self-center" ><b>{{'PRODUCT.COLUMN.CATEGORY' | translate}}</b></div>
+			<div class="col-sm-2 col-md-2 align-self-center">
+				<b>{{'PRODUCT.COLUMN.PRICE' | translate}}</b>
+			</div>
+			
+			<div class="col-sm-2 col-md-2 align-self-center">
+				<b>{{'PRODUCT.COLUMN.QTY IN BASKET' | translate}}</b>
+			</div>
+
+		</div>
+
+		<div *ngFor="let product of products">
+			<div class="row" *ngIf="product && product.data" [style.color]="product.data.disabled ? 'red' : 'black'">
+				<div class="col-sm-3 col-md-4 align-self-center">
+					<gg-editor [content]="product.data.name" [showControls]="true" (editSaved)="descriptionUpdated($event, product)" class="imgSearch"
+					 (click)="navigateToProduct(product)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor>
+				</div>
+				<div class="col-sm-2 col-md-3 align-self-center">
+					<gg-selector [selectableData]="selectableCategoriesObservable" [selectedIds]="getProductCategoryIdsObservable(product.data._id)" (selectionChanged)="categorySelectionChanged($event, product)"
+					 (selectionOptionAdded)="categoryHasBeenAdded($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-selector>
+				</div>
+				<div class="col-sm-2 col-md-2 align-self-center">
+					<gg-editor [id]="product.data._id" [content]="product.data.price" [showControls]="true" [isMonetary]="true" [currency]="product.annotation.currency"  (editSaved)="prixUpdated($event, product)"
+					 [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor>
+				</div>
+				<div class="col-sm-2 col-md-2 align-self-center">
+					<gg-editor-number *ngIf="!authorizationStatusInfo.isPassiveUser() && product.annotation.hasCurrentUserPermissionToShop && !product.data.isFrigo && !product.data.disabled" [content]="product.annotation.quantity"
+					 (editSaved)="quantityBasketUpdated($event, product)" [readOnly]="isGroupedBasket"></gg-editor-number>
+					<div *ngIf="!product.annotation.hasCurrentUserPermissionToShop && !product.data.isFrigo">{{product.annotation.quantity}} (Contact Labmanager)</div>
+					<gg-product-fridge-order-button *ngIf="product.data.isFrigo" [productObservable]="getProductObservable(product.data._id)"></gg-product-fridge-order-button>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+</gg-search-box>
+
+
+

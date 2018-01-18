@@ -1,0 +1,268 @@
+<ngb-tabset *ngIf="serviceStep">
+    <ngb-tab title="{{'PLATFORM.SERVICE.STEP.MENU.INFO' | translate}}" id="tabInfo">
+        <ng-template ngbTabContent>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.SERVICE.STEP.LABEL.NAME OF STEP' | translate}}</b></div>
+                        <div class="col-sm-8 align-self-center">
+                            <gg-editor [readOnly]="isSnapshot" [content]="serviceStep.data.name" [showControls]="true" (editSaved)="nameStepUpdated($event)"></gg-editor>
+                        </div>
+                        <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.SERVICE.STEP.LABEL.DESCRIPTION' | translate}}</b></div>
+                        <div class="col-sm-8 align-self-center">
+                            <gg-editor [readOnly]="isSnapshot" [content]="serviceStep.data.description" [showControls]="true" (editSaved)="descriptionStepUpdated($event)"></gg-editor>
+                        </div>
+                        <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.SERVICE.STEP.LABEL.USED MACHINE' | translate}}</b></div>
+                        <div class="col-sm-8 align-self-center">
+                            <gg-editor-autocomplete [selectableData]="machineListObservable" [emptyContentText]="'choose a machine'" [selectedId]="serviceStep.data.machineId"
+                                [readOnly]="isSnapshot" (idChanged)="machineChanged($event)"></gg-editor-autocomplete>
+                        </div>
+
+                        <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.SERVICE.STEP.LABEL.RUNTIME (IN HOURS)' | translate}}</b></div>
+                        <div class="col-sm-8 align-self-center">
+                            <gg-editor-number [content]="serviceStep.data.runtime" (editSaved)="runtimeMachineUpdated($event, machineItem)"></gg-editor-number>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab title="{{'PLATFORM.SERVICE.STEP.MENU.COST DETAIL' | translate}}" id="tabCost">
+        <ng-template ngbTabContent>
+            <div class="card">
+                <div class="card-body">
+                    <ngb-tabset *ngIf="serviceStep.annotation.costsByClientType">
+                        <ngb-tab *ngFor="let clientType of serviceStep.annotation.costsByClientType" title="{{clientType.clientType}}">
+                            <ng-template ngbTabContent>
+                                <gg-platform-service-step-client-type-cost [clientType]="clientType" [serviceStep]="serviceStep"></gg-platform-service-step-client-type-cost>
+                            </ng-template>
+                        </ngb-tab>
+                    </ngb-tabset>
+
+                </div>
+            </div>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab title="{{'PLATFORM.SERVICE.STEP.MENU.SERVICES' | translate}}" id="tabServices">
+        <ng-template ngbTabContent>
+            <div class="card">
+                <div class="card-body">
+                    <ngb-tabset>
+                        <ngb-tab title="{{'PLATFORM.SERVICE.STEP.MENU.USED SERVICES' | translate}}" id="tabUsedServices" *ngIf="serviceStep.annotation.services && serviceStep.annotation.services.length > 0">
+                            <ng-template ngbTabContent>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.SERVICE.STEP.COLUMN.SERVICE' | translate}}</b></div>
+                                            <div class="col-sm-2 align-self-center"><b>{{'PLATFORM.SERVICE.STEP.COLUMN.CURRENT' | translate}}</b></div>
+                                            <div class="col-sm-2 align-self-center"><b>{{'PLATFORM.SERVICE.STEP.COLUMN.NB OF UNITS USED' | translate}}</b></div>
+                                            <div class="col-sm-2 align-self-center"><b>{{'PLATFORM.SERVICE.STEP.COLUMN.PRICE PER UNIT' | translate}}</b></div>
+                                            <div class="col-sm-2 align-self-center"><b>{{'PLATFORM.SERVICE.STEP.COLUMN.TOTAL' | translate}}</b></div>
+                                        </div>
+                                        <div *ngFor="let service of (serviceStep.annotation.services || []); let pos = index">
+                                            <!--FOR  -->
+                                            <div class="row">
+                                                <div class="col-sm-3 align-self-center">
+                                                    {{service.annotation.service}}
+                                                </div>
+                                                <div class="col-sm-2 align-self-center">
+                                                    {{service.annotation.currentSnapshot}}
+                                                </div>
+                                                <div class="col-sm-2 align-self-center">
+                                                    <gg-editor-number [readOnly]="isSnapshot" [content]="service.data.quantity" (editSaved)="serviceQuantityUpdated(pos, $event)"></gg-editor-number>
+                                                </div>
+                                                <div class="col-sm-2 align-self-center">
+                                                    {{service.annotation.costPerUnit ? (service.annotation.costPerUnit | ggCurrency) : '?'}}
+                                                </div>
+                                                <div class="col-sm-2 align-self-center">
+                                                    {{service.annotation.costPerUnit ? ((service.annotation.costPerUnit * service.data.quantity) | ggCurrency) : '?'}}
+                                                </div>
+                                                <div class="col-sm-1 align-self-center" *ngIf="!isSnapshot">
+                                                    <gg-checkbox-delete [typeObjectKey]="'GENERAL.OBJECT.SERVICE'" (doDelete)="deleteService(pos)"></gg-checkbox-delete>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+                        <ngb-tab title="{{'PLATFORM.SERVICE.STEP.MENU.SELECT SERVICES' | translate}}" id="tabSelectServices" *ngIf="!isSnapshot">
+                            <ng-template ngbTabContent>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <gg-platform-service-list [isForSelection]="true" [servicesObservable]="servicesObservable" [selectedServiceIds]="getServicesIdsSelected()"
+                                            (servicesSelected)="servicesChanged($event)"></gg-platform-service-list>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+                    </ngb-tabset>
+                </div>
+            </div>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab title="{{'PLATFORM.SERVICE.STEP.MENU.CONSOMMABLES' | translate}}" id="tabConsommables">
+        <ng-template ngbTabContent>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.SERVICE.STEP.LABEL.EVALUATION OF COST' | translate}}</b></div>
+                        <div class="col-sm-8 align-self-center">
+                            <gg-editor [content]="serviceStep.data.costConsommables || 0" [isMonetary]="true" [showControls]="true" (editSaved)="costConsommableUpdated($event)"></gg-editor>
+                        </div>
+                        <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.SERVICE.STEP.LABEL.DESCRIPTION OF CONSOMMABLES' | translate}}</b></div>
+                        <div class="col-sm-8 align-self-center">
+                            <gg-editor [content]="serviceStep.data.descriptionConsommables || 'no description yet'" [showControls]="true" (editSaved)="descriptionConsommableUpdated($event)"></gg-editor>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab title="{{'PLATFORM.SERVICE.STEP.MENU.PRODUCTS' | translate}}" id="tabProducts">
+        <ng-template ngbTabContent>
+            <div class="card">
+                <div class="card-body">
+                    <ngb-tabset>
+                        <ngb-tab title="{{'PLATFORM.SERVICE.STEP.MENU.USED PRODUCTS' | translate}}" id="tabUsedProducts" *ngIf="serviceStep.annotation.products && serviceStep.annotation.products.length > 0">
+                            <ng-template ngbTabContent>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.SERVICE.STEP.COLUMN.PRODUCT' | translate}}</b></div>
+                                            <div class="col-sm-2 align-self-center"><b>{{'PLATFORM.SERVICE.STEP.COLUMN.NB OF UNITS USED' | translate}}</b></div>
+                                            <div class="col-sm-1 align-self-center"><b>{{'PLATFORM.SERVICE.STEP.COLUMN.PRICE PER UNIT' | translate}}</b></div>
+                                            <div class="col-sm-2 align-self-center"><b>{{'PLATFORM.SERVICE.STEP.COLUMN.NB OF UNITS IN PRODUCT' | translate}}</b></div>
+                                            <div class="col-sm-1 align-self-center"><b>{{'PLATFORM.SERVICE.STEP.COLUMN.TOTAL' | translate}}</b></div>
+                                        </div>
+                                        <div *ngFor="let product of (serviceStep.annotation.products || []); let pos = index">
+                                            <!--FOR  -->
+                                            <div class="row">
+                                                <div class="col-sm-3 align-self-center">
+                                                    {{product.annotation.product}} {{product.annotation.package ? ' (' + product.annotation.package + ')' : ''}}
+                                                </div>
+                                                <div class="col-sm-2 align-self-center">
+                                                    <gg-editor-number [readOnly]="isSnapshot" [content]="product.data.quantity" (editSaved)="productQuantityUpdated(pos, $event)"></gg-editor-number>
+                                                </div>
+                                                <div class="col-sm-1 align-self-center">
+                                                    {{product.annotation.productPrice | ggCurrency}}
+                                                </div>
+                                                <div class="col-sm-2 align-self-center">
+                                                    {{product.annotation.nbUnitsInProduct}}
+                                                </div>
+                                                <div class="col-sm-1 align-self-center">
+                                                    {{product.annotation.productTotal | ggCurrency}}
+                                                </div>
+                                                <div class="col-sm-2 align-self-center" *ngIf="!isSnapshot">
+                                                    <gg-checkbox-delete [typeObjectKey]="'GENERAL.OBJECT.PRODUCT'" (doDelete)="deleteProduct(pos)"></gg-checkbox-delete>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row gg-price">
+                                            <div class="col-sm-3 align-self-center"><b></b></div>
+                                            <div class="col-sm-2 align-self-center"><b></b></div>
+                                            <div class="col-sm-1 align-self-center"><b></b></div>
+                                            <div class="col-sm-2 align-self-center">{{'PLATFORM.SERVICE.STEP.LABEL.TOTAL' | translate}}:</div>
+                                            <div class="col-sm-1 align-self-center">{{serviceStep.annotation.productsCost | ggCurrency}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+                        <ngb-tab title="{{'PLATFORM.SERVICE.STEP.MENU.SELECT PRODUCTS' | translate}}" id="tabSelectProducts" *ngIf="!isSnapshot">
+                            <ng-template ngbTabContent>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <gg-product-list [isForSelection]="true" [productsObservable]="productsObservable" [selectedProductIds]="getProductIdsSelected()"
+                                            (productsSelected)="productsChanged($event)"></gg-product-list>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+                        <ngb-tab title="{{'PLATFORM.SERVICE.STEP.MENU.SELECT PRIVATE PRODUCTS' | translate}}" id="tabSelectPrivateProducts" *ngIf="!isSnapshot">
+                            <ng-template ngbTabContent>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <gg-product-list [isForSelection]="true" [productsObservable]="productsPrivateObservable" [selectedProductIds]="getProductIdsSelected()"
+                                            (productsSelected)="productsChanged($event)"></gg-product-list>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+                    </ngb-tabset>
+                </div>
+            </div>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab title="{{'PLATFORM.SERVICE.STEP.MENU.LABOUR' | translate}}" id="tabLabour">
+        <ng-template ngbTabContent>
+            <div class="card">
+                <div class="card-body">
+                    <ngb-tabset>
+                        <ngb-tab title="{{'PLATFORM.SERVICE.STEP.MENU.USED HOURS' | translate}}" id="tabUsedLabourHours">
+                            <ng-template ngbTabContent>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.SERVICE.STEP.COLUMN.LABOUR' | translate}}</b></div>
+                                            <div class="col-sm-2 align-self-center"><b>{{'PLATFORM.SERVICE.STEP.COLUMN.NB HOURS' | translate}}</b></div>
+                                            <div class="col-sm-2 align-self-center"><b>{{'PLATFORM.SERVICE.STEP.COLUMN.RATE' | translate}}</b></div>
+                                            <div class="col-sm-2 align-self-center"><b>{{'PLATFORM.SERVICE.STEP.COLUMN.TOTAL' | translate}}</b></div>
+                                        </div>
+                                        <div *ngFor="let labourType of (serviceStep.annotation.labourTypes || []); let pos = index">
+                                            <!--FOR  -->
+                                            <div class="row">
+                                                <div class="col-sm-3 align-self-center">
+                                                    {{labourType.data.name}}
+                                                </div>
+                                                <div class="col-sm-2 align-self-center">
+                                                    <gg-editor-number [readOnly]="isSnapshot" [content]="labourType.annotation.nbHours" (editSaved)="labourQuantityUpdated(pos, $event)"></gg-editor-number>
+                                                </div>
+                                                <div class="col-sm-2 align-self-center">
+                                                    {{labourType.data.hourlyRate | ggCurrency}}
+                                                </div>
+                                                <div class="col-sm-2 align-self-center">
+                                                    {{labourType.annotation.totalCost | ggCurrency}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row gg-price">
+                                            <div class="col-sm-3 align-self-center"><b></b></div>
+                                            <div class="col-sm-2 align-self-center"><b></b></div>
+                                            <div class="col-sm-2 align-self-center">{{'PLATFORM.SERVICE.STEP.LABEL.TOTAL' | translate}}:</div>
+                                            <div class="col-sm-2 align-self-center">{{serviceStep.annotation.labourCost | ggCurrency}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </ng-template>
+                        </ngb-tab>
+                        <ngb-tab title="{{'PLATFORM.SERVICE.STEP.MENU.ADD LABOUR TYPE' | translate}}" id="tabAddLabourType" *ngIf="false && !isSnapshot">
+                            <ng-template ngbTabContent>
+                            </ng-template>
+                        </ngb-tab>
+                    </ngb-tabset>
+                </div>
+            </div>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab title="{{'PLATFORM.SERVICE.STEP.MENU.DISABLE STEP' | translate}}" id="tabDisableStep" *ngIf="!serviceStep.data.isDisabled && !isSnapshot">
+        <ng-template ngbTabContent>
+            <div class="card">
+                <div class="card-body">
+                    <gg-button-action-confirm (doAction)="enableDisableStep(true)" [typeObjectKey]="'GENERAL.OBJECT.STEP'" [typeActionKey]="'GENERAL.ACTION.DISABLE'"></gg-button-action-confirm>
+                </div>
+            </div>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab title="{{'PLATFORM.SERVICE.STEP.MENU.REACTIVATE STEP' | translate}}" id="tabReactivateStep" *ngIf="serviceStep.data.isDisabled && !isSnapshot">
+        <ng-template ngbTabContent>
+            <div class="card">
+                <div class="card-body">
+                    <gg-button-action-confirm (doAction)="enableDisableStep(false)" [typeObjectKey]="'GENERAL.OBJECT.STEP'" [typeActionKey]="'GENERAL.ACTION.REACTIVATE'"></gg-button-action-confirm>
+                </div>
+            </div>
+        </ng-template>
+    </ngb-tab>
+</ngb-tabset>

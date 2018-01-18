@@ -1,0 +1,37 @@
+<ng-template #mymodal let-c="close" let-d="dismiss">
+	<div class="modal-header">
+		<h4 class="modal-title">{{'PRODUCT.FRIDGE.LABEL.ORDER PRODUCT FROM FRIDGE' | translate}}</h4>
+		<button type="button" class="close" (click)="d('Cross click')">
+            <span >&times;</span>
+        </button>
+	</div>
+	<div class="modal-body">
+		<div class="card">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-sm-3">{{'PRODUCT.FRIDGE.LABEL.YOU WILL ORDER' | translate}}:</div>
+					<div class="col-sm-8">{{product.data.name}} {{product.data.package}}</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-3">{{'PRODUCT.FRIDGE.LABEL.FROM THE FRIDGE OF' | translate}}:</div>
+					<div class="col-sm-8">{{product.annotation.supplierName}}</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-3">{{'PRODUCT.FRIDGE.LABEL.AT FOLLOWING UNITARY PRICE' | translate}}:</div>
+					<div class="col-sm-8">{{product.data.price | ggCurrency}}</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-3 align-self-center">{{'PRODUCT.FRIDGE.LABEL.QUANTITY TO ORDER' | translate}}:</div>
+					<div class="col-sm-8 align-self-center"><input #inputQty type="number" class="form-control" placeholder="{{'PRODUCT.FRIDGE.LABEL.ENTER QUANTITY TO ORDER PHOLDER' | translate}}"
+						 min="1" max="20" /></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-success" (click)="c({qty:inputQty.value })">{{'PRODUCT.FRIDGE.BUTTON.SEND REQUEST' | translate}}</button>
+	</div>
+</ng-template>
+
+<a class="imgSearch" [ngbTooltip]="'PRODUCT.ACTIONS.CLICK HERE ORDER PRODUCT FROM FRIDGE' | translate" (click)="openModal(mymodal)">
+	<img *ngIf="product.data.isFrigo" height="25" width="25" src="images/refrigator.png" /> </a>

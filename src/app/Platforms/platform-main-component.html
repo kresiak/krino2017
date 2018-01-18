@@ -1,0 +1,79 @@
+<div class="card" *ngIf="authorizationStatusInfo?.isLoggedIn && authorizationStatusInfo?.isPlatformAdminstrator()">
+    <div class="card-body">
+        <ngb-tabset>
+            <ngb-tab title="{{'PLATFORM.MENU.SERVICES' | translate}}" id="tabServices">
+                <ng-template ngbTabContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <gg-platform-services></gg-platform-services>
+				        </div>
+			        </div>
+		        </ng-template>
+	        </ngb-tab>  
+            <ngb-tab title="{{'PLATFORM.MENU.MACHINES' | translate}}" id="tabMachines">
+                <ng-template ngbTabContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <gg-platform-machines></gg-platform-machines>
+				        </div>
+			        </div>
+		        </ng-template>
+	        </ngb-tab>  
+            <ngb-tab title="{{'PLATFORM.MENU.LABOUR TYPES' | translate}}" id="tabLabourTypes">
+                <ng-template ngbTabContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <gg-platform-labour></gg-platform-labour>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="{{'PLATFORM.MENU.CLIENT TYPES' | translate}}" id="tabClientTypes">
+                <ng-template ngbTabContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <gg-platform-client></gg-platform-client>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="{{'PLATFORM.MENU.CORRECTION TYPES' | translate}}" id="tabCorrectionTypes">
+                <ng-template ngbTabContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <gg-platform-correction></gg-platform-correction>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="{{'PLATFORM.MENU.ENTERPRISES' | translate}}" id="tabEnterprises">
+                <ng-template ngbTabContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <gg-platform-enterprises></gg-platform-enterprises>                            
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="{{'PLATFORM.MENU.CLIENTS' | translate}}" id="tabClients">
+                <ng-template ngbTabContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <gg-platform-clients></gg-platform-clients>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="{{'PLATFORM.MENU.OFFERS' | translate}}" id="tabOffer">
+                <ng-template ngbTabContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <gg-platform-offers></gg-platform-offers>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+
+        </ngb-tabset> 
+    </div>
+</div>

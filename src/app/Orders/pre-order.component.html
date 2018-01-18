@@ -1,0 +1,55 @@
+<div class="card" *ngIf="supplier">
+	<div class="card-body">
+		<h5 class="card-title">{{'ORDER.BASKET.CHECKOUT AT' | translate}} {{supplier.name}}</h5>
+		<ngb-tabset *ngIf="authorizationStatusInfo?.isLoggedIn">
+			<ngb-tab title="{{'ORDER.MENU.SHOPPING BASKET' | translate}}">
+				<ng-template ngbTabContent>
+					<div class="card">
+						<div class="card-body">
+							<div>
+								<gg-product-grid-basket [productsObservable]="productsBasketObservable" [isGroupedBasket]="authorizationStatusInfo.isGroupOrdersUser()"></gg-product-grid-basket>
+							</div>
+							<div class="row" *ngIf="authorizationStatusInfo.isAdministrator()">
+								<div class="col-sm-2 align-self-center">{{'ORDER.BASKET.ATTRIBUTE TO GROUP OF EQUIPES' | translate}} </div>
+								<div class="col-sm-6 align-self-center">
+									<gg-editor-autocomplete [selectableData]="groupsForSelectionObservable" [emptyContentText]="'ORDER.BASKET.USE THE EQUIPE OF THE USER' | translate"
+									 (idChanged)="equipeGroupChanged($event)"></gg-editor-autocomplete>
+								</div>
+							</div>
+							<div class="row">
+									<div class="col-sm-12">
+										<button  *ngIf="(authorizationStatusInfo.hasEquipeId() || authorizationStatusInfo.isGroupOrdersUser()) && isSubmitButtonFree && isOtpOk && nbLinesNonDisabled && (authorizationStatusInfo.isAdministrator() || ((isEnoughBudget || isGroupOrdersUser) && isTotalUnderLimit))"
+											 class="btn btn-warning" (click)="createOrder()">{{'ORDER.BASKET.PASS THE ORDER' | translate}}</button>
+									</div>
+									<h6 class="col-sm-12" *ngIf="!authorizationStatusInfo.hasEquipeId() && !authorizationStatusInfo.isGroupOrdersUser()">{{'ORDER.BASKET.NO EQUIPE MSG' | translate}}</h6>
+									<h6 class="col-sm-12" *ngIf="!isEnoughBudget && !isGroupOrdersUser">{{'ORDER.BASKET.NOT ENOUGH BUDGET MSG' | translate}}</h6>
+									<h6 class="col-sm-12" *ngIf="!isOtpOk">{{'ORDER.BASKET.OTP PROBLEM MSG' | translate}}</h6>
+									<h6 class="col-sm-12" *ngIf="!isTotalUnderLimit">{{'ORDER.BASKET.OVER LIMIT MSG' | translate}}</h6>
+									<h6 class="col-sm-12" *ngIf="!nbLinesNonDisabled">{{'ORDER.BASKET.ALL DISABLED MSG' | translate}}</h6>
+							</div>
+						</div>
+					</div>
+				</ng-template>
+			</ngb-tab>
+			<ngb-tab title="{{'ORDER.MENU.INFO ABOUT' | translate}} {{supplier.name}}">
+				<ng-template ngbTabContent>
+					<div class="card">
+						<div class="card-body">
+							<gg-supplier-info [supplier]="supplier"></gg-supplier-info>
+						</div>
+					</div>
+				</ng-template>
+			</ngb-tab>
+			<ngb-tab title="{{'ORDER.MENU.BUDGET CURRENT USER' | translate}}" *ngIf="false">
+				<ng-template ngbTabContent>
+					<div class="card">
+						<div class="card-body">
+							<h4>Work hard, but don't spend too much!!!</h4>
+						</div>
+					</div>
+				</ng-template>
+			</ngb-tab>
+		</ngb-tabset>
+		<h4 *ngIf="authorizationStatusInfo && !authorizationStatusInfo.isLoggedIn">{{'ERROR.NO LOGIN' | translate}}</h4>
+	</div>
+</div>

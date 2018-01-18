@@ -1,0 +1,7 @@
+<div id="GGTOP"></div>
+<div class="card" *ngIf="authorizationStatusInfo?.isLoggedIn">
+    <div class="card-body">
+        <h6>Your basket</h6>
+        <gg-supplier-list [suppliersObservable]="suppliersWithBasketObservable" [initialTabInSupplierDetail]="'tabBasket'"></gg-supplier-list>
+    </div>
+</div>

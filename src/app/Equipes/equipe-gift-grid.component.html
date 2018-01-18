@@ -1,0 +1,22 @@
+<div *ngIf="!isFormOk" class="isFormOk">There was an error, your change has not been saved</div>
+<div class="card">
+	<div class="card-body">
+		<div class="row">
+			<div class="col-sm-2 align-self-center"><b>{{'EQUIPE.COLUMN.DATE' | translate}}</b></div>
+			<div class="col-sm-2 align-self-center"><b>{{'EQUIPE.COLUMN.ADMINISTRATOR' | translate}}</b></div>
+			<div class="col-sm-2 align-self-center"><b>{{'EQUIPE.COLUMN.EQUIPE GIVING' | translate}}</b></div>
+			<div class="col-sm-2 align-self-center"><b>{{'EQUIPE.COLUMN.EQUIPE TAKING' | translate}}</b></div>
+			<div class="col-sm-2 align-self-center"><b>{{'EQUIPE.COLUMN.AMOUNT' | translate}}</b></div>
+		</div>
+		<div class="row" *ngFor="let gift of equipeGifts">
+			<div class="col-sm-2 align-self-center">{{gift.data.createDate | shortDate}}</div>
+			<div class="col-sm-2 align-self-center">{{gift.annotation.user}}</div>
+			<div class="col-sm-2 align-self-center">{{gift.annotation.equipeGiving}}</div>
+			<div class="col-sm-2 align-self-center">{{gift.annotation.equipeTaking}}</div>
+			<div class="col-sm-2 align-self-center">
+				<gg-editor [content]="gift.data.amount" [showControls]="true" [isMonetary]="true" (editSaved)="updateAmount($event, gift)"
+				 [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor>
+			</div>
+		</div>
+	</div>
+</div>

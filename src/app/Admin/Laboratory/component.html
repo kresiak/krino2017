@@ -1,0 +1,335 @@
+<div class="card" *ngIf="labo && labo.data">
+    <div class="card-body">
+        <ngb-tabset>
+            <ngb-tab title="{{'ADMINISTRATION.LABOCONFIG.MENU.GENERAL' | translate}}" id="tabGeneral">
+                <ng-template ngbTabContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-3 align-self-center">{{'ADMINISTRATION.LABOCONFIG.LABEL.NAME OF LABORATORY' | translate}}</div>
+                                <div class="col-sm-6 align-self-center">
+                                    {{currentLaboName}}
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-sm-3 align-self-center">{{'ADMINISTRATION.LABOCONFIG.LABEL.START OF KRINO' | translate}}</div>
+                                <div class="col-sm-6 align-self-center">
+                                    <gg-editor-date [content]="labo.data.krinoStartDate" (editSaved)="startOfKrino($event)"></gg-editor-date>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3 align-self-center">{{'ADMINISTRATION.LABOCONFIG.LABEL.HEAD OF LABORATORY' | translate}}</div>
+                                <div class="col-sm-6 align-self-center">
+                                    <gg-selector [selectableData]="selectableUsers" [selectedIds]="selectedAdminsIdsObservable" (selectionChanged)="headSelectionChanged($event)"></gg-selector>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3 align-self-center">{{'ADMINISTRATION.LABOCONFIG.LABEL.EXECUTIVE SECRETARY' | translate}}</div>
+                                <div class="col-sm-6 align-self-center">
+                                    <gg-selector [selectableData]="selectableUsers" [selectedIds]="selectedSecrExecIdsObservable" (selectionChanged)="secrExecSelectionChanged($event)"></gg-selector>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3 align-self-center">{{'ADMINISTRATION.LABOCONFIG.LABEL.GROUPED ORDERS USER PASSWORD' | translate}}</div>
+                                <div class="col-sm-6 align-self-center">
+                                    <gg-editor [content]="labo.data.passwordGroupOrdersUser" [showControls]="true" (editSaved)="groupedPasswordChanged($event)"></gg-editor>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="{{'ADMINISTRATION.LABOCONFIG.MENU.ORDER VALIDATION' | translate}}" id="tabValidation">
+                <ng-template ngbTabContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row" *ngFor="let step of labo.annotation.validationSteps; let isFirst=first; let isLast=last; let index=index">
+
+                                <div class="col-sm-1 align-self-center">
+                                    <input type="checkbox" [checked]="step.enabled" [disabled]="step.name==='Equipe' && !step.equipeId" (click)="selectStep($event.target.checked, step.name)" />
+                                </div>
+                                <div class="col-sm-2 align-self-center">
+                                    <div *ngIf="step.name==='EquipeHead'">{{'ADMINISTRATION.LABOCONFIG.VALIDATION.LABEL.HEAD OF EQUIPE' | translate}}</div>                                    
+                                    <div *ngIf="step.name==='SecrExec'">{{'ADMINISTRATION.LABOCONFIG.VALIDATION.LABEL.EXECUTIVE SECRETARY' | translate}}</div>
+                                    <div *ngIf="step.name==='Equipe'">{{'ADMINISTRATION.LABOCONFIG.VALIDATION.LABEL.ANY MEMBER OF' | translate}} ...</div>
+                                </div>
+                                <div class="col-sm-2 align-self-center">
+                                    <div *ngIf="step.name==='Equipe'">
+                                        <gg-editor-autocomplete [selectableData]="equipeListObservable" [selectedId]="step.equipeId" (idChanged)="equipeChanged($event, index)" [emptyContentText]="'GENERAL.CHOOSE AN EQUIPE' | translate"></gg-editor-autocomplete>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1 align-self-center">
+                                    <button class="btn btn-success btn-sm" [disabled]="isFirst || !step.enabled" (click)="stepUp(index)">Up</button>
+                                </div>
+                                <div class="col-sm-1 align-self-center">
+                                    <button class="btn btn-success btn-sm" [disabled]="isLast || (index+1) == labo.data.validationSteps.length || !step.enabled" (click)="stepDown(index)">Down</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="{{'ADMINISTRATION.LABOCONFIG.MENU.DELIVERY' | translate}}" id="tabDelivery">
+                <ng-template ngbTabContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <ngb-tabset>
+                                <ngb-tab title="{{'ADMINISTRATION.LABOCONFIG.LIVRAISON.MENU.ADRESSES' | translate}}" id="tabAdresses">
+                                    <ng-template ngbTabContent>
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="container-fluid">
+                                                    <div class="row">
+                                                        <div class="col-sm-2 align-self-center"><b>{{'ADMINISTRATION.LABOCONFIG.LIVRAISON.COLUMN.NAME OF DELIVERY' | translate}}</b></div>
+                                                        <div class="col-sm-2 align-self-center"><b>{{'ADMINISTRATION.LABOCONFIG.LIVRAISON.COLUMN.DESCRIPTION' | translate}} 1</b></div>
+                                                        <div class="col-sm-2 align-self-center"><b>{{'ADMINISTRATION.LABOCONFIG.LIVRAISON.COLUMN.DESCRIPTION' | translate}} 2</b></div>
+                                                        <div class="col-sm-2 align-self-center"><b>{{'ADMINISTRATION.LABOCONFIG.LIVRAISON.COLUMN.DESCRIPTION' | translate}} 3</b></div>
+                                                        <div class="col-sm-2 align-self-center"><b>{{'ADMINISTRATION.LABOCONFIG.LIVRAISON.COLUMN.DESCRIPTION' | translate}} 4</b></div>
+                                                    </div>
+                                                    <div *ngFor="let delivery of deliveryAdresses">
+                                                        <div class="row">
+                                                            <div class="col-sm-2 align-self-center">
+                                                                <gg-editor [content]="delivery.nom" [showControls]="true" (editSaved)="nomDeliveryUpdated(delivery, $event)"></gg-editor>
+                                                            </div>
+                                                            <div class="col-sm-2 align-self-center">
+                                                                <gg-editor [content]="delivery.description1" [showControls]="true" (editSaved)="description1DeliveryUpdated(delivery, $event)"></gg-editor>
+                                                            </div>
+                                                            <div class="col-sm-2 align-self-center">
+                                                                <gg-editor [content]="delivery.description2" [showControls]="true" (editSaved)="description2DeliveryUpdated(delivery, $event)"></gg-editor>
+                                                            </div>
+                                                            <div class="col-sm-2 align-self-center">
+                                                                <gg-editor [content]="delivery.description3" [showControls]="true" (editSaved)="description3DeliveryUpdated(delivery, $event)"></gg-editor>
+                                                            </div>
+                                                            <div class="col-sm-2 align-self-center">
+                                                                <gg-editor [content]="delivery.description4" [showControls]="true" (editSaved)="description4DeliveryUpdated(delivery, $event)"></gg-editor>
+                                                            </div>
+                                                        </div>                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </ngb-tab>
+                                <ngb-tab title="{{'ADMINISTRATION.LABOCONFIG.LIVRAISON.MENU.ADD ADDRESS' | translate}}" id="tabAddAddress">
+                                    <ng-template ngbTabContent>
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="container-fluid">
+                                                    <form [formGroup]="addAddressForm" (ngSubmit)="save(addAddressForm.value, addAddressForm.valid)">
+                                                        <div class="form-group row">
+                                                            <label for="nomAddAddress" class="col-sm-2 col-form-label col-xl-2">{{'ADMINISTRATION.LABOCONFIG.LIVRAISON.LABEL.NAME OF DELIVERY' | translate}}</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" min="1" class="form-control" formControlName="nomAddAddress" id="nomAddAddress" placeholder="{{'ADMINISTRATION.LABOCONFIG.LIVRAISON.LABEL.NAME OF DELIVERY' | translate}}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label for="descriptionAddAddress1" class="col-sm-2 col-form-label col-xl-2">{{'ADMINISTRATION.LABOCONFIG.LIVRAISON.LABEL.DESCRIPTION' | translate}} 1:</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" min="0" class="form-control" formControlName="descriptionAddAddress1" id="descriptionAddAddress1" placeholder="{{'ADMINISTRATION.LABOCONFIG.LIVRAISON.LABEL.DESCRIPTION' | translate}} 1">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label for="descriptionAddAddress2" class="col-sm-2 col-form-label col-xl-2">{{'ADMINISTRATION.LABOCONFIG.LIVRAISON.LABEL.DESCRIPTION' | translate}} 2:</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" min="0" class="form-control" formControlName="descriptionAddAddress2" id="descriptionAddAddress2" placeholder="{{'ADMINISTRATION.LABOCONFIG.LIVRAISON.LABEL.DESCRIPTION' | translate}} 2">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label for="descriptionAddAddress3" class="col-sm-2 col-form-label col-xl-2">{{'ADMINISTRATION.LABOCONFIG.LIVRAISON.LABEL.DESCRIPTION' | translate}} 3:</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" min="0" class="form-control" formControlName="descriptionAddAddress3" id="descriptionAddAddress3" placeholder="{{'ADMINISTRATION.LABOCONFIG.LIVRAISON.LABEL.DESCRIPTION' | translate}} 3">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label for="descriptionAddAddress4" class="col-sm-2 col-form-label col-xl-2">{{'ADMINISTRATION.LABOCONFIG.LIVRAISON.LABEL.DESCRIPTION' | translate}} 4:</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" min="0" class="form-control" formControlName="descriptionAddAddress4" id="descriptionAddAddress4" placeholder="{{'ADMINISTRATION.LABOCONFIG.LIVRAISON.LABEL.DESCRIPTION' | translate}} 4">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-sm-3 col-md-2 col-lg-2">
+                                                                <button class="btn btn-success" type="submit" [disabled]="!addAddressForm.valid">{{'FORM.SUBMIT' | translate}}</button>
+                                                            </div>
+                                                            <div class="col-sm-3 col-md-2 col-lg-2">
+                                                                <button class="btn btn-info" [disabled]="addAddressForm.pristine" (click)="resetAddAddressForm()">{{'FORM.RESET' | translate}}</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+			        							</div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </ngb-tab>
+                            </ngb-tabset>                
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="{{'ADMINISTRATION.LABOCONFIG.MENU.SAP' | translate}}" id="tabSap">
+                <ng-template ngbTabContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <ngb-tabset>
+                                <ngb-tab title="{{'ADMINISTRATION.LABOCONFIG.SAP.MENU.GENERAL' | translate}}" id="tabGeneral">
+                                    <ng-template ngbTabContent>
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-sm-3 align-self-center">{{'ADMINISTRATION.LABOCONFIG.SAP.LABEL.MAXIMAL AMOUNT ORDER' | translate}}</div>
+                                                    <div class="col-sm-6 align-self-center">
+                                                        <gg-editor [content]="labo.data.maxOrderAmount" [showControls]="true" [isMonetary]="true" (editSaved)="maxOrderAmount($event)"></gg-editor>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 align-self-center">{{'ADMINISTRATION.LABOCONFIG.SAP.LABEL.LAST SAP ID BEFORE KRINO' | translate}}</div>
+                                                    <div class="col-sm-6 align-self-center">
+                                                        <gg-editor-number [content]="labo.data.sapIdMaxIdBeforeKrino" (editSaved)="sapIdMaxIdBeforeKrino($event)"></gg-editor-number>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 align-self-center">{{'ADMINISTRATION.LABOCONFIG.SAP.LABEL.LIST OTHERS SAP BEFORE KRINO' | translate}}</div>
+                                                    <div class="col-sm-6 align-self-center">
+                                                        <gg-editor [content]="labo.data.sapOtherMaxIdsBeforeKrino" [showControls]="true" (editSaved)="sapOtherMaxIdsBeforeKrino($event)"  [ngbTooltip]="'please separate the numbers by \';\' '"></gg-editor>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 align-self-center">{{'ADMINISTRATION.LABOCONFIG.SAP.LABEL.DELIVERY ID' | translate}}</div>
+                                                    <div class="col-sm-6 align-self-center">
+                                                        <gg-editor [content]="labo.data.sapDeliveryAddressId" [showControls]="true" (editSaved)="sapDeliveryAddressId($event)"  [ngbTooltip]="'ADMINISTRATION.LABOCONFIG.SAP.LABEL.DELIVERY ID TIP' | translate"></gg-editor>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </ngb-tab>
+                                <ngb-tab title="{{'ADMINISTRATION.LABOCONFIG.SAP.MENU.FIRST IDS' | translate}}" id="tabFirstIds">
+                                    <ng-template ngbTabContent>
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <ngb-tabset>
+                                                    <ngb-tab *ngIf="labo.data.sapFirstIdList && labo.data.sapFirstIdList.length > 0" title="{{'ADMINISTRATION.LABOCONFIG.SAP.MENU.LIST OF FIRST ID SAP' | translate}}" id="tabListOfFirstIdSap">
+                                                        <ng-template ngbTabContent>
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <div class="row">
+                                                                        <div class="col-sm-3 align-self-center"><b>{{'ADMINISTRATION.LABOCONFIG.SAP.COLUMN.NUMBER OF CHARACTERS' | translate}}</b></div>
+                                                                        <div class="col-sm-3 align-self-center"><b>{{'ADMINISTRATION.LABOCONFIG.SAP.COLUMN.STARTING WITH' | translate}}</b></div>
+                                                                        <div class="col-sm-3 align-self-center"><b>{{'ADMINISTRATION.LABOCONFIG.SAP.COLUMN.FIRST ID' | translate}}</b></div>
+                                                                    </div>
+                                                                    <div *ngFor="let firstIdItem of labo.data.sapFirstIdList">
+                                                                        <div class="row">
+                                                                            <div class="col-sm-3 align-self-center">
+                                                                                <gg-editor-number [content]="firstIdItem.nbOfCharacters" (editSaved)="nbOfCharactersUpdated($event, firstIdItem)"></gg-editor-number>
+                                                                            </div>
+                                                                            <div class="col-sm-3 align-self-center">
+                                                                                <gg-editor-number [content]="firstIdItem.startingWith" (editSaved)="startingWithUpdated($event, firstIdItem)"></gg-editor-number>
+                                                                            </div>
+                                                                            <div class="col-sm-3 align-self-center">
+                                                                                <gg-editor-number [content]="firstIdItem.firstId" (editSaved)="firstIdUpdated($event, firstIdItem)"></gg-editor-number>
+                                                                            </div>
+                                                                        </div>                        
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </ng-template>
+                                                    </ngb-tab>
+                                                    <ngb-tab title="{{'ADMINISTRATION.LABOCONFIG.SAP.MENU.ADD FIRST ID' | translate}}" id="tabAddFirstId">
+                                                        <ng-template ngbTabContent>
+                                                            <div class="card">
+                                                                <div class="card-body">
+                                                                    <div class="container-fluid">
+                                                                        <form [formGroup]="addFirstIdsForm" (ngSubmit)="saveFirstIds(addFirstIdsForm.value, addFirstIdsForm.valid)">
+                                                                            <div class="form-group row">
+                                                                                <label for="nbOfCharacters" class="col-sm-2 col-form-label col-xl-2">{{'ADMINISTRATION.LABOCONFIG.SAP.LABEL.NUMBER OF CHARACTERS' | translate}}</label>
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="number" min="0" class="form-control" formControlName="nbOfCharacters" id="nbOfCharacters" placeholder="{{'ADMINISTRATION.LABOCONFIG.SAP.LABEL.NUMBER OF CHARACTERS' | translate}}">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row">
+                                                                                <label for="startingWith" class="col-sm-2 col-form-label col-xl-2">{{'ADMINISTRATION.LABOCONFIG.SAP.LABEL.STARTING WITH' | translate}}</label>
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="number" min="0" class="form-control" formControlName="startingWith" id="startingWith" placeholder="{{'ADMINISTRATION.LABOCONFIG.SAP.LABEL.STARTING WITH' | translate}}">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row">
+                                                                                <label for="firstId" class="col-sm-2 col-form-label col-xl-2">{{'ADMINISTRATION.LABOCONFIG.SAP.LABEL.FIRST ID' | translate}}</label>
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="number" min="0" class="form-control" formControlName="firstId" id="firstId" placeholder="{{'ADMINISTRATION.LABOCONFIG.SAP.LABEL.FIRST ID' | translate}}">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                <div class="col-sm-3 col-md-2 col-lg-2">
+                                                                                    <button class="btn btn-success" type="submit" [disabled]="!addFirstIdsForm.valid">{{'FORM.SUBMIT' | translate}}</button>
+                                                                                </div>
+                                                                                <div class="col-sm-3 col-md-2 col-lg-2">
+                                                                                    <button class="btn btn-info" [disabled]="addFirstIdsForm.pristine" (click)="resetAddFirstIdsForm()">{{'FORM.RESET' | translate}}</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </ng-template>
+                                                    </ngb-tab>
+                                                </ngb-tabset>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </ngb-tab>
+                                <ngb-tab title="{{'ADMINISTRATION.LABOCONFIG.SAP.MENU.OTP WARNING' | translate}}" id="tabOtpWarning">
+                                    <ng-template ngbTabContent>
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-sm-3 align-self-center">{{'ADMINISTRATION.LABOCONFIG.SAP.LABEL.MONTHS BEFORE END' | translate}}</div>
+                                                    <div class="col-sm-6 align-self-center">
+                                                        <gg-editor-number [content]="labo.data.warningNbMonthsToEnd" (editSaved)="warningNbMonthsToEndUpdated($event)"></gg-editor-number>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 align-self-center">{{'ADMINISTRATION.LABOCONFIG.SAP.LABEL.NUMBER OF REPEATS AFTER FIRST WARNING' | translate}}</div>
+                                                    <div class="col-sm-6 align-self-center">
+                                                        <gg-editor-number [content]="labo.data.warningNbRepeats" (editSaved)="warningNbRepeatsUpdated($event)"></gg-editor-number>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 align-self-center">{{'ADMINISTRATION.LABOCONFIG.SAP.LABEL.NUMBER OF DAYS TO WAIT BEFORE REPEAT' | translate}}</div>
+                                                    <div class="col-sm-6 align-self-center">
+                                                        <gg-editor-number [content]="labo.data.warningNbDaysBetweenRepeats" (editSaved)="warningNbDaysBetweenRepeatsUpdated($event)"></gg-editor-number>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </ngb-tab>
+                            </ngb-tabset>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>        
+            <ngb-tab title="{{'ADMINISTRATION.LABOCONFIG.MENU.PLATFORM' | translate}}" id="tabPlatform">
+                <ng-template ngbTabContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-3 align-self-center"><b>{{'ADMINISTRATION.LABOCONFIG.PLATFORM.LABEL.SELLING SERVICES AS SUPPLIER' | translate}}</b></div>
+                                <div class="col-sm-8 align-self-center">
+                                    <gg-editor-autocomplete [selectableData]="supplierListObservable" [emptyContentText]="'choose a supplier'" [selectedId]="labo.data.platformSellingSupplierId"
+                                        (idChanged)="supplierUpdated($event)"></gg-editor-autocomplete>
+                                </div>
+                                <div class="col-sm-3 align-self-center"><b>{{'ADMINISTRATION.LABOCONFIG.PLATFORM.LABEL.SERVICES PRODUCT CATEGORY' | translate}}</b></div>
+                                <div class="col-sm-8 align-self-center">
+                                    <gg-editor-autocomplete [selectableData]="categoryListObservable" [emptyContentText]="'choose a category'" [selectedId]="labo.data.platformSellingCategoryId"
+                                        (idChanged)="categoryUpdated($event)"></gg-editor-autocomplete>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>        
+        </ngb-tabset>
+    </div>
+</div>

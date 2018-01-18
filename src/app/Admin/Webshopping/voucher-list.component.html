@@ -1,0 +1,56 @@
+<gg-search-box [objectTypeTranslationKey]="'GENERAL.VOUCHERS'" [objectsObservable]="vouchersObservable" [fnFilterObjects]="fnFilterVoucher"
+ (listChanged)="vouchers=$event">
+	<ul searchHelp>
+		<li>{{'VOUCHER.SEARCH HELP.MSG1' | translate}}</li>
+	</ul>
+
+	<ngb-accordion accordion [closeOthers]="true" #acc="ngbAccordion" (panelChange)="beforeAccordionChange($event)" [activeIds]="state.openPanelId">
+		<ngb-panel [disabled]="true">
+			<ng-template ngbPanelTitle>
+				<div class="row">
+					<div class="col-sm-2"><b>{{'ADMINISTRATION.WEB SHOPPING.COLUMN.USER' | translate}}</b></div>
+
+					<div class="col-sm-3"><b>{{'ADMINISTRATION.WEB SHOPPING.COLUMN.SUPPLIER' | translate}}</b></div>
+
+					<div class="col-sm-3"><b>{{getVoucherUsageText() | translate}} </b></div>
+
+					<div class="col-sm-1"><b>{{'ADMINISTRATION.WEB SHOPPING.COLUMN.SAPID' | translate}}</b></div>
+
+					<div class="col-sm-2" *ngIf="!focusOnVoucherUsage"><b>{{'ADMINISTRATION.WEB SHOPPING.COLUMN.USED' | translate}}</b></div>
+					<div class="col-sm-2" *ngIf="focusOnVoucherUsage"><b>{{'ADMINISTRATION.WEB SHOPPING.COLUMN.AMOUNT' | translate}}</b></div>
+				</div>
+			</ng-template>
+			<ng-template ngbPanelContent>
+
+			</ng-template>
+		</ngb-panel>
+		<ngb-panel *ngFor="let voucher of vouchers" [id]="voucher.data._id">
+			<ng-template ngbPanelTitle>
+				<div class="row" id="{{voucher.data._id}}">
+					<div class="col-sm-2" *ngIf="!focusOnVoucherUsage">{{voucher.annotation.user}}</div>
+					<div class="col-sm-2" *ngIf="focusOnVoucherUsage">{{voucher.annotation.user}}/{{voucher.annotation.equipe}}</div>
+
+					<div class="col-sm-3">{{voucher.annotation.supplier}}/{{voucher.annotation.category}}</div>
+
+					<div class="col-sm-3">{{(focusOnVoucherUsage && voucher.data.shopping ? voucher.data.shopping.date : voucher.data.dateCreation) | fullDate}}</div>
+
+					<div class="col-sm-1">{{voucher.data.sapId}}</div>
+
+					<div class="col-sm-2" *ngIf="!focusOnVoucherUsage" [style.color]="voucher.annotation.isUsed ? 'blue' : 'green'">{{voucher.annotation.status}}</div>
+					<div class="col-sm-2" *ngIf="focusOnVoucherUsage && voucher.data.shopping">{{voucher.data.shopping.total | ggCurrency }}</div>
+					<div class="col-sm-1">
+						<img *ngIf="voucher.data.delivery=='partial'" src="images/shipping.png" /><img *ngIf="voucher.data.delivery=='complete'"
+						 src="images/ok.png" />
+					</div>
+				</div>
+			</ng-template>
+			<ng-template ngbPanelContent>
+				<gg-voucher-detail [voucherObservable]="getVoucherObservable(voucher.data._id)" [initialTab]="initialTabInVoucherDetail"
+				 [state]="state[voucher.data._id]" [path]="path+'|P:'+voucher.data._id" (stateChanged)="childStateChanged($event, voucher.data._id)"></gg-voucher-detail>
+			</ng-template>
+		</ngb-panel>
+	</ngb-accordion>
+
+</gg-search-box>
+
+

@@ -1,0 +1,330 @@
+<ng-template #popContent>{{(isRoot ? 'GENERAL.ACTION.CLICK HERE TO GO BACK TO LAST VIEW' : 'GENERAL.ACTION.CLICK HERE TO GET A DETAIL VIEW') | translate}}</ng-template>
+
+<ng-template #sapIdResultPopup let-c="close" let-d="dismiss">
+	<div class="modal-header">
+		<h4 class="modal-title">{{'SUPPLIER.MSG.YOUR WEB PURCHASE HAS BEEN REGISTERED' | translate}}</h4>
+		<button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+	</div>
+	<div class="modal-body">
+		<p>{{'SUPPLIER.MSG.USE FOLLOWING PURCHASE ID' | translate}} {{sapId}}</p>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-secondary" (click)="c('Close click')">{{'GENERAL.CLOSE' | translate}}</button>
+	</div>
+</ng-template>
+
+
+<ngb-tabset #tabset *ngIf="supplier" (tabChange)="beforeTabChange($event)" [activeId]="state.selectedTabId">
+	<ngb-tab title="{{'SUPPLIER.MENU.INFO' | translate}}" id="tabInfo">
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<gg-supplier-info [supplier]="supplier.data"></gg-supplier-info>
+
+					<div class="row" *ngIf="!configService.isProduction()">
+						<div class="col-sm-2">_id:</div>
+						<div class="col-sm-6">{{supplier.data._id}}</div>
+					</div>
+
+				</div>
+			</div>
+		</ng-template>
+	</ngb-tab>
+
+	<ngb-tab title="{{'SUPPLIER.MENU.FIX COSTS' | translate}} ({{(fixCosts && fixCosts.length>0) ? fixCosts.length : 0}})" id="tabFixCosts"
+	 *ngIf="authorizationStatusInfo && !authorizationStatusInfo.isGroupOrdersUser()">
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<ngb-tabset>
+						<ngb-tab title="{{'SUPPLIER.MENU.FIX COSTS' | translate}}" id="tabFixCosts" *ngIf="fixCosts && fixCosts.length>0">
+							<ng-template ngbTabContent>
+								<div class="card">
+									<div class="card-body">
+										<div class="container-fluid">
+											<div class="row">
+												<div class="col-sm-3 align-self-center"><b>{{'SUPPLIER.COLUMN.DESCRIPTION' | translate}}</b></div>
+												<div class="col-sm-2 align-self-center"><b>{{'SUPPLIER.COLUMN.PRICE' | translate}}</b></div>
+												<div class="col-sm-2 align-self-center" *ngIf="authorizationStatusInfo?.isAdministrator()"><b>{{'SUPPLIER.COLUMN.DISABLE' | translate}}</b></div>
+											</div>
+											<div *ngFor="let fixCost of fixCosts">
+												<div *ngIf="true">
+													<div class="row">
+														<div class="col-sm-3 align-self-center">
+															<gg-editor [content]="fixCost.data.name" [showControls]="true" (editSaved)="costsDescriptionUpdated(fixCost, $event)" [readOnly]="fixCost.data.disabled || !authorizationStatusInfo?.isAdministrator()"></gg-editor>
+														</div>
+														<div class="col-sm-2 align-self-center">
+															<gg-editor [content]="fixCost.data.price" [showControls]="true" [isMonetary]="true" (editSaved)="costsPriceUpdated(fixCost, $event)"
+															 [readOnly]="fixCost.data.disabled || !authorizationStatusInfo?.isAdministrator()"></gg-editor>
+														</div>
+														<div class="col-sm-2 align-self-center" *ngIf="!fixCost.data.disabled && authorizationStatusInfo && authorizationStatusInfo.isAdministrator()">
+															<img src="images/trash.png" (click)="deleteFixCost(fixCost)" class="imgTrash" />
+														</div>
+														<div class="col-sm-2 align-self-center" *ngIf="fixCost.data.disabled">
+															{{'GENERAL.IS DISABLED' | translate}}
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</ngb-tab>
+						<ngb-tab title="{{'SUPPLIER.MENU.ADD FIX COST' | translate}}" id="tabAddFixCost" *ngIf="authorizationStatusInfo?.isAdministrator()">
+							<ng-template ngbTabContent>
+								<div class="card">
+									<div class="card-body">
+										<div class="container-fluid">
+											<form [formGroup]="fixCostsForm" (ngSubmit)="saveFixCosts(fixCostsForm.value, fixCostsForm.valid)">
+												<div class="form-group row">
+													<label for="descriptionFixCosts" class="col-sm-2 col-form-label col-xl-2">{{'SUPPLIER.LABEL.DESCRIPTION' | translate}}</label>
+													<div class="col-sm-10">
+														<input type="text" min="1" class="form-control" formControlName="descriptionFixCosts" id="descriptionFixCosts" placeholder="{{'SUPPLIER.LABEL.DESCRIPTION OF FIX COSTS PHOLDER' | translate}}">
+													</div>
+												</div>
+												<div class="form-group row">
+													<label for="priceFixCosts" class="col-sm-2 col-form-label col-xl-2">{{'SUPPLIER.LABEL.PRICE' | translate}}</label>
+													<div class="col-sm-10">
+														<input type="number" min="0" step="any" class="form-control" formControlName="priceFixCosts" id="priceFixCosts" placeholder="{{'SUPPLIER.LABEL.PRICE FIX COSTS PHOLDER' | translate}}">
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-3 col-md-2 col-lg-2">
+														<button class="btn btn-success" type="submit" [disabled]="!fixCostsForm.valid">{{'FORM.SUBMIT' | translate}}</button>
+													</div>
+													<div class="col-sm-3 col-md-2 col-lg-2">
+														<button class="btn btn-info" [disabled]="fixCostsForm.pristine" (click)="resetFixCosts()">{{'FORM.RESET' | translate}}</button>
+													</div>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</ngb-tab>
+					</ngb-tabset>
+				</div>
+			</div>
+		</ng-template>
+	</ngb-tab>
+
+	<ngb-tab title="{{'SUPPLIER.MENU.PRODUCTS' | translate}}" id="tabProducts" *ngIf="authorizationStatusInfo && !authorizationStatusInfo.isGroupOrdersUser()">
+		<ng-template ngbTabContent>
+			<gg-product-grid [path]="path+'|O:Products'" [productsObservable]="productsObservable"></gg-product-grid>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{('PRODUCT.MENU.DOCUMENTS' | translate) + ' (' + (supplier.data.documents || []).length + ')'}}" id="tabDocuments">
+		<ng-template ngbTabContent>
+			<gg-image-uploader-viewer [canUserAdd]="true" [canUserChange]="authorizationStatusInfo?.isAdministrator()" [documents]="supplier.data.documents" (imagesChanged)="documentsChanged($event)"></gg-image-uploader-viewer>
+		</ng-template>
+	</ngb-tab>	
+	<ngb-tab title="{{'SUPPLIER.MENU.ORDERS' | translate}}" *ngIf="anyOrder && authorizationStatusInfo && !authorizationStatusInfo.isGroupOrdersUser()"
+	 id="tabOrders">
+		<ng-template ngbTabContent>
+			<gg-order-list [ordersObservable]="ordersObservable" [config]="{skip:['supplier']}" [path]="path+'|O:Orders'" [state]="state.Orders"
+			 (stateChanged)="childOrdersStateChanged($event)"></gg-order-list>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{'SUPPLIER.MENU.USERS' | translate}}" id="tabUsers">
+		<ng-template ngbTabContent>
+			<gg-user-list [state]="state.Users" [usersObservable]="usersObservable" [path]="path+'|O:Users'" (stateChanged)="childUsersStateChanged($event)"></gg-user-list>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{'SUPPLIER.MENU.SHOPPING BASKET' | translate}}" *ngIf="isThereABasket && authorizationStatusInfo && !authorizationStatusInfo.isPassiveUser()"
+	 id="tabBasket">
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<div>
+						<gg-product-grid-basket [path]="path+'|O:Basket'" [isGroupedBasket]="authorizationStatusInfo.isGroupOrdersUser()" [productsObservable]="productsBasketObservable"
+						 [config]="{skip:['otp']}"></gg-product-grid-basket>
+					</div>
+					<div class="row">
+						<button class="btn btn-warning" (click)="gotoPreOrder()">{{'ORDER.BASKET.PROCEED TO CHECKOUT' | translate}}</button>
+					</div>
+				</div>
+			</div>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{'SUPPLIER.MENU.SHOPPING NON URGENT' | translate}}" *ngIf='isThereAGroupedBasket && authorizationStatusInfo && !authorizationStatusInfo.isGroupOrdersUser() && !authorizationStatusInfo.isPassiveUser()'
+	 id="tabGroupedBasket">
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<div>
+						<gg-product-grid-basket [path]="path+'|O:GroupedBasket'" [isGroupedBasket]="true" [productsObservable]="productsGroupedBasketObservable"
+						 [config]="{skip:['otp']}"></gg-product-grid-basket>
+					</div>
+				</div>
+			</div>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{'SUPPLIER.MENU.ADD PRODUCT' | translate}}" id="tabAddProduct" *ngIf="authorizationStatusInfo && !authorizationStatusInfo.isGroupOrdersUser()">
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<gg-product-enter [supplierId]="supplier.data._id"></gg-product-enter>
+				</div>
+			</div>
+		</ng-template>
+	</ngb-tab>
+
+
+	<ngb-tab title="{{'SUPPLIER.MENU.E-PROCUREMENT' | translate}}" id="tabEProc" *ngIf="supplier.data.isEproc && authorizationStatusInfo && !authorizationStatusInfo.isGroupOrdersUser()">
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<ngb-tabset #tabsetEProc [activeId]="tabEprocSelected">
+						<ngb-tab title="{{'SUPPLIER.MENU.NEW EPROC' | translate}}" id="tabEprocAdd">
+							<ng-template ngbTabContent>
+								<gg-supplier-eproc-shopping [supplier]="supplier" (isDone)="tabsetEProc.select('tabEprocList')"></gg-supplier-eproc-shopping>
+							</ng-template>
+						</ngb-tab>
+						<ngb-tab title="{{'SUPPLIER.MENU.LIST EPROC' | translate}}" id="tabEprocList">
+							<ng-template ngbTabContent>
+								<div class="card">
+									<div class="card-body">
+										<div class="row" *ngFor="let order of (eprocOrders|async).slice(0, 50)">
+											<div class="col-sm-3">
+												{{order.data.createDate | fullDate}}
+											</div>
+
+											<div class="col-sm-2">
+												{{order.annotation.supplier}}
+											</div>
+											<div class="col-sm-2">
+												{{order.annotation.user}}
+											</div>
+											<div class="col-sm-2">
+												{{order.data.totalSpent | ggCurrency}}
+											</div>
+											<div class="col-sm-2">
+												{{order.annotation.equipe}}
+											</div>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</ngb-tab>
+					</ngb-tabset>
+				</div>
+			</div>
+
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{'SUPPLIER.MENU.WEB SHOPPING' | translate}}" id="tabWebShopping" *ngIf="authorizationStatusInfo && !authorizationStatusInfo.isGroupOrdersUser()">
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<ngb-tabset (tabChange)="beforeWebShoppingTabChange($event)" [activeId]="state.selectedWebShoppingTabId">
+						<ngb-tab title="{{'SUPPLIER.MENU.ADMINISTRATION' | translate}}" id="tabWebShoppingAdmin" *ngIf="showAdminWebShoppingTab">
+							<ng-template ngbTabContent>
+								<div class="card">
+									<div class="card-body">
+										<div class="row">
+											<div class="col-sm-4 align-self-center">{{'SUPPLIER.LABEL.E-PROCUREMENT ENABLED' | translate}}</div>
+											<div class="col-sm-6 align-self-center">
+												<gg-editor-boolean [content]="supplier.data.isEproc" (editSaved)="webShoppingEprocUpdated($event)"></gg-editor-boolean>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-4 align-self-center">{{'SUPPLIER.LABEL.SHOPPING ENABLED' | translate}}</div>
+											<div class="col-sm-6 align-self-center">
+												<gg-editor-boolean [content]="supplier.data.webShopping && supplier.data.webShopping.isEnabled" (editSaved)="webShoppingUpdated($event)"></gg-editor-boolean>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-4 align-self-center">{{'SUPPLIER.LABEL.ALLOWED PRODUCTS' | translate}}</div>
+											<div class="col-sm-6 align-self-center">
+												<gg-selector [selectableData]="selectableCategoriesObservable" [selectedIds]="selectedCategoryIdsObservable" (selectionChanged)="categorySelectionChanged($event)"
+												 (selectionOptionAdded)="categoryHasBeenAdded($event)"></gg-selector>
+											</div>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</ngb-tab>
+						<div *ngIf="supplier.data.webShopping && supplier.data.webShopping.categoryIds && supplier.data.webShopping.categoryIds.length > 0">
+							<ngb-tab *ngFor="let category of supplier.annotation.webShopping.categories" title="{{'SUPPLIER.MENU.VOUCHERS' | translate}} {{category.name}}"
+							 id="tabWebShoppingVoucher{{category.id}}">
+								<ng-template ngbTabContent>
+									<div class="card">
+										<div class="card-body">
+											<div class="row">
+												<div class="col-sm-4 align-self-center">{{'SUPPLIER.LABEL.VOUCHERS AVAILABLE' | translate}}</div>
+												<div class="col-sm-6 align-self-center">{{nbVouchersAvailable(category.id)}}</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-4 align-self-center">{{'SUPPLIER.LABEL.VOUCHERS ORDERED' | translate}}</div>
+												<div class="col-sm-6 align-self-center">
+													<gg-editor-number [content]="nbVouchersOrdered(category.id)" [editMode]="true" (editSaved)="nbVouchersOrderedUpdated(category.id, $event)"></gg-editor-number>
+												</div>
+											</div>
+											<div class="row" *ngIf="nbVouchersAvailable(category.id) > 0">
+												<p>
+													<button type="button" class="btn btn-outline-primary" (click)="showUseVoucherForm = !showUseVoucherForm" [attr.aria-expanded]="!showUseVoucherForm"
+													 aria-controls="collapseExample" [innerHtml]="'SUPPLIER.MSG.USE A VOUCHER' | translate:{category:category.name}"></button>
+												</p>
+												<div id="collapseExample" [ngbCollapse]="!showUseVoucherForm">
+													<div class="card">
+														<div class="card-body">
+															<div [innerHtml]="'SUPPLIER.MSG.FILL THIS FORM WEBSHOPPING' | translate:{supplier:supplier.data.name}"></div><br/>
+															<form [formGroup]="useVoucherForm" (ngSubmit)="save(useVoucherForm.value, useVoucherForm.valid, supplier.data._id, category.id)">
+																<div class="form-group row">
+																	<label for="description" class="col-sm-2 col-form-label col-xl-2">{{'SUPPLIER.LABEL.DESCRIPTION' | translate}}</label>
+																	<div class="col-sm-10">
+																		<input type="text" class="form-control" formControlName="description" id="description" placeholder="{{'SUPPLIER.LABEL.DESCRIPTION OF PRODUCT PHOLDER' | translate}}">
+																	</div>
+																</div>
+																<div class="form-group row">
+																	<label for="price" class="col-sm-2 col-form-label col-xl-2">{{'SUPPLIER.LABEL.PRICE' | translate}}</label>
+																	<div class="col-sm-10">
+																		<input type="number" min="1" step="any" class="form-control" formControlName="price" id="price" placeholder="{{'SUPPLIER.LABEL.TOTAL PRICE OF WEB SHOPPING PHOLDER' | translate}}">
+																	</div>
+																</div>
+																<div class="form-group row">
+																	<label class="col-sm-2 col-form-label col-xl-2"></label>
+																	<div class="col-sm-10">
+																		<input type="checkbox" #iAgree> <span [innerHtml]="'SUPPLIER.MSG.THE INFORMATION ENTERED WEBSHOPPING IS CORRECT' | translate:{supplier:supplier.data.name}"></span><br>
+																	</div>
+																</div>
+																<div class="row">
+																	<div class="col-sm-3 col-md-2 col-lg-2">
+																		<button class="btn btn-success" type="submit" [disabled]="!useVoucherForm.valid || !iAgree.checked">{{'FORM.SUBMIT' | translate}}</button>
+																	</div>
+																	<div class="col-sm-3 col-md-2 col-lg-2">
+																		<button class="btn btn-info" [disabled]="useVoucherForm.pristine" (click)="reset()">{{'FORM.RESET' | translate}}</button>
+																	</div>
+																</div>
+																<div class="row" *ngIf="voucherUseError">
+																	<p>The voucher could not be used: {{voucherUseError}}</p>
+																</div>
+															</form>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</ng-template>
+							</ngb-tab>
+						</div>
+					</ngb-tabset>
+				</div>
+			</div>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab id="tabMax">
+		<ng-template ngbTabTitle><img src="images/maximize.png" [ngbPopover]="popContent" triggers="mouseenter:mouseleave" /></ng-template>
+		<ng-template ngbTabContent></ng-template>
+	</ngb-tab>
+	<ngb-tab id="gotoTop" *ngIf="!isRoot && path!=='dashboard'">
+		<ng-template ngbTabTitle><img src="images/gototop.png" [ngbPopover]="'GENERAL.ACTION.GOTO TOP OF THE PAGE' | translate" triggers="mouseenter:mouseleave"
+			/></ng-template>
+		<ng-template ngbTabContent></ng-template>
+	</ngb-tab>
+
+</ngb-tabset>

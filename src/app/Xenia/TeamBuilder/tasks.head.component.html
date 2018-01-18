@@ -1,0 +1,14 @@
+<div class="card" *ngIf="thisPersonId">
+    <div class="card-body">
+        <gg-giga-person-task [personsObservable]="personsObservable" [myPersonId]="thisPersonId" [personTypeDescriptionKey]="'PUBLIC.TEAMBUILDER.TASKS.MENU.DIRECTORS OF THEMATIC UNIT'"
+            (personsSelectionChanged)="personsSelectionChanged($event)">
+
+
+            <ul taskDescription>
+                <li>{{'PUBLIC.TEAMBUILDER.TASKS.HELP.HEAD.ENTER UNITS HEAD' | translate}}</li>
+                <li>{{'PUBLIC.TEAMBUILDER.TASKS.HELP.HEAD.A MAIL WILL BE SENT' | translate}}</li>
+            </ul>
+
+        </gg-giga-person-task>
+    </div>
+</div>

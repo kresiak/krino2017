@@ -1,0 +1,33 @@
+<div class="card" *ngIf="service1 && service2 && service1Steps && service2Steps">
+    <div class="card-body">
+        <gg-platform-service-compare-base [col1]="'Service'" [bold1]="true"></gg-platform-service-compare-base>
+        <gg-platform-service-compare-base [col1]="'Name'" [col2]="service1.data.name" [col3]="service2.data.name"></gg-platform-service-compare-base>
+        <gg-platform-service-compare-base [col1]="'Description'" [col2]="service1.data.description" [col3]="service2.data.description"></gg-platform-service-compare-base>
+        <gg-platform-service-compare-base [col1]="'Client type'" [col2]="service1.annotation.clientType" [col3]="service2.annotation.clientType"></gg-platform-service-compare-base>
+        <gg-platform-service-compare-base [col1]="'Category'" [col2]="service1.annotation.category" [col3]="service2.annotation.category"></gg-platform-service-compare-base>
+        <div *ngFor="let step of mergeBothSteps(service1Steps, service2Steps)">
+            <gg-platform-service-compare-base [col1]="'Step'" [bold1]="true"></gg-platform-service-compare-base>
+            <gg-platform-service-compare-base [col1]="'Name'" [col2]="step.val1.data.name" [col3]="step.val2.data.name"></gg-platform-service-compare-base>
+            <gg-platform-service-compare-base [col1]="'Description'" [col2]="step.val1.data.description" [col3]="step.val2.data.description"></gg-platform-service-compare-base>
+            <gg-platform-service-compare-base [col1]="'Machine used'" [col2]="step.val1.annotation.machineName" [col3]="step.val2.annotation.machineName"></gg-platform-service-compare-base>
+            <gg-platform-service-compare-base [col1]="'Runtime (in h)'" [col2]="step.val1.data.runtime" [col3]="step.val2.data.runtime"></gg-platform-service-compare-base>        
+            <div *ngFor="let product of mergeBothProducts(step.val1.annotation.products, step.val2.annotation.products)">
+                <gg-platform-service-compare-base [col1]="'Product'"></gg-platform-service-compare-base>
+                <gg-platform-service-compare-base [col1]="'name'" [indent]="true"  [col2]="product.val1.annotation.product" 
+                                    [col3]="product.val2.annotation.product"></gg-platform-service-compare-base>
+                <gg-platform-service-compare-base [col1]="'  package'" [indent]="true" [col2]="product.val1.annotation.package || '<no packaging info>'" 
+                                    [col3]="product.val2.annotation.package  || '<no packaging info>'"></gg-platform-service-compare-base>
+                <gg-platform-service-compare-base [col1]="'  quantity'"  [indent]="true" [col2]="product.val1.data.quantity" 
+                                    [col3]="product.val2.data.quantity"></gg-platform-service-compare-base>
+            </div>    
+            <div *ngFor="let labour of mergeBothLabours(step.val1.annotation.labourTypes, step.val2.annotation.labourTypes)">
+                <gg-platform-service-compare-base [col1]="'Labour type'"></gg-platform-service-compare-base>
+                <gg-platform-service-compare-base [col1]="'name'" [indent]="true"  [col2]="labour.val1.data.name" 
+                                    [col3]="labour.val2.data.name"></gg-platform-service-compare-base>
+                <gg-platform-service-compare-base [col1]="'time (in hours)'" [indent]="true"  [col2]="labour.val1.annotation.nbHours" 
+                                    [col3]="labour.val2.annotation.nbHours"></gg-platform-service-compare-base>
+
+            </div>
+        </div>
+    </div>
+</div>

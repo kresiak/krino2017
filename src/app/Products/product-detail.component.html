@@ -1,0 +1,367 @@
+<ng-template #popContent>{{(isRoot ? 'GENERAL.ACTION.CLICK HERE TO GO BACK TO LAST VIEW' : 'GENERAL.ACTION.CLICK HERE TO GET A DETAIL VIEW') | translate}}</ng-template>
+
+<ng-template #tipContentFrigo>{{'PRODUCT.ACTIONS.CLICK TO DESACTIVATE FRIGO' | translate}}</ng-template>
+
+<ng-template #tipAddToBasket>
+	<div style="font-size: 70%;" [innerHtml]="'PRODUCT.ACTIONS.CLICK HERE TO ADD PRODUCT' | translate"></div>
+</ng-template>
+
+<ng-template #validationModal let-c="close" let-d="dismiss">
+	<div class="modal-header" style="padding:2px;background-color:lightblue">
+		<div class="row">
+			<h6 class="modal-title col-sm-10">{{headerKey | translate}}</h6>
+			<button type="button" class="close col-sm-2" aria-label="Close" (click)="d('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+	</div>
+	<div class="modal-body">
+		<div class="card">
+			<div class="card-body">
+				<div class="form-group">
+					<div class="col-sm-12">
+						<gg-comments-tab [data]="product.data" [dbTable]="'products'" [dontShowOldMessages]="true" (commentsUpdated)="c('Close click')"></gg-comments-tab>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<div class="row">
+			<div class="col-sm-12" style="text-align: left">
+				{{footerKey | translate}}
+			</div>
+		</div>
+	</div>
+</ng-template>
+
+
+<ngb-tabset *ngIf="product" (tabChange)="beforeTabChange($event)" [activeId]="state.selectedTabId">
+	<ngb-tab title="{{'PRODUCT.MENU.INFO' | translate}}" id="tabInfo">
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<div class="row" *ngIf="product.data.disabled">
+						<div class="col-sm-3 align-self-center" [style.color]="'red'">
+							<b>{{'PRODUCT.LABEL.PRODUCT DISABLED' | translate}}</b>
+						</div>
+						<div class="col-sm-3 align-self-center">
+							<button class="btn btn-info btn-sm" *ngIf="!product.data.onCreateValidation && isProductReadOnly()" (click)="openModal(validationModal, 'REASK')"
+							 [ngbTooltip]="'PRODUCT.ACTIONS.REASK VALIDATION TIP' | translate">{{'PRODUCT.ACTIONS.REASK VALIDATION BUTON' | translate}}</button>
+						</div>
+					</div>
+					<div class="row" [style.color]="'red'" *ngIf="product.data.onCreateValidation && !isProductReadOnly()">
+						<div class="col-sm-3 align-self-center">{{'PRODUCT.ACTIONS.ATTENTE VALIDATION TEXT' | translate}}</div>
+						<div class="col-sm-3 align-self-center">
+							<button class="btn btn-success btn-sm" (click)="validationDone()" [ngbTooltip]="'PRODUCT.ACTIONS.ACCEPTER VALIDATION TIP' | translate">{{'PRODUCT.ACTIONS.ACCEPTER VALIDATION BUTON' | translate}}</button>
+						</div>
+						<div class="col-sm-3 align-self-center">
+							<button class="btn btn-warning btn-sm" (click)="openModal(validationModal, 'REFUSE')" [ngbTooltip]="'PRODUCT.ACTIONS.REFUSER VALIDATION TIP' | translate">{{'PRODUCT.ACTIONS.REFUSER VALIDATION BUTON' | translate}}</button>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3 align-self-center">{{'PRODUCT.LABEL.NAME OF PRODUCT' | translate}}:</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor [content]="product.data.name" [showControls]="true" (editSaved)="nameUpdated($event)" [readOnly]="isProductReadOnly()"></gg-editor>
+						</div>
+						<div class="col-sm-1" *ngIf="!authorizationStatusInfo.isPassiveUser() && product.annotation.hasCurrentUserPermissionToShop && !product.data.isFrigo && !product.data.disabled"
+						 placement="right" [ngbTooltip]="tipAddToBasket">
+							<img class="img-fluid imgSearch" src="images/addToBasket.png" (click)="quantityBasketIncremented()">
+							<span>{{product.annotation.quantity}}</span>
+						</div>
+						<div class="col-sm-1 align-self-center" *ngIf="product.data.isFrigo">
+							<gg-product-fridge-order-button *ngIf="product.data.isFrigo" [productObservable]="productObservable"></gg-product-fridge-order-button>+
+						</div>
+					</div>
+					<div class="row" [style.color]="product.data.disabled ? 'magenta' : 'green'">
+						<div class="col-sm-3 align-self-center">{{'PRODUCT.LABEL.IS DISABLED' | translate}}:</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor-boolean [content]="product.data.disabled" (editSaved)="disablUpdated($event)" [readOnly]="isProductReadOnly()"></gg-editor-boolean>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3 align-self-center">{{'PRODUCT.LABEL.DESCRIPTION' | translate}}:</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor [content]="product.data.description" [showControls]="true" (editSaved)="descriptionUpdated($event)" [readOnly]="isProductReadOnly()"></gg-editor>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3 align-self-center">{{'PRODUCT.LABEL.PACKAGE' | translate}}:</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor [content]="product.data.package" [showControls]="true" (editSaved)="packageUpdated($event)" [readOnly]="isProductReadOnly()"></gg-editor>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3 align-self-center">{{'PRODUCT.LABEL.CATALOG NR' | translate}}:</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor [content]="product.data.catalogNr" [showControls]="true" (editSaved)="catalogNrUpdated($event)" [readOnly]="isProductReadOnly()"></gg-editor>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3 align-self-center">{{'PRODUCT.LABEL.PRICE' | translate}}:</div>
+						<div class="col-sm-3 align-self-center">
+							<gg-editor [content]="product.data.price" [showControls]="true" [isMonetary]="true" [currency]="product.annotation.currency"
+							 (editSaved)="priceProdUpdated($event)" [readOnly]="false"></gg-editor>
+						</div>
+						<div class="col-sm-3 align-self-center">
+							<gg-editor-autocomplete [selectableData]="selectableCurrenciesObservable" [selectedId]="product.data.currencyId" (idChanged)="currencyChanged($event)"
+							 [emptyContentText]="'PRODUCT.HELP.CHOOSE CURRENCY' | translate"></gg-editor-autocomplete>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3 align-self-center">{{'PRODUCT.LABEL.NO OF ARTICLE' | translate}}:</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor [content]="product.data.noArticle" [showControls]="true" (editSaved)="noArticleUpdated($event)" [readOnly]="isProductReadOnly()"></gg-editor>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3 align-self-center">{{'PRODUCT.LABEL.GROUP MARCHANDISE' | translate}}:</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor [content]="product.data.groupMarch" [showControls]="true" (editSaved)="groupMarchUpdated($event)" [readOnly]="isProductReadOnly()"></gg-editor>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3 align-self-center">{{'PRODUCT.LABEL.VAT' | translate}}:</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor-number [content]="product.data.tva" (editSaved)="tvaUpdated($event)" [readOnly]="isProductReadOnly()"></gg-editor-number>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3 align-self-center">{{'PRODUCT.LABEL.SUPPLIER' | translate}}:</div>
+						<div class="col-sm-6 align-self-center">{{product.annotation.supplierName}}</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3 align-self-center">{{'PRODUCT.LABEL.CATEGORIES' | translate}}:</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-selector [selectableData]="selectableCategoriesObservable" [selectedIds]="selectedCategoryIdsObservable" (selectionChanged)="categorySelectionChanged($event)"
+							 (selectionOptionAdded)="categoryHasBeenAdded($event)" [readOnly]="isProductReadOnly()"></gg-selector>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3">{{'PRODUCT.LABEL.FREQUENCE' | translate}}:</div>
+						<div class="col-sm-6">{{product.annotation.productFrequence}}</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3 align-self-center">{{'PRODUCT.LABEL.LABORATORY SPECIFIC' | translate}}:</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor-boolean [content]="product.data.isLabo" (editSaved)="isLabUpdated($event)" [readOnly]="!isLaboSpecificChangePossible()"></gg-editor-boolean>
+						</div>
+					</div>
+					<div class="row" [ngbTooltip]="'PRODUCT.LABEL.DEFINE HERE IF ENCODING THE LOT NUMBER TIP' | translate">
+						<div class="col-sm-3 align-self-center">{{'PRODUCT.LABEL.MAY ENCODING NUMBER' | translate}}:</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor-boolean [content]="product.data.needsLotNumber" (editSaved)="needsLotNumberUpdated($event)" [readOnly]="isProductReadOnly()"></gg-editor-boolean>
+						</div>
+					</div>
+					<div class="row" [ngbTooltip]="'PRODUCT.LABEL.DEFINE HERE IF THIS PRODUCT MIGHT POTENTIALLY TIP' | translate">
+						<div class="col-sm-3 align-self-center">{{'PRODUCT.LABEL.MAY RESOLD STOCK' | translate}}:</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor-boolean [content]="product.data.isStock" (editSaved)="isStockUpdated($event)" [readOnly]="isProductReadOnly()"></gg-editor-boolean>
+						</div>
+					</div>
+					<div *ngIf="product.data.isStock == true">
+						<div class="row" [ngbTooltip]="'PRODUCT.LABEL.IF FOR EXAMPLE YOU BUY A BOX TIP' | translate">
+							<div class="col-sm-3 align-self-center">{{'PRODUCT.LABEL.DIVISION FACTOR STOCK' | translate}}:</div>
+							<div class="col-sm-6 align-self-center">
+								<gg-editor-number [content]="product.data.divisionFactor" (editSaved)="divisionFactorUpdated($event)" [readOnly]="isProductReadOnly()"></gg-editor-number>
+							</div>
+						</div>
+						<div class="row" [style.color]="product.data.divisionFactor===1 || product.data.stockPackage ? 'black' : 'red'" [ngbTooltip]="'PRODUCT.LABEL.ENTER HERE A TEXT TIP' | translate">
+							<div class="col-sm-3 align-self-center">{{'PRODUCT.LABEL.STOCK PACKAGING' | translate}}:</div>
+							<div class="col-sm-6 align-self-center">
+								<gg-editor [content]="product.data.stockPackage" [showControls]="true" (editSaved)="stockPackageUpdated($event)" [readOnly]="isProductReadOnly()"></gg-editor>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3 align-self-center">{{'PRODUCT.LABEL.FRIGO' | translate}}:</div>
+						<div class="col-sm-6 align-self-center">
+							<img [ngbTooltip]="tipContentFrigo" *ngIf="product.data.isFrigo && !isProductReadOnly()" height="25" width="25" src="images/refrigator.png"
+							 (click)="saveFrigoProperty($event, product, false)" />
+							<img *ngIf="product.data.isFrigo && isProductReadOnly()" height="25" width="25" src="images/refrigator.png" />
+							<img *ngIf="!product.data.isFrigo && !isProductReadOnly()" class="invisible-without-hover" height="25" width="25" src="images/ok.png"
+							 (click)="saveFrigoProperty($event, product, true)" />
+						</div>
+					</div>
+
+					<div class="row" *ngIf="!configService.isProduction()">
+						<div class="col-sm-3">_id:</div>
+						<div class="col-sm-6">{{product.data._id}}</div>
+					</div>
+
+				</div>
+			</div>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{'PRODUCT.MENU.CLONE' | translate}}" id="tabClone">
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<gg-product-enter [supplierId]="product.data.supplierId" [productToClone]="product"></gg-product-enter>
+				</div>
+			</div>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab id="tabDoubleProducts" *ngIf="hasProductDoubles">
+		<ng-template ngbTabTitle>
+			<span style="color: indianred">{{'PRODUCT.MENU.DUPLICATE CATALOG NR' | translate}}</span>
+			<gg-help-pointer [helpText]="'PRODUCT.HELP.DUPLICATE CATALOG NR MENU TIP' | translate"></gg-help-pointer>
+		</ng-template>
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<gg-product-list [productsObservable]="doubleProductsObservable" [state]="state.DoubleProducts" [path]="path+'|O:DoubleProducts'"
+					 (stateChanged)="childDoubleProductsStateChanged($event)"></gg-product-list>
+				</div>
+			</div>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{'PRODUCT.MENU.PUT INTO BASKET' | translate}}" id="tabBasket" *ngIf="!authorizationStatusInfo.isPassiveUser() && product.annotation.hasCurrentUserPermissionToShop && !product.data.isFrigo  && !product.data.disabled">
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-sm-3 align-self-center">{{'PRODUCT.LABEL.ALREADY BASKET' | translate}}</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor-number [content]="product.annotation.quantity" (editSaved)="quantityBasketUpdated($event)"></gg-editor-number>
+						</div>
+					</div>
+					<div class="row" *ngIf="product.annotation.quantity > 0">
+						<button class="btn btn-warning" (click)="gotoPreOrder()">{{'ORDER.BASKET.PROCEED TO CHECKOUT' | translate}}</button>
+					</div>
+				</div>
+			</div>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{'PRODUCT.MENU.PERMISSIONS' | translate}}" id="tabPermissions" *ngIf="authorizationStatusInfo?.isAdministrator()">
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-sm-3 align-self-center">{{'PRODUCT.LABEL.RESTRICTED FOLLOWING USERS' | translate}}</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-selector [selectableData]="selectableUsers" [selectedIds]="selectedUserIdsObservable" (selectionChanged)="userSelectionChanged($event)"></gg-selector>
+						</div>
+					</div>
+				</div>
+			</div>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab id="tabComments">
+		<ng-template ngbTabTitle>
+			<gg-comments-tab-title [data]="product.data"></gg-comments-tab-title>
+		</ng-template>
+		<ng-template ngbTabContent>
+			<gg-comments-tab [data]="product.data" [dbTable]="'products'" [urlPart]="'product'"></gg-comments-tab>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{'PRODUCT.MENU.ORDERS' | translate}}" id="tabOrders">
+		<ng-template ngbTabContent>
+			<gg-order-list [ordersObservable]="ordersObservable" [state]="state.Orders" [path]="path+'|O:Orders'" (stateChanged)="childOrdersStateChanged($event)"></gg-order-list>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{('PRODUCT.MENU.DOCUMENTS' | translate) + ' (' + (product.data.documents || []).length + ')'}}" id="tabDocuments">
+		<ng-template ngbTabContent>
+			<gg-image-uploader-viewer [canUserAdd]="true" [canUserChange]="authorizationStatusInfo?.isAdministrator()" [documents]="product.data.documents"
+			 (imagesChanged)="documentsChanged($event)"></gg-image-uploader-viewer>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{'PRODUCT.MENU.SERVICE SNAPSHOT ASSOCIATED' | translate}}" id="tabServiceSnapshot" *ngIf="serviceSnapshot">
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-sm-12">{{serviceSnapshot.data.name}}</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">{{serviceSnapshot.version}}</div>
+					</div>
+				</div>
+			</div>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{'PRODUCT.MENU.PRICE HISTORY' | translate}}" id="tabPriceHistory" *ngIf="product.annotation.priceUpdates && product.annotation.priceUpdates.length > 0">
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-sm-3 align-self-center">
+							<b>{{'PRODUCT.COLUMN.WHEN' | translate}}</b>
+						</div>
+						<div class="col-sm-3 align-self-center">
+							<b>{{'PRODUCT.COLUMN.WHO' | translate}}</b>
+						</div>
+						<div class="col-sm-2 align-self-center">
+							<b>{{'PRODUCT.COLUMN.FROM' | translate}}</b>
+						</div>
+						<div class="col-sm-1 align-self-center">
+							<b>{{'PRODUCT.COLUMN.TO' | translate}}</b>
+						</div>
+					</div>
+					<div *ngFor="let priceHistory of product.annotation.priceUpdates">
+						<div class="row">
+							<div class="col-sm-3 align-self-center">{{priceHistory.data.date}}</div>
+							<div class="col-sm-3 align-self-center">{{priceHistory.annotation.user}}</div>
+							<div class="col-sm-2 align-self-center">{{priceHistory.data.oldPrice | ggCurrency}}</div>
+							<div class="col-sm-3 align-self-center">{{priceHistory.data.newPrice | ggCurrency}}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{'PRODUCT.MENU.CHANGE HISTORY' | translate}}" id="tabChangeHistory" *ngIf="authorizationStatusInfo?.isProgrammer() && product.data.history?.length > 0">
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-sm-2 align-self-center">
+							<b>{{'PRODUCT.COLUMN.WHEN' | translate}}</b>
+						</div>
+						<div class="col-sm-2 align-self-center">
+							<b>{{'PRODUCT.COLUMN.WHO' | translate}}</b>
+						</div>
+						<div class="col-sm-2 align-self-center">
+							<b>{{'PRODUCT.COLUMN.WHAT' | translate}}</b>
+						</div>
+						<div class="col-sm-2 align-self-center">
+							<b>{{'PRODUCT.COLUMN.FROM' | translate}}</b>
+						</div>
+						<div class="col-sm-2 align-self-center">
+							<b>{{'PRODUCT.COLUMN.TO' | translate}}</b>
+						</div>
+					</div>
+					<div *ngFor="let change of product.data.history">
+						<div class="row">
+							<div class="col-sm-2 align-self-center">{{change.date}}</div>
+							<div class="col-sm-2 align-self-center">{{change.userId}}</div>
+							<div class="col-sm-2 align-self-center">{{change.event}}</div>
+							<div class="col-sm-2 align-self-center">{{(change.oldValue || '').toString()}}</div>
+							<div class="col-sm-2 align-self-center">{{(change.newValue || '').toString()}}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{('PRODUCT.MENU.STOCKAGE' | translate) + ' (' + product.annotation.nbInStockage + ')'}}" id="tabStockage" *ngIf="authorizationStatusInfo?.isLabManager()">
+		<ng-template ngbTabContent>
+			<gg-product-stockage [productId]="product.data._id"></gg-product-stockage>
+		</ng-template>
+	</ngb-tab>
+
+	<ngb-tab id="tabMax">
+		<ng-template ngbTabTitle>
+			<img src="images/maximize.png" [ngbPopover]="popContent" triggers="mouseenter:mouseleave" />
+		</ng-template>
+		<ng-template ngbTabContent></ng-template>
+	</ngb-tab>
+	<ngb-tab id="gotoTop" *ngIf="!isRoot && path!=='dashboard'">
+		<ng-template ngbTabTitle>
+			<img src="images/gototop.png" [ngbPopover]="'GENERAL.ACTION.GOTO TOP OF THE PAGE' | translate" triggers="mouseenter:mouseleave"
+			/>
+		</ng-template>
+		<ng-template ngbTabContent></ng-template>
+	</ngb-tab>
+
+</ngb-tabset>

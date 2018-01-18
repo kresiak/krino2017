@@ -1,0 +1,14 @@
+<div class="editor__editable-content">
+    <gg-checkbox [checked]="contentEdited" (checkedChange)="setSelection($event)"></gg-checkbox>
+</div>
+
+
+<div class="editor__output">{{getTextBoolean() | translate}}</div>
+<div *ngIf="!readOnly && !editMode" class="editor__controls">
+    <button (click)="edit()" class="editor__icon-edit"></button>
+</div>
+<div *ngIf="!readOnly && editMode" class="editor__controls">
+    <button (click)="save()" class="editor__icon-save"></button>
+    <button (click)="cancel()" class="editor__icon-cancel"></button>
+</div>
+

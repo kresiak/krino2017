@@ -1,0 +1,42 @@
+<div id="GGTOP"></div>
+<div class="card">
+    <div class="card-body">
+        <ngb-tabset *ngIf="authorizationStatusInfo?.isLoggedIn">
+            <ngb-tab title="{{'OTP.MENU.VIEW OTPS' | translate}}" id="tabView">
+                <ng-template ngbTabContent>
+
+                    <gg-otp-list [state]="state" [otpsObservable]="otpsObservable"></gg-otp-list>
+
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="{{'OTP.MENU.SOON EXPIRING' | translate}} ({{nbExpiringOtps}})" id="tabViewExpiring" *ngIf="nbExpiringOtps">
+                <ng-template ngbTabContent>
+
+                    <gg-otp-list [state]="state" [otpsObservable]="otpsObservableExpiring"></gg-otp-list>
+
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="{{'OTP.MENU.CREATE OTP' | translate}}" id="tabCreate" *ngIf="authorizationStatusInfo.isAdministrator()">
+                <ng-template ngbTabContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <h6>{{'OTP.HELP.CHOOSE THE EQUIPE NEW OTP' | translate}}</h6>
+                            <gg-equipe-list [equipesObservable]="equipesObservable" [initialTabInEquipeDetail]="'tabOtp'"></gg-equipe-list>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="{{'OTP.MENU.CHOICE SIMULATOR' | translate}}" id="tabByClassification" >
+                <ng-template ngbTabContent>
+                    <gg-otp-checker></gg-otp-checker>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="{{'OTP.MENU.PRODUCT CLASSIFICATIONS' | translate}}" id="tabProductClassifications">
+                <ng-template ngbTabContent>
+                    <gg-classifications></gg-classifications>
+                </ng-template>
+            </ngb-tab>
+        </ngb-tabset>
+        <h4 *ngIf="authorizationStatusInfo && !authorizationStatusInfo.isLoggedIn">{{'ERROR.NO LOGIN' | translate}}</h4>
+    </div>
+</div>

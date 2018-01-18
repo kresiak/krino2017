@@ -1,0 +1,39 @@
+<div class="card">
+    <div class="card-body">
+        <div class="container-fluid" *ngIf="authorizationStatusInfo && !authorizationStatusInfo.isLoggedIn">
+            <form [formGroup]="signinEnterForm" (ngSubmit)="login(signinEnterForm.value, signinEnterForm.valid)">
+                <div class="form-group row">
+                    <label for="emailAddress" class="col-sm-2 col-form-label col-xl-2">{{'UI.IDENTIFICATION.E-MAIL ADDRESS' | translate}}</label>
+                    <div class="col-sm-10">
+                        <input type="text" min="2" class="form-control" formControlName="emailAddress" id="emailAddress" placeholder="{{'UI.IDENTIFICATION.E-MAIL ADDRESS' | translate}}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="password" class="col-sm-2 col-form-label col-xl-2">{{'UI.IDENTIFICATION.PASSWORD' | translate}}</label>
+                    <div class="col-sm-10">
+                        <input type="password" min="2" class="form-control" formControlName="password" id="password" placeholder="{{'UI.IDENTIFICATION.PASSWORD' | translate}}">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3 col-md-2 col-lg-2">
+                        <button class="btn btn-success" type="submit" [disabled]="!signinEnterForm.valid">{{'UI.IDENTIFICATION.LOGIN' | translate}}</button>
+                    </div>
+                    <div class="col-sm-3 col-md-2 col-lg-2">
+                        <button class="btn btn-info" [disabled]="signinEnterForm.pristine" (click)="resetSigninEnterForm()">{{'UI.FORM.RESET' | translate}}</button>
+                    </div>
+                </div>
+            </form>
+            <div class="row" *ngIf="authorizationStatusInfo.isLoginError" [style.color]="'red'">
+                {{'UI.IDENTIFICATION.ERROR' | translate}}
+            </div>            
+        </div>
+        <div class="container-fluid" *ngIf="authorizationStatusInfo?.isLoggedIn">
+            <div class="row">
+                You are signed in as {{authorizationStatusInfo.getCurrentUserName()}}
+            </div>
+            <div class="row">
+                <button class="btn btn-info" (click)="logout.next()">{{'UI.IDENTIFICATION.LOGOUT' | translate}}</button>
+            </div>
+        </div>
+    </div>
+</div>

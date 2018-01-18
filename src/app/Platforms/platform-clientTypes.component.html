@@ -1,0 +1,139 @@
+<div class="card-body">
+    <ngb-tabset>
+        <ngb-tab *ngIf="clientList && clientList.length !== 0" title="{{'PLATFORM.CLIENT TYPE.MENU.LIST OF CLIENT TYPES' | translate}}" id="tabListOfClientType">
+            <ng-template ngbTabContent>
+                <div class="card">
+                    <div class="card-body">
+
+                        <ngb-accordion [closeOthers]="true" #acc="ngbAccordion">
+                            <ngb-panel [disabled]="true">
+                                <ng-template ngbPanelTitle>
+                                    <div class="row">
+                                        <div class="col-sm-3"><b>{{'PLATFORM.CLIENT TYPE.COLUMN.NAME' | translate}}</b></div>
+                                        <div class="col-sm-5"><b>{{'PLATFORM.CLIENT TYPE.COLUMN.DESCRIPTION' | translate}}</b></div>
+                                        <div class="col-sm-2"><b>{{'PLATFORM.CLIENT TYPE.COLUMN.IS INTERNAL CLIENT' | translate}}</b></div>
+                                    </div>
+                                </ng-template>
+                            </ngb-panel>
+                            <ngb-panel *ngFor="let clientItem of clientList">
+                                <ng-template ngbPanelTitle>
+                                    <div class="row" id="{{clientItem._id}}">
+                                        <div class="col-sm-3">{{clientItem.name}}</div>
+                                        <div class="col-sm-5">{{clientItem.description}}</div>
+                                        <div class="col-sm-2">{{clientItem.isInternalClient ? 'yes' : ''}}</div>
+                                    </div>
+                                </ng-template>
+                                <ng-template ngbPanelContent>
+                                    <ngb-tabset>
+                                        <ngb-tab title="{{'PLATFORM.CLIENT TYPE.MENU.INFO' | translate}}" id="tabInfo">
+                                            <ng-template ngbTabContent>
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.CLIENT TYPE.LABEL.NAME' | translate}}</b></div>
+                                                            <div class="col-sm-8 align-self-center">
+                                                                <gg-editor [content]="clientItem.name" [showControls]="true" (editSaved)="nameClientUpdated($event, clientItem)"></gg-editor>
+                                                            </div>
+                                                            <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.CLIENT TYPE.LABEL.DESCRIPTION' | translate}}</b></div>
+                                                            <div class="col-sm-8 align-self-center">
+                                                                <gg-editor [content]="clientItem.description" [showControls]="true" (editSaved)="descriptionClientUpdated($event, clientItem)"></gg-editor>
+                                                            </div>
+                                                            <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.CLIENT TYPE.LABEL.IS INTERNAL CLIENT' | translate}}</b></div>
+                                                            <div class="col-sm-8 align-self-center">
+                                                                <gg-editor-boolean [content]="clientItem.isInternalClient" (editSaved)="updateIsInternalClient($event, clientItem)" ></gg-editor-boolean>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </ng-template>
+                                        </ngb-tab>
+                                        <ngb-tab title="{{'PLATFORM.CLIENT TYPE.MENU.SPECIFIC CORRECTIONS' | translate}}" id="tabCorrections">
+                                            <ng-template ngbTabContent>
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <div>
+                                                            <div *ngFor="let correctionItem of fnGetCorrectionsForClient(clientItem._id)">
+                                                                <div class="row">
+                                                                    <div class="col-sm-3 align-self-center">
+                                                                        {{correctionItem.name}}
+                                                                    </div>
+                                                                    <div class="col-sm-2 align-self-center">
+                                                                        {{correctionItem.perCent + ' %'}}
+                                                                    </div>
+                                                                    <div class="col-sm-3 align-self-center" [style.color]= "correctionItem.isDefault ? 'black' : 'red'">
+                                                                        {{correctionItem.isDefault ? 'default value' : 'specificed by client type'}}
+                                                                    </div>
+                                                                </div>
+                                                            </div>                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </ng-template>
+                                        </ngb-tab>
+                                    </ngb-tabset>
+                                </ng-template>
+                            </ngb-panel>
+                        </ngb-accordion>
+                    </div>
+                </div>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab title="{{'PLATFORM.CLIENT TYPE.MENU.ADD A CLIENT TYPE' | translate}}" id="tabAddAClientType">
+            <ng-template ngbTabContent>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="container-fluid">
+                            <form [formGroup]="clientForm" (ngSubmit)="save(clientForm.value, clientForm.valid)">
+                                <div class="form-group row">
+                                    <label for="clientType" class="col-sm-2 col-form-label col-xl-2">{{'PLATFORM.CLIENT TYPE.LABEL.CLIENT TYPE' | translate}}:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" formControlName="clientType" id="clientType" placeholder="{{'PLATFORM.CLIENT TYPE.LABEL.CLIENT TYPE' | translate}}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="description" class="col-sm-2 col-form-label col-xl-2">{{'PLATFORM.CLIENT TYPE.LABEL.DESCRIPTION' | translate}}:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" formControlName="description" id="description" placeholder="{{'PLATFORM.CLIENT TYPE.LABEL.DESCRIPTION' | translate}}">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3 col-md-2 col-lg-2">
+                                        <button class="btn btn-success" type="submit" [disabled]="!clientForm.valid">{{'FORM.SUBMIT' | translate}}</button>
+                                    </div>
+                                    <div class="col-sm-3 col-md-2 col-lg-2">
+                                        <button class="btn btn-info" [disabled]="clientForm.pristine" (click)="reset()">{{'FORM.RESET' | translate}}</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab title="{{'PLATFORM.CLIENT TYPE.MENU.CORRECTION FACTORS' | translate}}" id="tabCorrections">
+            <ng-template ngbTabContent>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-2 align-self-center"></div>
+                            <div *ngFor="let correctionItem of correctionList" class="col-sm-1 align-self-center"><b>{{correctionItem.shortcut}}</b></div>
+                        </div>
+                        <div *ngFor="let clientItem of clientList">
+                            <div class="row">
+                                <div class="col-sm-2 align-self-center">
+                                    {{clientItem.name}}
+                                </div>
+                                <div [ngbTooltip]="isCorrectionDefaultValue(correctionItem._id, clientItem._id) ? ('PLATFORM.CLIENT TYPE.LABEL.THIS IS A DEFAULT VALUE TIP' | translate) : ('PLATFORM.CLIENT TYPE.LABEL.IF YOU WANT DEFAULT VALUE TIP' | translate)" class="col-sm-1 align-self-center" *ngFor="let correctionItem of correctionList" 
+                                        [style.color]="isCorrectionDefaultValue(correctionItem._id, clientItem._id) ? 'green' : 'red'">
+                                    <gg-editor-number [minimumValue]="isCorrectionDefaultValue(correctionItem._id, clientItem._id) ? 0 : -1" [content]="correctionGetValue(correctionItem._id, clientItem._id)" (editSaved)="correctionSaveValue($event, correctionItem._id, clientItem._id)"></gg-editor-number>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </ng-template>
+        </ngb-tab>
+
+    </ngb-tabset>
+</div>

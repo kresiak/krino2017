@@ -1,0 +1,31 @@
+<div class="card">
+    <div class="card-body">
+        <ngb-accordion [closeOthers]="true" #acc="ngbAccordion" (panelChange)="beforeAccordionChange($event)" [activeIds]="state.openPanelId">
+            <ngb-panel [disabled]="true">
+                <ng-template ngbPanelTitle>
+                    <div class="row">
+                        <div class="col-sm-3"><b>{{'ADMINISTRATION.WEB SHOPPING.COLUMN.WEB SUPPLIER' | translate}}</b></div>
+                        <div class="col-sm-3"><b>{{'ADMINISTRATION.WEB SHOPPING.COLUMN.CATEGORY' | translate}}</b></div>
+                        <div class="col-sm-3"><b>{{'ADMINISTRATION.WEB SHOPPING.COLUMN.USER' | translate}}</b></div>
+                        <div class="col-sm-2"><b>{{'ADMINISTRATION.WEB SHOPPING.COLUMN.NB OF REQUESTED VOUCHERS' | translate}}</b></div>
+                    </div>
+                </ng-template>
+                <ng-template ngbPanelContent>
+                </ng-template>
+            </ngb-panel>
+            <ngb-panel *ngFor="let request of openRequestsObservable | async" [id]="request.userId+'|'+request.supplierId+'|'+request.categoryId">
+                <ng-template ngbPanelTitle>
+                    <div class="row">
+                        <div class="col-sm-3">{{request.supplierName}}</div>
+                        <div class="col-sm-3">{{request.categoryName}}</div>
+                        <div class="col-sm-3">{{request.userName}}</div>
+                        <div class="col-sm-2">{{request.quantity}}</div>
+                    </div>
+                </ng-template>
+                <ng-template ngbPanelContent>
+                    <gg-voucher-request [openRequest]="request"></gg-voucher-request>
+                </ng-template>
+            </ngb-panel>
+        </ngb-accordion>
+    </div>
+</div>

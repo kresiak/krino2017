@@ -1,0 +1,179 @@
+<ngb-tabset>
+    <ngb-tab title="{{'PLATFORM.SERVICE.DETAIL.MENU.INFO' | translate}}" id="tabInfo">
+        <ng-template ngbTabContent>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.SERVICE.DETAIL.LABEL.NAME' | translate}}</b></div>
+                        <div class="col-sm-8 align-self-center">
+                            <gg-editor [content]="serviceItem.data.name" [showControls]="true" (editSaved)="nameServiceUpdated($event, serviceItem)"></gg-editor>
+                        </div>
+                        <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.SERVICE.DETAIL.LABEL.DESCRIPTION' | translate}}</b></div>
+                        <div class="col-sm-8 align-self-center">
+                            <gg-editor [content]="serviceItem.data.description" [showControls]="true" (editSaved)="descriptionServiceUpdated($event, serviceItem)"></gg-editor>
+                        </div>
+                        <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.SERVICE.DETAIL.LABEL.CURRENT VERSION' | translate}}</b></div>
+                        <div class="col-sm-8 align-self-center">
+                            {{serviceItem.annotation.currentSnapshot}}
+                        </div>
+                        <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.SERVICE.DETAIL.LABEL.CATEGORY' | translate}}</b></div>
+                        <div class="col-sm-8 align-self-center">
+                            <gg-selector [selectableData]="selectableCategoriesObservable" [selectedIds]="selectedCategoryIdsObservable" (selectionChanged)="categorySelectionChanged($event)"
+                                (selectionOptionAdded)="categoryHasBeenAdded($event)">
+                            </gg-selector>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab title="{{'PLATFORM.SERVICE.DETAIL.MENU.CORRECTION FACTORS' | translate}}" id="tabCorrFactors">
+        <ng-template ngbTabContent>
+            <div class="card">
+                <div class="card-body">
+                    <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.SERVICE.DETAIL.LABEL.CLIENT TYPE USED' | translate}}</b></div>
+                    <div class="col-sm-8 align-self-center">
+                        <gg-editor-autocomplete [selectableData]="clientListObservable" [emptyContentText]="'default correction'" [selectedId]="serviceItem.data.clientTypeId"
+                            (idChanged)="clientTypeChanged($event, serviceItem)"></gg-editor-autocomplete>
+
+                    </div>
+
+                    <div *ngFor="let correctionItem of serviceItem.annotation.correctionsFactors">
+                        <div class="row">
+                            <div class="col-sm-3 align-self-center">
+                                {{correctionItem.name}}
+                            </div>
+                            <div class="col-sm-2 align-self-center">
+                                {{correctionItem.perCent + ' %'}}
+                            </div>
+                            <div class="col-sm-3 align-self-center" [style.color]="correctionItem.isDefault ? 'black' : 'red'">
+                                {{correctionItem.isDefault ? 'default value' : 'specificed by client type'}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab title="{{'PLATFORM.SERVICE.DETAIL.MENU.CURRENT PRICES' | translate}}" id="tabCurrentPrices" *ngIf="serviceItem.annotation.currentSnapshot">
+        <ng-template ngbTabContent>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-3 align-self-center">{{'PLATFORM.SERVICE.DETAIL.LABEL.BASED ON CURRENT SNAPSHOT' | translate}}:</div>
+                        <div class="col-sm-8 align-self-center">
+                            {{serviceItem.annotation.currentSnapshot}}
+                        </div>
+                    </div>
+
+                    <div *ngFor="let clientType of clientListObservable |async">
+                        <div class="row">
+                            <div class="col-sm-3 align-self-center">
+                                {{clientType.name}}
+                            </div>
+                            <div class="col-sm-3 align-self-center">
+                                {{getCostByClientTypeId(clientType.id) | ggCurrency }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab title="{{'PLATFORM.SERVICE.DETAIL.MENU.SERVICE STEPS' | translate}}" id="tabSteps">
+        <ng-template ngbTabContent>
+            <div class="card">
+                <div class="card-body">
+                    <gg-platform-service-step-list [serviceId]="serviceItem.data._id" [clientType]="serviceItem.annotation.clientType"></gg-platform-service-step-list>
+                </div>
+            </div>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab title="{{'PLATFORM.SERVICE.DETAIL.MENU.SNAPSHOTS' | translate}}" id="tabSnapshotList2">
+        <ng-template ngbTabContent>
+            <div class="card">
+                <div class="card-body">
+                    <gg-platform-service-snapshots [serviceId]="serviceItem.data._id"></gg-platform-service-snapshots>
+                </div>
+            </div>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab title="{{'PLATFORM.SERVICE.DETAIL.MENU.CLONE THIS SERVICE' | translate}}" id="tabClone">
+        <ng-template ngbTabContent>
+            <div class="card">
+                <div class="card-body">
+                    <div class="container-fluid">
+                        <form [formGroup]="cloneForm" (ngSubmit)="cloneService(serviceItem, cloneForm.value, cloneForm.valid)">
+                            <div class="form-group row">
+                                <label for="nameOfService" class="col-sm-3 col-form-label col-xl-3">{{'PLATFORM.SERVICE.DETAIL.LABEL.NAME OF NEW SERVICE' | translate}}:</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" formControlName="nameOfService" id="nameOfService" placeholder="{{'PLATFORM.SERVICE.DETAIL.LABEL.NAME OF NEW SERVICE' | translate}}">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="description" class="col-sm-3 col-form-label col-xl-3">{{'PLATFORM.SERVICE.DETAIL.LABEL.DESCRIPTION' | translate}}:</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" formControlName="description" id="description" placeholder="{{'PLATFORM.SERVICE.DETAIL.LABEL.DESCRIPTION' | translate}}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3 col-md-2 col-lg-2">
+                                    <button class="btn btn-success" type="submit" [disabled]="!cloneForm.valid">Clone</button>
+                                </div>
+                                <div class="col-sm-3 col-md-2 col-lg-2">
+                                    <button class="btn btn-info" [disabled]="cloneForm.pristine" (click)="resetCloneForm()">{{'FORM.RESET' | translate}}</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab title="{{'PLATFORM.SERVICE.DETAIL.MENU.IDENTICAL SERVICES' | translate}}" id="tabIdenticalServices" *ngIf="!serviceToCompareToId">
+        <ng-template ngbTabContent>
+            <div class="card">
+                <div class="card-body">
+                    <gg-platform-service-list [servicesObservable]="servicesIdenticalObservable" [serviceToCompareToId]="serviceItem.data._id"></gg-platform-service-list>
+                </div>
+            </div>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab title="{{'PLATFORM.SERVICE.DETAIL.MENU.SIMILAR SERVICES' | translate}}" id="tabSimilarServices" *ngIf="!serviceToCompareToId">
+        <ng-template ngbTabContent>
+            <div class="card">
+                <div class="card-body">
+                    <gg-platform-service-list [servicesObservable]="servicesSimilarObservable" [serviceToCompareToId]="serviceItem.data._id"></gg-platform-service-list>
+                </div>
+            </div>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab title="{{'PLATFORM.SERVICE.DETAIL.MENU.COMPARE SERVICES' | translate}}" id="tabCompareServices" *ngIf="serviceToCompareToId">
+        <ng-template ngbTabContent>
+            <div class="card">
+                <div class="card-body">
+                    <gg-platform-service-compare [service1Id]="serviceItem.data._id" [service2Id]="serviceToCompareToId"></gg-platform-service-compare>
+                </div>
+            </div>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab title="{{'PLATFORM.SERVICE.DETAIL.MENU.DISABLE' | translate}}" id="tabDisableService" *ngIf="!serviceItem.data.isDisabled">
+        <ng-template ngbTabContent>
+            <div class="card">
+                <div class="card-body">
+                    <gg-button-action-confirm (doAction)="enableDisableService(true)" [typeObjectKey]="'GENERAL.OBJECT.SERVICE'" [typeActionKey]="'GENERAL.ACTION.DISABLE'"></gg-button-action-confirm>
+                </div>
+            </div>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab title="{{'PLATFORM.SERVICE.DETAIL.MENU.REACTIVATE' | translate}}" id="tabEnableService" *ngIf="serviceItem.data.isDisabled">
+        <ng-template ngbTabContent>
+            <div class="card">
+                <div class="card-body">
+                    <gg-button-action-confirm (doAction)="enableDisableService(false)" [typeObjectKey]="'GENERAL.OBJECT.SERVICE'" [typeActionKey]="'GENERAL.ACTION.REACTIVATE'"></gg-button-action-confirm>
+                </div>
+            </div>
+        </ng-template>
+    </ngb-tab>
+
+</ngb-tabset>

@@ -1,0 +1,10 @@
+<div class="card text-xs-center " *ngIf="dataObject" [class.border-success]="isOtpDashlet()" [class.border-warning]="isEquipeDashlet()" [class.border-danger]="isOrderDashlet()">
+    <div class="card-header">
+        {{getTitle()}}
+    </div>
+    <div class="card-body text-xs-left">
+        <gg-otp-detail *ngIf="isOtpDashlet()" [otpObservable]="dataObservable" [path]="'dashboard'"></gg-otp-detail>
+        <gg-equipe-detail *ngIf="isEquipeDashlet()" [equipeObservable]="dataObservable" [path]="'dashboard'"></gg-equipe-detail>
+        <gg-order-detail *ngIf="isOrderDashlet()" [orderObservable]="dataObservable" [path]="'dashboard'"></gg-order-detail>
+    </div>
+</div>

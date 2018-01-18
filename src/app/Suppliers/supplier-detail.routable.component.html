@@ -1,0 +1,10 @@
+<div id="GGTOP"></div>
+<div class="card" *ngIf="supplier">
+    <div class="card-body">
+        <h6>Supplier {{supplier.data.name}}</h6>
+        <gg-supplier-detail *ngIf="authorizationStatusInfo.isLoggedIn" [supplierId]="supplier.data._id" [path]="'supplier|'+supplier.data._id" [state]="state" [isRoot]="true"></gg-supplier-detail>        
+        <h4 *ngIf="!authorizationStatusInfo.isLoggedIn">{{'ERROR.NO LOGIN' | translate}}</h4>
+    </div>
+</div>
+
+

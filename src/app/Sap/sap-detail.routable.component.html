@@ -1,0 +1,13 @@
+<div id="GGTOP"></div>
+<div class="card" *ngIf="sapItem">
+    <div class="card-body">
+        <h6>Sap item {{sapItem.data.sapId}}</h6>
+        <gg-sap-detail *ngIf="true || authorizationStatusInfo.isLoggedIn" [sapObservable]="sapObservable" [path]="'sap|'+sapItem.data._id" [state]="state" [isRoot]="true"></gg-sap-detail>
+        <h4 *ngIf="false && !authorizationStatusInfo.isLoggedIn">{{'ERROR.NO LOGIN' | translate}}</h4>
+    </div>
+</div>
+<div class="card" *ngIf="!sapItem">
+    <div class="card-body">
+        <h4>sorry: unknown Sap Id</h4>
+    </div>
+</div>

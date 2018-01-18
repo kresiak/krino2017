@@ -1,0 +1,245 @@
+<ngb-tabset>
+    <ngb-tab title="{{'PLATFORM.OFFER.MENU.INFO' | translate}}" id="tabInfo">
+        <ng-template ngbTabContent>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row" *ngIf="isSnapshot">
+                        <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.OFFER.LABEL.SNAPSHOT REASON' | translate}}</b></div>
+                        <div class="col-sm-8 align-self-center">
+                            {{offerItem.description}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.OFFER.LABEL.NUMERO' | translate}}</b></div>
+                        <div class="col-sm-8 align-self-center">
+                            {{offerItem.annotation.numero}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.OFFER.LABEL.DESCRIPTION' | translate}}</b></div>
+                        <div class="col-sm-8 align-self-center">
+                            <gg-editor [readOnly]="isSnapshot" [content]="offerItem.data.description" [showControls]="true" (editSaved)="descriptionUpdated($event, offerItem)"></gg-editor>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.OFFER.LABEL.CLIENT' | translate}}</b></div>
+                        <div class="col-sm-8 align-self-center">
+                            <gg-editor-autocomplete [readOnly]="isSnapshot" [selectableData]="clientsListObservable" [emptyContentText]="'PLATFORM.OFFER.LABEL.CHOOSE A CLIENT' | translate"
+                                [selectedId]="offerItem.data.clientId" (idChanged)="clientIdUpdated($event, offerItem)"></gg-editor-autocomplete>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.OFFER.LABEL.CLIENT TYPE' | translate}}</b></div>
+                        <div class="col-sm-8 align-self-center">
+                            {{offerItem.annotation.clientType}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.OFFER.LABEL.COMMERCIAL STATUS' | translate}}</b></div>
+                        <div class="col-sm-8 align-self-center">
+                            <gg-editor-autocomplete [readOnly]="isSnapshot" [selectableData]="commercialStatusesObservable" [emptyContentText]="'PLATFORM.OFFER.LABEL.CHOOSE A STATUS' | translate"
+                                [selectedId]="offerItem.data.commercialStatusId" (idChanged)="commercialStatusUpdated($event, offerItem)"></gg-editor-autocomplete>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.OFFER.LABEL.OPERATIVE STATUS' | translate}}</b></div>
+                        <div class="col-sm-8 align-self-center">
+                            <gg-editor-autocomplete [readOnly]="isSnapshot" [selectableData]="operativeStatusesObservable" [emptyContentText]="'PLATFORM.OFFER.LABEL.CHOOSE A STATUS' | translate"
+                                [selectedId]="offerItem.data.operativeStatusId" (idChanged)="operativeStatusUpdated($event, offerItem)"></gg-editor-autocomplete>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab title="{{'PLATFORM.OFFER.MENU.OPERATIONS' | translate}}" id="tabOperations" *ngIf="!isSnapshot">
+        <ng-template ngbTabContent>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        {{'PLATFORM.OFFER.LABEL.THESE OPERATION WILL CREATE NEW VERSION' | translate}}
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-3 ">
+                            <button class="btn btn-warning" [disabled]="blockSendToClient" (click)="SendToClient()">
+                                {{'PLATFORM.OFFER.LABEL.SEND TO CLIENT' | translate}}
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-3">
+                            <button [disabled]="blockInvoiceHasBeenSent" (click)="InvoiceHasBeenSent()" class=" btn btn-warning">
+                                {{'PLATFORM.OFFER.LABEL.INVOICE HAS BEEN SENT' | translate}}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab title="{{'PLATFORM.OFFER.MENU.SERVICES' | translate}}" id="tabServices">
+        <ng-template ngbTabContent>
+            <div class="card">
+                <div class="card-body">
+                    <ngb-tabset>
+                        <ngb-tab title="{{'PLATFORM.OFFER.MENU.ORDERED SERVICES' | translate}}" id="tabUsedServices" *ngIf="offerItem.annotation.services && offerItem.annotation.services.length > 0">
+                            <ng-template ngbTabContent>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-2 align-self-center"><b>{{'PLATFORM.OFFER.COLUMN.SERVICE' | translate}}</b></div>
+                                            <div class="col-sm-1 align-self-center"><b>{{'PLATFORM.OFFER.COLUMN.QUANTITY' | translate}}</b></div>
+                                            <div class="col-sm-1 align-self-center"><b>{{'PLATFORM.OFFER.COLUMN.PRICE/U.' | translate}}</b></div>
+                                            <div class="col-sm-1 align-self-center"><b>{{'PLATFORM.OFFER.COLUMN.REDUCT. (%)' | translate}}</b></div>
+                                            <div class="col-sm-2 align-self-center"><b>{{'PLATFORM.OFFER.COLUMN.TOTAL' | translate}}</b></div>
+                                            <div class="col-sm-1 align-self-center"><b>{{'PLATFORM.OFFER.COLUMN.PREPAID' | translate}}</b></div>
+                                            <div class="col-sm-1 align-self-center"><b>{{'PLATFORM.OFFER.COLUMN.COMMENT' | translate}}</b></div>
+                                        </div>
+                                        <div *ngFor="let service of (offerItem.annotation.services || []); let pos = index">
+                                            <!--FOR  -->
+                                            <div class="row">
+                                                <div class="col-sm-2 align-self-center">
+                                                    <gg-text-compact [text]="service.annotation.service" [numberOfChar]="40" [extraTooltipText]="service.annotation.version"></gg-text-compact>
+                                                </div>
+                                                <div class="col-sm-1 align-self-center">
+                                                    <gg-editor-number [readOnly]="isSnapshot" [content]="service.data.quantity" (editSaved)="serviceQuantityUpdated(pos, $event)"></gg-editor-number>
+                                                </div>
+                                                <div class="col-sm-1 align-self-center">
+                                                    {{service.annotation.unitPrice | ggCurrency}}
+                                                </div>
+                                                <div class="col-sm-1 align-self-center">
+                                                    <gg-editor-number [readOnly]="isSnapshot" [content]="service.data.reduction" (editSaved)="serviceReductionUpdated(pos, $event)"></gg-editor-number>
+                                                </div>
+                                                <div class="col-sm-2 align-self-center gg-price">
+                                                    {{service.annotation.total | ggCurrency}}
+                                                </div>
+                                                <div class="col-sm-1 align-self-center">
+                                                    <gg-editor-boolean [readOnly]="isSnapshot" [content]="service.data.isPrepaid" (editSaved)="servicePrepaidUpdated(pos, $event)"></gg-editor-boolean>
+                                                </div>
+                                                <div class="col-sm-2 align-self-center" (click)="service.showExtraPart=!service.showExtraPart" style="cursor: pointer;">
+                                                    <gg-text-compact [text]="service.data.comment || 'No comment yet'" [numberOfChar]="40" [extraTooltipText]="'Click in order to change the comment'"></gg-text-compact>
+                                                    <!--<button (click)="service.showExtraPart=!service.showExtraPart" class="editor__icon-edit"></button>-->
+                                                </div>
+                                                <div class="col-sm-1 align-self-center" *ngIf="!isSnapshot">
+                                                    <gg-checkbox-delete [typeObjectKey]="'GENERAL.OBJECT.SERVICE'" (doDelete)="deleteService(pos)"></gg-checkbox-delete>
+                                                </div>
+                                            </div>
+                                            <div class="row" *ngIf="service.showExtraPart">
+                                                <div class="col-sm-1"></div>
+                                                <div class="col-sm-9">
+                                                    <div class="row card">
+                                                        <div class="col-sm-9 align-self-center">
+                                                            <gg-editor [showControls]="true" [readOnly]="isSnapshot" [content]="service.data.comment" (editSaved)="serviceCommentUpdated(pos, $event)"></gg-editor>
+                                                        </div>
+
+                                                        <div class="col-sm-2 align-self-center">
+                                                            <button class="btn btn-info btn-sm" (click)="service.showExtraPart=!service.showExtraPart">{{'PLATFORM.OFFER.LABEL.HIDE DETAILS' | translate}}</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" class="gg-price">
+                                            <div class="col-sm-2 align-self-center"></div>
+                                            <div class="col-sm-1 align-self-center"></div>
+                                            <div class="col-sm-1 align-self-center"></div>
+                                            <div class="col-sm-1 align-self-center">{{'PLATFORM.OFFER.LABEL.TOTAL' | translate}}:</div>
+                                            <div class="col-sm-2 align-self-center">{{offerItem.annotation.total | ggCurrency}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+                        <ngb-tab title="{{'PLATFORM.OFFER.MENU.SELECT SERVICES' | translate}}" id="tabSelectServices" *ngIf="!isSnapshot">
+                            <ng-template ngbTabContent>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <gg-platform-service-list [isForSelection]="true" [servicesObservable]="servicesObservable" [selectedServiceIds]="getServicesIdsSelected()"
+                                            (servicesSelected)="servicesChanged($event)"></gg-platform-service-list>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+                    </ngb-tabset>
+                </div>
+            </div>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab title="{{'PLATFORM.OFFER.MENU.VERSIONS' | translate}}" id="tabSnapshots" *ngIf="!isSnapshot">
+        <ng-template ngbTabContent>
+            <div class="card">
+                <div class="card-body">
+                    <ngb-tabset>
+                        <ngb-tab title="{{'PLATFORM.OFFER.MENU.ALL VERSIONS' | translate}}" id="tabAllVersions" *ngIf="offerItem.annotation.hasSnapshots">
+                            <ng-template ngbTabContent>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <ngb-accordion [closeOthers]="true" #acc="ngbAccordion" [activeIds]="state.openPanelId" (panelChange)="beforeAccordionChange($event)">
+                                            <ngb-panel [disabled]="true">
+                                                <ng-template ngbPanelTitle>
+                                                    <div class="row">
+                                                        <div class="col-sm-2"><b>{{'PLATFORM.OFFER.COLUMN.DATE' | translate}}</b></div>
+                                                        <div class="col-sm-2"><b>{{'PLATFORM.OFFER.COLUMN.NUMERO' | translate}}</b></div>
+                                                        <div class="col-sm-2"><b>{{'PLATFORM.OFFER.COLUMN.REASON' | translate}}</b></div>
+                                                        <div class="col-sm-2"><b>{{'PLATFORM.OFFER.COLUMN.PRICE' | translate}}</b></div>
+                                                        <div class="col-sm-3"><b>{{'PLATFORM.OFFER.COLUMN.PRODUCTS' | translate}}</b></div>
+                                                    </div>
+                                                </ng-template>
+                                            </ngb-panel>
+                                            <ngb-panel *ngFor="let snapshot of snapshotList" [id]="snapshot._id">
+                                                <ng-template ngbPanelTitle>
+                                                    <div class="row" id="{{offerItem._id}}">
+                                                        <div class="col-sm-2">{{snapshot.createDate | fullDate}}</div>
+                                                        <div class="col-sm-2" [style.font-weight]="snapshot._id === state.openPanelId ? 'bold' : 'lighter'">{{snapshot.annotation.numero}}</div>
+                                                        <div class="col-sm-2">{{snapshot.description}}</div>
+                                                        <div class="col-sm-2 gg-price">{{snapshot.annotation.total | ggCurrency}}</div>
+                                                        <div class="col-sm-3">{{snapshot.annotation.serviceTxt}}</div>
+                                                        <div class="col-sm-1"> <img height="25" width="25" src="images/snapshot.png" /> </div>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template ngbPanelContent>
+                                                    <gg-platform-offer-detail [offerItem]="snapshot" [isSnapshot]="true"></gg-platform-offer-detail>
+                                                </ng-template>
+                                            </ngb-panel>
+                                        </ngb-accordion>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+                        <ngb-tab title="{{'PLATFORM.OFFER.MENU.SAVE CURRENT VERSION' | translate}}" id="tabSaveVersion">
+                            <ng-template ngbTabContent>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="container-fluid">
+                                            <form [formGroup]="snapshotForm" (ngSubmit)="snapshotService(snapshotForm.value, snapshotForm.valid)">
+                                                <div class="form-group row">
+                                                    <label for="description" class="col-sm-3 col-form-label col-xl-3">{{'PLATFORM.OFFER.LABEL.DESCRIPTION' | translate}}:</label>
+                                                    <div class="col-sm-9">
+                                                        <input type="text" class="form-control" formControlName="description" id="description" placeholder="{{'PLATFORM.OFFER.LABEL.DESCRIPTION OF SNAPSHOT PHOLDER' | translate}}">
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-md-2 col-lg-2">
+                                                        <button class="btn btn-success" type="submit" [disabled]="!snapshotForm.valid">{{'PLATFORM.OFFER.LABEL.SNAPSHOT' | translate}}</button>
+                                                    </div>
+                                                    <div class="col-sm-3 col-md-2 col-lg-2">
+                                                        <button class="btn btn-info" [disabled]="snapshotForm.pristine" (click)="resetSnapshotForm()">{{'FORM.RESET' | translate}}</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+                    </ngb-tabset>
+                </div>
+            </div>
+        </ng-template>
+    </ngb-tab>
+
+
+</ngb-tabset>

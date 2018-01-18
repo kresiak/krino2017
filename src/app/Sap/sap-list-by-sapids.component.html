@@ -1,0 +1,79 @@
+<div class="card">
+    <div class="card-body">
+
+
+<!--        <div class="row">
+            <div class="col-sm-2">Total restant engagé on OTP:</div>
+            <div class="col-sm-4">{{totalEngaged | ggCurrency}}</div>
+        </div>
+-->
+        <ngb-tabset (tabChange)="beforeTabChange($event)" [activeId]="state.selectedTabId">
+            <ngb-tab title="{{'SAP.MENU.ALL' | translate}}" id="tabAll">
+                <ng-template ngbTabContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <gg-sap-list [sapsObservable]="sapsObservable" [state]="state.All" [path]="path+'|O:All'" (stateChanged)="childAllStateChanged($event)" ></gg-sap-list>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="{{'SAP.MENU.POSTES ENGAGEMENT OPEN' | translate}}" id="tabEngagementOpen">
+                <ng-template ngbTabContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-1"><b>{{'SAP.BY SAPIDS.COLUMN.SAP ID' | translate}}</b></div>
+                                <div class="col-sm-1"><b>{{'SAP.BY SAPIDS.COLUMN.POSTE' | translate}}</b></div>
+                                <div class="col-sm-2"><b>{{'SAP.BY SAPIDS.COLUMN.OPEN' | translate}}</b></div>
+                                <div class="col-sm-2"><b>{{'SAP.BY SAPIDS.COLUMN.SUM' | translate}}</b></div>
+                                <div class="col-sm-3"><b>{{'SAP.BY SAPIDS.COLUMN.PRODUCT' | translate}}</b></div>
+                                <div class="col-sm-1"><b>{{'SAP.BY SAPIDS.COLUMN.CODE TVA' | translate}}</b></div>
+                            </div>
+                            <div *ngFor="let poste of sapPostesEngOpenList">
+                                <div class="row">
+                                    <div class="col-sm-1"><span class="imgSearch"  (click)="navigateToSap(poste.sapId)">{{poste.sapId}}</span></div>
+                                    <div class="col-sm-1">{{poste.poste.poste}}</div>
+                                    <div class="col-sm-2">{{poste.poste.amountResiduel | ggCurrency}}</div>
+                                    <div class="col-sm-2">{{poste.sum | ggCurrency}}</div>
+                                    <div class="col-sm-3">{{poste.poste.product}}</div>
+                                    <div class="col-sm-1">{{poste.poste.codeTvaEngag}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="{{'SAP.MENU.INVOICED' | translate}}" id="tabInvoiced">
+                <ng-template ngbTabContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-1"><b>{{'SAP.BY SAPIDS.COLUMN.SAP ID' | translate}}</b></div>
+                                <div class="col-sm-1"><b>{{'SAP.BY SAPIDS.COLUMN.PIECE' | translate}}</b></div>
+                                <div class="col-sm-1"><b>{{'SAP.BY SAPIDS.COLUMN.POSTE' | translate}}</b></div>
+                                <div class="col-sm-1"><b>{{'SAP.BY SAPIDS.COLUMN.DATE' | translate}}</b></div>
+                                <div class="col-sm-2"><b>{{'SAP.BY SAPIDS.COLUMN.HTVA' | translate}}</b></div>
+                                <div class="col-sm-2"><b>{{'SAP.BY SAPIDS.COLUMN.TVAC' | translate}}</b></div>
+                                <div class="col-sm-2"><b>{{'SAP.BY SAPIDS.COLUMN.SUM' | translate}}</b></div>
+                                <div class="col-sm-2"><b>{{'SAP.BY SAPIDS.COLUMN.PRODUCT' | translate}}</b></div>
+                            </div>
+                            <div *ngFor="let item of sapFacturesItemsList">
+                                <div class="row">
+                                    <div class="col-sm-1"><span class="imgSearch"  (click)="navigateToSap2(item.sapId)">{{item.sapId}}</span></div>
+                                    <div class="col-sm-1">{{item.pieceId}}</div>
+                                    <div class="col-sm-1">{{item.poste}} / {{item.tvaCode}}</div>
+                                    <div class="col-sm-1">{{item.date | shortDate}}</div>
+                                    <div class="col-sm-2">{{item.htva | ggCurrency}}</div>
+                                    <div class="col-sm-2">{{item.tvac | ggCurrency}}</div>
+                                    <div class="col-sm-2">{{item.sum | ggCurrency}}</div>
+                                    <div class="col-sm-2"><gg-text-compact [text]="item.product" [numberOfChar]="15"></gg-text-compact></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+        </ngb-tabset>
+
+    </div>
+</div>

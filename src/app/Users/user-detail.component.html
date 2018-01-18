@@ -1,0 +1,142 @@
+<ng-template #popContent>{{(isRoot ? 'GENERAL.ACTION.CLICK HERE TO GO BACK TO LAST VIEW' : 'GENERAL.ACTION.CLICK HERE TO GET A DETAIL VIEW') | translate}}</ng-template>
+
+<ngb-tabset *ngIf="user" (tabChange)="beforeTabChange($event)" [activeId]="state.selectedTabId">
+	<ngb-tab title="{{'USER.MENU.INFO' | translate}}" id="tabInfo">
+		<ng-template ngbTabContent>
+			<gg-user-info [user]="user"></gg-user-info>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{'USER.MENU.PHOTO' | translate}}" id="tabPhoto" *ngIf="authorizationStatusInfo?.isAdministrator()">
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-sm-12">
+							<gg-image-uploader #uploader [maxNbOfFiles]="1" (imagesChanged)="onUploadFinished($event)"></gg-image-uploader>
+						</div>
+					</div>
+				</div>
+			</div>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{'USER.MENU.ADMINISTRATION' | translate}}" id="tabAdministration">
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-sm-3 align-self-center">{{'USER.LABEL.IS BLOCKED' | translate}}</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor-boolean [content]="user.data.isBlocked" (editSaved)="isBlockedUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3 align-self-center">{{'USER.LABEL.IS LABO USER' | translate}}</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor-boolean [content]="user.data.isLaboUser" (editSaved)="isLaboUserUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3 align-self-center">{{'USER.LABEL.IS ADMINISTRATOR' | translate}}</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor-boolean [content]="user.data.isAdmin" (editSaved)="isAdminUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
+						</div>
+					</div>
+					<div class="row" ngbTooltip="{{'USER.HELP.SUPER ADMINISTRATOR' | translate}}">
+						<div class="col-sm-3 align-self-center">{{'USER.LABEL.SUPER ADMINISTRATOR' | translate}}</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor-boolean [content]="user.data.isSuperAdmin" (editSaved)="isSuperAdminUpdated($event)" [readOnly]="!authorizationStatusInfo || (!authorizationStatusInfo.isSuperAdministrator() && ! authorizationStatusInfo.isProgrammer())"></gg-editor-boolean>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3 align-self-center">{{'USER.LABEL.IS RECEPTIONIST' | translate}}</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor-boolean [content]="user.data.isReceptionist" (editSaved)="isReceptionistUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3 align-self-center">{{'USER.LABEL.IS LAB MANAGER' | translate}}</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor-boolean [content]="user.data.isLabManager" (editSaved)="isLabManagerUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3 align-self-center">{{'USER.LABEL.IS KRINO PROGRAMMER' | translate}}</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor-boolean [content]="user.data.isProgrammer" (editSaved)="isProgrammerUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3 align-self-center">{{'USER.LABEL.IS PLATFORM ADMINISTRATOR' | translate}}</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor-boolean [content]="user.data.isPlatformAdmin" (editSaved)="isPlatformAdminUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3 align-self-center">{{'USER.LABEL.USER IS NOT ALLOWED TO ORDER PRODUCTS' | translate}}</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor-boolean [content]="user.data.isPassiveUser" (editSaved)="isPassiveUserUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
+						</div>
+					</div>
+					<div class="row" [ngbTooltip]="'USER.HELP.ALLOWED CHANGE OTP TIP' | translate">
+						<div class="col-sm-3 align-self-center">{{'USER.LABEL.ALLOWED CHANGE OTP' | translate}}</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor-boolean [content]="user.data.isOtpAware" (editSaved)="isOtpAwareUserUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
+						</div>
+					</div>
+					<div class="row" *ngIf="!configService.isProduction()">
+						<div class="col-sm-3">_id:</div>
+						<div class="col-sm-6">{{user.data._id}}</div>
+					</div>
+
+				</div>
+			</div>
+		</ng-template>
+	</ngb-tab>
+
+	<ngb-tab id="tabComments">
+		<ng-template ngbTabTitle>
+			<gg-comments-tab-title [data]="user.data"></gg-comments-tab-title>
+		</ng-template>
+		<ng-template ngbTabContent>
+			<gg-comments-tab [data]="user.data" [dbTable]="'users.krino'" [urlPart]="'user'"></gg-comments-tab>
+		</ng-template>
+	</ngb-tab>
+
+	<ngb-tab title="{{'USER.MENU.EQUIPES' | translate}}" *ngIf="true" id="tabEquipes">
+		<ng-template ngbTabContent>
+			<gg-equipe-list [equipesObservable]="equipesObservable" [state]="state.Equipes" [path]="path+'|O:Equipes'" (stateChanged)="childEquipesStateChanged($event)"></gg-equipe-list>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{'USER.MENU.ORDERS' | translate}}" id="tabOrders">
+		<ng-template ngbTabContent>
+			<gg-order-list [ordersObservable]="ordersObservable" [state]="state.Orders" [path]="path+'|O:Orders'" (stateChanged)="childOrdersStateChanged($event)"></gg-order-list>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{'USER.MENU.FRIDGE ORDERS' | translate}}" id="tabFridgeOrders">
+		<ng-template ngbTabContent>
+			<gg-order-fridge-list [fridgeOrdersObservable]="fridgeOrdersObservable" [path]="path+'|O:FridgeOrders'"></gg-order-fridge-list>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{'USER.MENU.STOCK ORDERS' | translate}}" id="tabStockOrders">
+		<ng-template ngbTabContent>
+			<gg-stock-order-list [ordersObservable]="stockOrdersObservable" [state]="state.StockOrders" [path]="path+'|O:StockOrders'"
+			 (stateChanged)="childStockOrdersStateChanged($event)"></gg-stock-order-list>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{'USER.MENU.VOUCHER ORDERS' | translate}}" id="tabUsedVouchers">
+		<ng-template ngbTabContent>
+			<gg-voucher-list [vouchersObservable]="webVouchersObservable" [focusOnVoucherUsage]="true"></gg-voucher-list>
+		</ng-template>
+	</ngb-tab>
+
+	<ngb-tab id="tabMax">
+		<ng-template ngbTabTitle><img src="images/maximize.png" [ngbPopover]="popContent" triggers="mouseenter:mouseleave" /></ng-template>
+		<ng-template ngbTabContent></ng-template>
+	</ngb-tab>
+
+	<ngb-tab id="gotoTop" *ngIf="!isRoot  && path!=='dashboard'">
+		<ng-template ngbTabTitle><img src="images/gototop.png" [ngbPopover]="'GENERAL.ACTION.GOTO TOP OF THE PAGE' | translate" triggers="mouseenter:mouseleave"
+			/></ng-template>
+		<ng-template ngbTabContent></ng-template>
+	</ngb-tab>
+</ngb-tabset>

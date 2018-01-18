@@ -1,0 +1,37 @@
+
+
+<ngb-tabset #tabset *ngIf="supplier" (tabChange)="beforeTabChange($event)" >
+	<ngb-tab title="{{'SUPPLIER.MENU.INFO' | translate}}" id="tabInfo">
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<gg-supplier-info [supplier]="supplier"></gg-supplier-info>
+
+					<div class="row" *ngIf="!configService.isProduction()">
+						<div class="col-sm-2">_id:</div>
+						<div class="col-sm-6">{{supplier._id}}</div>
+					</div>
+
+				</div>
+			</div>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{'SUPPLIER.MENU.INCLUDE KRINO' | translate}}" id="tabKrino">
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<div *ngIf="krinoSupplier">
+						<h6>{{supplier.name}} is already in Krino</h6> <br>
+						<gg-supplier-detail [supplierId]="krinoSupplier.data._id" [initialTab]="'tabInfo'"></gg-supplier-detail>
+					</div>
+					<div *ngIf="!krinoSupplier">
+						<br/>
+						<h6>{{supplier.name}} is not yet in Krino. You can add it.</h6>
+						<br/>
+						<button class="btn btn-warning" *ngIf="!isAddSupplierBlocked" (click)="isAddSupplierBlocked=true; addSupplier()">Add the Sap supplier to Krino</button>
+					</div>
+				</div>
+			</div>
+		</ng-template>
+	</ngb-tab>
+</ngb-tabset>

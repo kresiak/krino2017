@@ -1,0 +1,44 @@
+<gg-search-box [objectTypeTranslationKey]="'GENERAL.OFFERS'" [objectsObservable]="offersObservable" [fnFilterObjects]="fnFilter" (listChanged)="offersList= $event">
+    <ul searchHelp>
+        <li>{{'PLATFORM.OFFER.SEARCH HELP.MSG1' | translate}}</li>
+        <li>{{'PLATFORM.OFFER.SEARCH HELP.MSG2' | translate}}</li>
+        <li>{{'PLATFORM.OFFER.SEARCH HELP.MSG3' | translate}}</li>
+        <li>{{'PLATFORM.OFFER.SEARCH HELP.MSG4' | translate}}</li>
+        <li>{{'PLATFORM.OFFER.SEARCH HELP.MSG5' | translate}}</li>
+        <li>{{'PLATFORM.OFFER.SEARCH HELP.MSG6' | translate}}</li>
+    </ul>
+
+    <ngb-accordion accordion [closeOthers]="true" #acc="ngbAccordion" [activeIds]="state.openPanelId" (panelChange)="beforeAccordionChange($event)">
+        <ngb-panel [disabled]="true">
+            <ng-template ngbPanelTitle>
+                <div class="row">
+                    <div class="col-sm-2"><b>{{'PLATFORM.OFFER.COLUMN.NUMERO' | translate}}</b></div>
+                    <div class="col-sm-3"><b>{{'PLATFORM.OFFER.COLUMN.CLIENT' | translate}}</b></div>
+                    <div class="col-sm-2"><b>{{'PLATFORM.OFFER.COLUMN.STATUS' | translate}}</b></div>
+                    <div class="col-sm-2"><b>{{'PLATFORM.OFFER.COLUMN.PRICE' | translate}}</b></div>
+                    <div class="col-sm-3"><b>{{'PLATFORM.OFFER.COLUMN.PRODUCTS' | translate}}</b></div>
+                </div>
+            </ng-template>
+        </ngb-panel>
+        <ngb-panel *ngFor="let offerItem of offersList" [id]="offerItem.data._id">
+            <ng-template ngbPanelTitle>
+                <div class="row" id="{{offerItem._id}}">
+                    <div class="col-sm-2" [style.font-weight]="offerItem.data._id === state.openPanelId ? 'bold' : 'lighter'">{{offerItem.annotation.numero}}</div>
+                    <div class="col-sm-3">
+                        <gg-text-compact [text]="offerItem.annotation.client" [numberOfChar]="40" [extraTooltipText]="offerItem.annotation.clientType"></gg-text-compact>
+                    </div>
+                    <div class="col-sm-2">{{offerItem.annotation.commercialStatus}}</div>
+                    <div class="col-sm-2 gg-price">{{offerItem.annotation.total | ggCurrency}}</div>
+                    <div class="col-sm-3">{{offerItem.annotation.serviceTxt}}</div>
+                </div>
+            </ng-template>
+            <ng-template ngbPanelContent>
+                <gg-platform-offer-detail [offerItem]="offerItem"></gg-platform-offer-detail>
+            </ng-template>
+        </ngb-panel>
+    </ngb-accordion>
+
+
+</gg-search-box>
+
+

@@ -1,0 +1,56 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row gg-price"><i>Here you can anlayze how much has been spent on this OTP, according to SAP</i></div>
+        <br/>
+        <div class="row">
+            <div class="col-sm-2 align-self-center">Select a starting date:</div>
+            <div class="col-sm-5 align-self-center">
+                <gg-editor-date [content]="intialdate" (editSaved)="dateChanged($event)" [format]="'DD/MM/YYYY'"></gg-editor-date>
+            </div>
+            
+        </div>
+
+        <div class="row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-3"><b>Without Vat</b></div>
+            <div class="col-sm-3"><b>With Vat</b></div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">Smart calculation:</div>
+            <div class="col-sm-3">{{sapTtotals.mixedHtva | ggCurrency}}</div>
+            <div class="col-sm-3">{{sapTtotals.mixedTvac | ggCurrency}}</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">Total of invoiced:</div>
+            <div class="col-sm-3">{{sapTtotals.facturedHtva | ggCurrency}}</div>
+            <div class="col-sm-3">{{sapTtotals.facturedTvac | ggCurrency}}</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">Total of non invoiced engagements:</div>
+            <div class="col-sm-3">{{sapTtotals.engagedOnlyHtva | ggCurrency}}</div>
+            <div class="col-sm-3">{{sapTtotals.engagedOnlyTvac | ggCurrency}}</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">Total of all engagements:</div>
+            <div class="col-sm-3">{{sapTtotals.engagedHtva | ggCurrency}}</div>
+            <div class="col-sm-3">{{sapTtotals.engagedTvac | ggCurrency}}</div>
+        </div>
+        
+        <br/>
+
+<!--        <div class="row" *ngFor="let sapItem of sapItems">
+            <div class="col-sm-12" style="color:darkolivegreen">{{sapItem.mainData.data.sapId}} {{sapItem.date}} {{sapItem.mainData.data.supplier}}</div>
+            <div class="col-sm-12">
+                <div class="row" *ngFor="let poste of sapItem.postList">
+                    <div class="col-sm-1">{{poste.poste}}</div>
+                    <div class="col-sm-1">{{poste.engaged ? (poste.engaged.tvac | ggCurrency) : ''}}</div>
+                    <div class="col-sm-2" [style.color]="poste.engaged && poste.engaged.otp !== otp ? 'red' : 'black'">{{poste.engaged ? (poste.engaged.otp) : ''}}</div>
+                    <div class="col-sm-1">{{poste.factured ? (poste.factured.tvac | ggCurrency) : ''}}</div>
+                    <div class="col-sm-2" [style.color]="poste.engaged && poste.engaged.otp !== otp ? 'red' : 'black'">{{poste.factured ? (poste.factured.otp) : ''}}</div>
+                    <div class="col-sm-3">{{poste.factured ? poste.factured.product : poste.engaged.product}}</div>
+                </div>
+            </div>
+        </div>
+-->
+    </div>
+</div>

@@ -1,0 +1,215 @@
+<div class="card-body">
+    <ngb-tabset>
+        <ngb-tab *ngIf="machinesList && machinesList.length !== 0" title="{{'PLATFORM.MACHINE.MENU.LIST OF MACHINES' | translate}}"
+            id="tabListOfMachines">
+            <ng-template ngbTabContent>
+                <div class="card">
+                    <div class="card-body">
+                        <ngb-accordion [closeOthers]="true" #acc="ngbAccordion">
+                            <ngb-panel [disabled]="true">
+                                <ng-template ngbPanelTitle>
+                                    <div class="row">
+                                        <div class="col-sm-3"><b>{{'PLATFORM.MACHINE.COLUMN.NAME' | translate}}</b></div>
+                                        <div class="col-sm-4"><b>{{'PLATFORM.MACHINE.COLUMN.DESCRIPTION' | translate}}</b></div>
+                                        <div class="col-sm-2"><b>{{'PLATFORM.MACHINE.COLUMN.COST PER HOUR' | translate}}</b></div>
+                                    </div>
+                                </ng-template>
+                            </ngb-panel>
+                            <ngb-panel *ngFor="let machineItem of machinesList">
+                                <ng-template ngbPanelTitle>
+                                    <div class="row" id="{{machineItem._id}}">
+                                        <div class="col-sm-3">{{machineItem.data.name}}</div>
+                                        <div class="col-sm-4">{{machineItem.data.description}}</div>
+                                        <div class="col-sm-2 gg-price">{{machineItem.annotation.costOfHour | ggCurrency}}</div>
+                                        <div class="col-sm-2" [style.color]="'red'" *ngIf="!machineItem.annotation.isOK">Error in occupancy!!!</div>
+                                    </div>
+                                </ng-template>
+                                <ng-template ngbPanelContent>
+                                    <ngb-tabset>
+                                        <ngb-tab title="{{'PLATFORM.MACHINE.MENU.INFO' | translate}}" id="tabInfo">
+                                            <ng-template ngbTabContent>
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-sm-4 align-self-center"><b>{{'PLATFORM.MACHINE.LABEL.NAME' | translate}}</b></div>
+                                                            <div class="col-sm-8 align-self-center">
+                                                                <gg-editor [content]="machineItem.data.name" [showControls]="true" (editSaved)="nameMachineUpdated($event, machineItem)"></gg-editor>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-sm-4 align-self-center"><b>{{'PLATFORM.MACHINE.LABEL.DESCRIPTION' | translate}}</b></div>
+                                                            <div class="col-sm-8 align-self-center">
+                                                                <gg-editor [content]="machineItem.data.description" [showControls]="true" (editSaved)="descriptionMachineUpdated($event, machineItem)"></gg-editor>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-sm-4 align-self-center"><b>{{'PLATFORM.MACHINE.LABEL.PRICE' | translate}}</b></div>
+                                                            <div class="col-sm-8 align-self-center">
+                                                                <gg-editor [content]="machineItem.data.price" [isMonetary]="true" [showControls]="true" (editSaved)="priceMachineUpdated($event, machineItem)"></gg-editor>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-sm-4 align-self-center"><b>{{'PLATFORM.MACHINE.LABEL.LIFETIME (IN YEARS)' | translate}}</b></div>
+                                                            <div class="col-sm-8 align-self-center">
+                                                                <gg-editor-number [content]="machineItem.data.lifetime" (editSaved)="lifetimeMachineUpdated($event, machineItem)"></gg-editor-number>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-sm-4 align-self-center"><b>{{'PLATFORM.MACHINE.LABEL.MAINTENANCE PRICE (PER YEAR)' | translate}}</b></div>
+                                                            <div class="col-sm-8 align-self-center">
+                                                                <gg-editor [content]="machineItem.data.maintenancePrice" [isMonetary]="true" [showControls]="true" (editSaved)="maintenancePriceMachineUpdated($event, machineItem)"></gg-editor>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-sm-11 align-self-center"><b>{{'PLATFORM.MACHINE.LABEL.EITHER' | translate}}:</b></div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-sm-1 align-self-center"></div>
+                                                            <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.MACHINE.LABEL.OCCUPANCY (IN %)' | translate}}</b></div>
+                                                            <div class="col-sm-8 align-self-center">
+                                                                <gg-editor-number [content]="machineItem.data.occupancy" (editSaved)="occupancyMachineUpdated($event, machineItem)"></gg-editor-number>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-sm-1 align-self-center"></div>
+                                                            <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.MACHINE.LABEL.HOURS PER DAY' | translate}}</b></div>
+                                                            <div class="col-sm-8 align-self-center">
+                                                                <gg-editor-number [content]="machineItem.data.hoursPerDay" (editSaved)="hoursPerDayMachineUpdated($event, machineItem)"></gg-editor-number>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-sm-11 align-self-center"><b>{{'PLATFORM.MACHINE.LABEL.OR' | translate}}:</b></div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-sm-1 align-self-center"></div>
+                                                            <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.MACHINE.LABEL.HOURS PER YEAR' | translate}}</b></div>
+                                                            <div class="col-sm-8 align-self-center">
+                                                                <gg-editor-number [content]="machineItem.data.hoursPerYear" (editSaved)="hoursPerYearMachineUpdated($event, machineItem)"></gg-editor-number>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-sm-11 align-self-center" *ngIf="!machineItem.annotation.isOK" [style.color]="'red'"><b>{{'PLATFORM.MACHINE.LABEL.ERROR IN OCCUPANCY!!! CHECK YOUR DATA!' | translate}}</b></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </ng-template>
+                                        </ngb-tab>
+                                        <ngb-tab title="{{'PLATFORM.MACHINE.MENU.COST' | translate}}" id="tabCost">
+                                            <ng-template ngbTabContent>
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <div class="row gg-line-height">
+                                                            <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.MACHINE.LABEL.NAME' | translate}}</b></div>
+                                                            <div class="col-sm-8 align-self-center">
+                                                                {{machineItem.data.name}}
+                                                            </div>
+                                                            <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.MACHINE.LABEL.ANNUAL AMORTIZATION' | translate}}</b></div>
+                                                            <div class="col-sm-8 align-self-center">
+                                                                {{machineItem.annotation.annualAmortisation | ggCurrency}}
+                                                            </div>
+                                                            <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.MACHINE.LABEL.ANNUAL COST (INCL. MAINTENANCE)' | translate}}</b></div>
+                                                            <div class="col-sm-8 align-self-center">
+                                                                {{machineItem.annotation.annualCost | ggCurrency}}
+                                                            </div>
+                                                            <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.MACHINE.LABEL.NB RUNNING HOURS PER YEAR' | translate}}</b></div>
+                                                            <div class="col-sm-8 align-self-center">
+                                                                {{machineItem.annotation.nbHoursPerYear}}
+                                                            </div>
+                                                            <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.MACHINE.LABEL.COST PER HOUR HOUR' | translate}}</b></div>
+                                                            <div class="col-sm-8 align-self-center gg-price">
+                                                                {{machineItem.annotation.costOfHour | ggCurrency}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </ng-template>
+                                        </ngb-tab>
+                                    </ngb-tabset>
+                                </ng-template>
+                            </ngb-panel>
+                        </ngb-accordion>
+                    </div>
+                </div>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab title="{{'PLATFORM.MACHINE.MENU.ADD A MACHINE' | translate}}" id="tabAddMachine">
+            <ng-template ngbTabContent>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="container-fluid">
+                            <form [formGroup]="machineForm" (ngSubmit)="save(machineForm.value, machineForm.valid)">
+                                <div class="form-group row">
+                                    <label for="nameOfMachine" class="col-sm-3 col-form-label">{{'PLATFORM.MACHINE.LABEL.NAME OF MACHINE' | translate}}:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" formControlName="nameOfMachine" id="nameOfMachine" placeholder="{{'PLATFORM.MACHINE.LABEL.NAME OF MACHINE' | translate}}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="description" class="col-sm-3 col-form-label">{{'PLATFORM.MACHINE.LABEL.DESCRIPTION' | translate}}:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" formControlName="description" id="description" placeholder="{{'PLATFORM.MACHINE.LABEL.DESCRIPTION' | translate}}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="price" class="col-sm-3 col-form-label">{{'PLATFORM.MACHINE.LABEL.PRICE' | translate}}:</label>
+                                    <div class="col-sm-9">
+                                        <input type="number" min="0" step="any" class="form-control" formControlName="price" id="price" placeholder="{{'PLATFORM.MACHINE.LABEL.PRICE' | translate}}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="lifetime" class="col-sm-3 col-form-label">{{'PLATFORM.MACHINE.LABEL.LIFETIME (IN YEARS)' | translate}}:</label>
+                                    <div class="col-sm-9">
+                                        <input type="number" min="0" step="any" class="form-control" formControlName="lifetime" id="lifetime" placeholder="{{'PLATFORM.MACHINE.LABEL.LIFETIME (IN YEARS)' | translate}}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="maintenancePrice" class="col-sm-3 col-form-label">{{'PLATFORM.MACHINE.LABEL.MAINTENANCE PRICE (PER YEAR)' | translate}}:</label>
+                                    <div class="col-sm-9">
+                                        <input type="number" min="0" step="any" step="any" class="form-control" formControlName="maintenancePrice" id="maintenancePrice"
+                                            placeholder="{{'PLATFORM.MACHINE.LABEL.MAINTENANCE PRICE (PER YEAR)' | translate}}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-12">{{'PLATFORM.MACHINE.LABEL.EITHER' | translate}}:</div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-sm-1 d-block">&nbsp;</div>
+                                    <label for="occupancy" class="col-sm-2 col-form-label">{{'PLATFORM.MACHINE.LABEL.OCCUPANCY (IN %)' | translate}}:</label>
+                                    <div class="col-sm-9">
+                                        <input type="number" min="0" step="any" class="form-control" formControlName="occupancy" id="occupancy" placeholder="{{'PLATFORM.MACHINE.LABEL.OCCUPANCY (IN %)' | translate}}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-1 d-block">&nbsp;</div>
+                                    <label for="hoursPerDay" class="col-sm-2 col-form-label">{{'PLATFORM.MACHINE.LABEL.HOURS PER DAY' | translate}}:</label>
+                                    <div class="col-sm-9">
+                                        <input type="number" min="0" step="any" class="form-control" formControlName="hoursPerDay" id="hoursPerDay" placeholder="{{'PLATFORM.MACHINE.LABEL.HOURS PER DAY' | translate}}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-12">{{'PLATFORM.MACHINE.LABEL.OR' | translate}}:</div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-1 d-block">&nbsp;</div>
+                                    <label for="hoursPerDay" class="col-sm-2 col-form-label">{{'PLATFORM.MACHINE.LABEL.HOURS PER YEAR' | translate}}:</label>
+                                    <div class="col-sm-9">
+                                        <input type="number" min="0" step="any" class="form-control" formControlName="hoursPerYear" id="hoursPerYear" placeholder="{{'PLATFORM.MACHINE.LABEL.HOURS PER YEAR' | translate}}">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3 col-md-2 col-lg-2">
+                                        <button class="btn btn-success" type="submit" [disabled]="!machineForm.valid">{{'FORM.SUBMIT' | translate}}</button>
+                                    </div>
+                                    <div class="col-sm-3 col-md-2 col-lg-2">
+                                        <button class="btn btn-info" [disabled]="machineForm.pristine" (click)="reset()">{{'FORM.RESET' | translate}}</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </ngb-tab>
+    </ngb-tabset>
+</div>

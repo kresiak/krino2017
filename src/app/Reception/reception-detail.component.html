@@ -1,0 +1,83 @@
+<div class="card">
+    <div class="card-body">
+        <ngb-tabset>
+            <ngb-tab title="{{'RECEPTION.MENU.NEW PACKET' | translate}}" id="newPacket">
+                <ng-template ngbTabContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="container-fluid">
+                                <form [formGroup]="receptionForm" (ngSubmit)="save(receptionForm.value, receptionForm.valid)">
+                                    <div class="form-group row">
+                                        <label for="supplierId" class="col-sm-2 col-form-label col-xl-2">{{'RECEPTION.LABEL.SUPPLIER' | translate}}:</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" ng2-auto-complete blank-option-text="{{'RECEPTION.LABEL.SELECT ONE PHOLDER' | translate}}"  formControlName="supplierId" [source]="suppliersList" placeholder="{{'RECEPTION.LABEL.CHOOSE IN LIST PHOLDER' | translate}}" [list-formatter]="autocompleListFormatter">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="supplier" class="col-sm-2 col-form-label col-xl-2">{{'RECEPTION.LABEL.OR SUPPLIER' | translate}}:</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" formControlName="supplier" id="supplier" placeholder="{{'RECEPTION.LABEL.IF NOT IN LIST PHOLDER' | translate}}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="reference" class="col-sm-2 col-form-label col-xl-2">{{'RECEPTION.LABEL.REFERENCE' | translate}}:</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" formControlName="reference" id="reference" placeholder="{{'RECEPTION.LABEL.REFERENCE' | translate}}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="position" class="col-sm-2 col-form-label col-xl-2">{{'RECEPTION.LABEL.POSITION' | translate}}:</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" formControlName="position" id="position" placeholder="{{'RECEPTION.LABEL.POSITION' | translate}}">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-sm-3 col-md-2 col-lg-2">
+                                            <button class="btn btn-success" type="submit" [disabled]="!receptionForm.valid">{{'FORM.SUBMIT' | translate}}</button>
+                                        </div>
+                                        <div class="col-sm-3 col-md-2 col-lg-2">
+                                            <button class="btn btn-info"  [disabled]="receptionForm.pristine" (click)="reset()">{{'FORM.RESET' | translate}}</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+				        </div>
+			        </div>
+		        </ng-template>
+	        </ngb-tab>  
+            <ngb-tab title="{{'RECEPTION.MENU.LIST OF PACKET' | translate}}" id="listOfPacket">
+                <ng-template ngbTabContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="container-fluid">
+        						<div class="row">
+                                    <div class="col-sm-2 align-self-center"><b>{{'RECEPTION.COLUMN.WHEN' | translate}}</b></div>
+                                    <div class="col-sm-2 align-self-center"><b>{{'RECEPTION.COLUMN.REFERENCE' | translate}}</b></div>
+                                    <div class="col-sm-3 align-self-center"><b>{{'RECEPTION.COLUMN.SUPPLIER' | translate}}</b></div>
+                                    <div class="col-sm-2 align-self-center"><b>{{'RECEPTION.COLUMN.POSITION' | translate}}</b></div>
+                                    <div class="col-sm-2 align-self-center"><b>{{'RECEPTION.COLUMN.PROCESSED' | translate}}</b></div>
+                                </div>
+                                <div *ngFor="let reception of receptionList" [id]="reception" >
+                                    <div class="row">
+                                        <div class="col-sm-2 align-self-center"><gg-date-pointer [date]="reception.data.createDate"></gg-date-pointer></div>
+                                        <div class="col-sm-2 align-self-center">
+                                            <gg-editor [content]="reception.data.reference" [showControls]="true" (editSaved)="referenceUpdated($event, reception)"></gg-editor>
+                                        </div>
+                                        <div class="col-sm-3 align-self-center">{{reception.annotation.supplier}}</div>
+                                        <div class="col-sm-2 align-self-center">
+                                            <gg-editor [content]="reception.data.position" [showControls]="true" (editSaved)="positionUpdated($event, reception)"></gg-editor>
+                                        </div>
+                                        <div class="col-sm-2 align-self-center">
+                                            <gg-editor-boolean [content]="reception.data.isProcessed" (editSaved)="isProcessed($event, reception)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
+                                        </div>
+                                    </div>                        
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+        </ngb-tabset>
+    </div>
+</div>

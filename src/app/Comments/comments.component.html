@@ -1,0 +1,26 @@
+<div class="card">
+	<div class="card-body">
+		<br/>
+		<div class="comments__title">{{'GENERAL.COMMENTS.ADD NEW COMMENT' | translate}}</div>
+		<div class="comments__add-comment-section">
+			<div class="comments__add-comment-box">
+				<gg-editor [editMode]="true" [showControls]="false"></gg-editor>
+			</div>
+
+			<div *ngIf="selectableUsers && allowNotifyUsers" class="comments__add-comment-box" >
+				<span style="width:250px">{{'GENERAL.COMMENTS.NOTIFY USERS LABEL' | translate}}</span>		<gg-selector [ngbTooltip]="'GENERAL.COMMENTS.NOTIFY USERS TIP' | translate" [selectableData]="selectableUsers" [selectedIds]="undefined" (selectionChanged)="userSelectionChanged($event)"></gg-selector>
+			</div>
+			<button (click)="addNewComment()" [disabled]="newCommentEditor?.getEditableContent()?.length === 0" class="btn btn-primary btn-sm">{{'GENERAL.COMMENTS.ADD COMMENT' | translate}}</button>
+		</div>
+
+		<div *ngIf="comments?.length > 0 && !dontShowOldMessages">
+			<div class="comments__title">{{'GENERAL.COMMENTS.ALL COMMENTS' | translate}}</div>
+			<ul class="comments__list">
+				<li *ngFor="let comment of comments">
+					<gg-comment [content]="comment.content" [time]="comment.time" [user]="comment.user" [picture]="getPictureFile(comment)" (commentEdited)="onCommentEdited(comment, $event)">
+					</gg-comment>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>

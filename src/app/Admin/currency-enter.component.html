@@ -1,0 +1,28 @@
+<div class="card">
+    <div class="card-body">
+        <div class="container-fluid">
+            <form [formGroup]="currencyEnterForm" (ngSubmit)="save(currencyEnterForm.value, currencyEnterForm.valid)">
+                <div class="form-group row">
+                    <label for="laboName" class="col-sm-2 col-form-label col-xl-2">{{'ADMINISTRATION.CURRENCIES.LABEL.CURRENCY NAME' | translate}}</label>
+                    <div class="col-sm-10">
+                        <input type="text" min="2" class="form-control" formControlName="name" id="name" placeholder="{{'ADMINISTRATION.CURRENCIES.LABEL.CURRENCY NAME' | translate}}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="laboShortName" class="col-sm-2 col-form-label col-xl-2">{{'ADMINISTRATION.CURRENCIES.LABEL.CURRENCY CONVERSION' | translate}}</label>
+                    <div class="col-sm-10">
+                        <input type="number" min="0" step="any" class="form-control" formControlName="conversion" id="conversion" placeholder="{{'ADMINISTRATION.CURRENCIES.LABEL.CURRENCY CONVERSION' | translate}}">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3 col-md-2 col-lg-2">
+                        <button class="btn btn-success" type="submit" [disabled]="!currencyEnterForm.valid">{{'FORM.SUBMIT' | translate}}</button>
+                    </div>
+                    <div class="col-sm-3 col-md-2 col-lg-2">
+                        <button class="btn btn-info" [disabled]="currencyEnterForm.pristine" (click)="resetLabEnterForm()">{{'FORM.RESET' | translate}}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+<gg-search-box [objectTypeTranslationKey]="'GENERAL.SERVICES'" [objectsObservable]="servicesObservable" [fnFilterObjects]="fnFilter" (listChanged)="setServices($event)">
+    <ul searchHelp>
+        <li>{{'PLATFORM.SERVICE.SEARCH HELP.MSG1' | translate}}</li>
+        <li>{{'PLATFORM.SERVICE.SEARCH HELP.MSG2' | translate}}</li>
+    </ul>
+
+    <ngb-accordion accordion *ngIf="servicesList" [closeOthers]="true" #acc="ngbAccordion" (panelChange)="beforeAccordionChange($event)"
+        [activeIds]="state.openPanelId">
+        <ngb-panel [disabled]="true">
+            <ng-template ngbPanelTitle>
+                <div class="row">
+                    <div class="col-sm-1" *ngIf="isForSelection"></div>
+                    <div [class.col-sm-3]="!isForSelection" [class.col-sm-2]="isForSelection"><b>{{'PLATFORM.SERVICE.COLUMN.SERVICE' | translate}}</b></div>
+                    <div class="col-sm-2"><b>{{'PLATFORM.SERVICE.COLUMN.CLIENT TYPE' | translate}}</b></div>
+                    <div class="col-sm-3"><b>{{'PLATFORM.SERVICE.COLUMN.CATEGORIES' | translate}}</b></div>
+                    <div class="col-sm-2"><b>{{'PLATFORM.SERVICE.COLUMN.COST' | translate}}</b></div>
+                    <div class="col-sm-2"><b>{{'PLATFORM.SERVICE.COLUMN.CURRENT' | translate}}</b></div>
+                </div>
+            </ng-template>
+        </ngb-panel>
+        <ngb-panel *ngFor="let serviceItem of servicesList" [id]="serviceItem.data._id">
+            <!--FOR-->
+            <ng-template ngbPanelTitle>
+                <div class="row" id="{{serviceItem.data._id}}">
+                    <div class="col-sm-1" *ngIf="isForSelection">
+                        <img [ngbTooltip]="'PLATFORM.SERVICE.LABEL.SELECT SERVICE TIP' | translate" *ngIf="!isServiceSelected(serviceItem)" height="25" width="25" src="images/add.png"
+                            (click)="serviceSelectedInList($event, serviceItem, false)" />
+
+                        <img [ngbTooltip]="'PLATFORM.SERVICE.LABEL.UNSELECT SERVICE TIP' | translate"  *ngIf="isServiceSelected(serviceItem)" height="25" width="25" src="images/remove.png"
+                            (click)="serviceSelectedInList($event, serviceItem, true)" />
+                    </div>
+
+                    <div [class.col-sm-3]="!isForSelection" [class.col-sm-2]="isForSelection" [style.font-weight]="serviceItem.data._id === state.openPanelId ? 'bold' : 'lighter'">
+                        <gg-text-compact [numberOfChar]="30" [extraTooltipText]="serviceItem.data.description" [text]="serviceItem.data.name"></gg-text-compact>
+                    </div>
+                    <div class="col-sm-2">{{serviceItem.annotation.clientType}}</div>
+                    <div class="col-sm-3">{{serviceItem.annotation.category}}</div>
+                    <div class="col-sm-2 gg-price">{{fnGetCostByService(serviceItem.data._id) | ggCurrency}}</div>
+                    <div class="col-sm-2">{{serviceItem.annotation.currentSnapshot}}</div>
+                </div>
+            </ng-template>
+            <ng-template ngbPanelContent>
+                <gg-platform-service-detail [serviceItem]="serviceItem" [serviceToCompareToId]="serviceToCompareToId"></gg-platform-service-detail>
+            </ng-template>
+        </ngb-panel>
+    </ngb-accordion>
+
+</gg-search-box>
+
+

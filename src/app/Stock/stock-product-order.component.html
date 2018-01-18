@@ -1,0 +1,25 @@
+<div class="card">
+    <br>
+    <form [formGroup]="frmStockOrder" (ngSubmit)="save(frmStockOrder.value, frmStockOrder.valid)">
+        <div class="row">
+            <div class="col-sm-3"><b>{{'STOCK.COLUMN.PRODUCT' | translate}}</b></div>
+            <div class="col-sm-2"><b>{{'STOCK.COLUMN.AVAILABLE' | translate}}</b></div>
+            <div class="col-sm-2"><b>{{'STOCK.COLUMN.QTY I ALREADY ORDERED' | translate}}</b></div>
+        </div>
+        <div class="row">
+
+            <div class="col-sm-3 imgSearch" (click)="navigateToProduct()">{{product.values[0].annotation.product}}</div>
+            <div class="col-sm-2">{{getNbAvailable()}}</div>
+            <div class="col-sm-2" [style.color]="product.values[0].annotation.nbReservedByMe == 0 ? 'black' : 'red'">{{product.values[0].annotation.nbReservedByMe}}</div>
+            <div class="col-sm-3">                
+                <input type="number" min="0" [max]="getNbOrderable()" formControlName="quantity" />
+                <span *ngIf="getNbOrderable() <= 0">{{'STOCK.ACTION.YOU CANNOT ORDER MORE' | translate}}</span>
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-2" *ngIf="getNbOrderable() > 0">
+                <button class="btn btn-success" type="submit" [disabled]="!frmStockOrder.valid" *ngIf="product.values[0].annotation.nbReservedByMe==0">{{'STOCK.ACTION.SEND REQUEST' | translate}}</button>
+                <button class="btn btn-danger" type="submit" [disabled]="!frmStockOrder.valid" *ngIf="product.values[0].annotation.nbReservedByMe>0" [ngbTooltip]="('STOCK.LABEL.YOU HAVE ALREADY ORDERED TIP' | translate) + ': ' + product.values[0].annotation.nbReservedByMe ">{{'STOCK.ACTION.SEND REQUEST FOR MORE' | translate}}</button>
+            </div>
+        </div>
+    </form>
+
+</div>

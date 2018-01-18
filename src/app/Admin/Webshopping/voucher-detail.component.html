@@ -1,0 +1,122 @@
+<ngb-tabset *ngIf="voucher"  (tabChange)="beforeTabChange($event)" [activeId]="state.selectedTabId">
+	<ngb-tab title="{{'ADMINISTRATION.WEB SHOPPING.MENU.INFO' | translate}}" id="tabInfo">
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-sm-4 align-self-center">{{'ADMINISTRATION.WEB SHOPPING.LABEL.CREATION DATE VOUCHER' | translate}}</div>
+						<div class="col-sm-6 align-self-center">{{voucher.data.dateCreation | fullDate}}
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4 align-self-center">{{'ADMINISTRATION.WEB SHOPPING.LABEL.USAGE' | translate}}</div>
+						<div class="col-sm-6 align-self-center" [style.color]="voucher.annotation.isUsed ? 'blue' : 'green'">{{voucher.annotation.status}}
+						</div>
+					</div>
+					<div class="row" *ngIf="voucher.annotation.isUsed">
+						<div class="col-sm-4 align-self-center">{{'ADMINISTRATION.WEB SHOPPING.LABEL.SAP HAS BEEN UPDATED' | translate}}</div>
+						<div class="col-sm-6 align-self-center" [style.color]="voucher.annotation.isInSap ? 'green' : 'red'">
+							<gg-editor-boolean [content]="voucher.annotation.isInSap" (editSaved)="isInSapUpdated($event)"></gg-editor-boolean>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4 align-self-center">{{'ADMINISTRATION.WEB SHOPPING.LABEL.FOR THE USE OF USER' | translate}}</div>
+						<div class="col-sm-6 align-self-center">{{voucher.annotation.user}} {{voucher.annotation.isUsed ? ' / ' + voucher.annotation.equipe : ''}}
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4 align-self-center">{{'ADMINISTRATION.WEB SHOPPING.LABEL.WEB SUPPLIER' | translate}}</div>
+						<div class="col-sm-6 align-self-center">{{voucher.annotation.supplier}}/{{voucher.annotation.category}}
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4 align-self-center">{{'ADMINISTRATION.WEB SHOPPING.LABEL.SAP ID TO BE USED' | translate}}</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor [content]="voucher.data.sapId" [showControls]="true" (editSaved)="sapIdUpdated($event)"></gg-editor>
+						</div>
+					</div>
+					<div class="row" *ngIf="voucher.annotation.isUsed">
+						<div class="col-sm-4 align-self-center">{{'ADMINISTRATION.WEB SHOPPING.LABEL.AMOUNT' | translate}}</div>
+						<div class="col-sm-6 align-self-center">{{voucher.data.shopping.total | ggCurrency}}
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4 align-self-center">{{'ADMINISTRATION.WEB SHOPPING.LABEL.OTP' | translate}}</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor-autocomplete [selectableData]="otpListObservable" [selectedId]="voucher.data.otpId" (idChanged)="otpChanged($event)" ></gg-editor-autocomplete>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">_id:</div>
+						<div class="col-sm-6">{{voucher.data._id}}</div>
+					</div>
+				</div>
+			</div>
+		</ng-template>
+	</ngb-tab>
+
+	<ngb-tab id="tabComments">
+		<ng-template ngbTabTitle>
+			<gg-comments-tab-title [data]="voucher.data"></gg-comments-tab-title>
+		</ng-template>
+		<ng-template ngbTabContent>
+			<gg-comments-tab [data]="voucher.data" [dbTable]="'orders.vouchers'"></gg-comments-tab>
+		</ng-template>
+	</ngb-tab>
+
+
+
+	<ngb-tab title="{{'ADMINISTRATION.WEB SHOPPING.MENU.PURCHASE' | translate}}" id="tabPurchase" *ngIf="voucher.annotation.isUsed">
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-sm-4 align-self-center">{{'ADMINISTRATION.WEB SHOPPING.LABEL.USING DATE' | translate}}</div>
+						<div class="col-sm-6 align-self-center">{{voucher.data.shopping.date | fullDate}}</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4 align-self-center">{{'ADMINISTRATION.WEB SHOPPING.LABEL.USED BY EQUIPE' | translate}}</div>
+						<div class="col-sm-6 align-self-center">{{voucher.annotation.equipe}}</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4 align-self-center">{{'ADMINISTRATION.WEB SHOPPING.LABEL.DESCRIPTION' | translate}}</div>
+						<div class="col-sm-6 align-self-center">{{voucher.data.shopping.description}}</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4 align-self-center">{{'ADMINISTRATION.WEB SHOPPING.LABEL.TOTAL' | translate}}</div>
+						<div class="col-sm-6 align-self-center">{{voucher.data.shopping.total | ggCurrency}}</div>
+					</div>
+					<div class="row" *ngIf="authorizationStatusInfo?.isAdministrator()">
+						<div class="col-sm-4 align-self-center"><button (click)="deletePurchase()" class="btn btn-warning" type="submit" [disabled]="!iAgreeToDelete.checked">Delete the web shopping purchase order</button></div>
+						<div class="col-sm-6 align-self-center"><input type="checkbox"  #iAgreeToDelete> I am aware of the fact that if I delete this purchase, the information will be lost and I really want to delete it.<br></div>
+					</div>
+
+					
+				</div>
+			</div>			
+		</ng-template>
+	</ngb-tab>	
+
+	<ngb-tab title="{{'ADMINISTRATION.WEB SHOPPING.MENU.DELIVERY' | translate}}" id="tabDelivery" *ngIf="voucher.annotation.isUsed">
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-sm-2">{{'ADMINISTRATION.WEB SHOPPING.LABEL.NO DELIVERY YET' | translate}}</div>
+						<div class="col-sm-2"><input type="radio" name="radioDeliveryGroup" [checked]="!voucher.data.delivery || voucher.data.delivery==='nothing'" (change)="deliveryChanged('nothing')"/> </div>
+					</div>
+					<div class="row">
+						<div class="col-sm-2">{{'ADMINISTRATION.WEB SHOPPING.LABEL.PARTIALLY DELIVERED' | translate}}</div>
+						<div class="col-sm-2"><input type="radio" name="radioDeliveryGroup" [checked]="voucher.data.delivery==='partial'" (change)="deliveryChanged('partial')"/> </div>
+					</div>
+					<div class="row">
+						<div class="col-sm-2">{{'ADMINISTRATION.WEB SHOPPING.LABEL.FULLY DELIVERED' | translate}}</div>
+						<div class="col-sm-2"><input type="radio" name="radioDeliveryGroup" [checked]="voucher.data.delivery==='complete'" (change)="deliveryChanged('complete')"/> </div>
+					</div>
+				</div>
+			</div>			
+		</ng-template>
+	</ngb-tab>	
+
+
+</ngb-tabset>

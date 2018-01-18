@@ -1,0 +1,34 @@
+<div class="container-fluid">
+    <form [formGroup]="giftForm" (ngSubmit)="save(giftForm.value, giftForm.valid)">
+        <div class="form-group row">
+            <label for="supplierId" class="col-sm-2 col-form-label col-xl-2">{{'EQUIPE.LABEL.EQUIPE GIVING' | translate}}</label>
+            <div class="col-sm-10">
+                <input class="form-control" ng2-auto-complete blank-option-text="{{'EQUIPE.LABEL.SELECT ONE PHOLDER' | translate}}" formControlName="equipeGivingId" [source]="equipesList"
+                    placeholder="{{'EQUIPE.LABEL.CHOOSE IN LIST PHOLDER' | translate}}" [list-formatter]="autocompleListFormatter" (valueChanged)="equipeGivingChanged($event)" display-property-name="name" value-property-name="id" >
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="supplierId" class="col-sm-2 col-form-label col-xl-2">{{'EQUIPE.LABEL.EQUIPE RECEIVING' | translate}}</label>
+            <div class="col-sm-10">
+                <input class="form-control" ng2-auto-complete blank-option-text="{{'EQUIPE.LABEL.SELECT ONE PHOLDER' | translate}}" formControlName="equipeTakingId" [source]="equipesList"
+                    placeholder="{{'EQUIPE.LABEL.CHOOSE IN LIST PHOLDER' | translate}}" [list-formatter]="autocompleListFormatter" (valueChanged)="equipeTakingChanged($event)" display-property-name="name" value-property-name="id" >
+            </div>
+        </div>
+
+		<div class="form-group row">
+			<label for="budget" class="col-sm-2 col-form-label col-xl-2">{{'EQUIPE.LABEL.AMOUNT TRANSFERED' | translate}}</label>
+			<div class="col-sm-10">
+				<input type="number" min="1" step="any" class="form-control" formControlName="amount" id="amount" placeholder="{{'EQUIPE.LABEL.AMOUNT PHOLDER' | translate}}">
+			</div>
+		</div>
+
+        <div class="row">
+            <div class="col-sm-3 col-md-2 col-lg-2">
+                <button class="btn btn-success" type="submit" [disabled]="!giftForm.valid">{{'FORM.SUBMIT' | translate}}</button>
+            </div>
+            <div class="col-sm-3 col-md-2 col-lg-2">
+                <button class="btn btn-info" [disabled]="giftForm.pristine" (click)="reset()">{{'FORM.RESET' | translate}}</button>
+            </div>
+        </div>
+    </form>
+</div>

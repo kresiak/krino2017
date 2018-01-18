@@ -1,0 +1,37 @@
+<ng-template #mymodal let-c="close" let-d="dismiss">
+	<div class="modal-header">
+		<h4 class="modal-title">{{'UI.GENERAL.PLEASE CHOOSE' | translate}}</h4>
+		<button type="button" class="close" (click)="d('Cross click')" [ngbTooltip]="'UI.GENERAL.CHANGES LOST' | translate" placement="bottom-left" >
+            <span >&times;</span>
+        </button>
+	</div>
+	<div class="modal-body">
+		<div class="card">
+			<div class="card-body">
+				<div class="row">
+					<div class="col-sm-6" *ngFor="let item of selectableData | async">
+						<div class="row">
+							<div class="col-sm-1 align-self-center">
+								<gg-checkbox [disabled]="item.isBlocked" [checked]="isItemSelected(item)" (checkedChange)="setItemSelection(item, $event)"></gg-checkbox>
+							</div>
+							<div class="col-sm-10 align-self-center">{{item.name}}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<input [hidden]="!(canAddOption && selectionOptionAdded.observers.length > 0)" type="text" class="enter-newselectableitem-input" placeholder="{{'UI.GENERAL.ENTER NEW CHOICE' | translate}}" (keydown)="onKeyDown($event)"
+		 #newselectableitemtitle>
+		<button *ngIf="canAddOption && selectionOptionAdded.observers.length > 0" class="button btn btn-default btn-sm" (click)="enterNewSelectableItem(newselectableitemtitle)">{{'UI.GENERAL.ADD THE CHOICE' | translate}}</button>
+		<button type="button" class="btn btn-success" (click)="c('Close click')">{{'UI.GENERAL.SAVE' | translate}}</button>
+		<button type="button" class="btn btn-warning" (click)="d('Cancel click')">{{'UI.GENERAL.CANCEL' | translate}}</button>
+	</div>
+</ng-template>
+
+<div class="editor__output" *ngIf="content">{{content}}</div>
+<div class="editor__output" *ngIf="!content">{{'UI.GENERAL.NOT SET YET' | translate}}</div>
+<div *ngIf="!readOnly && !editMode" class="editor__controls">
+	<button (click)="openModal(mymodal)" class="editor__icon-edit"></button>
+</div>

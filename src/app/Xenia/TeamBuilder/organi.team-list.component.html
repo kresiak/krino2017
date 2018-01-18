@@ -1,0 +1,36 @@
+<gg-search-box [objectTypeTranslationKey]="'GENERAL.TEAMS'" [objectsObservable]="teamsObservable" [fnFilterObjects]="fnFilter" (listChanged)="teams=$event" *ngIf="personsMap">
+	<ul searchHelp>
+		<li>{{'PUBLIC.TEAMBUILDER.ORGANI.SEARCH HELP.MSG2' | translate}}</li>
+	</ul>
+	<ngb-accordion accordion [closeOthers]="true" #acc="ngbAccordion">
+		<ngb-panel [disabled]="true">
+			<ng-template ngbPanelTitle>
+				<div class="row">
+                    <div class="col-sm-3"><b>{{'PUBLIC.TEAMBUILDER.ORGANI.COLUMNS.PROJECT NAME' | translate}}</b></div>
+                    <div class="col-sm-3"><b>{{'PUBLIC.TEAMBUILDER.ORGANI.COLUMNS.PI NAME' | translate}}</b></div>   
+                    <div class="col-sm-3"><b>{{'PUBLIC.TEAMBUILDER.ORGANI.COLUMNS.NB PERSONS' | translate}}</b></div>                                     
+				</div>
+			</ng-template>
+			<ng-template ngbPanelContent>
+			</ng-template>
+		</ngb-panel>
+		<ngb-panel *ngFor="let team of teams" [id]="team._id">
+			<ng-template ngbPanelTitle>
+				<div class="row" id="{{team._id}}">
+                    <div class="col-sm-3">{{team.name || getPersonName(team.piId)}}</div>
+                    <div class="col-sm-3">{{getPersonName(team.piId)}}</div>
+                    <div class="col-sm-3">{{(team.memberIds || []).length + 1}}</div>
+				</div>
+			</ng-template>
+			<ng-template ngbPanelContent>
+				<gg-organi-team-detail [teamObservable]="getTeamObservable(team._id)" ></gg-organi-team-detail>
+			</ng-template>
+		</ngb-panel>
+	</ngb-accordion>
+</gg-search-box>
+
+
+
+
+
+

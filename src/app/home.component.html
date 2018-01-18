@@ -1,0 +1,75 @@
+<br/>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12 d-none d-md-block">
+			<div class="jumbotron ">
+				<h1 style="text-align: center;">κρίνω: {{'HOME.KRINO.GREEK' | translate}}</h1><br/>
+				<h4 style="text-align: center;">Redesign of Krino: component oriented in order to allow better customization and maintenance.</h4> <br/>
+				<p>The proper meaning of κρίνω is to pick out by separating. It typically refers to making a determination of right or wrong,
+					especially on an official standard. We only judge accurately by intelligent comparison and contrast, i.e. to approve
+					what is correct and reject what is wrong.</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
+			<div class="card">
+				<img class="card-img img-fluid" src="images/research600.jpg" alt="Card image"> 
+				<div class="card-img-overlay">
+					<!--					<h4 class="card-title">Card title</h4>
+					<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little
+						bit longer.</p>
+					<p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+-->
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3">
+			<div class="card text-xs-center border-success">
+				<div class="card-header">
+					{{'HOME.CARD HEADER.YOUR BUDGET' | translate}}
+				</div>
+				<!--				<img class="card-img-top" src="images/GIGAlogo.png" alt="Card image cap">-->
+				<div class="card-body ">
+					<h4 class="card-title">{{'HOME.CARD TITLE.STATISTICS' | translate}}</h4>
+					<img class="card-img img-fluid" src="images/chart.png" alt="Card image">
+					<br/>
+					<p class="card-text">{{'HOME.CARD TEXT.KRINO WILL SHOW HERE' | translate}}</p>
+				</div>
+				<div class="card-footer text-muted">
+					{{'HOME.CARD FOOTER.2 DAYS AGO' | translate}}
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3" *ngIf="messageList && messageList.length > 0">
+			<div class="card text-xs-center border-primary">
+				<div class="card-header">
+					{{'HOME.CARD HEADER.INFORMATION' | translate}}
+				</div>
+				<div class="card-body">
+					<h4 class="card-title">{{'HOME.CARD TITLE.NEW MESSAGES' | translate}}</h4>
+					<ul class="card-text text-xs-left mail">
+						<li *ngFor="let message of messageList"><gg-date-pointer [date]="message.data.createDate"></gg-date-pointer>: from {{message.annotation.user}} says '{{message.data.message}}'</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3" *ngIf="receptionList && receptionList.length > 0">
+			<div class="card text-xs-center border-warning">
+				<div class="card-header">
+					{{'HOME.CARD HEADER.FROM RECEPTION' | translate}}
+				</div>
+				<div class="card-body">
+					<h4 class="card-title">{{'HOME.CARD TITLE.NEW DELIVERIES' | translate}}</h4>
+					<ul class="card-text text-xs-left package_at_reception">
+						<li *ngFor="let reception of receptionList"><gg-date-pointer [date]="reception.data.createDate"></gg-date-pointer>: from {{reception.annotation.supplier}} with reference {{reception.data.reference}} can be found in {{reception.data.position}}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

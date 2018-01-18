@@ -1,0 +1,361 @@
+<ng-template #popContent>{{(isRoot ? 'GENERAL.ACTION.CLICK HERE TO GO BACK TO LAST VIEW' : 'GENERAL.ACTION.CLICK HERE TO GET A DETAIL VIEW') | translate}}</ng-template>
+
+<ngb-tabset *ngIf="otp" (tabChange)="beforeTabChange($event)" [activeId]="state.selectedTabId">
+	<ngb-tab title="{{'OTP.MENU.INFO' | translate}}" id="tabInfo">
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-sm-4 align-self-center">{{'OTP.LABEL.OTP' | translate}}:</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor [content]="otp.data.name" [showControls]="true" (editSaved)="nameUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4 align-self-center">{{'OTP.LABEL.DESCRIPTION' | translate}}:</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor [content]="otp.data.description" [showControls]="true" (editSaved)="descriptionUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4 align-self-center">{{'OTP.LABEL.EQUIPE' | translate}}:</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor-autocomplete [selectableData]="equipeListObservable" [selectedId]="otp.data.equipeId" (idChanged)="equipeChanged($event)"></gg-editor-autocomplete>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4 align-self-center">{{'OTP.LABEL.NOTE' | translate}}:</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor [content]="otp.data.note" [showControls]="true" (editSaved)="noteUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4 align-self-center">{{'OTP.LABEL.FIRST SAP ACTIVITY' | translate}}:</div>
+						<div class="col-sm-6 align-self-center">
+							{{otp.annotation.minSapDate | shortDate}}  {{otp.annotation.minSapId}}
+						</div>
+					</div>
+					<div class="row" [style.color]="!otp.data.priority ? 'red' : 'black'">
+						<div class="col-sm-4 align-self-center">{{'OTP.LABEL.PRIORITY' | translate}}:</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor-number [content]="otp.data.priority" (editSaved)="priorityUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-number>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-2">
+							<img *ngIf="!otp.annotation.dashletId" src="images/pin.png" (click)="setDashlet()" />
+							<img *ngIf="otp.annotation.dashletId" src="images/unpin.png" (click)="removeDashlet(otp.annotation.dashletId)" />
+						</div>
+					</div>
+					<div class="row" *ngIf="!configService.isProduction()">
+						<div class="col-sm-4">_id:</div>
+						<div class="col-sm-6">{{otp.data._id}}</div>
+					</div>
+
+				</div>
+			</div>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{'OTP.MENU.PERMISSION' | translate}}" id="tabPermissions">
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-sm-4 align-self-center">{{'OTP.LABEL.CLASSIFICATION' | translate}}:</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-selector [selectableData]="selectableClassificationsObservable" [selectedIds]="selectedClassificationIdsObservable" (selectionChanged)="classificationChanged($event)"
+							 (selectionOptionAdded)="classificationHasBeenAdded($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-selector>
+						</div>
+					</div>
+					<div class="row" [style.color]="otp.data.isLimitedToOwner ? 'red' : 'black'">
+						<div class="col-sm-4 align-self-center">{{'OTP.LABEL.LIMITED OWNER' | translate}}:</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor-boolean [content]="otp.data.isLimitedToOwner" (editSaved)="limitedToOwnerUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4 align-self-center">{{'OTP.LABEL.LIMITED USERS' | translate}}</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-selector [selectableData]="selectableUsers" [selectedIds]="selectedUserIdsObservable" (selectionChanged)="userSelectionChanged($event)"
+							 [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-selector>
+						</div>
+					</div>					
+					<div class="row" [style.color]="otp.data.isBlocked ? 'red' : 'black'">
+						<div class="col-sm-4 align-self-center">{{'OTP.LABEL.IS BLOCKED' | translate}}:</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor-boolean [content]="otp.data.isBlocked" (editSaved)="blockedUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
+						</div>
+					</div>
+					<div class="row" [style.color]="otp.data.isClosed ? 'red' : 'black'">
+						<div class="col-sm-4 align-self-center">{{'OTP.LABEL.IS CLOSED' | translate}}:</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor-boolean [content]="otp.data.isClosed" (editSaved)="closedUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
+						</div>
+					</div>
+					<div class="row" [style.color]="otp.data.isDeleted ? 'red' : 'black'">
+						<div class="col-sm-4 align-self-center">{{'OTP.LABEL.IS DELETED' | translate}}:</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor-boolean [content]="otp.data.isDeleted" (editSaved)="deletedUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
+						</div>
+					</div>
+					<div class="row" [style.color]="otp.data.excludeFixCost ? 'red' : 'black'">
+						<div class="col-sm-4 align-self-center">{{'OTP.LABEL.CANNOT TRANSPORT COSTS' | translate}}:</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor-boolean [content]="otp.data.excludeFixCost" (editSaved)="excludeFixCostUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
+						</div>
+					</div>
+				</div>
+			</div>
+		</ng-template>
+	</ngb-tab>
+	
+	<ngb-tab title="{{'OTP.MENU.BUDGET' | translate}}" id="tabBudget">
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<ngb-tabset>
+						<ngb-tab title="{{'OTP.MENU.CURRENT BUDGET' | translate}}" id="tabOtpCurrentBudget">
+							<ng-template ngbTabContent>
+								<div class="card">
+									<div class="card-body">
+										<div *ngIf="otp.annotation.currentPeriodIndex !== -1">
+											<gg-otp-period-detail [budgetPeriod]="otp.data.budgetPeriods[otp.annotation.currentPeriodIndex]" [otp]="otp" [budgetAnnotation]="otp.annotation.currentPeriodAnnotation"></gg-otp-period-detail>
+										</div>
+										<div *ngIf="otp.annotation.currentPeriodIndex === -1">
+											<p>There is no otp budget defined for the present period.</p>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</ngb-tab>
+						<ngb-tab title="{{'OTP.MENU.PERIODS' | translate}}" id="tabOtpPeriods">
+							<ng-template ngbTabContent>
+								<div class="card">
+									<div class="card-body">
+
+										<div class="row">
+											<label class="col-sm-3 col-form-label col-xl-3 align-self-center">{{'OTP.LABEL.IS ANNUAL' | translate}}:</label>
+											<div class="col-md-3 align-self-center">
+												<gg-editor-boolean [content]="otp.data.isAnnual" (editSaved)="updatedIsAnnualChecked($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
+											</div>
+										</div>
+
+										<ngb-tabset>
+											<ngb-tab title="{{'OTP.MENU.HISTORY PERIODS' | translate}}" id="tabHistoryOfBudgetPeriods">
+												<ng-template ngbTabContent>
+													<div class="card">
+														<div class="card-body">
+															<ngb-accordion [closeOthers]="true" #acc="ngbAccordion">
+																<ngb-panel [disabled]="true">
+																	<ng-template ngbPanelTitle>
+																		<div class="row">
+																			<div class="col-sm-2"><b>{{'OTP.PERIOD.COLUMN.BUDGET OF THE PERIOD' | translate}}</b></div>
+																			<div class="col-sm-4"><b>{{'OTP.PERIOD.COLUMN.DATE START' | translate}}</b></div>
+																			<div class="col-sm-4"><b>{{'OTP.PERIOD.COLUMN.DATE END' | translate}}</b></div>
+																		</div>
+																	</ng-template>
+																	<ng-template ngbPanelContent>
+																	</ng-template>
+																</ngb-panel>
+																<ngb-panel *ngFor="let budgetPeriod of otp.data.budgetPeriods; let index=index">
+																	<ng-template ngbPanelTitle>
+																		<div class="row">
+																			<div class="col-sm-2">{{otp.annotation.budgetPeriods[index].budgetAvailable | ggCurrency}}</div>
+																			<div class="col-sm-4">{{budgetPeriod.datStart | shortDate}}</div>
+																			<div class="col-sm-4">{{budgetPeriod.datEnd | shortDate}}</div>
+																		</div>
+																	</ng-template>
+																	<ng-template ngbPanelContent>
+																		<gg-otp-period-detail [budgetPeriod]="budgetPeriod" [otp]="otp" [budgetAnnotation]="otp.annotation.budgetPeriods[index]"></gg-otp-period-detail>
+																	</ng-template>
+																</ngb-panel>
+															</ngb-accordion>
+														</div>
+													</div>
+												</ng-template>
+											</ngb-tab>
+											<ngb-tab title="{{'OTP.MENU.ADD BUDGET PERIOD' | translate}}" id="tabAddNewBudgetPeriod" *ngIf="authorizationStatusInfo?.isAdministrator() && otp.data.isAnnual">
+												<ng-template ngbTabContent>
+													<div class="card">
+														<form [formGroup]="annualForm" (ngSubmit)="SaveNewBudget(annualForm.value, annualForm.valid)">
+															<div class="card">
+																<div class="card-body">
+																	<div class="form-group row">
+																		<label for="budgetAnnual" class="col-sm-3 col-form-label col-xl-3">{{'OTP.LABEL.BUDGET' | translate}}:</label>
+																		<div class="col-sm-7">
+																			<input type="number" min="0" step="any" class="form-control" formControlName="budgetAnnual" id="budgetAnnual" placeholder="{{'OTP.LABEL.BUDGET' | translate}}">
+																		</div>
+																	</div>
+																	<div class="form-group row">
+																		<div class="col-sm-3 align-self-center">{{'OTP.LABEL.FROM' | translate}}:</div>
+																		<div class="col-sm-7 align-self-center">
+																			<gg-editor-date [content]="" (editSaved)="dateStartAnnualUpdated($event)"></gg-editor-date>
+																		</div>
+																	</div>
+																	<div class="form-group row">
+																		<div class="col-sm-3 align-self-center">{{'OTP.LABEL.TO' | translate}}:</div>
+																		<div class="col-sm-7 align-self-center">
+																			<gg-editor-date [content]="" (editSaved)="dateEndAnnualUpdated($event)"></gg-editor-date>
+																		</div>
+																	</div>
+																	<div class="form-group row">
+																		<div class="col-sm-3 col-md-2 col-lg-2">
+																			<button class="btn btn-success" type="submit" [disabled]="!annualForm.valid">{{'FORM.SUBMIT' | translate}}</button>
+																		</div>
+																		<div class="col-sm-3 col-md-2 col-lg-2">
+																			<button class="btn btn-info" [disabled]="annualForm.pristine" (click)="reset()">{{'FORM.RESET' | translate}}</button>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</form>
+													</div>
+												</ng-template>
+											</ngb-tab>
+										</ngb-tabset>
+									</div>
+								</div>
+							</ng-template>
+						</ngb-tab>
+						<ngb-tab title="{{'OTP.MENU.WARNINGS' | translate}}" id="tabWarnings">
+							<ng-template ngbTabContent>
+								<div class="card">
+									<div class="card-body">
+										<div class="row">
+											<div class="col-sm-4 align-self-center">{{'OTP.WARNING.MONTHS BEFORE END' | translate}}</div>
+											<div class="col-sm-6 align-self-center">
+												<gg-editor-number [content]="otp.data.warningNbMonthsToEnd" (editSaved)="warningNbMonthsToEndUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-number>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-4 align-self-center">{{'OTP.WARNING.REPEATS AFTER WARNING' | translate}}</div>
+											<div class="col-sm-6 align-self-center">
+												<gg-editor-number [content]="otp.data.warningNbRepeats" (editSaved)="warningNbRepeatsUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-number>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-4 align-self-center">{{'OTP.WARNING.DAYS WAIT REPEAT' | translate}}</div>
+											<div class="col-sm-6 align-self-center">
+												<gg-editor-number [content]="otp.data.warningNbDaysBetweenRepeats" (editSaved)="warningNbDaysBetweenRepeatsUpdated($event)"
+												 [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-number>
+											</div>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</ngb-tab>
+					</ngb-tabset>
+				</div>
+			</div>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{'OTP.MENU.SPENDING' | translate}}" id="tabSpending" *ngIf="otp">
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-sm-4">{{'OTP.LABEL.TOTAL BUDGET' | translate}}:</div>
+						<div class="col-sm-6">+ {{otp.annotation.budget | ggCurrency}}</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">{{'OTP.LABEL.SPENT OR BLOCKED' | translate}}:</div>
+						<div class="col-sm-6">- {{otp.annotation.amountSpent | ggCurrency}}</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4"></div>
+						<div class="col-sm-6">================</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">{{'OTP.LABEL.AMOUNT AVAILABLE' | translate}}:</div>
+						<div class="col-sm-6">= {{otp.annotation.amountAvailable | ggCurrency}}</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4"></div>
+						<div class="col-sm-6"></div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">{{'OTP.LABEL.BLOCKED PURCHASE ORDERS' | translate}}:</div>
+						<div class="col-sm-6">{{otp.annotation.amountSpentNotYetInSap | ggCurrency}}</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">{{'OTP.LABEL.BLOCKED STILL ENGAGED' | translate}}:</div>
+						<div class="col-sm-6">{{otp.annotation.amountEngaged | ggCurrency}}</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">{{'OTP.LABEL.SPENT INVOICES' | translate}}:</div>
+						<div class="col-sm-6">{{otp.annotation.amountBilled | ggCurrency}}</div>
+					</div>
+				</div>
+			</div>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{'OTP.MENU.CHARTS' | translate}}" id="tabCharts">
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-sm-6">
+							<div class='akbox'>
+								<div class='akcontent'>
+									<!--	<x-chartist [data]="pieSpentChart.data" [type]="pieSpentChart.type"></x-chartist>-->
+								</div>
+							</div>
+
+						</div>"
+					</div>
+
+				</div>
+			</div>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab id="tabComments">
+		<ng-template ngbTabTitle>
+			<gg-comments-tab-title [data]="otp.data"></gg-comments-tab-title>
+		</ng-template>
+		<ng-template ngbTabContent>
+			<gg-comments-tab [data]="otp.data" [dbTable]="'otps'" [urlPart]="'otp'"></gg-comments-tab>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{('PRODUCT.MENU.DOCUMENTS' | translate) + ' (' + (otp.data.documents || []).length + ')'}}" id="tabDocuments">
+		<ng-template ngbTabContent>
+			<gg-image-uploader-viewer [canUserAdd]="true" [canUserChange]="authorizationStatusInfo?.isAdministrator()" [documents]="otp.data.documents" (imagesChanged)="documentsChanged($event)"></gg-image-uploader-viewer>
+		</ng-template>
+	</ngb-tab>		
+	<ngb-tab title="{{'OTP.MENU.ORDERS' | translate}}" *ngIf="anyOrder" id="tabOrders">
+		<ng-template ngbTabContent>
+			<gg-order-list [ordersObservable]="ordersObservable" [state]="state.Orders" [path]="path+'|O:Orders'" (stateChanged)="childOrdersStateChanged($event)"></gg-order-list>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{'OTP.MENU.SAP' | translate}}" *ngIf="sapIdList" id="tabSaps">
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<ngb-tabset>
+						<ngb-tab title="{{'OTP.MENU.ALL ITEMS' | translate}}" id="tabSapsAll">
+							<ng-template ngbTabContent>
+								<gg-sap-by-sapids-list [sapIdList]="sapIdList" [otp]="otp" [state]="state.Saps" [path]="path+'|O:Saps'" (stateChanged)="childSapsStateChanged($event)"></gg-sap-by-sapids-list>
+							</ng-template>
+						</ngb-tab>
+						<!--						<ngb-tab title="By date" id="tabSapsByDate">
+							<ng-template ngbTabContent>
+								<gg-sap-by-date [otp]="otp.data.name"></gg-sap-by-date>
+							</ng-template>
+						</ngb-tab>
+--></ngb-tabset>
+				</div>
+			</div>
+		</ng-template>
+	</ngb-tab>
+
+
+	<ngb-tab id="tabMax">
+		<ng-template ngbTabTitle><img src="images/maximize.png" [ngbPopover]="popContent" triggers="mouseenter:mouseleave" /></ng-template>
+		<ng-template ngbTabContent></ng-template>
+	</ngb-tab>
+	<ngb-tab id="gotoTop" *ngIf="!isRoot && path!=='dashboard'">
+		<ng-template ngbTabTitle><img src="images/gototop.png" [ngbPopover]="'GENERAL.ACTION.GOTO TOP OF THE PAGE' | translate" triggers="mouseenter:mouseleave"
+			/></ng-template>
+		<ng-template ngbTabContent></ng-template>
+	</ngb-tab>
+
+</ngb-tabset>

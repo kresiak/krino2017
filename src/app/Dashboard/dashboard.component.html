@@ -1,0 +1,199 @@
+<div class="container-fluid" *ngIf="authorizationStatusInfo?.isLoggedIn">
+	<br/>
+	<div class="row">
+		<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3" *ngIf="privateMessages && privateMessages?.length>0">
+			<div class="card text-xs-center border-danger">
+				<div class="card-header">
+					{{'DASHBOARD.CARD HEADER.PRIVATE MESSAGES' | translate}}
+				</div>
+				<div class="card-body">
+					<h6 class="card-title">{{'DASHBOARD.CARD TITLE.PRIVATE MESSAGES' | translate}}</h6>
+					<ul class="card-text text-xs-left mail">
+						<li *ngFor="let message of privateMessages"><gg-date-pointer [date]="message.createDate"></gg-date-pointer>: {{message.userSendingFullName}} / {{message.message | translate}} <a class="imgSearch" [style.color]="'blue'" (click)="navigateToGeneric(message.objectType, message.id)">{{'GENERAL.CLICK HERE' | translate}}</a>  </li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3" *ngIf="authorizationStatusInfo?.isAdministrator() && labManagerMessages?.classicOrders?.length>0">
+			<div class="card text-xs-center border-danger">
+				<div class="card-header">
+					{{'DASHBOARD.CARD HEADER.CLASSIC ORDERS' | translate}}
+				</div>
+				<div class="card-body">
+					<h6 class="card-title">{{'DASHBOARD.CARD TITLE.NEW ORDERS' | translate}}</h6>
+					<ul class="card-text text-xs-left mail">
+						<li *ngFor="let order of labManagerMessages.classicOrders"><gg-date-pointer [date]="order.data.date"></gg-date-pointer>: {{order.annotation.user}} {{'DASHBOARD.MESSAGE PARTS.ORDER' | translate}} <a class="imgSearch" [style.color]="'blue'" (click)="navigateToOrder(order.data._id)">{{order.data.kid}}</a> {{'DASHBOARD.MESSAGE PARTS.AT' | translate}} {{order.annotation.supplier}} {{'DASHBOARD.MESSAGE PARTS.SPENT' | translate}} {{order.annotation.total  | ggCurrency}}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3" *ngIf="labManagerMessages?.validableOrders?.length>0">
+			<div class="card text-xs-center border-warning">
+				<div class="card-header">
+					{{'DASHBOARD.CARD HEADER.ORDERS TO VALIDATE' | translate}}
+				</div>
+				<div class="card-body">
+					<h6 class="card-title">{{'DASHBOARD.CARD TITLE.NEW ORDERS' | translate}}</h6>
+					<ul class="card-text text-xs-left mail">
+						<li *ngFor="let order of labManagerMessages.validableOrders"><gg-date-pointer [date]="order.data.date"></gg-date-pointer>: {{order.annotation.user}} {{'DASHBOARD.MESSAGE PARTS.ORDER' | translate}} <a class="imgSearch" [style.color]="'blue'" (click)="navigateToOrder(order.data._id)">{{order.data.kid}}</a> {{'DASHBOARD.MESSAGE PARTS.AT' | translate}} {{order.annotation.supplier}} {{'DASHBOARD.MESSAGE PARTS.SPENT' | translate}} {{order.annotation.total  | ggCurrency}}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3" *ngIf="authorizationStatusInfo?.isAdministrator() && labManagerMessages?.fridgeOrders?.length>0">
+			<div class="card text-xs-center border-primary">
+				<div class="card-header">
+					{{'DASHBOARD.CARD HEADER.FRIDGE ORDERS' | translate}} <a [routerLink]="['/orders']" [queryParams]="{tab:'tabViewFridge'}">{{'DASHBOARD.CARD HEADER.OPEN THEM' | translate}}</a>
+				</div>
+				<div class="card-body">
+					<h6 class="card-title">{{'DASHBOARD.CARD TITLE.NEW ORDERS' | translate}}</h6>
+					<ul class="card-text text-xs-left mail">
+						<li *ngFor="let order of labManagerMessages.fridgeOrders"><gg-date-pointer [date]="order.data.createDate"></gg-date-pointer>: {{order.annotation.user}} {{'DASHBOARD.MESSAGE PARTS.NEEDS' | translate}} {{order.data.quantity}} x '{{order.annotation.product}}'</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3" *ngIf="authorizationStatusInfo?.isAdministrator() && labManagerMessages?.stockOrders?.length>0">
+			<div class="card text-xs-center border-warning">
+				<div class="card-header">
+					{{'DASHBOARD.CARD HEADER.STOCK ORDERS' | translate}} <a [routerLink]="['/orders']" [queryParams]="{tab:'tabViewStock'}">{{'DASHBOARD.CARD HEADER.OPEN THEM' | translate}}</a>
+				</div>
+				<div class="card-body">
+					<h6 class="card-title">{{'DASHBOARD.CARD TITLE.NEW ORDERS' | translate}}</h6>
+					<ul class="card-text text-xs-left mail">
+						<li *ngFor="let order of labManagerMessages.stockOrders"><gg-date-pointer [date]="order.data.createDate"></gg-date-pointer>: {{order.annotation.user}} {{'DASHBOARD.MESSAGE PARTS.NEEDS' | translate}} {{order.data.quantity}} x '{{order.annotation.product}}'</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3" *ngIf="authorizationStatusInfo?.isAdministrator() && labManagerMessages?.requestVouchers?.length>0">
+			<div class="card text-xs-center border-info">
+				<div class="card-header">
+					{{'DASHBOARD.CARD HEADER.VOUCHER REQUESTS' | translate}} <a [routerLink]="['/admin']" [queryParams]="{tab:'tabWebShopping',tab2:'tabRequestedVouchers'}">{{'DASHBOARD.CARD HEADER.OPEN THEM' | translate}}</a>
+				</div>
+				<div class="card-body">
+					<h6 class="card-title">{{'DASHBOARD.CARD TITLE.NEW REQUESTS' | translate}}</h6>
+					<ul class="card-text text-xs-left mail">
+						<li *ngFor="let order of labManagerMessages.requestVouchers">{{order.userName}} {{'DASHBOARD.MESSAGE PARTS.NEEDS' | translate}} {{order.quantity}} {{'DASHBOARD.MESSAGE PARTS.VOUCHER(S) FOR' | translate}} {{order.supplierName}} / {{order.categoryName}}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3" *ngIf="authorizationStatusInfo?.isAdministrator() && labManagerMessages?.usedVouchers?.length>0">
+			<div class="card text-xs-center border-success">
+				<div class="card-header">
+					{{'DASHBOARD.CARD HEADER.VOUCHERS USED' | translate}} <a [routerLink]="['/admin']" [queryParams]="{tab:'tabWebShopping',tab2:'tabReadyVouchersForSap'}">{{'DASHBOARD.CARD HEADER.OPEN THEM' | translate}}</a>
+				</div>
+				<div class="card-body">
+					<h6 class="card-title">{{'DASHBOARD.CARD TITLE.NEW ORDERS READY FOR SAP' | translate}}</h6>
+					<ul class="card-text text-xs-left mail">
+						<li *ngFor="let order of labManagerMessages.usedVouchers">
+							<gg-date-pointer [date]="order.data.shopping.date"></gg-date-pointer>: {{order.annotation.user}} {{'DASHBOARD.MESSAGE PARTS.SPENT' | translate}} {{order.data.shopping.total  | ggCurrency}} {{'DASHBOARD.MESSAGE PARTS.ON A VOUCHER AT' | translate}} {{order.annotation.supplier}} / {{order.annotation.category}}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3" *ngIf="authorizationStatusInfo?.isAdministrator() && labManagerMessages?.productsOnValidationWait?.length>0">
+			<div class="card text-xs-center border-success">
+				<div class="card-header">
+					{{'DASHBOARD.CARD HEADER.NEW PRODUCTS' | translate}}
+				</div>
+				<div class="card-body">
+					<h6 class="card-title">{{'DASHBOARD.CARD TITLE.IN WAIT FOR VALIDATION' | translate}}</h6>
+					<ul class="card-text text-xs-left mail">
+						<li *ngFor="let product of labManagerMessages.productsOnValidationWait">
+							<gg-date-pointer [date]="product.data.history[0].date"></gg-date-pointer>: <a class="imgSearch" [style.color]="'blue'" (click)="navigateToProduct(product.data._id)">{{product.data.name}}</a> {{'DASHBOARD.MESSAGE PARTS.FOR' | translate}} {{product.data.price  | ggCurrency}} {{'DASHBOARD.MESSAGE PARTS.BY' | translate}} {{product.annotation.userWhoCreated}}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3" *ngIf="authorizationStatusInfo?.isAdministrator() && labManagerMessages?.finishingOtps?.length>0">
+			<div class="card text-xs-center border-warning">
+				<div class="card-header">
+					{{'DASHBOARD.CARD HEADER.OTP' | translate}}
+				</div>
+				<div class="card-body">
+					<h6 class="card-title">{{'DASHBOARD.CARD TITLE.SOON EXPIRING' | translate}}</h6>
+					<ul class="card-text text-xs-left mail">
+						<li *ngFor="let otp of labManagerMessages.finishingOtps">
+							<gg-date-pointer [date]="otp.annotation.currentPeriodAnnotation.datEnd"></gg-date-pointer>: <a class="imgSearch" [style.color]="'blue'" (click)="navigateToOtp(otp.data._id)">{{otp.data.name}}</a> {{'DASHBOARD.MESSAGE PARTS.STILL HAS' | translate}} {{otp.annotation.amountAvailable  | ggCurrency}}
+							</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3" *ngIf="authorizationStatusInfo?.isAdministrator() && labManagerMessages?.userMonitors?.length>0">
+			<div class="card text-xs-center border-primary">
+				<div class="card-header">
+					{{'DASHBOARD.CARD HEADER.USERS ACTIVITY' | translate}}
+				</div>
+				<div class="card-body">
+					<h6 class="card-title">{{'DASHBOARD.CARD TITLE.FOLLOWING ORDERS' | translate}}</h6>
+					<ul class="card-text text-xs-left spending">
+						<li *ngFor="let log of labManagerMessages.userMonitors"><gg-date-pointer [date]="log.data.createDate"></gg-date-pointer>: {{log.annotation.info}} {{'DASHBOARD.MESSAGE PARTS.AN AMOUNT OF' | translate}} <b> {{log.data.amount | ggCurrency}}'</b> 
+									<div class="btn link" (click)="navigateToOrder(log.data.orderId)">(click here)</div> </li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3" *ngIf="authorizationStatusInfo?.isAdministrator() && labManagerMessages?.equipeMonitors?.length>0">
+			<div class="card text-xs-center border-primary">
+				<div class="card-header">
+					{{'DASHBOARD.CARD HEADER.EQUIPES ACTIVITY' | translate}}
+				</div>
+				<div class="card-body">
+					<h6 class="card-title">{{'DASHBOARD.CARD TITLE.FOLLOWING ORDERS' | translate}}</h6>
+					<ul class="card-text text-xs-left spending">
+						<li *ngFor="let log of labManagerMessages.equipeMonitors"><gg-date-pointer [date]="log.data.createDate"></gg-date-pointer>: {{log.annotation.info}} {{'DASHBOARD.MESSAGE PARTS.AN AMOUNT OF' | translate}} <b> {{log.data.amount | ggCurrency}}'</b> 
+									<div class="btn link" (click)="navigateToOrder(log.data.orderId)">(click here)</div> </li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3" *ngIf="authorizationStatusInfo?.isAdministrator() && labManagerMessages?.otpMonitors?.length>0">
+			<div class="card text-xs-center border-primary">
+				<div class="card-header">
+					{{'DASHBOARD.CARD HEADER.OTP USAGE' | translate}}
+				</div>
+				<div class="card-body">
+					<h6 class="card-title">{{'DASHBOARD.CARD TITLE.FOLLOWING ORDERS' | translate}}</h6>
+					<ul class="card-text text-xs-left spending">
+						<li *ngFor="let log of labManagerMessages.otpMonitors"><gg-date-pointer [date]="log.data.createDate"></gg-date-pointer>: {{log.annotation.info}} {{'DASHBOARD.MESSAGE PARTS.AN AMOUNT OF' | translate}} <b> {{log.data.amount | ggCurrency}}'</b> 
+									<div class="btn link" (click)="navigateToOrder(log.data.orderId)">(click here)</div> </li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3" *ngIf="authorizationStatusInfo?.isAdministrator() && labManagerMessages?.categoryMonitors?.length>0">
+			<div class="card text-xs-center border-primary">
+				<div class="card-header">
+					{{'DASHBOARD.CARD HEADER.PRODUCTS USAGE' | translate}}
+				</div>
+				<div class="card-body">
+					<h6 class="card-title">{{'DASHBOARD.CARD TITLE.FOLLOWING ORDERS' | translate}}</h6>
+					<ul class="card-text text-xs-left spending">
+						<li *ngFor="let log of labManagerMessages.categoryMonitors"><gg-date-pointer [date]="log.data.createDate"></gg-date-pointer>: {{log.annotation.info}} {{'DASHBOARD.MESSAGE PARTS.AN AMOUNT OF' | translate}} <b> {{log.data.amount | ggCurrency}}'</b> 
+									<div class="btn link" (click)="navigateToOrder(log.data.orderId)">(click here)</div> </li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+
+		<div style="font-size: 70%"  class="col-sm-12 col-md-6 col-lg-4 col-xl-3" *ngFor="let dashlet of dashletsObservable | async">
+			<gg-dashlet [category]="dashlet.category" [id]="dashlet.id"></gg-dashlet>
+		</div>
+	</div>
+</div>

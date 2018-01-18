@@ -1,0 +1,17 @@
+
+<!-- <input class="editor__editable-content form-control" [(ngModel)]="selectedItem" ng2-auto-complete blank-option-text="{{'UI.SELECT ONE PHOLDER' | translate}}"  [source]="selectableData | async" placeholder="{{'UI.ENTER TEXT PHOLDER' | translate}}" [list-formatter]="autocompleListFormatter"
+    value-property-name="id" display-property-name="name"> -->
+
+<input type="text" class="editor__editable-content form-control" [ngModel]="selectedItem" [ngbTypeahead]="search" (selectItem)="onSelected($event)"
+      [inputFormatter]="formatter" [resultFormatter]="formatter" (click)="onclick()" [ngbTooltip]="'UI.CLICKER TEXTE' | translate" >     
+
+<div class="editor__output imgSearch" (click)="clicked()" *ngIf="linkable" >{{content}}</div>
+<div class="editor__output" *ngIf="!linkable" >{{content}}</div>
+
+<div *ngIf="!readOnly && !editMode" class="editor__controls">
+  <button (click)="edit()" class="editor__icon-edit"></button>
+</div>
+<div *ngIf="!readOnly && editMode" class="editor__controls">
+  <button (click)="save()" class="editor__icon-save"></button>
+  <button (click)="cancel()" class="editor__icon-cancel"></button>
+</div>

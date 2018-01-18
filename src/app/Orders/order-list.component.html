@@ -1,0 +1,67 @@
+<gg-search-box [objectTypeTranslationKey]="'GENERAL.ORDERS'" [hasReport]="true" [reportTipTranslationKey]="'GENERAL.HITS.ORDERS REPORT TIP'"  [objectsObservable]="ordersObservable" [fnFilterObjects]="getFilterFn()" [fnCalculateTotal]="calculateTotal" [sortFunctionObservable]="sortFnObservable"
+					(listChanged)="orders=$event" (reportNeeded)="createReport($event)" >
+	<ul searchHelp>
+		<li>{{'ORDER.SEARCH HELP.MSG1' | translate}}</li>
+		<li>{{'ORDER.SEARCH HELP.MSG2' | translate}}</li>
+		<li>{{'ORDER.SEARCH HELP.MSG3' | translate}}</li>
+		<li>{{'ORDER.SEARCH HELP.MSG4' | translate}}</li>
+		<li>{{'ORDER.SEARCH HELP.MSG5' | translate}}</li>
+		<li>{{'ORDER.SEARCH HELP.MSG6' | translate}}</li>
+		<li>{{'ORDER.SEARCH HELP.MSG7' | translate}}</li>
+		<li>{{'ORDER.SEARCH HELP.MSG8' | translate}}</li>
+		<li>{{'ORDER.SEARCH HELP.MSG9' | translate}}</li>
+		<li>{{'ORDER.SEARCH HELP.MSG10' | translate}}</li>
+		<li>{{'ORDER.SEARCH HELP.MSG11' | translate}}</li>
+		<li>{{'ORDER.SEARCH HELP.MSG12' | translate}}</li>
+		<li>{{'ORDER.SEARCH HELP.MSG13' | translate}}</li>
+	</ul>
+
+	<ngb-accordion accordion [closeOthers]="true" #acc="ngbAccordion" (panelChange)="beforeAccordionChange($event)" [activeIds]="state.openPanelId">
+		<ngb-panel [disabled]="true">
+			<ng-template ngbPanelTitle>
+				<div class="row">
+					<!--<div class="col-lg-3 hidden-md-down"><b>Id</b></div>-->
+					<div class="col-sm-1"><b>{{'ORDER.COLUMN.REF' | translate}}.</b></div>
+					<div class="col-sm-1"><b>{{'ORDER.COLUMN.SAP' | translate}}</b></div>
+					<div class="col-sm-2"><b>{{'ORDER.COLUMN.DATE' | translate}}</b></div>
+					<div class="col-sm-2"><b>{{'ORDER.COLUMN.WHO' | translate}}</b></div>
+					<div class="col-sm-2" (click)="setSortKey('SUPPLIER')" *ngIf="showColumn('supplier')"><b>{{'ORDER.COLUMN.SUPPLIER' | translate}}</b></div>
+					<div class="col-sm-1"><b>{{'ORDER.COLUMN.WITH VAT' | translate}}</b></div>
+					<div class="col-sm-2"><b>{{'ORDER.COLUMN.STATUS' | translate}}</b></div>
+					<div class="col-sm-1"><b>{{'ORDER.COLUMN.DELIVERY' | translate}}</b></div>
+				</div>
+			</ng-template>
+			<ng-template ngbPanelContent>
+			</ng-template>
+
+		</ngb-panel>
+		<ngb-panel *ngFor="let order of orders " [id]="order.data._id">
+			<ng-template ngbPanelTitle>
+				<div class="row" id="{{order.data._id}}">
+					<!--<div class="col-lg-3 hidden-md-down">{{order.data._id}}</div>-->
+					<div class="col-sm-1" [style.font-weight]="order.data._id === state.openPanelId ? 'bold' : 'lighter'">{{order.data.kid}}</div>
+					<div class="col-sm-1">
+							<span *ngIf="order.annotation.sapId">{{order.annotation.sapId}}</span>
+							<gg-line-tooltip *ngIf="!order.annotation.sapId && order.data.sapFeedback && order.data.sapFeedback.error" [title]="'SAP ' + ('GENERAL.ERROR' | translate)"  [text]="'GENERAL.ERROR' | translate" [lines]="order.annotation.sapError"></gg-line-tooltip>
+							<span *ngIf="!order.annotation.sapId && order.data.sapFeedback && order.data.sapFeedback.sapId">{{order.data.sapFeedback.sapId}} *</span>			
+					</div>
+
+					<div class="col-sm-2">{{order.data.date | fullDate}}</div>
+					<div class="col-sm-2" *ngIf="!order.annotation.isGroupedOrder">
+						{{order.annotation.user}}/{{order.annotation.equipe ? order.annotation.equipe : (order.annotation.equipeGroup ? order.annotation.equipeGroup
+						: 'unknown equipe')}}</div>
+					<div class="col-sm-2" *ngIf="order.annotation.isGroupedOrder">{{'ORDER.COLUMN.NON URGENT ORDER' | translate}}</div>
+					<div class="col-sm-2" *ngIf="showColumn('supplier')">{{order.annotation.supplier}}</div>
+					<div class="col-sm-1">{{order.annotation.total | ggCurrency}}</div>
+					<div class="col-sm-2">{{order.annotation.status + ' '}} <span *ngIf="order.data.comments && order.data.comments.length > 0" [style.color]="'red'">{{'ORDER.COLUMN.WITH COMMENT TXT' | translate}}</span></div>
+					<div class="col-sm-1"><img *ngIf="order.annotation.anyDelivered && !order.annotation.allDelivered" src="images/shipping.png" /><img
+						 *ngIf="order.annotation.allDelivered" src="images/ok.png" /></div>
+				</div>
+			</ng-template>
+			<ng-template ngbPanelContent>
+				<gg-order-detail [orderObservable]="getOrderObservable(order.data._id)" [state]="state[order.data._id]" [path]="path+'|P:'+order.data._id"
+				 (stateChanged)="childStateChanged($event, order.data._id)"></gg-order-detail>
+			</ng-template>
+		</ngb-panel>
+	</ngb-accordion>
+</gg-search-box>

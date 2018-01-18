@@ -1,0 +1,99 @@
+<div class="card-body">
+    <ngb-tabset>
+        <!-- (tabChange)="beforeTabChange($event)" [activeId]="initTabId"-->
+        <ngb-tab title="List of products" id="tabListOfProducts">
+            <ng-template ngbTabContent>
+                <div class="card">
+                    <div class="card-body">
+
+                        <gg-search-box [objectTypeTranslationKey]="'GENERAL.MARKET PRODUCTS'" [objectsObservable]="productsObservable" [fnFilterObjects]="fnFilterProduct"
+                            (listChanged)="productsList = $event">
+                            <ul searchHelp>
+                                <li>{{'PUBLIC.MARKET.SEARCH HELP.MSG1' | translate}}</li>
+                                <li>{{'PUBLIC.MARKET.SEARCH HELP.MSG2' | translate}}</li>
+                                <li>{{'PUBLIC.MARKET.SEARCH HELP.MSG3' | translate}}</li>
+                                <li>{{'PUBLIC.MARKET.SEARCH HELP.MSG4' | translate}}</li>
+                            </ul>
+
+                            <div accordion class="card">
+                                <div class="card-body">
+
+                                    <div class="row">
+                                        <div class="col-sm-2 align-self-center">
+                                            <b>{{'PRODUCT.COLUMN.PRODUCT' | translate}}</b>
+                                        </div>
+                                        <div class="col-sm-2 align-self-center">
+                                            <b>{{'PRODUCT.COLUMN.PACKAGE' | translate}}</b>
+                                        </div>
+                                        <div class="col-sm-3 align-self-center">
+                                            <b>{{'PRODUCT.COLUMN.SUPPLIER' | translate}}</b>
+                                        </div>
+                                        <div class="col-sm-3 align-self-center">
+                                            <b>{{'PRODUCT.COLUMN.CATALOG NR' | translate}}</b>
+                                        </div>
+                                    </div>
+
+                                    <div *ngFor="let product of productsList">
+                                        <!--FOR-->
+                                        <div class="row">
+                                            <div class="col-sm-2 align-self-center">{{product.data.name}}</div>
+                                            <div class="col-sm-2 align-self-center">{{product.data.package}}</div>
+                                            <div class="col-sm-3 align-self-center">{{product.annotation.suppliersTxt}}</div>
+                                            <div class="col-sm-3 align-self-center">{{product.annotation.catNrTxt}}</div>
+                                            <div class="col-sm-1 align-self-center" *ngIf="product.data.items.length > 0">
+                                                <button type="button" class="btn btn-link" (click)="product.isClosed=!product.isClosed">{{'GENERAL.TOGGLE DETAILS' | translate}}</button>
+                                            </div>
+                                        </div>
+
+                                        <div class="row" [ngbCollapse]="!product.isClosed">
+                                            <div class="col-sm-12 col-md-12">
+                                                <div class="card">
+                                                    <div class="row">
+                                                        <div class="col-sm-1 align-self-center">{{'PRODUCT.COLUMN.WHEN' | translate}}</div>
+                                                        <div class="col-sm-2 align-self-center">{{'PRODUCT.COLUMN.WHO' | translate}}</div>
+                                                        <div class="col-sm-2 align-self-center">{{'PRODUCT.COLUMN.SUPPLIER' | translate}}</div>
+                                                        <div class="col-sm-2 align-self-center">{{'PRODUCT.COLUMN.CATALOG NR' | translate}}</div>
+                                                        <div class="col-sm-2 align-self-center">{{'PRODUCT.COLUMN.PRICE' | translate}}</div>
+                                                        <div class="col-sm-2 align-self-center">{{'PRODUCT.COLUMN.JUSTIFICATION' | translate}}</div>
+                                                    </div>
+                                                    <div class="card">
+                                                        <div *ngFor="let item of product.annotation.items; let itemPos = index">
+                                                            <!--FOR-->
+                                                            <div class="row">
+                                                                <div class="col-sm-1 align-self-center">
+                                                                    <gg-date-pointer [date]="item.data.date"></gg-date-pointer>
+                                                                </div>
+                                                                <div class="col-sm-2 align-self-center">{{item.annotation.user}}</div>
+                                                                <div class="col-sm-2 align-self-center"><gg-editor [readOnly]="!isUser(item)" [content]="item.data.supplier" [showControls]="true" (editSaved)="supplierChanged($event, product, itemPos)"></gg-editor></div>
+                                                                <div class="col-sm-2 align-self-center"><gg-editor [readOnly]="!isUser(item)" [content]="item.data.catalogNr" [showControls]="true" (editSaved)="catalogNrChanged($event, product, itemPos)"></gg-editor></div>
+                                                                <div class="col-sm-2 align-self-center"><gg-editor [readOnly]="!isUser(item)" [content]="item.data.price" [showControls]="true" [isMonetary]="true" (editSaved)="priceChanged($event, product, itemPos)"></gg-editor></div>
+                                                                <div class="col-sm-2 align-self-center"><gg-editor [readOnly]="!isUser(item)" [content]="item.data.justification" [showControls]="true" (editSaved)="justificationChanged($event, product, itemPos)"></gg-editor></div>
+                                                                <div class="col-sm-1 align-self-center" *ngIf="(item.data.documents || []).length > 0">
+                                                                    <button type="button" class="btn btn-link" (click)="item.annotation.isClosed=!item.annotation.isClosed">{{'PUBLIC.MARKET.ACTION.SHOW/HIDE DOCS' | translate}}</button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row" [ngbCollapse]="!item.annotation.isClosed" *ngIf="(item.data.documents || []).length > 0">
+                                                                <gg-image-uploader-viewer [canUserChange]="isUser(item)" [documents]="item.data.documents" (imagesChanged)="imagesChanged(product, itemPos, $event)"></gg-image-uploader-viewer>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </gg-search-box>
+                    </div>
+                </div>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Enter new product" id="tabEnterNewProduct">
+            <ng-template ngbTabContent>
+                <gg-enter-market-product></gg-enter-market-product>
+            </ng-template>
+        </ngb-tab>
+    </ngb-tabset>
+</div>

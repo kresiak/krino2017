@@ -1,0 +1,23 @@
+<div id="GGTOP"></div>
+<div class="card">
+	<div class="card-body">
+		<ngb-tabset *ngIf="authorizationStatusInfo?.isLoggedIn">
+			<ngb-tab title="{{'SUPPLIER.MENU.VIEW SUPPLIERS' | translate}}" id="tabView">
+				<ng-template ngbTabContent>
+                    <gg-supplier-list [state]="state" [suppliersObservable]= "suppliersObservable"></gg-supplier-list>
+				</ng-template>
+			</ngb-tab>
+			<ngb-tab title="{{'SUPPLIER.MENU.CREATE SUPPLIER' | translate}}" id="tabCreate"  *ngIf="authorizationStatusInfo.isAdministrator()">
+				<ng-template ngbTabContent>
+					<div class="card">
+						<div class="card-body">
+                            <h6>Suppliers are added from the list of Sap suppliers. Here is the list to choose from...</h6>
+							<gg-supplier-sap-list></gg-supplier-sap-list>
+						</div>
+					</div>
+				</ng-template>
+			</ngb-tab>
+		</ngb-tabset>
+		<h4 *ngIf="authorizationStatusInfo && !authorizationStatusInfo.isLoggedIn">{{'ERROR.NO LOGIN' | translate}}</h4>
+	</div>
+</div>            

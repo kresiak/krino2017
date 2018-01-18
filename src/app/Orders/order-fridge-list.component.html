@@ -1,0 +1,33 @@
+<div class="card" *ngIf="!ordersList || ordersList.length === 0">
+	<div class="card-body">
+		<div class="centertextbox">No fridge records yet in our database for this query</div>
+	</div>
+</div>
+
+
+<div class="card" *ngIf="ordersList && ordersList.length > 0">
+    <div class="card-body">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-2 align-self-center"><b>{{'ORDER.COLUMN.WHEN' | translate}}</b></div>
+                <div class="col-sm-2 align-self-center"><b>{{'ORDER.COLUMN.WHO' | translate}}</b></div>
+                <div class="col-sm-3 align-self-center"><b>{{'ORDER.COLUMN.PRODUCT' | translate}}</b></div>
+                <div class="col-sm-2 align-self-center"><b>{{'ORDER.COLUMN.QUANTITY' | translate}}</b></div>
+                <div class="col-sm-2 align-self-center"><b>{{'ORDER.COLUMN.HAS BEEN DELIVERED' | translate}}</b></div>
+            </div>
+            <div *ngFor="let order of ordersList">
+                <div class="row">
+                    <div class="col-sm-2 align-self-center"><gg-date-pointer [date]="order.data.createDate"></gg-date-pointer></div>
+                    <div class="col-sm-2 align-self-center">{{order.annotation.user}} / {{order.annotation.equipe}}</div>
+                    <div class="col-sm-3 align-self-center imgSearch" (click)="navigateToProduct(order.data.productId)">{{order.annotation.product}}</div>
+                    <div class="col-sm-2 align-self-center">
+                        <gg-editor-number [content]="order.data.quantity"  (editSaved)="orderUpdated($event, order)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-number>
+                    </div>
+                    <div class="col-sm-2 align-self-center">
+                        <gg-editor-boolean [content]="order.data.isDelivered" (editSaved)="isDeliveredUpdated($event, order)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

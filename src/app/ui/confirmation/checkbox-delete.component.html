@@ -1,0 +1,7 @@
+<div *ngIf="!hideAll">
+    <input type="checkbox" ngbTooltip="{{'UI.CHECKBOX DELETE.CLICK HERE TO SELECT THE' | translate}} {{typeObjectKey | translate}} {{'UI.CHECKBOX DELETE.FOR DELETION' | translate}}"
+        *ngIf="!isDueToDelete" (click)="isDueToDelete= !isDueToDelete" />
+    <div class="btn btn-warning btn-sm" ngbTooltip="{{'UI.CHECKBOX DELETE.CAREFUL THIS WILL' | translate}} {{typeObjectKey | translate}} {{'UI.CHECKBOX DELETE.IF YOU ARE SURE' | translate}}"
+        *ngIf="isDueToDelete" (click)="onCheckedChange()">{{'UI.CHECKBOX DELETE.DELETE' | translate}}</div>
+    <div class="btn btn-success btn-sm" *ngIf="isDueToDelete" (click)="isDueToDelete= !isDueToDelete">{{'UI.CHECKBOX DELETE.CANCEL' | translate}}</div>
+</div>

@@ -1,0 +1,121 @@
+<ng-template #popContent>{{(isRoot ? 'GENERAL.ACTION.CLICK HERE TO GO BACK TO LAST VIEW' : 'GENERAL.ACTION.CLICK HERE TO GET A DETAIL VIEW') | translate}}</ng-template>
+
+<div>
+    <ngb-tabset *ngIf="sapObj" (tabChange)="beforeTabChange($event)" [activeId]="state.selectedTabId">
+        <ngb-tab title="{{'SAP.MENU.SUMMARY' | translate}}" id="tabDetails">
+            <ng-template ngbTabContent>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row" *ngIf="sapItem.data.isNoEngag">
+                            <div class="col-sm-2">{{'SAP.LABEL.TYPE' | translate}}</div>
+                            <div class="col-sm-8"><b>Pièce sans engagement</b> {{sapObj.typesPiece}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2">{{'SAP.LABEL.REFERENCE' | translate}}</div>
+                            <div class="col-sm-8">{{sapItem.data.sapId}} / <a (click)="navigateToOrder()" [class.imgSearch]="+sapItem.data.ourRef">{{sapItem.data.ourRef ? sapItem.data.ourRef : 'no krino reference'}} / {{sapItem.data.resp}}</a>                                </div>
+                        </div>
+                        <div class="row" *ngIf="!sapItem.data.isNoEngag">
+                            <div class="col-sm-2">{{'SAP.LABEL.SUPPLIER' | translate}}</div>
+                            <div class="col-sm-8">{{sapItem.data.supplier}}</div>
+                        </div>
+                        <div class="row" *ngIf="!sapItem.data.isNoEngag">
+                            <div class="col-sm-2">{{'SAP.LABEL.ENGAGEMENT' | translate}}</div>
+                            <div class="col-sm-8">{{sapEngage ? sapEngage.data.maxDate : '(No engagement)'}}</div>
+                        </div>
+                        <div class="row" *ngIf="!sapItem.data.isNoEngag">
+                            <div class="col-sm-2">{{'SAP.LABEL.FINAL INVOICE' | translate}}</div>
+                            <div class="col-sm-8">{{sapObj.hasFactureFinale ? 'yes' : 'no'}}</div>
+                        </div>
+                        <div class="row" >
+                            <div class="col-sm-2">{{'SAP.LABEL.PIECE TYPE' | translate}}</div>
+                            <div class="col-sm-8">{{sapObj.typesPiece}}</div>
+                        </div>
+
+
+                        <br/>
+                        <div class="row">
+                            <div class="col-sm-1"><b>{{'SAP.COLUMN.POSTE' | translate}}</b></div>
+                            <div class="col-sm-2"><b>{{'SAP.COLUMN.OTP' | translate}}</b></div>
+                            <div class="col-sm-2"><b>{{'SAP.COLUMN.PRODUCT' | translate}}</b></div>
+                            <div class="col-sm-1" *ngIf="!sapItem.data.isNoEngag"><b>{{'SAP.COLUMN.INITIAL' | translate}}</b></div>
+                            <div class="col-sm-1"><b>{{'SAP.COLUMN.INVOICED' | translate}}</b></div>
+                            <div class="col-sm-1" *ngIf="!sapItem.data.isNoEngag"><b>{{'SAP.COLUMN.OPEN' | translate}}</b></div>
+                            <div class="col-sm-1"><b>{{'SAP.COLUMN.LAST INVOICE' | translate}}</b></div>
+                            <div class="col-sm-1" *ngIf="!sapItem.data.isNoEngag"><b>{{'SAP.COLUMN.FACT. FINALE' | translate}}</b></div>
+                            <div class="col-sm-2" *ngIf="!sapItem.data.isNoEngag"><b>{{'SAP.COLUMN.QTY NOT FACTURED' | translate}}</b></div>
+                        </div>
+                        <div class="row" *ngFor="let poste of sapObj.postList">   <!--FOR loop-->
+                            <div class="col-sm-1">{{poste.poste}}</div>
+                            <div class="col-sm-2">{{poste.otp}}</div>
+                            <div class="col-sm-2">
+                                <gg-text-compact [text]="poste.product"></gg-text-compact>
+                            </div>
+                            <div class="col-sm-1" *ngIf="!sapItem.data.isNoEngag">{{poste.amountEngaged | ggCurrency}}</div>
+                            <div class="col-sm-1">{{poste.amountFactured | ggCurrency}}</div>
+                            <div class="col-sm-1" *ngIf="!sapItem.data.isNoEngag">{{poste.amountResiduel | ggCurrency}}</div>
+                            <div class="col-sm-1">{{poste.lastInvoiceDate}}</div>
+                            <div class="col-sm-1" *ngIf="!sapItem.data.isNoEngag">{{poste.hasPosteFactureFinale ? 'finale' : 'no'}}</div>
+                            <div class="col-sm-2" *ngIf="!sapItem.data.isNoEngag">{{poste.qtyEngaged-poste.qtyFactured}}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-1"><b></b></div>
+                            <div class="col-sm-2"><b></b></div>
+                            <div class="col-sm-2"><b></b></div>
+                            <div class="col-sm-1" *ngIf="!sapItem.data.isNoEngag"><b></b></div>
+                            <div class="col-sm-1"><b>{{sapObj.alreadyBilled | ggCurrency}}</b></div>
+                            <div class="col-sm-1" *ngIf="!sapItem.data.isNoEngag"><b>{{sapObj.residuEngaged | ggCurrency}}</b></div>
+                            <div class="col-sm-1" *ngIf="!sapItem.data.isNoEngag"></div>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab title="{{'SAP.MENU.ENGAGED' | translate}}" id="tabEngaged" *ngIf="sapEngage">
+            <ng-template ngbTabContent>
+                <gg-sap-sheet [isFacture]="false" [sapItem]="sapEngage.data"></gg-sap-sheet>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab title="{{'SAP.MENU.INVOICED' | translate}}" id="tabInvoiced" *ngIf="sapFacture">
+            <ng-template ngbTabContent>
+                <gg-sap-sheet [isFacture]="true" [sapItem]="sapFacture.data"></gg-sap-sheet>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab title="{{'SAP.MENU.ATTRIBUTION ÉQUIPES' | translate}}" id="tabEquipes">
+            <ng-template ngbTabContent>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-2 align-self-center">{{'SAP.LABEL.EQUIPE' | translate}}:</div>
+                            <div class="col-sm-6 align-self-center">
+                                <gg-editor-autocomplete [selectableData]="equipeListObservable" [emptyContentText]="'GENERAL.CHOOSE AN EQUIPE' | translate" [selectedId]="equipeId"
+                                    (idChanged)="equipeChanged($event)"></gg-editor-autocomplete>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2 align-self-center">{{'SAP.LABEL.COMMENT' | translate}}:</div>
+                            <div class="col-sm-6 align-self-center">
+                                <gg-editor [content]="attributionComment" (editSaved)="attributionCommentChanged($event)"  [showControls]="true"></gg-editor>
+                            </div>                            
+                        </div>
+<!--                        <div class="row">
+                            <div class="col-sm-2 align-self-center">Attribute to group of equipes: </div>
+                            <div class="col-sm-6 align-self-center">
+                                <gg-editor-autocomplete [selectableData]="groupsForSelectionObservable" [emptyContentText]="'no, use the equipe of the user'"
+                                    (idChanged)="equipeGroupChanged($event)"></gg-editor-autocomplete>
+                            </div>
+                        </div>-->
+                    </div>
+                </div>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab id="tabMax">
+            <ng-template ngbTabTitle><img src="images/maximize.png" [ngbPopover]="popContent" triggers="mouseenter:mouseleave" /></ng-template>
+            <ng-template ngbTabContent></ng-template>
+        </ngb-tab>
+        <ngb-tab id="gotoTop" *ngIf="!isRoot && path!=='dashboard'">
+		    <ng-template ngbTabTitle><img src="images/gototop.png" [ngbPopover]="'GENERAL.ACTION.GOTO TOP OF THE PAGE' | translate" triggers="mouseenter:mouseleave" /></ng-template>
+            <ng-template ngbTabContent></ng-template>
+        </ngb-tab>
+
+    </ngb-tabset>
+</div>

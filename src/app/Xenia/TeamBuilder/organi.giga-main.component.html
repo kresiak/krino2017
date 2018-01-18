@@ -1,0 +1,72 @@
+<div class="card">
+    <div class="card-body">
+        <h5>Teambuilder: GIGA  {{authorizationStatusInfo?.isLoggedIn ? (', ' + authorizationStatusInfo.getCurrentUserName() ) : ''}} </h5>
+        <br/>
+        <ngb-tabset>
+            <ngb-tab id="tabLogin">
+                <ng-template ngbTabTitle>
+                    <span [ngbTooltip]="''">
+                        {{(authorizationStatusInfo?.isLoggedIn ? 'PUBLIC.TEAMBUILDER.ORGANI.MENU.LOGOUT' : 'PUBLIC.TEAMBUILDER.ORGANI.MENU.LOGIN') | translate}}
+                    </span>
+                </ng-template>
+                <ng-template ngbTabContent>
+                    <gg-signin-enter [statusObservable]="authService.getStatusObservable()" (loginHasBeenTried)="loginHasBeenTried($event)" (logout)="authService.setLoggedOut()"></gg-signin-enter>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab id="tabMyself" *ngIf="authorizationStatusInfo?.isLoggedIn">
+                <ng-template ngbTabTitle>
+                    <span [ngbTooltip]="''">
+                        {{'PUBLIC.TEAMBUILDER.ORGANI.MENU.ABOUT ME' | translate}}
+                    </span>
+                </ng-template>
+                <ng-template ngbTabContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <gg-giga-person-detail [personId]="authorizationStatusInfo.currentUserId"></gg-giga-person-detail>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab id="tabUnits" *ngIf="authorizationStatusInfo?.isLoggedIn && ((unitsObservable | async) || []).length > 0">
+                <ng-template ngbTabTitle>
+                    <span [ngbTooltip]="''">
+                        {{('PUBLIC.TEAMBUILDER.ORGANI.MENU.UNITS' | translate) + ' (' + ((unitsObservable | async) || []).length + ')'}}
+                    </span>
+                </ng-template>
+                <ng-template ngbTabContent>
+                    <gg-organi-unit-list [unitsObservable]="unitsObservable"></gg-organi-unit-list>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab id="tabPersonnes" *ngIf="authorizationStatusInfo?.isLoggedIn && ((personsObservable | async) || []).length > 0">
+                <ng-template ngbTabTitle>
+                    <span [ngbTooltip]="''">
+                        {{('PUBLIC.TEAMBUILDER.ORGANI.MENU.PERSONS' | translate) + ' (' + ((personsObservable | async) || []).length + ')'}}
+                    </span>
+                </ng-template>
+                <ng-template ngbTabContent>
+                    <gg-giga-person-list [personsObservable]="personsObservable"></gg-giga-person-list>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab id="tabPis" *ngIf="authorizationStatusInfo?.isLoggedIn && ((personsPiObservable | async) || []).length > 0">
+                <ng-template ngbTabTitle>
+                    <span [ngbTooltip]="''">
+                        {{('PUBLIC.TEAMBUILDER.ORGANI.MENU.PIS' | translate) + ' (' + ((personsPiObservable | async) || []).length + ')'}}
+                    </span>
+                </ng-template>
+                <ng-template ngbTabContent>
+                    <gg-giga-person-list [personsObservable]="personsPiObservable"></gg-giga-person-list>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab id="tabAddPerson" *ngIf="authorizationStatusInfo?.isLoggedIn && authorizationStatusInfo?.isAdministrator()">
+                <ng-template ngbTabTitle>
+                    <span [ngbTooltip]="'PUBLIC.TEAMBUILDER.ORGANI.MENU.ADD PERSON TIP' | translate">
+                        {{'PUBLIC.TEAMBUILDER.ORGANI.MENU.ADD PERSON' | translate}}
+                    </span>
+                </ng-template>
+                <ng-template ngbTabContent>
+                    <gg-giga-person-enter></gg-giga-person-enter>
+                </ng-template>
+            </ngb-tab>
+        </ngb-tabset>
+    </div>
+</div>

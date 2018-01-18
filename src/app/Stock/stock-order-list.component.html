@@ -1,0 +1,44 @@
+<gg-search-box [objectTypeTranslationKey]="'GENERAL.STOCK ORDERS'" [objectsObservable]="ordersObservable" [fnFilterObjects]="fnFilterOrder" (listChanged)="orders = $event">
+	<ul searchHelp>
+		<li>{{'STOCK.SEARCH HELP.MSG2' | translate}}</li>
+		<li>{{'STOCK.SEARCH HELP.MSG3' | translate}}</li>
+	</ul>
+
+	<ngb-accordion accordion [closeOthers]="true" #acc="ngbAccordion" (panelChange)="beforeAccordionChange($event)" [activeIds]="state.openPanelId">
+		<ngb-panel [disabled]="true">
+			<ng-template ngbPanelTitle>
+				<div class="row">
+					<div class="col-sm-2"><b>{{'STOCK.COLUMN.WHEN' | translate}}</b></div>
+					<div class="col-sm-2"><b>{{'STOCK.COLUMN.WHO' | translate}}</b></div>
+					<div class="col-sm-3"><b>{{'STOCK.COLUMN.PRODUCT' | translate}}</b></div>
+					<div class="col-sm-2"><b>{{'STOCK.COLUMN.CATALOG NR' | translate}}</b></div>
+					<div class="col-sm-2"><b>{{'STOCK.COLUMN.QUANTITY' | translate}}</b></div>
+					<div class="col-sm-1"><b>{{'STOCK.COLUMN.PROCESSED' | translate}}</b></div>
+				</div>
+			</ng-template>
+			<ng-template ngbPanelContent>
+			</ng-template>
+		</ngb-panel>
+		<ngb-panel *ngFor="let order of orders" [id]="order.data._id">
+			<ng-template ngbPanelTitle>
+				<div class="row">
+					<div class="col-sm-2">
+						<gg-date-pointer [date]="order.data.createDate"></gg-date-pointer>
+					</div>
+					<div class="col-sm-2">{{order.annotation.user}} / {{order.annotation.equipe}}</div>
+					<div class="col-sm-3">{{order.annotation.product}}</div>
+					<div class="col-sm-2">{{order.annotation.catalogNr}}</div>
+					<div class="col-sm-2">{{order.data.quantity}}</div>
+					<div class="col-sm-1" [style.color]="order.data.isProcessed ? 'magenta' : 'black'">{{(order.data.isProcessed ? 'STOCK.LABEL.PROCESSED' : 'GENERAL.NO') | translate}}</div>
+				</div>
+			</ng-template>
+			<ng-template ngbPanelContent>
+				<gg-stock-order-detail [orderObservable]="getOrderObservable(order.data._id)" [state]="state[order.data._id]" [path]="path+'|P:'+order.data._id"
+				 (stateChanged)="childStateChanged($event, order.data._id)"></gg-stock-order-detail>
+			</ng-template>
+		</ngb-panel>
+	</ngb-accordion>
+
+
+</gg-search-box>
+

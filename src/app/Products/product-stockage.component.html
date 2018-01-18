@@ -1,0 +1,107 @@
+<div class="card">
+    <div class="card-body">
+        <ngb-tabset>
+            <ngb-tab title="{{('PRODUCT.STOCKAGE.MENU.INFO' | translate) + ' (' + nbInstock + ')'}}" id="tabStats">
+                <ng-template ngbTabContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-3 align-self-center">
+                                    {{'PRODUCT.STOCKAGE.LABEL.NB IN STOCK' | translate}}
+                                </div>
+                                <div class="col-sm-4 align-self-center">
+                                    {{nbInstock}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="{{'PRODUCT.STOCKAGE.MENU.LIST' | translate}}" id="tabList" *ngIf="entries?.length > 0">
+                <ng-template ngbTabContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-2 align-self-center">
+                                    <b>{{'PRODUCT.STOCKAGE.COLUMN.SCANID' | translate}}</b>
+                                </div>
+                                <div class="col-sm-2 align-self-center">
+                                    <b>{{'PRODUCT.STOCKAGE.COLUMN.DATE IN' | translate}}</b>
+                                </div>
+                                <div class="col-sm-2 align-self-center">
+                                    <b>{{'PRODUCT.STOCKAGE.COLUMN.USER IN' | translate}}</b>
+                                </div>
+                                <div class="col-sm-2 align-self-center">
+                                    <b>{{'PRODUCT.STOCKAGE.COLUMN.DATE OUT' | translate}}</b>
+                                </div>
+                                <div class="col-sm-2 align-self-center">
+                                    <b>{{'PRODUCT.STOCKAGE.COLUMN.USER OUT' | translate}}</b>
+                                </div>
+                                <div class="col-sm-2 align-self-center">
+                                    <b>{{'PRODUCT.STOCKAGE.COLUMN.DELETE' | translate}}</b>
+                                </div>
+                            </div>
+                            <div class="row" *ngFor="let stockage of entries; let pos= index">
+                                <div class="col-sm-2 align-self-center">
+                                    {{stockage.scanId}}
+                                </div>
+                                <div class="col-sm-2 align-self-center">
+                                    {{stockage.dateCreate | fullDate}}
+                                </div>
+                                <div class="col-sm-2 align-self-center">
+                                    {{ getUserName(stockage.userIdCreate)}}
+                                </div>
+                                <div class="col-sm-2 align-self-center">
+                                    {{stockage.dateOut | fullDate}}
+                                </div>
+                                <div class="col-sm-2 align-self-center">
+                                    {{ getUserName(stockage.userIdOut)}}
+                                </div>
+                                <div class="col-sm-2 align-self-center">
+                                    <gg-checkbox-delete [typeObjectKey]="'GENERAL.OBJECT.ENTRY'" (doDelete)="deleteEntry(stockage._id)"></gg-checkbox-delete>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="{{('PRODUCT.STOCKAGE.MENU.ENTER' | translate) + ' (' + (nbBeenAdded) + ')'}}" id="tabEnter">
+                <ng-template ngbTabContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-4 align-self-center">
+                                </div>
+                                <div class="col-sm-2 align-self-center">
+                                    <b>{{'GENERAL.ACTION.DELETE' | translate}}</b>
+                                </div>
+                            </div>
+                            <div class="row" *ngFor="let scanTxt of listOfScans; let pos=index;trackBy: trackByFn">
+                                <div class="col-sm-4 align-self-center">
+                                    <input [ggFocus]="pos===currentPos" type="text" [ngModel]="listOfScans[pos]" class="form-control" (input)="onChangeMethod(pos, $event)"
+                                        (blur)="onBlurMethod(pos, $event)" />
+                                </div>
+                                <div class="col-sm-2 align-self-center">
+                                    <span>
+                                        <img src="images/close.png" (click)="resetControl(pos)" />
+                                    </span>
+                                </div>
+                                <div class="col-sm-6 align-self-center" [style.color]="'red'" *ngIf="errors[pos]">
+                                    {{errors[pos]}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2 align-self-center">
+                                    <button class="btn btn-success" type="submit" [disabled]="isDisabled()" (mousedown)="save()">{{'FORM.SUBMIT' | translate}}</button>
+                                </div>
+                                <div class="col-sm-2 align-self-center">
+                                    <button class="btn btn-info" [disabled]="isDisabled()" (click)="reset()">{{'FORM.RESET' | translate}}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+        </ngb-tabset>
+    </div>
+</div>

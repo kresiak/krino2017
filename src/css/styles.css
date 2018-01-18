@@ -1,0 +1,578 @@
+/*trick to force height to be equal to width http://www.mademyday.de/css-height-equals-width-with-pure-css.html*/
+
+ngb-accordion .text-muted     /*will work only for accordion headers because they are disabled and thus text-muted*/
+{
+  background-color: transparent !important;
+  color:deepskyblue !important;
+}
+
+.modal-lg {
+  max-width: 1200px;
+}
+
+ngb-accordion .card-header {    /*as asked by Wouter, make accordions more compact*/
+    padding: 0.33rem 0.60rem
+}
+
+
+.popover {
+    max-width: 1000px;
+}
+
+.nopadding {
+   padding: 0 !important;
+   margin: 0 !important;
+}
+
+.nounderline{text-decoration: none !important }
+
+.centertextbox {
+    text-align: center;
+vertical-align: middle;
+line-height: 90px;
+}
+
+.akbox{
+	position: relative;
+	width: 50%;		/* desired width */
+}
+.akbox:before{
+	content: "";
+	display: block;
+	padding-top: 100%; 	/* initial ratio of 1:1*/
+}
+
+.akcontent{
+	position:  absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+}
+
+.row
+{
+    margin: 8px
+}
+
+/*   x-chartist {
+      display: block;
+      height: 300px;
+    }
+*/
+.comments {
+    display: block;
+}
+
+.comments__title {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 16px;
+    line-height: 1.1;
+    font-weight: 500;
+}
+
+.comments__add-comment-section {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+.comments__add-comment-section {
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-pack: end;
+    -webkit-justify-content: flex-end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+}
+
+.comment__time {
+    font-size: 14px;
+}
+
+.comment__user-name {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.comments__add-comment-box {
+    position: relative;
+    width: 100%;
+    padding: 20px;
+    margin-bottom: 10px;
+    min-height: 90px;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-filter: drop-shadow(0 1px 1px rgba(0,0,0,.1));
+    filter: drop-shadow(0 1px 1px rgba(0,0,0,.1));
+    background-color: #fff;
+}
+.comments__add-comment-box, .comments__add-comment-section {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.comments__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.comment__user-picture {
+/*    border-radius: 50%;
+*/    overflow: hidden;
+    width: 70px;
+    height: 70px;
+}
+
+.comment, .comment__l-meta {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+.comment {
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.comment__l-meta {
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 0 100px;
+    -ms-flex: 0 0 100px;
+    flex: 0 0 100px;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    text-align: center;
+}
+
+.comment__l-main, .comment__message {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+.comment__l-main {
+    -webkit-box-flex: 1;
+    -webkit-flex: auto;
+    -ms-flex: auto;
+    flex: auto;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-pack: end;
+    -webkit-justify-content: flex-end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    margin-left: 30px;
+}
+
+.comment__message {
+    position: relative;
+    width: 100%;
+    padding: 20px;
+    margin-bottom: 10px;
+    min-height: 90px;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-filter: drop-shadow(0 1px 1px rgba(0,0,0,.1));
+    filter: drop-shadow(0 1px 1px rgba(0,0,0,.1));
+    background-color: #fff;
+}
+.comment__l-main, .comment__message {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+
+ul.package_at_reception{
+    list-style-image: url('../images/delivery.png');
+}
+
+
+ul.mail{
+    list-style-image: url('../images/i_mail.gif');
+}
+
+ul.spending{
+    list-style-image: url('../images/money_euro.png');
+}
+
+
+#ulgLogo {
+    padding: 10px 0 0 5px;
+    width: 120px;
+}
+
+/*.v center {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+*/
+.gg-price {
+    color: darkturquoise;
+}
+
+.enter-newselectableitem-input {
+    display: block;
+    width: 100%;
+    border: none;
+    border-bottom: 3px solid rgba(0,0,0,.12);
+    background-color: transparent;
+    color: rgba(64,64,64,.56);
+}
+
+.checkbox{display:block}
+
+.checkbox__input:checked+.checkbox__text:before {
+    color: #68be60;
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+}
+
+.checkbox:before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: hsla(0,0%,100%,.26);
+    border: 2px solid rgba(0,0,0,.24);
+}
+
+.checkbox__text:before {
+    content: "✓";
+    font-family: entypo,sans-serif;
+    display: block;
+    position: absolute;
+    left: -2px;
+    top: -15px;
+    font-size: 40px;
+    color: transparent;
+    -webkit-transition: all .2s ease;
+    transition: all .2s ease;
+    -webkit-transform: scale(.5);
+    -ms-transform: scale(.5);
+    transform: scale(.5);
+}
+
+.checkbox__text {
+    display: block;
+    margin-left: 30px;
+}
+
+.checkbox__label {
+    display: block;
+    position: relative;
+    cursor: pointer;
+}
+
+.checkbox__input{display:block;overflow:hidden;width:0;height:20px}
+
+
+/*alex: this is removing the select focus on accordeon titles: https://stackoverflow.com/questions/30237114/how-to-remove-outline-appeared-on-click-in-bootstrap-ui-accordion */
+
+html * {outline: 0 !important; text-decoration: none !important;}
+
+body, html {
+    box-sizing: border-box;
+    color: #404040;
+    /*background-color: #f5f5f5;*/
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+a, body, button, html, input, select, table {
+    font-family: Roboto,Arial,Helvetica Neue,Helvetica,sans-serif;
+    font-weight: 300;
+    line-height: 1.25;
+}
+
+/*a, button, input, select {
+    font-size: 16px;
+}*/
+
+button {
+    cursor: pointer;
+}
+
+.editor__controls {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    margin-left: 10px;
+}
+
+.editor--edit-mode .editor__output {
+    display: none;
+}
+
+.editor--edit-mode .editor__icon-cancel, .editor--edit-mode .editor__icon-save {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+}
+
+.editor--edit-mode .editor__editable-content {
+    display: block;
+}
+.editor__editable-content {
+    display: none;
+    min-height: 1em;
+    word-break: break-word;
+    padding-left: 1px;   /* Alex Kvasz 9/1/2018: this will make the cursor appear when empty https://stackoverflow.com/questions/25897883/edit-cursor-not-displayed-on-chrome-in-contenteditable */
+}
+
+
+.editor {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    min-height: 50px;
+}
+
+.editor__output {
+    word-break: break-word;
+}
+
+
+.editor__icon-cancel {
+    display: block;
+    background: transparent;
+    border: none;
+    padding: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    opacity: 0;
+    -webkit-transition: -webkit-transform .2s ease,opacity .2s ease;
+    transition: transform .2s ease,opacity .2s ease;
+    -webkit-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(.5);
+    -ms-transform: scale(.5);
+    transform: scale(.5);
+    color: #ff5967;
+}
+
+.editor__icon-cancel:before {
+    content: "🚫";
+    font-family: entypo,sans-serif;
+    text-decoration-skip: all;
+    display: block;
+    width: 30px;
+    height: 30px;
+    font-size: 30px;
+    line-height: 1;
+}
+
+.editor__icon-save:before {
+    content: "✓";
+    font-family: entypo,sans-serif;
+    text-decoration-skip: all;
+    display: block;
+    width: 30px;
+    height: 30px;
+    font-size: 30px;
+    line-height: 1;
+}
+
+.editor__icon-save {
+    display: block;
+    background: transparent;
+    border: none;
+    padding: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    opacity: 0;
+    -webkit-transition: -webkit-transform .2s ease,opacity .2s ease;
+    transition: transform .2s ease,opacity .2s ease;
+    -webkit-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(.5);
+    -ms-transform: scale(.5);
+    transform: scale(.5);
+    color: #68be60;
+}
+.editor:hover .editor__icon-edit
+{
+  opacity:1;
+  -webkit-transform:scale(1);
+  -ms-transform:scale(1);
+  transform:scale(1)
+  }
+
+.editor__icon-edit {
+    display: block;
+    background: transparent;
+    border: none;
+    padding: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    opacity: 1;
+    -webkit-transition: -webkit-transform .2s ease,opacity .2s ease;
+    transition: transform .2s ease,opacity .2s ease;
+    -webkit-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: scale(.5);
+    -ms-transform: scale(.5);
+    transform: scale(.5);
+    color: #3699cb;
+}
+.editor__icon-edit:before {
+    content: "✎";
+    font-family: entypo,sans-serif;
+    text-decoration-skip: all;
+    display: block;
+    width: 30px;
+    height: 30px;
+    font-size: 30px;
+    line-height: 1;
+}
+*, :after, :before {
+    box-sizing: inherit;
+}
+.isCheckbox {
+    width: 14px;
+}
+.imgSearch, .imgTrash{
+    cursor: pointer;
+}
+
+.isFormOk {
+    color: red;
+}
+
+.gg-line-height {
+    line-height: 50px;
+}
+
+.invisible-without-hover { 
+    opacity : 0; 
+}
+
+.invisible-without-hover:hover { 
+    opacity : 1; 
+}
+
+.visible-without-hover { 
+    opacity : 1; 
+}
+
+.visible-without-hover:hover { 
+    opacity : 0; 
+}
+
+
+
+.gg-scroll-text {
+ height: 30px;	
+ overflow: hidden;
+ position: relative;
+}
+.gg-scroll-text span { 
+ color: limegreen;
+ position: absolute;
+ width: 100%;
+ height: 100%;
+ margin: 0;
+ line-height: 30px;
+ text-align: center;
+ /* Starting position */
+ -moz-transform:translateX(100%);
+ -webkit-transform:translateX(100%);	
+ transform:translateX(100%);
+ /* Apply animation to this element */	
+ -moz-animation: gg-scroll-text 25s linear infinite;
+ -webkit-animation: gg-scroll-text 25s linear infinite;
+ animation: gg-scroll-text 25s linear infinite;
+}
+/* Move it (define the animation) */
+@-moz-keyframes gg-scroll-text {
+ 0%   { -moz-transform: translateX(100%); }
+ 100% { -moz-transform: translateX(-100%); }
+}
+@-webkit-keyframes gg-scroll-text {
+ 0%   { -webkit-transform: translateX(100%); }
+ 100% { -webkit-transform: translateX(-100%); }
+}
+@keyframes gg-scroll-text {
+ 0%   { 
+ -moz-transform: translateX(100%); /* Firefox bug fix */
+ -webkit-transform: translateX(100%); /* Firefox bug fix */
+ transform: translateX(100%); 		
+ }
+ 100% { 
+ -moz-transform: translateX(-100%); /* Firefox bug fix */
+ -webkit-transform: translateX(-100%); /* Firefox bug fix */
+ transform: translateX(-100%); 
+ }
+}
+

@@ -1,0 +1,61 @@
+<gg-search-box [objectTypeTranslationKey]="'GENERAL.PRODUCTS'" [hasReport]="true" [reportTipTranslationKey]="'GENERAL.HITS.PRODUCTS REPORT TIP'"  [objectsObservable]="productsObservable" [fnFilterObjects]="getFilterFn()" (listChanged)="setProducts($event)" (reportNeeded)="createReport($event)">
+	<gg-product-list-help searchHelp [isForSelection]="isForSelection" [showStockage]="true" > </gg-product-list-help>
+
+	<ngb-accordion accordion [closeOthers]="true" #acc="ngbAccordion" (panelChange)="beforeAccordionChange($event)" [activeIds]="state.openPanelId">
+		<ngb-panel [disabled]="true">
+			<ng-template ngbPanelTitle>
+				<div class="row">
+					<div class="col-sm-1" *ngIf="isForSelection"></div>
+					<div [class.col-sm-3]="!isForSelection" [class.col-sm-2]="isForSelection"><b>{{'PRODUCT.COLUMN.PRODUCT' | translate}}</b></div>
+					<div class="col-sm-2"><b>{{'PRODUCT.COLUMN.SUPPLIER' | translate}}</b></div>
+					<div class="col-sm-1"><b>{{'PRODUCT.COLUMN.PACKAGE' | translate}}</b></div>
+					<div class="col-sm-2"><b>{{'PRODUCT.COLUMN.CATALOG NR' | translate}}</b></div>
+					<div class="col-sm-2"><b>{{'PRODUCT.COLUMN.PRICE' | translate}}</b></div>
+					<div class="col-sm-1"><b>{{'PRODUCT.COLUMN.FRIGO' | translate}}</b></div>
+					<div class="col-sm-1"><b>{{'PRODUCT.COLUMN.DISABLED' | translate}}</b></div>
+				</div>
+			</ng-template>
+			<ng-template ngbPanelContent>
+
+			</ng-template>
+		</ngb-panel>
+		<ngb-panel *ngFor="let product of products" [id]="product.data._id">
+			<ng-template ngbPanelTitle>
+				<div class="row" id="{{product.data._id}}">
+					<div class="col-sm-1" *ngIf="isForSelection">
+						<img [ngbTooltip]="'PRODUCT.LABEL.SELECT PRODUCT TIP' | translate" *ngIf="!isProductSelected(product)" height="25" width="25" src="images/add.png" (click)="productSelectedInList($event, product, false)"
+						/>
+
+						<img [ngbTooltip]="'PRODUCT.LABEL.UNSELECT PRODUCT TIP' | translate" *ngIf="isProductSelected(product)" height="25" width="25" src="images/remove.png"
+						 (click)="productSelectedInList($event, product, true)" />
+					</div>
+					<div [class.col-sm-3]="!isForSelection" [class.col-sm-2]="isForSelection" [style.font-weight]="product.data._id === state.openPanelId ? 'bold' : 'lighter'">{{product.data.name}}</div>
+					<div class="col-sm-2">{{product.annotation.supplierName}}</div>
+					<div class="col-sm-1">{{product.data.package}}</div>
+					<div class="col-sm-2">{{product.data.catalogNr}}</div>
+					<div class="col-sm-2">{{product.data.price | ggCurrency:product.annotation.currency}}</div>
+					<div class="col-sm-1">
+						<img [ngbTooltip]="tipContentFrigo" *ngIf="product.data.isFrigo && !isProductReadOnly(product)" height="25"
+						 width="25" src="images/refrigator.png" (click)="saveFrigoProperty($event, product, false)" [ngbTooltip]="'PRODUCT.HELP.ACTIVATE FRIDGE' | translate" />
+
+						<img *ngIf="product.data.isFrigo && isProductReadOnly(product)" height="25" width="25" src="images/refrigator.png"
+						/>
+						<img *ngIf="!product.data.isFrigo && !isProductReadOnly(product)" class="invisible-without-hover" height="25"
+						 width="25" src="images/ok.png" (click)="saveFrigoProperty($event, product, true)" [ngbTooltip]="'PRODUCT.HELP.ACTIVATE FRIDGE' | translate"/>
+					</div>
+					<div class="col-sm-1" >
+						<img height="25" width="25" src="images/shopping-basket-info-icon.png" *ngIf="product.annotation.hasBasket" />
+						<img height="25" width="25" src="images/closed.png" *ngIf="product.data.disabled"/>
+					</div>
+
+				</div>
+			</ng-template>
+			<ng-template ngbPanelContent>
+				<gg-product-detail [productObservable]="getProductObservable(product.data._id)" [path]="path+'|P:'+product.data._id" [state]="state[product.data._id]"
+				 (stateChanged)="childStateChanged($event, product.data._id)"></gg-product-detail>
+			</ng-template>
+		</ngb-panel>
+	</ngb-accordion>
+
+</gg-search-box>
+

@@ -1,0 +1,36 @@
+<div class="card">
+    <div class="card-body">
+        
+        <ngb-tabset>
+            <ngb-tab [title]="authorizationStatusInfo && authorizationStatusInfo.isLoggedIn ? ('Signed in as ' + authorizationStatusInfo.getCurrentUserName()) : 'Identification'" id="tabIdentification">
+                <ng-template ngbTabContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <ngb-tabset>
+                                <ngb-tab [title]="authorizationStatusInfo && authorizationStatusInfo.isLoggedIn ? 'Sign out' : 'Sign in'" id="tabSignin">
+                                    <ng-template ngbTabContent>
+                                        <gg-signin-enter [statusObservable]="authAnoynmousService.getStatusObservable()" (loginHasBeenTried)="loginHasBeenTried($event)" (logout)="authAnoynmousService.setLoggedOut()"></gg-signin-enter>
+                                    </ng-template>
+                                </ngb-tab>
+                                <ngb-tab title="{{'PUBLIC.MENU.REGISTER AS A USER' | translate}}" id="tabRegister">
+                                    <ng-template ngbTabContent>
+                                        <gg-register-enter></gg-register-enter>
+                                    </ng-template>
+                                </ngb-tab>
+                            </ngb-tabset>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="{{'PUBLIC.MENU.MARCHÉS ULG' | translate}}" id="tabMarchés" *ngIf="authorizationStatusInfo?.isLoggedIn">
+                <ng-template ngbTabContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <gg-markets-main></gg-markets-main>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+        </ngb-tabset>
+    </div>
+</div>

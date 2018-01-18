@@ -1,0 +1,114 @@
+<ngb-tabset #tabset *ngIf="order" (tabChange)="beforeTabChange($event)" [activeId]="state.selectedTabId">
+    <ngb-tab title="{{'STOCK.MENU.INFO' | translate}}" id="tabInfo">
+        <ng-template ngbTabContent>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-2">{{'STOCK.LABEL.DATE' | translate}}</div>
+                        <div class="col-sm-6">{{order.data.createDate | fullDate}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">{{'STOCK.LABEL.ORDERED BY' | translate}}</div>
+                        <div class="col-sm-6">{{order.annotation.user}} / {{order.annotation.equipe}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">{{'STOCK.LABEL.ORDERED PRODUCT' | translate}}</div>
+                        <div class="col-sm-6 imgSearch" (click)="navigateToProduct()">{{order.annotation.product}} </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">{{'STOCK.LABEL.CATALOG NUMBER' | translate}}</div>
+                        <div class="col-sm-6 imgSearch" (click)="navigateToProduct()">{{order.annotation.catalogNr}} </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">{{'STOCK.LABEL.QUANTITY' | translate}}</div>
+                        <div class="col-sm-6">{{order.data.quantity}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">{{'STOCK.LABEL.STATUS' | translate}}</div>
+                        <div class="col-sm-6" [style.color]="order.data.isProcessed ? 'magenta' : 'black'">{{(order.data.isProcessed ? 'STOCK.LABEL.PROCESSED' : 'STOCK.LABEL.PENDING')  | translate}}</div>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </ngb-tab>
+
+	<ngb-tab id="tabComments">
+		<ng-template ngbTabTitle>
+			<gg-comments-tab-title [data]="order.data"></gg-comments-tab-title>
+		</ng-template>
+		<ng-template ngbTabContent>
+			<gg-comments-tab [data]="order.data" [dbTable]="'orders.stock'"></gg-comments-tab>
+		</ng-template>
+	</ngb-tab>
+
+	<ngb-tab title="{{'STOCK.MENU.DELETE' | translate}}" id="tabDelete" *ngIf="authorizationStatusInfo?.isAdministrator() && !order.data.isProcessed && !isBlocked">
+		<ng-template ngbTabContent>
+            <div class="card">
+                <div class="card-body">
+                    <gg-button-action-confirm (doAction)="deleteOrder()" [typeObjectKey]="'GENERAL.OBJECT.ORDER'" [typeActionKey]="'GENERAL.ACTION.DELETE'"></gg-button-action-confirm>
+                </div>
+            </div>			
+		</ng-template>
+	</ngb-tab>    
+    <ngb-tab title="{{'STOCK.MENU.PROCESS ORDER' | translate}}" id="tabProcessOrder" *ngIf="authorizationStatusInfo?.isAdministrator() && !order.data.isProcessed && !isBlocked">
+        <ng-template ngbTabContent>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-2"><b>{{'STOCK.LABEL.ORDER PROCESSED' | translate}}</b></div>
+                        <div class="col-sm-3">{{(order.data.isProcessed ? 'GENERAL.YES' : 'GENERAL.NO') | translate}}</div>
+                    </div>
+
+                    <div *ngIf="((stockItemsObservable |async) || []).length>0" >
+                        <div class="row">
+                            <div class="col-sm-3"><b>{{'STOCK.COLUMN.LOT NUMBER' | translate}}</b></div>
+                            <div class="col-sm-3"><b>{{'STOCK.COLUMN.AVAILABLE' | translate}}</b></div>
+                        </div>
+                        <form [formGroup]="frmStockOrder" (ngSubmit)="save(frmStockOrder.value, frmStockOrder.valid)">
+                            <div *ngFor="let stockItem of stockItemsObservable | async" class="row">
+                                <div class="col-sm-3">{{stockItem.annotation.lotNb || '(no lot number)'}}</div>
+                                <div class="col-sm-3">{{stockItem.annotation.nbAvailable}}</div>
+                                <div class="col-sm-3">
+                                    <input type="number" min="0" [max]="stockItem.annotation.nbAvailable" [formControlName]="stockItem.data._id" />
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="!order.data.isProcessed">
+                                <div class="col-sm-4">
+                                    <button class="btn btn-success" type="submit" [disabled]="!frmStockOrder.valid">{{'STOCK.ACTION.SUBMIT AND SET ORDER AS PROCESSED' | translate}}</button>
+                                </div>
+                                <div class="col-sm-3" *ngIf="!isProcessFormOK">
+                                    <span style="color:red">{{'STOCK.ACTION.YOUR REQUEST HAS NOT BEEN SAVED' | translate}}</span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div *ngIf="((stockItemsObservable |async) || []).length <= 0" >
+                        <span style="color:red">{{'STOCK.ACTION.THERE IS NO PRODUCT' | translate}}</span>
+                    </div>
+
+                </div>
+            </div>
+        </ng-template>
+    </ngb-tab>
+    <ngb-tab title="{{'STOCK.MENU.PROCESS ORDER DETAIL' | translate}}" id="tabProcessOrderItems" *ngIf="order.data.isProcessed && order.annotation.orderProcessItems && order.annotation.orderProcessItems.length > 0">
+        <ng-template ngbTabContent>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-3"><b>{{'STOCK.COLUMN.WHEN' | translate}}</b></div>
+                        <div class="col-sm-3"><b>{{'STOCK.COLUMN.FROM LOT NB' | translate}}</b></div>
+                        <div class="col-sm-3"><b>{{'STOCK.COLUMN.QUANTITY' | translate}}</b></div>
+                    </div>
+
+                    <div *ngFor="let orderProcessItem of order.annotation.orderProcessItems" class="row">
+                        <div class="col-sm-3">{{orderProcessItem.date | fullDate}}</div>
+                        <div class="col-sm-3">{{orderProcessItem.lotNb}}</div>
+                        <div class="col-sm-3">{{orderProcessItem.quantity}}</div>                        
+                    </div>
+
+                </div>
+            </div>
+        </ng-template>
+    </ngb-tab>
+    
+</ngb-tabset>

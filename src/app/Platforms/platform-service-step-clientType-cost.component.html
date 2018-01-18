@@ -1,0 +1,74 @@
+<div class="card" *ngIf="clientType && serviceStep">
+    <div class="card-body gg-line-height">
+        <div class="row" *ngFor="let prodExtra of clientType.servicesCosts">
+            <div class="col-sm-7 align-self-center"><b>{{prodExtra.labeltxt}}</b></div>
+            <div class="col-sm-4 align-self-center">
+                {{prodExtra.extraValue | ggCurrency}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-7 align-self-center"><b>{{'PLATFORM.SERVICE.STEP.COST.LABEL.MACHINE COST OF RUN' | translate}}</b></div>
+            <div class="col-sm-4 align-self-center">
+                {{serviceStep.annotation.machineCost | ggCurrency}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-7 align-self-center"><b>{{'PLATFORM.SERVICE.STEP.COST.LABEL.COST OF PRODUCTS' | translate}}</b></div>
+            <div class="col-sm-4 align-self-center">
+                {{serviceStep.annotation.productsCost | ggCurrency}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-7 align-self-center"><b>{{'PLATFORM.SERVICE.STEP.COST.LABEL.COST OF CONSOMMABLES' | translate}}</b></div>
+            <div class="col-sm-4 align-self-center">
+                {{serviceStep.annotation.consommablesCost | ggCurrency}}
+            </div>
+        </div>
+
+        <div class="row" *ngFor="let prodExtra of clientType.productsExtras">
+            <div class="col-sm-7 align-self-center">{{prodExtra.labeltxt}}</div>
+            <div class="col-sm-4 align-self-center">
+                {{prodExtra.extraValue | ggCurrency}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-7 align-self-center"><b>{{'PLATFORM.SERVICE.STEP.COST.LABEL.COST OF LABOUR' | translate}}</b></div>
+            <div class="col-sm-4 align-self-center">
+                {{serviceStep.annotation.labourCost | ggCurrency}}
+            </div>
+        </div>
+
+        <div class="row" *ngFor="let prodExtra of clientType.labourReductions">
+            <div class="col-sm-7 align-self-center">{{'PLATFORM.SERVICE.STEP.COST.LABEL.REDUCTION ON' | translate}} {{prodExtra.labeltxt}}</div>
+            <div class="col-sm-4 align-self-center">
+                {{prodExtra.extraValue | ggCurrency}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-7 align-self-center"><b>{{'PLATFORM.SERVICE.STEP.COST.LABEL.TOTAL COST OF STEP' | translate}}</b></div>
+            <div class="col-sm-4 align-self-center gg-price">
+                {{clientType.totalCost | ggCurrency}}
+            </div>
+        </div>
+
+        <div class="row" *ngFor="let prodExtra of clientType.totalExtras">
+            <div class="col-sm-7 align-self-center">{{prodExtra.labeltxt}}</div>
+            <div class="col-sm-4 align-self-center">
+                {{prodExtra.extraValue | ggCurrency}}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-7 align-self-center"><b>{{'PLATFORM.SERVICE.STEP.COST.LABEL.PRICE OF STEP' | translate}}</b></div>
+            <div class="col-sm-4 align-self-center gg-price">
+                {{clientType.grandTotalCost | ggCurrency}}
+            </div>
+        </div>
+
+    </div>
+</div>

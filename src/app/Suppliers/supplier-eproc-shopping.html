@@ -1,0 +1,13 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row" [style.color]="'green'" [innerHTML]="'SUPPLIER.MSG.EPROC INTRO' | translate:{param:supplier.data.name}">
+        </div>
+        <div class="row" [style.color]="eprocData !== false ? 'green' : 'red'">
+            {{'SUPPLIER.MSG.EPROC STATUS' | translate}} {{eprocData !== false ? 'OK' : 'NO'}}
+        </div>
+        <div class="row" [style.color]="eprocData !== false ? 'green' : 'red'">
+            <button class="btn btn-success" [disabled]="!eprocData" (click)="eprocHasBeenDone(eprocData)">{{'SUPPLIER.MSG.EPROC BUTTON' | translate}}</button>
+        </div>
+        <gg-otp-checker (spendingChanged)="eprocDataChanged($event)"></gg-otp-checker>
+    </div>
+</div>

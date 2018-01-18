@@ -1,0 +1,9 @@
+<div id="GGTOP"></div>
+<div class="card" *ngIf="user">
+    <div class="card-body">
+        <h6>User {{user.annotation.fullName}}</h6>
+        <gg-user-detail *ngIf="authorizationStatusInfo.isLoggedIn" [userObservable]="userObservable" [path]="'user|'+user.data._id"  [isRoot]="true" [state]="state"></gg-user-detail>        
+        <h4 *ngIf="!authorizationStatusInfo.isLoggedIn">{{'ERROR.NO LOGIN' | translate}}</h4>
+    </div>
+</div>
+

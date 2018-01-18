@@ -1,0 +1,135 @@
+<div class="card-body">
+    <ngb-tabset>
+        <ngb-tab title="{{'PLATFORM.CLIENT.MENU.LIST OF CLIENTS' | translate}}" id="tabListOfClients">
+            <ng-template ngbTabContent>
+                <div class="card">
+                    <div class="card-body">
+
+                        <gg-search-box [objectTypeTranslationKey]="'GENERAL.CLIENTS'" [objectsObservable]="platformService.getAnnotatedClients()" [fnFilterObjects]="fnFilter" (listChanged)="setClients($event)">
+                            <ul searchHelp>
+                                <li>{{'PLATFORM.CLIENT.SEARCH HELP.MSG1' | translate}}</li>
+                                <li>{{'PLATFORM.CLIENT.SEARCH HELP.MSG2' | translate}}</li>
+                            </ul>
+
+                            <ngb-accordion accordion [closeOthers]="true" #acc="ngbAccordion">
+                                <ngb-panel [disabled]="true">
+                                    <ng-template ngbPanelTitle>
+                                        <div class="row">
+                                            <div class="col-sm-2"><b>{{'PLATFORM.CLIENT.COLUMN.FULL NAME' | translate}}</b></div>
+                                            <div class="col-sm-2"><b>{{'PLATFORM.CLIENT.COLUMN.EMAIL' | translate}}</b></div>
+                                            <div class="col-sm-2"><b>{{'PLATFORM.CLIENT.COLUMN.TELEPHONE' | translate}}</b></div>
+                                            <div class="col-sm-4"><b>{{'PLATFORM.CLIENT.COLUMN.ENTERPRISE/LABO' | translate}}</b></div>
+                                            <div class="col-sm-2"><b>{{'PLATFORM.CLIENT.COLUMN.CLIENT TYPE' | translate}}</b></div>
+                                        </div>
+                                    </ng-template>
+                                </ngb-panel>
+                                <ngb-panel *ngFor="let clientItem of clientsList">
+                                    <ng-template ngbPanelTitle>
+                                        <div class="row" id="{{clientItem._id}}">
+                                            <div class="col-sm-2">{{clientItem.annotation.fullName}}</div>
+                                            <div class="col-sm-2">{{clientItem.data.email}}</div>
+                                            <div class="col-sm-2">{{clientItem.data.telephone}}</div>
+                                            <div class="col-sm-4">{{clientItem.annotation.enterprise}}</div>
+                                            <div class="col-sm-2">{{clientItem.annotation.clientType}}</div>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template ngbPanelContent>
+                                        <ngb-tabset>
+                                            <ngb-tab title="{{'PLATFORM.CLIENT.MENU.INFO' | translate}}" id="tabInfo">
+                                                <ng-template ngbTabContent>
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.CLIENT.LABEL.NAME' | translate}}</b></div>
+                                                                <div class="col-sm-8 align-self-center">
+                                                                    <gg-editor [content]="clientItem.data.name" [showControls]="true" (editSaved)="nameClientUpdated($event, clientItem)"></gg-editor>
+                                                                </div>
+                                                                <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.CLIENT.LABEL.FIRST NAME' | translate}}</b></div>
+                                                                <div class="col-sm-8 align-self-center">
+                                                                    <gg-editor [content]="clientItem.data.firstName" [showControls]="true" (editSaved)="firstNameClientUpdated($event, clientItem)"></gg-editor>
+                                                                </div>
+                                                                <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.CLIENT.LABEL.EMAIL' | translate}}</b></div>
+                                                                <div class="col-sm-8 align-self-center">
+                                                                    <gg-editor [content]="clientItem.data.email" [showControls]="true" (editSaved)="emailClientUpdated($event, clientItem)"></gg-editor>
+                                                                </div>
+                                                                <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.CLIENT.LABEL.TELEPHONE' | translate}}</b></div>
+                                                                <div class="col-sm-8 align-self-center">
+                                                                    <gg-editor [content]="clientItem.data.telephone" [showControls]="true" (editSaved)="telephoneClientUpdated($event, clientItem)"></gg-editor>
+                                                                </div>
+                                                                <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.CLIENT.LABEL.ENTERPRISE' | translate}}</b></div>
+                                                                <div class="col-sm-8 align-self-center">
+                                                                    <gg-editor-autocomplete [selectableData]="entrepriseListObservable" [emptyContentText]="'PLATFORM.CLIENT.LABEL.CHOOSE AN ENTERPRISE PHOLDER' | translate"
+                                                                        [selectedId]="clientItem.data.enterpriseId" (idChanged)="enterpriseUpdated($event, clientItem)"></gg-editor-autocomplete>
+                                                                </div>
+                                                                <div class="col-sm-3 align-self-center"><b>{{'PLATFORM.CLIENT.LABEL.WEB PAGE' | translate}}</b></div>
+                                                                <div class="col-sm-8 align-self-center" *ngIf="clientItem.data.web">
+                                                                    <a target="_blank" [href]="clientItem.data.web">{{'GENERAL.CLICK HERE' | translate}}</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </ng-template>
+                                            </ngb-tab>
+
+                                        </ngb-tabset>
+                                    </ng-template>
+                                </ngb-panel>
+                            </ngb-accordion>
+                        </gg-search-box>
+                    </div>
+                </div>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab title="{{'PLATFORM.CLIENT.MENU.ADD A CLIENT' | translate}}" id="tabAddClient">
+            <ng-template ngbTabContent>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="container-fluid">
+                            <form [formGroup]="clientsForm" (ngSubmit)="save(clientsForm.value, clientsForm.valid)">
+                                <div class="form-group row">
+                                    <label for="nameOfClient" class="col-sm-2 col-form-label col-xl-2">{{'PLATFORM.CLIENT.LABEL.NAME' | translate}}:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" formControlName="nameOfClient" id="nameOfClient" placeholder="{{'PLATFORM.CLIENT.LABEL.NAME' | translate}}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="firstName" class="col-sm-2 col-form-label col-xl-2">{{'PLATFORM.CLIENT.LABEL.FIRST NAME' | translate}}:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" formControlName="firstName" id="firstName" placeholder="{{'PLATFORM.CLIENT.LABEL.FIRST NAME' | translate}}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="email" class="col-sm-2 col-form-label col-xl-2">{{'PLATFORM.CLIENT.LABEL.EMAIL' | translate}}:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" formControlName="email" id="email" placeholder="{{'PLATFORM.CLIENT.LABEL.EMAIL' | translate}}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="telephone" class="col-sm-2 col-form-label col-xl-2">{{'PLATFORM.CLIENT.LABEL.TELEPHONE' | translate}}:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" formControlName="telephone" id="telephone" placeholder="{{'PLATFORM.CLIENT.LABEL.TELEPHONE' | translate}}">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label col-xl-2">{{'PLATFORM.CLIENT.LABEL.ENTERPRISE OF CLIENT' | translate}}:</label>
+                                    <div class="col-sm-10">
+                                        <gg-editor-autocomplete [selectableData]="entrepriseListObservable" [emptyContentText]="'PLATFORM.CLIENT.LABEL.CHOOSE AN ENTERPRISE PHOLDER' | translate"
+                                            (idChanged)="enterpriseChanged($event)"></gg-editor-autocomplete>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3 col-md-2 col-lg-2">
+                                        <button class="btn btn-success" type="submit" [disabled]="!clientsForm.valid">{{'FORM.SUBMIT' | translate}}</button>
+                                    </div>
+                                    <div class="col-sm-3 col-md-2 col-lg-2">
+                                        <button class="btn btn-info" [disabled]="clientsForm.pristine" (click)="reset()">{{'FORM.RESET' | translate}}</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </ngb-tab>
+    </ngb-tabset>
+</div>

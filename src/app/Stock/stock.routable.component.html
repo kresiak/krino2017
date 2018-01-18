@@ -1,0 +1,18 @@
+<div id="GGTOP"></div>
+<div class="card">
+	<div class="card-body">
+		<ngb-tabset *ngIf="authorizationStatusInfo?.isLoggedIn" [activeId]="state.selectedTabId">
+			<ngb-tab title="{{'STOCK.MENU.PUT ORDER STOCK' | translate}}" id="tabAvailable">
+				<ng-template ngbTabContent>
+                    <gg-stock-list [productsObservable]= "productsObservable" [path]="'stock|O:Available'" [state]="state.Available"></gg-stock-list>
+				</ng-template>
+			</ngb-tab>
+			<ngb-tab title="{{'STOCK.MENU.ORDERS' | translate}}" id="tabOrders" >
+				<ng-template ngbTabContent>
+                    <gg-stock-order-list [path]="'stock|O:Orders'" [state]="state.Orders" [ordersObservable]="ordersObservable" ></gg-stock-order-list>
+				</ng-template>
+			</ngb-tab>
+		</ngb-tabset>
+		<h4 *ngIf="authorizationStatusInfo && !authorizationStatusInfo.isLoggedIn">{{'ERROR.NO LOGIN' | translate}}</h4>
+	</div>
+</div>            

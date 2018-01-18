@@ -1,0 +1,246 @@
+<ng-template #popContent>{{(isRoot ? 'GENERAL.ACTION.CLICK HERE TO GO BACK TO LAST VIEW' : 'GENERAL.ACTION.CLICK HERE TO GET A DETAIL VIEW') | translate}}</ng-template>
+
+<ngb-tabset *ngIf="equipe" (tabChange)="beforeTabChange($event)" [activeId]="state.selectedTabId">
+	<ngb-tab title="{{'EQUIPE.MENU.INFO' | translate}}" id="tabInfo">
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-sm-4 align-self-center">{{'EQUIPE.LABEL.EQUIPE' | translate}}</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor [content]="equipe.data.name" [showControls]="true" (editSaved)="nameUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4 align-self-center">{{'EQUIPE.LABEL.DESCRIPTION' | translate}}</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor [content]="equipe.data.description" [showControls]="true" (editSaved)="descriptionUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4 align-self-center">{{'EQUIPE.LABEL.WITH FOLLOWING USERS' | translate}}</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-selector [selectableData]="selectableUsers" [selectedIds]="selectedUserIdsObservable" (selectionChanged)="userSelectionChanged($event)"
+							 [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-selector>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4 align-self-center">{{'EQUIPE.LABEL.HEADS OF EQUIPE' | translate}}</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-selector [selectableData]="selectableManagers" [selectedIds]="selectedManagerIdsObservable" (selectionChanged)="managerSelectionChanged($event)"
+							 [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-selector>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4 align-self-center">{{'EQUIPE.LABEL.MONTHS AHEAD ALLOWED' | translate}}</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor-number [content]="equipe.data.nbOfMonthAheadAllowed" (editSaved)="nbOfMonthAheadAllowedUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-number>
+						</div>
+					</div>
+					<div class="row" [style.color]="equipe.data.isBlocked ? 'red' : 'black'">
+						<div class="col-sm-4 align-self-center">{{'EQUIPE.LABEL.IS BLOCKED' | translate}}</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor-boolean [content]="equipe.data.isBlocked" (editSaved)="blockedUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">{{'EQUIPE.LABEL.TOTAL BUDGET' | translate}}</div>
+						<div class="col-sm-1">+</div>
+						<div class="col-sm-3">{{equipe.annotation.budget | ggCurrency}}
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4 align-self-center">{{'EQUIPE.LABEL.GIFT RECEIVED' | translate}}</div>
+						<div class="col-sm-1 align-self-center">+</div>
+						<div class="col-sm-3 align-self-center">{{equipe.annotation.receivedGiftsAmount | ggCurrency}}</div>
+						<div class="col-sm-2 align-self-center">
+							<button *ngIf="equipe.annotation.receivedGifts.length > 0" type="button" class="btn btn-link" (click)="equipe.annotation.receivedGiftsShow=!equipe.annotation.receivedGiftsShow">{{'GENERAL.TOGGLE DETAILS' | translate}}</button>
+						</div>
+					</div>
+					<div [ngbCollapse]="!equipe.annotation.receivedGiftsShow">
+						<div class="row">
+							<div class="col-sm-4"></div>
+							<div class="col-sm-8">
+								<div class="card">
+									<div class="card-body">
+										<div class="row" *ngFor="let gift of equipe.annotation.receivedGifts">
+											<div class="col-sm-2">{{'EQUIPE.LABEL.GIFT FROM' | translate}}</div>
+											<div class="col-sm-4">{{gift.annotation.equipeGiving}}</div>
+											<div class="col-sm-2">{{gift.data.amount | ggCurrency}}</div>
+											<div class="col-sm-3">{{gift.data.createDate | shortDate}}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4 align-self-center">{{'EQUIPE.LABEL.GIFT OFFERED' | translate}}</div>
+						<div class="col-sm-1 align-self-center">-</div>
+						<div class="col-sm-3 align-self-center">{{equipe.annotation.givenGiftsAmount | ggCurrency}}</div>
+						<div class="col-sm-2 align-self-center">
+							<button *ngIf="equipe.annotation.givenGifts.length > 0" type="button" class="btn btn-link" (click)="equipe.annotation.givenGiftsShow=!equipe.annotation.givenGiftsShow">{{'GENERAL.TOGGLE DETAILS' | translate}}</button>
+						</div>
+					</div>
+					<div [ngbCollapse]="!equipe.annotation.givenGiftsShow">
+						<div class="row">
+							<div class="col-sm-4"></div>
+							<div class="col-sm-8">
+								<div class="card">
+									<div class="card-body">
+										<div class="row" *ngFor="let gift of equipe.annotation.givenGifts">
+											<div class="col-sm-2">{{'EQUIPE.LABEL.GIFT TO' | translate}}</div>
+											<div class="col-sm-4">{{gift.annotation.equipeTaking}}</div>
+											<div class="col-sm-2">{{gift.data.amount | ggCurrency}}</div>
+											<div class="col-sm-3">{{gift.data.createDate | shortDate}}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">{{'EQUIPE.LABEL.MONEY SPENT' | translate}}</div>
+						<div class="col-sm-1">-</div>
+						<div class="col-sm-3">{{equipe.annotation.amountSpent | ggCurrency}}</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">{{'EQUIPE.LABEL.MONEY AVAILABLE' | translate}}</div>
+						<div class="col-sm-1">=</div>
+						<div class="col-sm-3">{{equipe.annotation.amountAvailable | ggCurrency}}</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">{{'EQUIPE.LABEL.MONEY OWED TO OTHER' | translate}}</div>
+						<div class="col-sm-6" [style.color]="'red'">{{equipe.annotation.owing | ggCurrency}}</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-4">{{'EQUIPE.LABEL.MONEY OWED BY OTHER' | translate}}</div>
+						<div class="col-sm-6" [style.color]="'green'">{{equipe.annotation.owed | ggCurrency}}</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-2">
+							<img *ngIf="!equipe.annotation.dashletId" src="images/pin.png" (click)="setDashlet()" />
+							<img *ngIf="equipe.annotation.dashletId" src="images/unpin.png" (click)="removeDashlet(equipe.annotation.dashletId)"
+							/>
+						</div>
+					</div>
+
+					<div class="row" *ngIf="!configService.isProduction()">
+						<div class="col-sm-4">_id:</div>
+						<div class="col-sm-6">{{equipe.data._id}}</div>
+					</div>
+
+				</div>
+			</div>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{'EQUIPE.MENU.SPENDING' | translate}}" id="tabSpending">
+		<ng-template ngbTabContent>
+			<gg-equipe-bilan [bilanObservable]="bilanObservable"></gg-equipe-bilan>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{'EQUIPE.MENU.DEBTS' | translate}}" id="tabDebts">
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<ngb-tabset>
+						<ngb-tab title="{{'EQUIPE.MENU.OWING' | translate}}">
+							<ng-template ngbTabContent>
+								<gg-equipe-debt-details [list]="equipe.annotation.owingDetails"></gg-equipe-debt-details>
+							</ng-template>
+						</ngb-tab>
+						<ngb-tab title="{{'EQUIPE.MENU.OWED' | translate}}">
+							<ng-template ngbTabContent>
+								<gg-equipe-debt-details [list]="equipe.annotation.owedDetails"></gg-equipe-debt-details>
+							</ng-template>
+						</ngb-tab>
+					</ngb-tabset>
+				</div>
+			</div>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{'EQUIPE.MENU.CHARTS' | translate}}" id="tabCharts" *ngIf="false">
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-sm-6">
+							<div class='akbox'>
+								<div class='akcontent'>
+									<!--<x-chartist [data]="pieSpentChart.data" [type]="pieSpentChart.type"></x-chartist>-->
+								</div>
+							</div>
+
+						</div>"
+					</div>
+
+				</div>
+			</div>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab id="tabComments">
+		<ng-template ngbTabTitle>
+			<gg-comments-tab-title [data]="equipe.data"></gg-comments-tab-title>
+		</ng-template>
+		<ng-template ngbTabContent>
+			<gg-comments-tab [data]="equipe.data" [dbTable]="'equipes'" [urlPart]="'equipe'"></gg-comments-tab>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{'EQUIPE.MENU.USERS' | translate}}" id="tabUsers">
+		<ng-template ngbTabContent>
+			<gg-user-list [state]="state.Users" [usersObservable]="usersObservable" [path]="path+'|O:Users'" (stateChanged)="childUsersStateChanged($event)"></gg-user-list>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{'EQUIPE.MENU.OTPS' | translate}}" id="tabOtps">
+		<ng-template ngbTabContent>
+			<gg-otp-list [otpsObservable]="otpsObservable" [config]="{skip:['equipe']}" [state]="state.Otps" [path]="path+'|O:Otps'"
+			 (stateChanged)="childOtpsStateChanged($event)"></gg-otp-list>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{'EQUIPE.MENU.SAP ITEMS' | translate}}" id="tabSapItems">
+		<ng-template ngbTabContent>
+			<gg-sap-list [state]="state" [sapsObservable]="sapsObservableAttributed"></gg-sap-list>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{'EQUIPE.MENU.ORDERS' | translate}}" id="tabOrders">
+		<ng-template ngbTabContent>
+			<gg-order-list [ordersObservable]="ordersObservable" [state]="state.Orders" [path]="path+'|O:Orders'" (stateChanged)="childOrdersStateChanged($event)"></gg-order-list>
+		</ng-template>
+	</ngb-tab>
+
+	<ngb-tab title="{{'EQUIPE.MENU.FRIDGE ORDERS' | translate}}" id="tabFridgeOrders">
+		<ng-template ngbTabContent>
+			<gg-order-fridge-list [fridgeOrdersObservable]="fridgeOrdersObservable" [path]="path+'|O:FridgeOrders'"></gg-order-fridge-list>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{'EQUIPE.MENU.STOCK ORDERS' | translate}}" id="tabStockOrders">
+		<ng-template ngbTabContent>
+			<gg-stock-order-list [ordersObservable]="stockOrdersObservable" [state]="state.StockOrders" [path]="path+'|O:StockOrders'"></gg-stock-order-list>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab title="{{'EQUIPE.MENU.VOUCHER ORDERS' | translate}}" id="tabUsedVouchers">
+		<ng-template ngbTabContent>
+			<gg-voucher-list [vouchersObservable]="webVouchersObservable" [focusOnVoucherUsage]="true"></gg-voucher-list>
+		</ng-template>
+	</ngb-tab>
+
+	<ngb-tab title="{{'EQUIPE.MENU.ADD OTP' | translate}}" id="tabOtp">
+		<ng-template ngbTabContent>
+			<div class="card">
+				<div class="card-body">
+					<gg-otp-enter [equipeId]="equipe.data._id"></gg-otp-enter>
+				</div>
+			</div>
+		</ng-template>
+	</ngb-tab>
+	<ngb-tab id="tabMax">
+		<ng-template ngbTabTitle><img src="images/maximize.png" [ngbPopover]="popContent" triggers="mouseenter:mouseleave" /></ng-template>
+		<ng-template ngbTabContent></ng-template>
+	</ngb-tab>
+	<ngb-tab id="gotoTop" *ngIf="!isRoot && path!=='dashboard'">
+		<ng-template ngbTabTitle><img src="images/gototop.png" [ngbPopover]="'GENERAL.ACTION.GOTO TOP OF THE PAGE' | translate" triggers="mouseenter:mouseleave"
+			/></ng-template>
+		<ng-template ngbTabContent></ng-template>
+	</ngb-tab>
+
+</ngb-tabset>

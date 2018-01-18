@@ -1,0 +1,70 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-3 align-self-center">{{'OTP.CHECKER.LABEL.WANTS ORDER' | translate}}</div>
+            <div class="col-sm-5 align-self-center">
+
+                <input [disabled]="!(authorizationStatusInfo && authorizationStatusInfo.isAdministrator())" [(ngModel)]="equipeValue" class="form-control"
+                    style="margin-top:8px;height:32px;line-height:32px;font-size:12px;cursor:pointer;" ng2-auto-complete blank-option-text="{{'LOGIN.SELECT EQUIPE' | translate}}"
+                    [source]="selectableEquipes" placeholder="{{'LOGIN.CHOOSE EQUIPE' | translate}}" [list-formatter]="autocompleListFormatter"
+                    (valueChanged)="equipeChanged($event)">
+
+            </div>
+        </div>
+
+        <div class="row" *ngIf="currentEquipe">
+            <div class="col-sm-3 align-self-center">{{'OTP.CHECKER.LABEL.HOW MUCH WISH SPEND' | translate}}</div>
+            <div class="col-sm-5 align-self-center">
+                <input type="number" min="0" step="any" class="form-control" (input)="changeTotalToSpend($event)" placeholder="{{'OTP.CHECKER.LABEL.AMOUNT TO SPEND PHOLDER' | translate}}"
+                    [value]="totalToSpend">
+            </div>
+            <div class="col-sm-2 align-self-center" [style.color]="isProblemInTotal ? 'red' : 'green'">
+                {{isProblemInTotal? 'Impossible' : 'OK'}}
+            </div>
+        </div>
+
+
+        <div class="row" *ngIf="currentEquipe">
+            <div class="col-sm-3 align-self-center">{{'OTP.CHECKER.LABEL.AVAILABLE BUDGET' | translate}}</div>
+            <div class="col-sm-5 align-self-center" [style.color]="currentEquipe.annotation.amountAvailable <= 0 ? 'red' : 'green'">
+                {{currentEquipe.annotation.amountAvailable | ggCurrency}}
+            </div>
+        </div>
+        <br/>
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-sm-2 align-self-center"><b>{{'OTP.CHECKER.COLUMN.PRODUCT TYPE' | translate}}</b></div>
+                    <div class="col-sm-2 align-self-center"><b>{{'OTP.CHECKER.COLUMN.AMOUNT TO SPEND' | translate}}</b></div>
+                    <div class="col-sm-2 align-self-center"><b>{{'OTP.CHECKER.COLUMN.PREFERED OTP' | translate}}</b></div>
+                    <div class="col-sm-2 align-self-center"><b>{{'OTP.CHECKER.COLUMN.MAXIMUM AVAILABLE' | translate}}</b></div>
+                </div>
+                <div *ngFor="let classificationsItem of classificationsList">
+                    <div class="row">
+                        <div class="col-sm-2 align-self-center">{{classificationsItem.data.name}}</div>
+                        <div class="col-sm-2 align-self-center">
+                            <input type="number" min="0" step="any" class="form-control" (input)="changePrice(classificationsItem, $event)" placeholder="{{'OTP.CHECKER.LABEL.AMOUNT TO SPEND PHOLDER' | translate}}"
+                                value="0">
+                        </div>
+                        <div class="col-sm-2 align-self-center" *ngIf="(getFirstOtpCompatible(classificationsItem, equipeId) | async)">
+                            {{(getFirstOtpCompatibleOrEmpty(classificationsItem, equipeId) | async).data.name}}
+                        </div>
+                        <div class="col-sm-2 align-self-center" *ngIf="!(getFirstOtpCompatible(classificationsItem, equipeId) | async)" [style.color]="'red'">
+                            Can't buy this kind of products
+                        </div>
+                        <div class="col-sm-2 align-self-center">
+                            {{(getFirstOtpCompatibleOrEmpty(classificationsItem, equipeId) | async).annotation.amountAvailable | ggCurrency}}
+                        </div>
+                        <div class="col-sm-2 align-self-center">
+                            <button *ngIf="(getFirstOtpCompatible(classificationsItem, equipeId) | async)" type="button" class="btn btn-link" (click)="classificationsItem.isOpened=!classificationsItem.isOpened">{{'GENERAL.TOGGLE DETAILS' | translate}}</button>
+                        </div>
+                    </div>
+                    <div class="row" [ngbCollapse]="!classificationsItem.isOpened || !(getFirstOtpCompatible(classificationsItem, equipeId) | async)">
+                        <gg-otp-candidates [equipeId]="equipeId" [classificationId]="classificationsItem.data._id" [amount]="classificationsItem.valueToSpend || 1"></gg-otp-candidates>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

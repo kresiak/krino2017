@@ -1,0 +1,16 @@
+<div class="comment__l-meta">
+  <div class="comment__user-picture">
+    <img *ngIf="!picture" src="images/user.png">
+    <img *ngIf="picture" style="max-width: 100%; height: auto" [src]="picture">
+  </div>
+  <div class="comment__user-name">{{user.fullName}}</div>
+  <div class="comment__time"><gg-date-pointer [date]="time"></gg-date-pointer></div>
+</div>
+<div class="comment__l-main">
+  <div class="comment__message">
+    <gg-editor [content]="content"
+                [editMode]="false" [showControls]="true"
+                (editSaved)="onEditSaved($event)" [readOnly]="!isFromCurrentUser">
+    </gg-editor>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+<div class="card" *ngIf="thisPersonId && thisTeam">
+    <div class="card-body">
+        <gg-giga-person-task [personsObservable]="personsObservable" [myPersonId]="thisPersonId" [personTypeDescriptionKey]="'PUBLIC.TEAMBUILDER.TASKS.MENU.TEAM MEMBERS'"
+            (personsSelectionChanged)="personsSelectionChanged($event)">
+
+            <!--             [optionTabTitleKey]="'PUBLIC.TEAMBUILDER.TASKS.HELP.PIS.EQUIPE TAB'"
+            [optionTabTipKey]="'PUBLIC.TEAMBUILDER.TASKS.HELP.PIS.EQUIPE TAB TIP'"            
+ -->
+            <ul taskDescription>
+                <!--                 <li>{{'PUBLIC.TEAMBUILDER.TASKS.HELP.PIS.ENTER EQUIPES' | translate}}</li>
+ -->
+                <li *ngIf="thisPerson">
+                    <div>
+                        <label *ngIf="!thisPerson.data.piType" [style.color]="'red'">{{'PUBLIC.TEAMBUILDER.TASKS.HELP.PIS.ENTER PI TYPE' | translate}}</label>
+                        <label *ngIf="thisPerson.data.piType">{{'PUBLIC.TEAMBUILDER.TASKS.HELP.PIS.ENTER PI TYPE2' | translate}}</label>
+                        <gg-pi-type-choice [thisPerson]="thisPerson" [noSecurity]="true"></gg-pi-type-choice>
+                    </div>
+                </li>
+                <li *ngIf="thisPerson">
+                    <div>
+                        <label>{{'PUBLIC.TEAMBUILDER.TASKS.HELP.PIS.ENTER PI ASSOCIATIONS' | translate}}</label>
+                        <gg-selector [selectableData]="selectablePisObservable" [selectedIds]="getAssociatedPisIdsObservable()" (selectionChanged)="updateAssociatedPis($event)"
+                            [readOnly]="false"></gg-selector>
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <label>{{'PUBLIC.TEAMBUILDER.TASKS.HELP.PIS.ENTER PROJECT NAME' | translate}}</label>
+                        <gg-editor [content]="thisTeam.name" [showControls]="true" [timeoutSeconds]="5" (editSaved)="projectNameChanged($event)"></gg-editor>
+                    </div>
+                </li>
+                <li *ngIf="nbPersons===0">{{'PUBLIC.TEAMBUILDER.TASKS.HELP.PIS.ENTER MEMBERS' | translate}}</li>
+                <li *ngIf="nbPersons>0">{{'PUBLIC.TEAMBUILDER.TASKS.HELP.PIS.YOU CAN MODIFY MEMBERS' | translate}}</li>
+                <li *ngIf="nbFunctionsToSpecify > 0" [style.color]="'red'">{{'PUBLIC.TEAMBUILDER.TASKS.HELP.PIS.SPECIFY FUNCTIONS' | translate}} ({{nbFunctionsToSpecify}})</li>
+            </ul>
+
+        </gg-giga-person-task>
+    </div>
+</div>

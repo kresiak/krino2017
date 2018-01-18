@@ -1,0 +1,61 @@
+<div class="card">
+    <div class="card-body">
+        <div class="container-fluid">
+            <form [formGroup]="marketsEnterForm" (ngSubmit)="save(marketsEnterForm.value, marketsEnterForm.valid, true)">
+                <div class="form-group row">
+                    <label for="nameOfProduct" class="col-sm-2 col-form-label col-xl-2">{{'PRODUCT.LABEL.NAME OF PRODUCT' | translate}}:</label>
+                    <div class="col-sm-10">
+                        <input type="text" min="2" class="form-control" formControlName="nameOfProduct" id="nameOfProduct" placeholder="{{'PRODUCT.LABEL.NAME OF PRODUCT' | translate}}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="package" class="col-sm-2 col-form-label col-xl-2">{{'PRODUCT.LABEL.PACKAGE' | translate}}:</label>
+                    <div class="col-sm-10">
+                        <input type="text" min="2" class="form-control" formControlName="package" id="package" placeholder="{{'PRODUCT.LABEL.PACKAGE' | translate}}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="supplier" class="col-sm-2 col-form-label col-xl-2">{{'PRODUCT.LABEL.SUPPLIER' | translate}}:</label>
+                    <div class="col-sm-10">
+                        <input type="text" min="0" class="form-control" formControlName="supplier" id="supplier" placeholder="{{'PRODUCT.LABEL.SUPPLIER' | translate}}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="catalogNr" class="col-sm-2 col-form-label col-xl-2">{{'PRODUCT.LABEL.CATALOG NR' | translate}}:</label>
+                    <div class="col-sm-10">
+                        <input type="text" min="0" class="form-control" formControlName="catalogNr" id="catalogNr" placeholder="{{'PRODUCT.LABEL.CATALOG NR' | translate}}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="price" class="col-sm-2 col-form-label col-xl-2">{{'PRODUCT.LABEL.PRICE' | translate}}:</label>
+                    <div class="col-sm-10">
+                        <input type="number" min="1" step="any"  class="form-control" formControlName="price" id="price" placeholder="{{'PRODUCT.LABEL.PRICE' | translate}}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="justification" class="col-sm-2 col-form-label col-xl-2">{{'PRODUCT.LABEL.JUSTIFICATION' | translate}}:</label>
+                    <div class="col-sm-10">
+                        <textarea rows="6" class="form-control" formControlName="justification" placeholder="{{'PRODUCT.LABEL.JUSTIFICATION' | translate}}"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label col-xl-2">documents:</label>
+                    <div class="col-sm-10">
+                            <gg-image-uploader #uploader [maxNbOfFiles]="5" (imagesChanged)="onUploadFinished($event)"></gg-image-uploader>                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3 col-md-2 ">
+                        <button class="btn btn-success" type="button" (click)="save(marketsEnterForm.value, marketsEnterForm.valid, true)" [disabled]="!marketsEnterForm.valid">{{'FORM.SUBMIT' | translate}}</button>
+                    </div>
+                    <div class="col-sm-3 col-md-4" >
+                        <button class="btn btn-success" type="button" (click)="save(marketsEnterForm.value, marketsEnterForm.valid, false)" [disabled]="!marketsEnterForm.valid">{{'PUBLIC.MARKET.ACTION.SUBMIT NEW PROD AND AGAIN SAME' | translate}}</button>
+                    </div>
+                    <div class="col-md-2 ">
+                        <button class="btn btn-info" [disabled]="marketsEnterForm.pristine" (click)="resetMarketsEnterForm(true)">{{'FORM.RESET' | translate}}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

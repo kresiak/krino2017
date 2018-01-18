@@ -1,0 +1,33 @@
+<div id="GGTOP"></div>
+<div class="card">
+    <div class="card-body">
+        <ngb-tabset *ngIf="authorizationStatusInfo?.isLoggedIn">
+            <ngb-tab title="{{'PRODUCT.MENU.VIEW PRODUCTS' | translate}}" id="tabView">
+                <ng-template ngbTabContent>
+                    <gg-product-list [state]="state" [productsObservable]="productsObservable"></gg-product-list>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="{{'PRODUCT.MENU.VIEW PRIVATE PRODUCTS' | translate}}" id="tabViewPrivate" *ngIf="((productsPrivateObservable | async) || []).length > 0">
+                <ng-template ngbTabContent>
+                    <gg-product-list [state]="state" [productsObservable]="productsPrivateObservable"></gg-product-list>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="{{'PRODUCT.MENU.CREATE A PRODUCT' | translate}}" id="tabCreate">
+                <ng-template ngbTabContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <h6>{{'PRODUCT.HELP.CHOOSE THE SUPPLIER ADD PRODUCT' | translate}}</h6>
+                            <gg-supplier-list [suppliersObservable]="suppliersObservable" [initialTabInSupplierDetail]="'tabAddProduct'"></gg-supplier-list>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="{{'PRODUCT.MENU.DESTOCKAGE' | translate}}" id="tabDestockage" *ngIf="authorizationStatusInfo?.isLabManager()">
+                    <ng-template ngbTabContent>
+                        <gg-product-destockage></gg-product-destockage>
+                    </ng-template>
+                </ngb-tab>
+            </ngb-tabset>
+        <h4 *ngIf="authorizationStatusInfo && !authorizationStatusInfo.isLoggedIn">{{'ERROR.NO LOGIN' | translate}}</h4>
+    </div>
+</div>

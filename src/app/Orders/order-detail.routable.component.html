@@ -1,0 +1,8 @@
+<div id="GGTOP"></div>
+<div class="card" *ngIf="order">
+    <div class="card-body">
+        <h6>Order {{order.data.kid}}</h6>
+        <gg-order-detail *ngIf="authorizationStatusInfo.isLoggedIn" [orderObservable]="orderObservable" [path]="'order|'+order.data._id" [state]="state" [isRoot]="true"></gg-order-detail>
+        <h4 *ngIf="!authorizationStatusInfo.isLoggedIn">{{'ERROR.NO LOGIN' | translate}}</h4>
+    </div>
+</div>

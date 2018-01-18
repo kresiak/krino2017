@@ -1,0 +1,14 @@
+<div class="row">
+    <div class="col-sm-11">
+        <p>{{'UI.ACTION BUTTON.THIS ACTION WILL' | translate}} {{typeActionKey | translate}} {{'UI.ACTION BUTTON.THE' | translate}} {{typeObjectKey | translate}}. {{'UI.ACTION BUTTON.ARE YOU SURE' | translate}}
+        </p>
+    </div>
+    <div class="col-sm-3 col-md-2 col-lg-2" *ngIf="!isDueToAct">
+        <button class="btn btn-warning" (click)="isDueToAct = true">{{typeActionKey | translate}} {{'UI.ACTION BUTTON.THE' | translate}} {{typeObjectKey | translate}}</button>
+    </div>
+    <div class="col-sm-11 col-md-10 col-lg-10" *ngIf="isDueToAct">
+        <button class="btn btn-danger" (click)="onAccept()">{{'UI.ACTION BUTTON.NOW I WILL' | translate}} {{typeActionKey | translate}} {{'UI.ACTION BUTTON.THE' | translate}} {{typeObjectKey | translate}}</button>
+        <button class="btn btn-success" (click)="isDueToAct = false">{{'UI.CHECKBOX DELETE.CANCEL' | translate}}</button>
+    </div>
+</div>
+
