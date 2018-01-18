@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core'
 import { ActivatedRoute, Params, Router, NavigationExtras } from '@angular/router'
 import { Observable, Subscription } from 'rxjs/Rx'
-import { DataStore } from './../Shared/Services/data.service'
+import { DataStore } from 'gg-basic-data-services'
 import { ProductService } from './../Shared/Services/product.service';
 import { OrderService } from './../Shared/Services/order.service';
 import { EquipeService } from '../Shared/Services/equipe.service';
@@ -9,7 +9,7 @@ import { OtpService } from '../Shared/Services/otp.service'
 import { UserService } from './../Shared/Services/user.service'
 import { NavigationService } from './../Shared/Services/navigation.service'
 import { SapService } from './../Shared/Services/sap.service'
-import { ConfigService } from './../Shared/Services/config.service'
+import { ConfigService } from 'gg-basic-data-services'
 import { SelectableData } from './../Shared/Classes/selectable-data'
 import { ChartService } from './../Shared/Services/chart.service'
 import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';

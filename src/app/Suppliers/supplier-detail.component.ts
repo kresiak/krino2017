@@ -7,8 +7,8 @@ import { VoucherService } from '../Shared/Services/voucher.service';
 import { SupplierService } from './../Shared/Services/supplier.service'
 import { AuthenticationStatusInfo, AuthService } from './../Shared/Services/auth.service'
 import { OrderService } from './../Shared/Services/order.service'
-import { DataStore } from './../Shared/Services/data.service'
-import { ConfigService } from './../Shared/Services/config.service'
+import { DataStore } from 'gg-basic-data-services'
+import { ConfigService } from 'gg-basic-data-services'
 import { Observable, Subscription } from 'rxjs/Rx'
 import { ActivatedRoute, Params, Router, NavigationExtras } from '@angular/router'
 import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';

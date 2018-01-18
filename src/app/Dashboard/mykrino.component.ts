@@ -6,7 +6,7 @@ import { StockService } from '../Shared/Services/stock.service';
 import { VoucherService } from '../Shared/Services/voucher.service';
 import { NavigationService } from '../Shared/Services/navigation.service'
 import { SupplierService } from './../Shared/Services/supplier.service'
-import { DataStore } from './../Shared/Services/data.service'
+import { DataStore } from 'gg-basic-data-services'
 import { Observable, Subscription } from 'rxjs/Rx'
 import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { AuthenticationStatusInfo, AuthService } from './../Shared/Services/auth.service'

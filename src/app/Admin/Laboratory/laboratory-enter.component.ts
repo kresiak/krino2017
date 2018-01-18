@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
-import { DataStore } from '../../Shared/Services/data.service'
+import { DataStore } from 'gg-basic-data-services'
 import { Observable, Subscription, ConnectableObservable } from 'rxjs/Rx'
 
 @Component(

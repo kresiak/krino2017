@@ -3,7 +3,7 @@ import { ActivatedRoute, Params, Router, NavigationExtras } from '@angular/route
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Observable } from 'rxjs/Rx'
 import { TeambuilderService } from '../services/teambuilder.service'
-import { DataStore } from './../../Shared/Services/data.service'
+import { DataStore } from 'gg-basic-data-services'
 import { SelectableData } from './../../Shared/Classes/selectable-data'
 
 @Component(

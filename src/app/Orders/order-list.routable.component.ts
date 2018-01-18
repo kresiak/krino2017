@@ -7,7 +7,7 @@ import { StockService } from '../Shared/Services/stock.service';
 import { Observable} from 'rxjs/Rx'
 import { NavigationService } from '../Shared/Services/navigation.service'
 import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.service'
-import { DataStore } from '../Shared/Services/data.service'
+import { DataStore } from 'gg-basic-data-services'
 
 @Component(
     {

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { DataStore } from './../Shared/Services/data.service'
+import { DataStore } from 'gg-basic-data-services'
 import { EquipeService } from '../Shared/Services/equipe.service';
 import { Observable, Subscription } from 'rxjs/Rx'
 import { UserService } from './../Shared/Services/user.service'

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms'
 import { Observable, Subscription } from 'rxjs/Rx'
-import { DataStore } from './../Shared/Services/data.service'
+import { DataStore } from 'gg-basic-data-services'
 import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { ProductService } from './../Shared/Services/product.service'
 import { StockService } from '../Shared/Services/stock.service';

@@ -2,7 +2,7 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core'
 import { Observable, Subscription } from 'rxjs/Rx'
 import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap'
 import { SelectableData } from '../../Shared/Classes/selectable-data'
-import { DataStore } from '../../Shared/Services/data.service'
+import { DataStore } from 'gg-basic-data-services'
 import { AuthenticationStatusInfo, AuthService } from '../../Shared/Services/auth.service'
 import { AdminService } from '../../Shared/Services/admin.service'
 import { EquipeService } from '../../Shared/Services/equipe.service';

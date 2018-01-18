@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { Observable, Subscription } from 'rxjs/Rx'
 import { NotificationService } from './Shared/Services/notification.service';
 import { ProductService } from './Shared/Services/product.service'
-import { ApiService } from './Shared/Services/api.service';
+import { ApiService } from 'gg-basic-data-services';
 import { SapService } from './Shared/Services/sap.service'
 
 

@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core'
 import { UploadMetadata, FileHolder, ImageUploadComponent } from "angular2-image-upload";
-import { DataStore } from './../../Shared/Services/data.service'
+import { DataStore } from 'gg-basic-data-services'
 
 @Component({
     selector: 'gg-image-uploader',

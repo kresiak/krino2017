@@ -4,7 +4,7 @@ import { NotificationService } from '../Shared/Services/notification.service'
 import { Observable } from 'rxjs/Rx'
 import { AuthenticationStatusInfo, AuthService } from './../Shared/Services/auth.service'
 import { NavigationService } from './../Shared/Services/navigation.service'
-import { DataStore } from './../Shared/Services/data.service'
+import { DataStore } from 'gg-basic-data-services'
 import * as moment from "moment"
 
 @Component(

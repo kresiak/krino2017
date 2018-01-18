@@ -1,5 +1,5 @@
 import { Component, Input, Output, OnInit, ViewChild } from '@angular/core'
-import { DataStore } from './../Shared/Services/data.service'
+import { DataStore } from 'gg-basic-data-services'
 import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.service'
 import { OrderService } from '../Shared/Services/order.service'
 import { Observable, Subscription } from 'rxjs/Rx'

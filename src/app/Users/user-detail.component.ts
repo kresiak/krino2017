@@ -1,10 +1,10 @@
 import { Component, Input, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { Observable, Subscription } from 'rxjs/Rx'
-import { DataStore } from './../Shared/Services/data.service'
+import { DataStore } from 'gg-basic-data-services'
 import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from "moment"
 import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.service'
-import { ConfigService } from './../Shared/Services/config.service'
+import { ConfigService } from 'gg-basic-data-services'
 import { NavigationService } from './../Shared/Services/navigation.service'
 import { OrderService } from './../Shared/Services/order.service'
 import { VoucherService } from '../Shared/Services/voucher.service';

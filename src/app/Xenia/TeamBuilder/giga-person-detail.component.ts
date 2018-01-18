@@ -1,10 +1,10 @@
 import { Component, Input, OnInit, Output, EventEmitter, ViewChild } from '@angular/core'
 import { ActivatedRoute, Params, Router, NavigationExtras } from '@angular/router'
 import { Observable, BehaviorSubject } from 'rxjs/Rx'
-import { DataStore } from './../../Shared/Services/data.service'
+import { DataStore } from 'gg-basic-data-services'
 import * as comparatorsUtils from './../../Shared/Utils/comparators'
 import { SelectableData } from './../../Shared/Classes/selectable-data'
-import { ConfigService } from './../../Shared/Services/config.service'
+import { ConfigService } from 'gg-basic-data-services'
 
 
 import { TeambuilderService } from '../services/teambuilder.service'

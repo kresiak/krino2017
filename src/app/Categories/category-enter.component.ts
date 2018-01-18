@@ -1,6 +1,6 @@
 import { Component, Input, Output, OnInit, ViewChild } from '@angular/core'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
-import { DataStore } from './../Shared/Services/data.service'
+import { DataStore } from 'gg-basic-data-services'
 import { SelectableData } from '../Shared/Classes/selectable-data'
 import { Observable, Subscription } from 'rxjs/Rx'
 

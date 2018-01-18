@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core'
 import { ActivatedRoute, Params, Router, NavigationExtras } from '@angular/router'
 import { Observable } from 'rxjs/Rx'
 import { TeambuilderService } from '../services/teambuilder.service'
-import { DataStore } from './../../Shared/Services/data.service'
+import { DataStore } from 'gg-basic-data-services'
 
 
 @Component(

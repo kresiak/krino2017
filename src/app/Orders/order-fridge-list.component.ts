@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { DataStore } from './../Shared/Services/data.service';
+import { DataStore } from 'gg-basic-data-services';
 import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.service'
 import { Observable, Subscription } from 'rxjs/Rx'
 import { NavigationService } from './../Shared/Services/navigation.service'

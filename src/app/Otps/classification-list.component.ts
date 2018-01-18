@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs/Rx'
 import { OtpService } from '../Shared/Services/otp.service'
-import { DataStore } from './../Shared/Services/data.service'
+import { DataStore } from 'gg-basic-data-services'
 import { ProductService } from '../Shared/Services/product.service'
 import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.service'
 import { SelectableData } from './../Shared/Classes/selectable-data'

@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core'
 import { Observable } from 'rxjs/Rx'
 import { TeambuilderService } from '../services/teambuilder.service'
-import { DataStore } from './../../Shared/Services/data.service'
+import { DataStore } from 'gg-basic-data-services'
 import { SelectableData } from './../../Shared/Classes/selectable-data'
 import * as utils from '../../Shared/Utils/observables'
 

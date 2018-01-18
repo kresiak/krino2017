@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter, ViewChild } from '@angular/core'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Observable, BehaviorSubject } from 'rxjs/Rx'
-import { DataStore } from './../../Shared/Services/data.service'
+import { DataStore } from 'gg-basic-data-services'
 import * as comparatorsUtils from './../../Shared/Utils/comparators'
 import { SelectableData } from './../../Shared/Classes/selectable-data'
 import { TeambuilderService } from '../services/teambuilder.service'

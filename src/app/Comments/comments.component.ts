@@ -1,7 +1,7 @@
 import { Component, Input, Output, ViewEncapsulation, ViewChild, EventEmitter, OnInit } from '@angular/core';
 import { Editor } from '../ui/editor/editor'
 import { UserService } from '../Shared/Services/user.service'
-import { DataStore } from '../Shared/Services/data.service'
+import { DataStore } from 'gg-basic-data-services'
 import { Observable } from 'rxjs/Rx'
 import { SelectableData } from './../Shared/Classes/selectable-data'
 import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.service'

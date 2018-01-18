@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { FormControl, FormGroup } from '@angular/forms'
 import { Observable, BehaviorSubject } from 'rxjs/Rx'
-import { ConfigService } from './../../Shared/Services/config.service'
+import { ConfigService } from 'gg-basic-data-services'
 import * as comparatorsUtils from './../../Shared/Utils/comparators'
 
 @Component(

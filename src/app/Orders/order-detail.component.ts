@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ElementRef, ViewChild, Output, EventEmitter } from '@angular/core'
 import { ActivatedRoute, Params, Router, NavigationExtras } from '@angular/router'
 import { OrderService } from '../Shared/Services/order.service'
-import { DataStore } from '../Shared/Services/data.service'
+import { DataStore } from 'gg-basic-data-services'
 import { Observable, BehaviorSubject, Subscription } from 'rxjs/Rx'
 import { UserService } from './../Shared/Services/user.service'
 import { NgbTabChangeEvent, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';

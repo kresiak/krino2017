@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs/Rx';
 import { Injectable, Inject } from '@angular/core'
-import { DataStore } from './data.service'
+import { DataStore } from 'gg-basic-data-services'
 
 @Injectable()
 export class AdminService {

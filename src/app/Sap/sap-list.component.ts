@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs/Rx'
 import { OrderService } from './../Shared/Services/order.service'
-import { ConfigService } from './../Shared/Services/config.service'
+import { ConfigService } from 'gg-basic-data-services'
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { SapService } from './../Shared/Services/sap.service'
 import * as comparatorsUtils from './../Shared/Utils/comparators'

@@ -2,7 +2,7 @@ import { Component, Input, OnInit, Output } from '@angular/core';
 import { Observable, Subscription } from 'rxjs/Rx'
 
 import { XeniaWelcomeService } from '../services/welcome.service'
-import { DataStore } from '../../Shared/Services/data.service'
+import { DataStore } from 'gg-basic-data-services'
 
 
 @Component(

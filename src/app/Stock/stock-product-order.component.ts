@@ -3,7 +3,7 @@ import { FormGroup, FormControl, FormBuilder } from '@angular/forms'
 import { Observable, Subscription } from 'rxjs/Rx'
 import { AuthService } from './../Shared/Services/auth.service'
 import { NavigationService } from './../Shared/Services/navigation.service'
-import { DataStore } from './../Shared/Services/data.service'
+import { DataStore } from 'gg-basic-data-services'
 import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from "moment"
 import * as dateUtils from './../Shared/Utils/dates'

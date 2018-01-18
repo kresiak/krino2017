@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core'
-import { DataStore } from '../../Shared/Services/data.service'
+import { DataStore } from 'gg-basic-data-services'
 import { TeambuilderService } from './teambuilder.service'
 import { Observable, BehaviorSubject, ReplaySubject, Subscription } from 'rxjs/Rx'
 import { SelectableData } from './../../Shared/Classes/selectable-data'

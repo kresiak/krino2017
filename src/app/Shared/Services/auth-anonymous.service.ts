@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core'
-import { DataStore } from './data.service'
+import { DataStore } from 'gg-basic-data-services'
 import { Observable, BehaviorSubject, ReplaySubject, Subscription } from 'rxjs/Rx'
 import { SelectableData } from './../Classes/selectable-data'
 

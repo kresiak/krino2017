@@ -2,8 +2,8 @@ import { Injectable, Inject } from '@angular/core'
 import { AuthenticationStatusInfo, AuthService } from './auth.service'
 import { NotificationService } from './notification.service'
 import { ActivatedRoute, Params, Router, NavigationEnd } from '@angular/router'
-import { DataStore } from './data.service'
-import { ConfigService } from './config.service'
+import { DataStore } from 'gg-basic-data-services'
+import { ConfigService } from 'gg-basic-data-services'
 import { Observable, Subscription, ReplaySubject } from 'rxjs/Rx'
 
 Injectable()

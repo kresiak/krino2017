@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core'
-import { DataStore } from './data.service'
+import { DataStore } from 'gg-basic-data-services'
 import { AuthService } from './auth.service'
 import { UserService } from './user.service'
 import { OtpService } from './otp.service'

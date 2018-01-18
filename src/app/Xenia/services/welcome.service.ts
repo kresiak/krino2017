@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core'
 import { Observable, BehaviorSubject, Subject } from 'rxjs/Rx'
 import { ActivatedRoute, Params, Router, NavigationExtras } from '@angular/router'
-import { DataStore } from '../../Shared/Services/data.service'
+import { DataStore } from 'gg-basic-data-services'
 import * as utils from '../../Shared/Utils/comparators'
 
 @Injectable()

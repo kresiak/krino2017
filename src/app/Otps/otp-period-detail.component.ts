@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core'
 import { ActivatedRoute, Params, Router, NavigationExtras } from '@angular/router'
 import { Observable, Subscription } from 'rxjs/Rx'
-import { DataStore } from './../Shared/Services/data.service'
+import { DataStore } from 'gg-basic-data-services'
 import { OtpService } from '../Shared/Services/otp.service'
 import { NavigationService } from './../Shared/Services/navigation.service'
 import { SelectableData } from './../Shared/Classes/selectable-data'

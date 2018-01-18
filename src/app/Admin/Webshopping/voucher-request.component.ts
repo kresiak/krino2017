@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser"
 import { OtpService } from '../../Shared/Services/otp.service'
 import { VoucherService } from '../../Shared/Services/voucher.service'
-import { DataStore } from './../../Shared/Services/data.service'
+import { DataStore } from 'gg-basic-data-services'
 import { Observable, Subscription } from 'rxjs/Rx'
 
 @Component(

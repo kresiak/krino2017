@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { DataStore } from './../Shared/Services/data.service';
+import { DataStore } from 'gg-basic-data-services';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NotificationService } from './../Shared/Services/notification.service';
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser"

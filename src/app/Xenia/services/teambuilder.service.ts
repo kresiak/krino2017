@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core'
 import { Observable, BehaviorSubject, Subject } from 'rxjs/Rx'
-import { DataStore } from '../../Shared/Services/data.service'
+import { DataStore } from 'gg-basic-data-services'
 import * as utils from '../../Shared/Utils/comparators'
 import * as utils2 from '../../Shared/Utils/observables'
 

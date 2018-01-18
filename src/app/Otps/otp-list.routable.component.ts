@@ -6,7 +6,7 @@ import { ProductService } from '../Shared/Services/product.service'
 import { SapService } from './../Shared/Services/sap.service'
 import { NavigationService } from '../Shared/Services/navigation.service'
 import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.service'
-import { DataStore } from './../Shared/Services/data.service'
+import { DataStore } from 'gg-basic-data-services'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import * as comparatorsUtils from './../Shared/Utils/comparators'
 

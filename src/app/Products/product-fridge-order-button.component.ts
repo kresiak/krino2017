@@ -1,6 +1,6 @@
 import { Component, Input, Output, OnInit } from '@angular/core'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
-import { DataStore } from './../Shared/Services/data.service'
+import { DataStore } from 'gg-basic-data-services'
 import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.service'
 import { ProductService } from '../Shared/Services/product.service'
 import { SelectableData } from '../Shared/Classes/selectable-data'

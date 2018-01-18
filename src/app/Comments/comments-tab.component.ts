@@ -1,6 +1,6 @@
 import { Component, Input, Output, ViewEncapsulation, ViewChild, EventEmitter, OnInit } from '@angular/core';
 import * as moment from "moment"
-import { DataStore } from './../Shared/Services/data.service'
+import { DataStore } from 'gg-basic-data-services'
 import { NotificationService } from '../Shared/Services/notification.service'
 import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.service'
 

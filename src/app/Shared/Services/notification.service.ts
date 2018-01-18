@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core'
-import { ApiService } from './api.service'
-import { DataStore } from './data.service'
+import { ApiService } from 'gg-basic-data-services'
+import { DataStore } from 'gg-basic-data-services'
 import { AuthService } from './auth.service'
 import { OrderService } from './order.service'
 import { OtpService } from './otp.service'

@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core'
 import { Observable } from 'rxjs/Rx'
 import { TeambuilderService } from '../services/teambuilder.service'
 import { AuthService } from '../services/authorization.service'
-import { DataStore } from './../../Shared/Services/data.service'
+import { DataStore } from 'gg-basic-data-services'
 import { SelectableData } from './../../Shared/Classes/selectable-data'
 import { SignedInStatusInfo } from '../services/authorization.service';
 

@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core'
-import { DataStore } from './data.service'
+import { DataStore } from 'gg-basic-data-services'
 import { AuthService } from './auth.service'
 import { BasketService } from './basket.service'
 import { VoucherService } from './voucher.service'

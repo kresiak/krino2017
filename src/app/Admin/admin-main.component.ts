@@ -3,7 +3,7 @@ import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap'
 import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.service'
 import { Observable } from 'rxjs/Rx'
 import { ActivatedRoute } from '@angular/router'
-import { DataStore } from '../Shared/Services/data.service'
+import { DataStore } from 'gg-basic-data-services'
 import { SapService } from '../Shared/Services/sap.service'
 
 @Component(

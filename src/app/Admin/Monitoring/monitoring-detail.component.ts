@@ -5,7 +5,7 @@ import { OtpService } from '../../Shared/Services/otp.service'
 import { ProductService } from '../../Shared/Services/product.service'
 import { NotificationService } from '../../Shared/Services/notification.service'
 
-import { DataStore } from '../../Shared/Services/data.service';
+import { DataStore } from 'gg-basic-data-services';
 //import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationStatusInfo, AuthService } from '../../Shared/Services/auth.service'
 import { Observable, Subscription } from 'rxjs/Rx'

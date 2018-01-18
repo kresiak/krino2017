@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core'
-import { DataStore } from './data.service'
+import { DataStore } from 'gg-basic-data-services'
 import { AuthService } from './auth.service'
 import { SelectableData } from './../Classes/selectable-data'
 import { SharedObservable } from './../Classes/shared-observable'

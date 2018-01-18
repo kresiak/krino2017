@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core'
-import { DataStore } from './data.service'
+import { DataStore } from 'gg-basic-data-services'
 import { UserService } from './user.service'
 import { SapService } from './sap.service'
 import { AdminService } from './admin.service'

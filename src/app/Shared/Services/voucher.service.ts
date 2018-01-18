@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core'
-import { DataStore } from './data.service'
+import { DataStore } from 'gg-basic-data-services'
 import { AuthService } from './auth.service'
-import { ApiService } from './api.service'
+import { ApiService } from 'gg-basic-data-services'
 import { Observable, Subscription, ConnectableObservable } from 'rxjs/Rx'
 import * as moment from "moment"
 import * as utils from './../Utils/observables'
