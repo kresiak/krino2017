@@ -7,7 +7,7 @@ export function softCopy(target, source) {   // returns true if he copies it; ot
         if (source instanceof Array) {
             if (target.length === source.length) {
                 for (var i = 0; i < target.length; i++) {
-                    if (!this.softCopy(target[i], source[i])) {
+                    if (!softCopy(target[i], source[i])) {
                         target[i] = clone(source[i])  //if array items  are primitive, I will copy myself
                     }
                 }
@@ -28,7 +28,7 @@ export function softCopy(target, source) {   // returns true if he copies it; ot
             Object.keys(target).filter(sourcekey => !Object.keys(source).includes(sourcekey)).forEach(key => delete target[key])
 
             Object.keys(target).forEach(propName => {
-                if (!this.softCopy(target[propName], source[propName])) {
+                if (!softCopy(target[propName], source[propName])) {
                     target[propName] = clone(source[propName])  //if properties are primitive, I will copy myself
                 }
             })
