@@ -10,7 +10,7 @@ import { Observable, Subscription } from 'rxjs/Rx'
 import * as moment from "moment"
 import {utilsObservables as utils} from 'gg-basic-code'
 
-Injectable()
+@Injectable()
 export class SupplierService {
     constructor( @Inject(DataStore) private dataStore: DataStore, @Inject(BasketService) private basketService: BasketService,
                 @Inject(AuthService) private authService: AuthService,

@@ -8,7 +8,7 @@ import {utilsDates as utilsDate} from 'gg-basic-code'
 import * as moment from "moment"
 
 
-Injectable()
+@Injectable()
 export class OtpChoiceService {
 
     constructor( @Inject(DataStore) private dataStore: DataStore, @Inject(AuthService) private authService: AuthService,

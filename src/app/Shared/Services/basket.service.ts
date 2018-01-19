@@ -12,7 +12,7 @@ import * as moment from "moment"
 import {utilsObservables as utils} from 'gg-basic-code'
 import {utilsDates as dateUtils} from 'gg-basic-code'
 
-Injectable()
+@Injectable()
 export class BasketService {
 
     constructor( @Inject(DataStore) private dataStore: DataStore, @Inject(AuthService) private authService: AuthService,

@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy
 import { FormControl, FormGroup } from '@angular/forms'
 import { Observable, BehaviorSubject } from 'rxjs/Rx'
 import { ConfigService } from 'gg-basic-data-services'
+import { TranslationLoaderService } from '../../Shared/Services/translation.loader.service'
 import {utilsComparators as comparatorsUtils} from 'gg-basic-code'
 
 @Component(
@@ -29,7 +30,7 @@ export class SearchBoxComponent implements OnInit {
     public isReverse: boolean = false
     public isReverseObservable: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.isReverse)
 
-    constructor(private configService: ConfigService) {
+    constructor(private translationLoaderService: TranslationLoaderService, private configService: ConfigService) {
         this.searchForm = new FormGroup({
             searchControl: new FormControl()
         });
@@ -103,7 +104,7 @@ export class SearchBoxComponent implements OnInit {
             this.listChanged.next(this.objects)
         })
 
-        this.configService.getTranslationWord(this.objectTypeTranslationKey).takeWhile(() => this.isPageRunning).subscribe(txt => {
+        this.translationLoaderService.getTranslationWord(this.objectTypeTranslationKey).takeWhile(() => this.isPageRunning).subscribe(txt => {
             this.objectTypeText = txt
         })
     }

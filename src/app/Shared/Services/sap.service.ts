@@ -9,7 +9,7 @@ import {utilsObservables as utilsObservable} from 'gg-basic-code'
 import { SelectableData } from 'gg-basic-code'
 
 
-Injectable()
+@Injectable()
 export class SapService {
     constructor( @Inject(DataStore) private dataStore: DataStore, @Inject(AuthService) private authService: AuthService, @Inject(AdminService) private adminService: AdminService) {
         //this.initSapIdMapObservable()

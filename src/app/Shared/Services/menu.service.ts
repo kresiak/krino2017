@@ -3,13 +3,13 @@ import { AuthenticationStatusInfo, AuthService } from './auth.service'
 import { NotificationService } from './notification.service'
 import { ActivatedRoute, Params, Router, NavigationEnd } from '@angular/router'
 import { DataStore } from 'gg-basic-data-services'
-import { ConfigService } from 'gg-basic-data-services'
 import { Observable, Subscription, ReplaySubject } from 'rxjs/Rx'
+import { TranslationLoaderService } from './translation.loader.service'
 
-Injectable()
+@Injectable()
 export class MenuService {
     constructor( @Inject(DataStore) private dataStore: DataStore, @Inject(AuthService) private authService: AuthService, private router: Router
-        , @Inject(NotificationService) private notificationService: NotificationService, @Inject(ConfigService) private configService: ConfigService) {
+        , @Inject(NotificationService) private notificationService: NotificationService, private translationLoaderService: TranslationLoaderService) {
 
     }
 
@@ -34,7 +34,7 @@ export class MenuService {
         }).switchMap(info => {
             return Observable.combineLatest(this.notificationService.getLmWarningMessages().map(messagesObj => messagesObj.finishingOtps.length).distinctUntilChanged(),
                 this.notificationService.getNbPrivateMessages(info.statusInfo.currentUserId).distinctUntilChanged(),
-                this.configService.getTranslationWord('DASHBOARD.ALERTS.EXPIRING OTPS'), this.configService.getTranslationWord('DASHBOARD.ALERTS.PRIVATE MSGS'),
+                this.translationLoaderService.getTranslationWord('DASHBOARD.ALERTS.EXPIRING OTPS'), this.translationLoaderService.getTranslationWord('DASHBOARD.ALERTS.PRIVATE MSGS'),
                 (nbFinishingOtp, nbPrivateMessages, msgExpiringOtps, msgPrivateMessages) => {
                     return {
                         nbFinishingOtp: nbFinishingOtp,

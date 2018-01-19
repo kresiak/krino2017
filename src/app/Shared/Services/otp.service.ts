@@ -10,7 +10,7 @@ import {utilsObservables as utils} from 'gg-basic-code'
 import {utilsDates as utilsDate} from 'gg-basic-code'
 
 
-Injectable()
+@Injectable()
 export class OtpService {
     constructor( @Inject(DataStore) private dataStore: DataStore, @Inject(UserService) private userService: UserService,
         @Inject(SapService) private sapService: SapService, @Inject(AdminService) private adminService: AdminService) { }

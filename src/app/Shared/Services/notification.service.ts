@@ -15,7 +15,7 @@ import {utilsDates as utilsDate} from 'gg-basic-code'
 import { ModalConfirmComponent } from './../../ui/modal/modal-confirm.component'
 
 
-Injectable()
+@Injectable()
 export class NotificationService {
 
     constructor( @Inject(DataStore) private dataStore: DataStore, @Inject(AuthService) private authService: AuthService, @Inject(ApiService) private apiService: ApiService,

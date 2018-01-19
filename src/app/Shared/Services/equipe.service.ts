@@ -10,7 +10,7 @@ import * as moment from "moment"
 import {utilsObservables as utils} from 'gg-basic-code'
 
 
-Injectable()
+@Injectable()
 export class EquipeService {
     constructor( @Inject(DataStore) private dataStore: DataStore, @Inject(AuthService) private authService: AuthService, @Inject(UserService) private userService: UserService,
         @Inject(SapService) private sapService: SapService, @Inject(OtpService) private otpService: OtpService) { }

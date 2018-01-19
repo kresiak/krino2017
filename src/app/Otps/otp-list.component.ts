@@ -1,12 +1,11 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs/Rx'
 import { OtpService } from '../Shared/Services/otp.service'
-import { ConfigService } from 'gg-basic-data-services'
 import { SapService } from './../Shared/Services/sap.service'
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import {utilsComparators as comparatorsUtils} from 'gg-basic-code'
 import {utilsDates as dateUtils, utilsReports as reportsUtils} from 'gg-basic-code'
-
+import { TranslationLoaderService } from '../Shared/Services/translation.loader.service'
 
 @Component(
     {
@@ -31,7 +30,7 @@ export class OtpListComponent implements OnInit {
     public otps;
     otpSapMap: Map<string, any>;
 
-    constructor(private sapService: SapService, private otpService: OtpService, private configService: ConfigService) {
+    constructor(private sapService: SapService, private otpService: OtpService, private translationLoaderService: TranslationLoaderService) {
     }
 
     filterOtps(otp, txt) {
@@ -154,8 +153,8 @@ export class OtpListComponent implements OnInit {
 
     public getStatusText(otp): Observable<string> {
 
-        return Observable.combineLatest(this.configService.getTranslationWord('OTP.COLUMN.DELETED'), this.configService.getTranslationWord('OTP.COLUMN.BLOCKED'), this.configService.getTranslationWord('OTP.COLUMN.LIMITED'), 
-                                        this.configService.getTranslationWord('OTP.COLUMN.CLOSED'), this.configService.getTranslationWord('OTP.COLUMN.NO PRIORITY'),
+        return Observable.combineLatest(this.translationLoaderService.getTranslationWord('OTP.COLUMN.DELETED'), this.translationLoaderService.getTranslationWord('OTP.COLUMN.BLOCKED'), this.translationLoaderService.getTranslationWord('OTP.COLUMN.LIMITED'), 
+                                        this.translationLoaderService.getTranslationWord('OTP.COLUMN.CLOSED'), this.translationLoaderService.getTranslationWord('OTP.COLUMN.NO PRIORITY'),
             (deletedTxt, blockedTxt, limitedTxt, closedTxt, noPriorityTxt) => {
                 var txt= (otp.data.isDeleted ? (deletedTxt + ' ') : '') + (otp.data.isBlocked ? (blockedTxt + ' ') : '') + ((otp.data.isLimitedToOwner || (otp.data.userIds && otp.data.userIds.length > 0)) ? (limitedTxt + ' ') : '') + (otp.data.isClosed ? (closedTxt + ' ') : '') + (!otp.data.priority ? (noPriorityTxt + ' ') : '') 
                 return txt.trim()

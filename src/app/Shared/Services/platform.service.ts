@@ -10,7 +10,7 @@ import {utilsComparators as utilsComparator, utilsGeneral} from 'gg-basic-code'
 import {utilsDates as utilsDate} from 'gg-basic-code'
 
 
-Injectable()
+@Injectable()
 export class PlatformService {
     constructor( @Inject(DataStore) private dataStore: DataStore, @Inject(AuthService) private authService: AuthService, @Inject(AdminService) private adminService: AdminService) { }
 

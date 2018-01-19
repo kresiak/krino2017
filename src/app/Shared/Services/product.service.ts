@@ -6,7 +6,7 @@ import { Observable, Subscription, ConnectableObservable } from 'rxjs/Rx'
 import * as moment from "moment"
 import {utilsObservables as utils} from 'gg-basic-code'
 
-Injectable()
+@Injectable()
 export class ProductService {
 
     private allProductsObservable: SharedObservable

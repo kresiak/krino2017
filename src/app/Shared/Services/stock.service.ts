@@ -5,7 +5,7 @@ import { Observable, Subscription, ConnectableObservable } from 'rxjs/Rx'
 import * as moment from "moment"
 import {utilsDates as utilsDate} from 'gg-basic-code'
 
-Injectable()
+@Injectable()
 export class StockService {
 
 

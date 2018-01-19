@@ -7,7 +7,7 @@ import * as moment from "moment"
 import {utilsObservables as utils} from 'gg-basic-code'
 import {utilsDates as utilsDate} from 'gg-basic-code'
 
-Injectable()
+@Injectable()
 export class VoucherService {
 
 
