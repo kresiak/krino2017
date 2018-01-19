@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core'
 import { DataStore } from 'gg-basic-data-services'
 import { AdminService } from './admin.service'
 import { Observable, BehaviorSubject, ReplaySubject, Subscription } from 'rxjs/Rx'
-import { SelectableData } from './../Classes/selectable-data'
+import { SelectableData } from 'gg-basic-code'
 import {TranslateService} from '@ngx-translate/core'
 import { StatusInfoInterface } from './../../ui/login/statusInfo.inteface'
 

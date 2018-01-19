@@ -4,7 +4,7 @@ import { Observable, Subscription } from 'rxjs/Rx'
 import { DataStore } from 'gg-basic-data-services'
 import { OtpService } from '../Shared/Services/otp.service'
 import { NavigationService } from './../Shared/Services/navigation.service'
-import { SelectableData } from './../Shared/Classes/selectable-data'
+import { SelectableData } from 'gg-basic-code'
 import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from "moment"
 import * as comparatorsUtils from './../Shared/Utils/comparators'

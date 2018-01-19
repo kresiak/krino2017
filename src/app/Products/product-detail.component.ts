@@ -6,7 +6,7 @@ import { BasketService } from './../Shared/Services/basket.service'
 import { OrderService } from './../Shared/Services/order.service'
 import { ConfigService } from 'gg-basic-data-services'
 import { NotificationService } from '../Shared/Services/notification.service'
-import { SelectableData } from './../Shared/Classes/selectable-data'
+import { SelectableData } from 'gg-basic-code'
 import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from "moment"

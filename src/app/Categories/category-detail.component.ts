@@ -8,7 +8,7 @@ import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from "moment"
 import { NavigationService } from './../Shared/Services/navigation.service'
 import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.service'
-import { SelectableData } from './../Shared/Classes/selectable-data'
+import { SelectableData } from 'gg-basic-code'
 
 @Component(
     {

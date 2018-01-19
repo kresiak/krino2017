@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { DataStore } from 'gg-basic-data-services'
 import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.service'
 import { ProductService } from '../Shared/Services/product.service'
-import { SelectableData } from '../Shared/Classes/selectable-data'
+import { SelectableData } from 'gg-basic-code'
 import { Observable, Subscription } from 'rxjs/Rx'
 import { NgbTabChangeEvent, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 

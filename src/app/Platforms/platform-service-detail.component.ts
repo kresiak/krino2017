@@ -3,7 +3,7 @@ import { Observable, BehaviorSubject } from 'rxjs/Rx'
 import { DataStore } from 'gg-basic-data-services'
 import { PlatformService } from './../Shared/Services/platform.service'
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap'
-import { SelectableData } from './../Shared/Classes/selectable-data'
+import { SelectableData } from 'gg-basic-code'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import * as comparatorsUtils from './../Shared/Utils/comparators'
 import * as moment from "moment"

@@ -1,7 +1,7 @@
 import { Component, Input, Output, OnInit, OnChanges, ViewEncapsulation, EventEmitter, HostBinding, ChangeDetectionStrategy, ViewChild } from '@angular/core';
 import { Observable, Subscription, Subject } from 'rxjs/Rx'
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser"
-import { SelectableData } from '../../Shared/Classes/selectable-data'
+import { SelectableData } from 'gg-basic-code'
 import { NgbTypeahead, NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap'
 
 @Component({

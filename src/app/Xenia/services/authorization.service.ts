@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core'
 import { DataStore } from 'gg-basic-data-services'
 import { TeambuilderService } from './teambuilder.service'
 import { Observable, BehaviorSubject, ReplaySubject, Subscription } from 'rxjs/Rx'
-import { SelectableData } from './../../Shared/Classes/selectable-data'
+import { SelectableData } from 'gg-basic-code'
 import { StatusInfoInterface } from './../../ui/login/statusInfo.inteface'
 
 // helper class

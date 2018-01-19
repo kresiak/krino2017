@@ -1,7 +1,7 @@
 import { Component, Input, Output, OnInit, ViewChild } from '@angular/core'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { DataStore } from 'gg-basic-data-services'
-import { SelectableData } from '../Shared/Classes/selectable-data'
+import { SelectableData } from 'gg-basic-code'
 import { ProductService } from '../Shared/Services/product.service'
 import { Observable, Subscription } from 'rxjs/Rx'
 import * as moment from "moment"

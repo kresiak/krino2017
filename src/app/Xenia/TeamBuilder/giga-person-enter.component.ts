@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Observable, BehaviorSubject } from 'rxjs/Rx'
 import { DataStore } from 'gg-basic-data-services'
 import * as comparatorsUtils from './../../Shared/Utils/comparators'
-import { SelectableData } from './../../Shared/Classes/selectable-data'
+import { SelectableData } from 'gg-basic-code'
 import { TeambuilderService } from '../services/teambuilder.service'
 
 @Component(

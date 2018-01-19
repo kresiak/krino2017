@@ -1,7 +1,7 @@
 import { Component, Input, Output, OnInit, OnChanges, ViewEncapsulation, EventEmitter, HostBinding } from '@angular/core';
 import { Observable, Subscription } from 'rxjs/Rx'
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser"
-import { SelectableData } from '../../Shared/Classes/selectable-data'
+import { SelectableData } from 'gg-basic-code'
 
 @Component({
     //moduleId: module.id,

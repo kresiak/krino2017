@@ -4,7 +4,7 @@ import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.s
 import { ProductService } from './../Shared/Services/product.service';
 import { BasketService } from './../Shared/Services/basket.service'
 import { NavigationService } from './../Shared/Services/navigation.service'
-import { SelectableData } from './../Shared/Classes/selectable-data'
+import { SelectableData } from 'gg-basic-code'
 import { Editor } from './../ui/editor/editor'
 import { DataStore } from 'gg-basic-data-services'
 import { ActivatedRoute, Params, Router } from '@angular/router'

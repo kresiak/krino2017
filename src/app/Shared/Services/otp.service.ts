@@ -3,7 +3,7 @@ import { DataStore } from 'gg-basic-data-services'
 import { UserService } from './user.service'
 import { SapService } from './sap.service'
 import { AdminService } from './admin.service'
-import { SelectableData } from './../Classes/selectable-data'
+import { SelectableData } from 'gg-basic-code'
 import { Observable, Subscription, ConnectableObservable } from 'rxjs/Rx'
 import * as moment from "moment"
 import * as utils from './../Utils/observables'

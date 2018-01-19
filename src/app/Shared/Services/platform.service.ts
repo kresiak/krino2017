@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core'
 import { DataStore } from 'gg-basic-data-services'
 import { AuthService } from './auth.service'
 import { AdminService } from './admin.service'
-import { SelectableData } from './../Classes/selectable-data'
+import { SelectableData } from 'gg-basic-code'
 import { Observable, Subscription, ConnectableObservable } from 'rxjs/Rx'
 import * as moment from "moment"
 import * as utils from './../Utils/observables'

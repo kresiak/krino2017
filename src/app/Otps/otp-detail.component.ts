@@ -10,7 +10,7 @@ import { UserService } from './../Shared/Services/user.service'
 import { NavigationService } from './../Shared/Services/navigation.service'
 import { SapService } from './../Shared/Services/sap.service'
 import { ConfigService } from 'gg-basic-data-services'
-import { SelectableData } from './../Shared/Classes/selectable-data'
+import { SelectableData } from 'gg-basic-code'
 import { ChartService } from './../Shared/Services/chart.service'
 import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from "moment"

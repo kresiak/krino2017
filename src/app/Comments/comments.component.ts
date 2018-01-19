@@ -3,7 +3,7 @@ import { Editor } from '../ui/editor/editor'
 import { UserService } from '../Shared/Services/user.service'
 import { DataStore } from 'gg-basic-data-services'
 import { Observable } from 'rxjs/Rx'
-import { SelectableData } from './../Shared/Classes/selectable-data'
+import { SelectableData } from 'gg-basic-code'
 import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.service'
 import * as moment from "moment"
 

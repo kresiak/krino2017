@@ -1,4 +1,4 @@
-import { SelectableData } from '../../Shared/Classes/selectable-data'
+import { SelectableData } from 'gg-basic-code'
 
 import { Component, Input, Output, ViewEncapsulation, EventEmitter, Inject, OnInit, SimpleChanges } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';

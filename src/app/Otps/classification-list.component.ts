@@ -4,7 +4,7 @@ import { OtpService } from '../Shared/Services/otp.service'
 import { DataStore } from 'gg-basic-data-services'
 import { ProductService } from '../Shared/Services/product.service'
 import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.service'
-import { SelectableData } from './../Shared/Classes/selectable-data'
+import { SelectableData } from 'gg-basic-code'
 
 @Component(
     {

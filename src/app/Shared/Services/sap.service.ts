@@ -6,7 +6,7 @@ import { AdminService } from './admin.service'
 import { Observable, Subscription, ConnectableObservable } from 'rxjs/Rx'
 import * as moment from "moment"
 import * as utilsObservable from './../Utils/observables'
-import { SelectableData } from './../Classes/selectable-data'
+import { SelectableData } from 'gg-basic-code'
 
 
 Injectable()

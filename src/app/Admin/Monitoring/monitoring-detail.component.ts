@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { SelectableData } from '../../Shared/Classes/selectable-data'
+import { SelectableData } from 'gg-basic-code'
 import { EquipeService } from '../../Shared/Services/equipe.service';
 import { OtpService } from '../../Shared/Services/otp.service'
 import { ProductService } from '../../Shared/Services/product.service'

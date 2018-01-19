@@ -3,7 +3,7 @@ import { ActivatedRoute, Params, Router, NavigationExtras } from '@angular/route
 import { Observable } from 'rxjs/Rx'
 import { TeambuilderService } from '../services/teambuilder.service'
 import { DataStore } from 'gg-basic-data-services'
-import { SelectableData } from './../../Shared/Classes/selectable-data'
+import { SelectableData } from 'gg-basic-code'
 import { AuthService } from '../services/authorization.service'
 
 @Component(
