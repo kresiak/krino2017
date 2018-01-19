@@ -10,7 +10,7 @@ import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.s
 import { EquipeService } from '../Shared/Services/equipe.service';
 
 import * as moment from "moment"
-import * as comparatorsUtils from './../Shared/Utils/comparators'
+import {utilsComparators as comparatorsUtils} from 'gg-basic-code'
 import * as dateUtils from './../Shared/Utils/dates'
 
 

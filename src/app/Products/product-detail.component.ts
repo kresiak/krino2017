@@ -13,7 +13,7 @@ import * as moment from "moment"
 import { NavigationService } from './../Shared/Services/navigation.service'
 import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.service'
 import { Router } from '@angular/router'
-import * as comparatorsUtils from './../Shared/Utils/comparators'
+import {utilsComparators as comparatorsUtils} from 'gg-basic-code'
 import * as utilsdate from './../Shared/Utils/dates'
 
 @Component(

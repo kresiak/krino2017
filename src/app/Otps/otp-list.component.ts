@@ -4,7 +4,7 @@ import { OtpService } from '../Shared/Services/otp.service'
 import { ConfigService } from 'gg-basic-data-services'
 import { SapService } from './../Shared/Services/sap.service'
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
-import * as comparatorsUtils from './../Shared/Utils/comparators'
+import {utilsComparators as comparatorsUtils} from 'gg-basic-code'
 import * as reportsUtils from './../Shared/Utils/reports'
 import * as dateUtils from './../Shared/Utils/dates'
 

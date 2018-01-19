@@ -7,7 +7,6 @@ import { AuthenticationStatusInfo, AuthService } from '../../Shared/Services/aut
 import { AdminService } from '../../Shared/Services/admin.service'
 import { EquipeService } from '../../Shared/Services/equipe.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
-import * as comparatorsUtils from '../../Shared/Utils/comparators'
 
 @Component(
     {

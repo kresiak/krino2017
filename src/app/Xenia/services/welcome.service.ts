@@ -2,7 +2,8 @@ import { Injectable, Inject } from '@angular/core'
 import { Observable, BehaviorSubject, Subject } from 'rxjs/Rx'
 import { ActivatedRoute, Params, Router, NavigationExtras } from '@angular/router'
 import { DataStore } from 'gg-basic-data-services'
-import * as utils from '../../Shared/Utils/comparators'
+import {utilsComparators as utilsComparator} from 'gg-basic-code'
+
 
 @Injectable()
 export class XeniaWelcomeService {
@@ -81,11 +82,11 @@ export class XeniaWelcomeService {
     }
 
     private getNextInfo() {
-        return utils.clone(this.nextSubject.getValue())
+        return utilsComparator.clone(this.nextSubject.getValue())
     }
 
     private getBackInfo() {
-        return utils.clone(this.backSubject.getValue())
+        return utilsComparator.clone(this.backSubject.getValue())
     }
 
 

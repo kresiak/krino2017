@@ -5,7 +5,7 @@ import { PlatformService } from './../Shared/Services/platform.service'
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap'
 import { SelectableData } from 'gg-basic-code'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import * as comparatorsUtils from './../Shared/Utils/comparators'
+import {utilsComparators as comparatorsUtils} from 'gg-basic-code'
 import * as moment from "moment"
 
 

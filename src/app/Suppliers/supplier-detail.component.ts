@@ -13,7 +13,7 @@ import { Observable, Subscription } from 'rxjs/Rx'
 import { ActivatedRoute, Params, Router, NavigationExtras } from '@angular/router'
 import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { NavigationService } from './../Shared/Services/navigation.service'
-import * as comparatorsUtils from './../Shared/Utils/comparators'
+import {utilsComparators as comparatorsUtils} from 'gg-basic-code'
 
 @Component(
     {

@@ -7,11 +7,10 @@ import { NavigationService } from './../Shared/Services/navigation.service'
 import { SelectableData } from 'gg-basic-code'
 import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from "moment"
-import * as comparatorsUtils from './../Shared/Utils/comparators'
+import {utilsComparators as comparatorsUtils} from 'gg-basic-code'
 import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.service'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import * as dateUtils from './../Shared/Utils/dates'
-import * as utils from './../Shared/Utils/comparators'
 
 @Component(
     {
@@ -103,7 +102,7 @@ export class OtpPeriodDetailComponent implements OnInit {
     checkCreances(): boolean {
         var lastAmount = -1
         var isOk: boolean = true
-        var copied= utils.clone(this.budgetPeriod.creances)
+        var copied= comparatorsUtils.clone(this.budgetPeriod.creances)
         copied.sort(dateUtils.getSortFn(x => x.date)).forEach(c => {
             if (isOk) {
                 if (c.amount > this.budgetAnnotation.budgetTotalAvailable) isOk = false

@@ -6,7 +6,7 @@ import { SelectableData } from 'gg-basic-code'
 import { Observable, Subscription, ConnectableObservable } from 'rxjs/Rx'
 import * as moment from "moment"
 import * as utils from './../Utils/observables'
-import * as utilsComparator from './../Utils/comparators'
+import {utilsComparators as utilsComparator} from 'gg-basic-code'
 import * as utilsKrino from './../Utils/krino'
 import * as utilsDate from './../Utils/dates'
 

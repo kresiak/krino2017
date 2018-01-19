@@ -4,7 +4,7 @@ import { DataStore } from 'gg-basic-data-services'
 import { PlatformService } from './../Shared/Services/platform.service'
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import * as comparatorsUtils from './../Shared/Utils/comparators'
+import {utilsComparators as comparatorsUtils} from 'gg-basic-code'
 
 @Component(
     {

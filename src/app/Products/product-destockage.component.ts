@@ -6,7 +6,7 @@ import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from "moment"
 import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.service'
-import * as comparatorsUtils from './../Shared/Utils/comparators'
+import {utilsComparators as comparatorsUtils} from 'gg-basic-code'
 import * as utilsdate from './../Shared/Utils/dates'
 import * as utils from './../Shared/Utils/observables'
 

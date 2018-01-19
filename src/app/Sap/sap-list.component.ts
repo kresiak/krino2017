@@ -4,7 +4,7 @@ import { OrderService } from './../Shared/Services/order.service'
 import { ConfigService } from 'gg-basic-data-services'
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { SapService } from './../Shared/Services/sap.service'
-import * as comparatorsUtils from './../Shared/Utils/comparators'
+import {utilsComparators as comparatorsUtils} from 'gg-basic-code'
 import * as observableUtils from './../Shared/Utils/observables'
 import * as moment from "moment"
 
