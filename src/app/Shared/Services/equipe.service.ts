@@ -7,7 +7,7 @@ import { SapService } from './sap.service'
 import { SelectableData } from 'gg-basic-code'
 import { Observable, Subscription, ConnectableObservable } from 'rxjs/Rx'
 import * as moment from "moment"
-import * as utils from './../Utils/observables'
+import {utilsObservables as utils} from 'gg-basic-code'
 
 
 Injectable()

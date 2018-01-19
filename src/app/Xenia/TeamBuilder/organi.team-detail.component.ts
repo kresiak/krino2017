@@ -4,7 +4,7 @@ import { TeambuilderService } from '../services/teambuilder.service'
 import { DataStore } from 'gg-basic-data-services'
 import { SelectableData } from 'gg-basic-code'
 import { AuthService } from '../services/authorization.service'
-import * as utils from './../../Shared/Utils/observables'
+import {utilsObservables as utils} from 'gg-basic-code'
 
 @Component(
     {

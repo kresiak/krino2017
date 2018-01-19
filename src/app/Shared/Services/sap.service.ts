@@ -5,7 +5,7 @@ import { ApiService } from 'gg-basic-data-services'
 import { AdminService } from './admin.service'
 import { Observable, Subscription, ConnectableObservable } from 'rxjs/Rx'
 import * as moment from "moment"
-import * as utilsObservable from './../Utils/observables'
+import {utilsObservables as utilsObservable} from 'gg-basic-code'
 import { SelectableData } from 'gg-basic-code'
 
 

@@ -5,8 +5,7 @@ import { ConfigService } from 'gg-basic-data-services'
 import { SapService } from './../Shared/Services/sap.service'
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import {utilsComparators as comparatorsUtils} from 'gg-basic-code'
-import * as reportsUtils from './../Shared/Utils/reports'
-import {utilsDates as dateUtils} from 'gg-basic-code'
+import {utilsDates as dateUtils, utilsReports as reportsUtils} from 'gg-basic-code'
 
 
 @Component(

@@ -8,7 +8,7 @@ import { VoucherService } from './voucher.service'
 import { SelectableData } from 'gg-basic-code'
 import { Observable, Subscription } from 'rxjs/Rx'
 import * as moment from "moment"
-import * as utils from './../Utils/observables'
+import {utilsObservables as utils} from 'gg-basic-code'
 
 Injectable()
 export class SupplierService {

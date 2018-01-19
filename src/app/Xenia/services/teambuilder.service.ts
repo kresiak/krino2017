@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core'
 import { Observable, BehaviorSubject, Subject } from 'rxjs/Rx'
 import { DataStore } from 'gg-basic-data-services'
-import * as utils2 from '../../Shared/Utils/observables'
+import {utilsObservables as utils2} from 'gg-basic-code'
 
 @Injectable()
 export class TeambuilderService {

@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Rx'
 import { TeambuilderService } from '../services/teambuilder.service'
 import { DataStore } from 'gg-basic-data-services'
 import { SelectableData } from 'gg-basic-code'
-import * as utils from '../../Shared/Utils/observables'
+import {utilsObservables as utils} from 'gg-basic-code'
 
 @Component(
     {

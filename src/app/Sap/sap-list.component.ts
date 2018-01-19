@@ -5,7 +5,7 @@ import { ConfigService } from 'gg-basic-data-services'
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { SapService } from './../Shared/Services/sap.service'
 import {utilsComparators as comparatorsUtils} from 'gg-basic-code'
-import * as observableUtils from './../Shared/Utils/observables'
+import {utilsObservables as observableUtils} from 'gg-basic-code'
 import * as moment from "moment"
 
 enum SortKey {
