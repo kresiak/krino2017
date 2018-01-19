@@ -8,7 +8,7 @@ import { StockService } from '../Shared/Services/stock.service';
 import { NavigationService } from './../Shared/Services/navigation.service'
 import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.service'
 
-import * as utilsdate from './../Shared/Utils/dates'
+import {utilsDates as utilsdate} from 'gg-basic-code'
 
 @Component(
     {

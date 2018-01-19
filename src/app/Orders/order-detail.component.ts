@@ -11,7 +11,7 @@ import { EquipeService } from '../Shared/Services/equipe.service';
 
 import * as moment from "moment"
 import {utilsComparators as comparatorsUtils} from 'gg-basic-code'
-import * as dateUtils from './../Shared/Utils/dates'
+import {utilsDates as dateUtils} from 'gg-basic-code'
 
 
 @Component(

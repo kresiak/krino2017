@@ -4,7 +4,7 @@ import { ProductService } from '../Shared/Services/product.service'
 import { SelectableData } from 'gg-basic-code'
 import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.service'
 import { Observable } from 'rxjs/Rx'
-import * as utilsdate from './../Shared/Utils/dates'
+import {utilsDates as utilsdate} from 'gg-basic-code'
 
 @Component({
     //moduleId: module.id,

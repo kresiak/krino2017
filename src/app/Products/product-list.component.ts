@@ -8,7 +8,7 @@ import { DataStore } from 'gg-basic-data-services'
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.service'
 import * as reportsUtils from './../Shared/Utils/reports'
-import * as dateUtils from './../Shared/Utils/dates'
+import {utilsDates as dateUtils} from 'gg-basic-code'
 
 @Component(
     {

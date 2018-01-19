@@ -6,7 +6,7 @@ import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.s
 import * as moment from "moment"
 import {utilsComparators as comparatorsUtils} from 'gg-basic-code'
 import * as reportsUtils from './../Shared/Utils/reports'
-import * as dateUtils from './../Shared/Utils/dates'
+import {utilsDates as dateUtils} from 'gg-basic-code'
 
 
 @Component(

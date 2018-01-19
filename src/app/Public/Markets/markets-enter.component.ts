@@ -3,7 +3,7 @@ import { Observable, Subscription } from 'rxjs/Rx'
 import { DataStore } from 'gg-basic-data-services'
 import { AuthAnoynmousService } from './../../Shared/Services/auth-anonymous.service'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
-import * as utilsdate from './../../Shared/Utils/dates'
+import {utilsDates as utilsdate} from 'gg-basic-code'
 
 @Component(
     {

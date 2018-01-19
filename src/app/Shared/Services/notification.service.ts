@@ -10,7 +10,7 @@ import { ProductService } from './product.service'
 import { Observable, Subscription, ConnectableObservable } from 'rxjs/Rx'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from "moment"
-import * as utilsDate from './../Utils/dates'
+import {utilsDates as utilsDate} from 'gg-basic-code'
 
 import { ModalConfirmComponent } from './../../ui/modal/modal-confirm.component'
 

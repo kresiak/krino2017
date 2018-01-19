@@ -5,7 +5,7 @@ import { SelectableData } from 'gg-basic-code'
 import { ProductService } from '../Shared/Services/product.service'
 import { Observable, Subscription } from 'rxjs/Rx'
 import * as moment from "moment"
-import * as dateUtils from './../Shared/Utils/dates'
+import {utilsDates as dateUtils} from 'gg-basic-code'
 
 @Component({
     //moduleId: module.id,

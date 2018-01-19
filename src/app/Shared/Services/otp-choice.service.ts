@@ -4,7 +4,7 @@ import { AuthService } from './auth.service'
 import { OrderService } from './order.service'
 import { Observable, Subscription } from 'rxjs/Rx'
 import { OtpService } from './otp.service'
-import * as utilsDate from './../Utils/dates'
+import {utilsDates as utilsDate} from 'gg-basic-code'
 import * as moment from "moment"
 
 

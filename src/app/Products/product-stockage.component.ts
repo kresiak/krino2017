@@ -7,7 +7,7 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from "moment"
 import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.service'
 import {utilsComparators as comparatorsUtils} from 'gg-basic-code'
-import * as utilsdate from './../Shared/Utils/dates'
+import {utilsDates as utilsdate} from 'gg-basic-code'
 import * as utils from './../Shared/Utils/observables'
 
 @Component(

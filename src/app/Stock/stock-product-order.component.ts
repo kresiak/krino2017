@@ -6,7 +6,7 @@ import { NavigationService } from './../Shared/Services/navigation.service'
 import { DataStore } from 'gg-basic-data-services'
 import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from "moment"
-import * as dateUtils from './../Shared/Utils/dates'
+import {utilsDates as dateUtils} from 'gg-basic-code'
 
 @Component(
     {

@@ -6,7 +6,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap'
 import {utilsComparators as comparatorsUtils} from 'gg-basic-code'
 import * as moment from "moment"
-import * as utilsdate from './../Shared/Utils/dates'
+import {utilsDates as utilsdate} from 'gg-basic-code'
 
 
 @Component(

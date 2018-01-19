@@ -7,7 +7,7 @@ import { NavigationService } from './../Shared/Services/navigation.service'
 import { SelectableData } from 'gg-basic-code'
 import { Editor} from './../ui/editor/editor'
 import { ActivatedRoute, Params, Router } from '@angular/router'
-import * as utilsdate from './../Shared/Utils/dates'
+import {utilsDates as utilsdate} from 'gg-basic-code'
 
 
 @Component(

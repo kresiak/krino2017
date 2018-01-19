@@ -5,7 +5,7 @@ import { ApiService } from 'gg-basic-data-services'
 import { Observable, Subscription, ConnectableObservable } from 'rxjs/Rx'
 import * as moment from "moment"
 import * as utils from './../Utils/observables'
-import * as utilsDate from './../Utils/dates'
+import {utilsDates as utilsDate} from 'gg-basic-code'
 
 Injectable()
 export class VoucherService {

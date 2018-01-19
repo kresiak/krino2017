@@ -6,9 +6,8 @@ import { SelectableData } from 'gg-basic-code'
 import { Observable, Subscription, ConnectableObservable } from 'rxjs/Rx'
 import * as moment from "moment"
 import * as utils from './../Utils/observables'
-import {utilsComparators as utilsComparator} from 'gg-basic-code'
-import * as utilsKrino from './../Utils/krino'
-import * as utilsDate from './../Utils/dates'
+import {utilsComparators as utilsComparator, utilsGeneral} from 'gg-basic-code'
+import {utilsDates as utilsDate} from 'gg-basic-code'
 
 
 Injectable()
@@ -120,7 +119,7 @@ export class PlatformService {
         // ========
 
         let productsCost = (serviceStep.products || []).reduce((acc, p) => {
-            let nbUnitsInProduct = productMap.has(p.id) ? (utilsKrino.getNumberInString(productMap.get(p.id).package) || 1) : 1
+            let nbUnitsInProduct = productMap.has(p.id) ? (utilsGeneral.getNumberInString(productMap.get(p.id).package) || 1) : 1
             let unitPrice = productMap.has(p.id) ? productMap.get(p.id).price / nbUnitsInProduct : 0
             return acc + unitPrice * p.quantity
         }, 0)
@@ -155,7 +154,7 @@ export class PlatformService {
                 grandTotalCost: getTotals((service || {}).clientTypeId).grandTotalCost,
                 grandTotalCostOnStandard: getTotals(undefined).grandTotalCost,
                 products: (serviceStep.products || []).map(prod => {
-                    let nbUnitsInProduct = productMap.has(prod.id) ? (utilsKrino.getNumberInString(productMap.get(prod.id).package) || 1) : 1
+                    let nbUnitsInProduct = productMap.has(prod.id) ? (utilsGeneral.getNumberInString(productMap.get(prod.id).package) || 1) : 1
                     let unitPrice = productMap.has(prod.id) ? productMap.get(prod.id).price / nbUnitsInProduct : -1
                     return {
                         data: prod,

@@ -3,7 +3,7 @@ import { DataStore } from 'gg-basic-data-services'
 import { AuthService } from './auth.service'
 import { Observable, Subscription, ConnectableObservable } from 'rxjs/Rx'
 import * as moment from "moment"
-import * as utilsDate from './../Utils/dates'
+import {utilsDates as utilsDate} from 'gg-basic-code'
 
 Injectable()
 export class StockService {
