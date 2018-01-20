@@ -5,7 +5,7 @@ import { SapService } from './../Shared/Services/sap.service'
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import {utilsComparators as comparatorsUtils} from 'gg-basic-code'
 import {utilsDates as dateUtils, utilsReports as reportsUtils} from 'gg-basic-code'
-import { TranslationLoaderService } from '../Shared/Services/translation.loader.service'
+import { TranslationLoaderService } from 'gg-translation'
 
 @Component(
     {

@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { FormControl, FormGroup } from '@angular/forms'
 import { Observable, BehaviorSubject } from 'rxjs/Rx'
-import { TranslationLoaderService } from '../../Shared/Services/translation.loader.service'
+import { TranslationLoaderService } from 'gg-translation'
 import {utilsComparators as comparatorsUtils} from 'gg-basic-code'
 import {SearchBoxService} from './search-box.service'
 

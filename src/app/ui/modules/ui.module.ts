@@ -43,7 +43,7 @@ import { ImageUploaderViewerComponent } from '../upload/image-uploader-viewer.co
 
 import { SigninEnterComponent } from '../login/signin-enter.component'
 
-import { TranslationLoaderService } from '../../Shared/Services/translation.loader.service'
+import { TranslationLoaderService } from 'gg-translation'
 
 import { SearchBoxService} from '../search/search-box.service'
 

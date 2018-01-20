@@ -4,7 +4,7 @@ import { NotificationService } from './notification.service'
 import { ActivatedRoute, Params, Router, NavigationEnd } from '@angular/router'
 import { DataStore } from 'gg-basic-data-services'
 import { Observable, Subscription, ReplaySubject } from 'rxjs/Rx'
-import { TranslationLoaderService } from './translation.loader.service'
+import { TranslationLoaderService } from 'gg-translation'
 
 @Injectable()
 export class MenuService {

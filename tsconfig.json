@@ -19,6 +19,7 @@
   "include": [
     "src/**/*",    
     "node_modules/gg-basic-data-services/index.ts",
-    "node_modules/gg-basic-code/index.ts"
+    "node_modules/gg-basic-code/index.ts",
+    "node_modules/gg-translation/index.ts"
   ]
 }

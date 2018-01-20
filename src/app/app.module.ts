@@ -166,7 +166,8 @@ import { SapService } from './Shared/Services/sap.service'
 import { MenuService } from './Shared/Services/menu.service'
 import { ChartService } from './Shared/Services/chart.service'
 import { AuthAnoynmousService } from './Shared/Services/auth-anonymous.service'
-import { TranslationLoaderService } from './Shared/Services/translation.loader.service'
+import { TranslationLoaderService, TranslationServicesModule } from 'gg-translation'
+
 
 
 import { RainbowDirective } from './Shared/Directives/test.directive'
@@ -184,7 +185,7 @@ registerLocaleData(localeFr, 'fr');  // https://angular.io/guide/i18n#i18n-pipes
 
 @NgModule({
   imports: [
-    UiModule.forRoot(), ProductsModule, CommentsModule, OrdersModule, XeniaModule,
+    UiModule.forRoot(), TranslationServicesModule.forRoot(), ProductsModule, CommentsModule, OrdersModule, XeniaModule,
     BasicServicesModule.forRoot(),
     BasicDataServicesModule.forRoot(),
     PlatformModule.forRoot(),
@@ -302,7 +303,7 @@ registerLocaleData(localeFr, 'fr');  // https://angular.io/guide/i18n#i18n-pipes
     RainbowDirective,
   ],
   providers: [NavigationService, OtpChoiceService, SupplierService, OrderService, UserService, ChartService, MenuService,
-    SapService, OtpService, EquipeService, StockService, VoucherService, BasketService, NotificationService, AuthAnoynmousService, TranslationLoaderService
+    SapService, OtpService, EquipeService, StockService, VoucherService, BasketService, NotificationService, AuthAnoynmousService
   ],
   bootstrap: [AppComponent]
 })
