@@ -73,7 +73,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row" [ngbCollapse]="!item.annotation.isClosed" *ngIf="(item.data.documents || []).length > 0">
-                                                                <gg-image-uploader-viewer [canUserChange]="isUser(item)" [documents]="item.data.documents" (imagesChanged)="imagesChanged(product, itemPos, $event)"></gg-image-uploader-viewer>
+                                                                <gg-image-uploader-viewer [uploadUrl]="uploadUrl" [filePath]="filePath" [canUserChange]="isUser(item)" [documents]="item.data.documents" (imagesChanged)="imagesChanged(product, itemPos, $event)"></gg-image-uploader-viewer>
                                                             </div>
                                                         </div>
                                                     </div>

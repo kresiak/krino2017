@@ -12,7 +12,7 @@
 				<div class="card-body">
 					<div class="row">
 						<div class="col-sm-12">
-							<gg-image-uploader #uploader [maxNbOfFiles]="1" (imagesChanged)="onUploadFinished($event)"></gg-image-uploader>
+							<gg-image-uploader #uploader [uploadUrl]="uploadUrl" [maxNbOfFiles]="1" (imagesChanged)="onUploadFinished($event)"></gg-image-uploader>
 						</div>
 					</div>
 				</div>

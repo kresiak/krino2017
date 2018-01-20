@@ -118,7 +118,7 @@
 	</ngb-tab>
 	<ngb-tab title="{{('PRODUCT.MENU.DOCUMENTS' | translate) + ' (' + (supplier.data.documents || []).length + ')'}}" id="tabDocuments">
 		<ng-template ngbTabContent>
-			<gg-image-uploader-viewer [canUserAdd]="true" [canUserChange]="authorizationStatusInfo?.isAdministrator()" [documents]="supplier.data.documents" (imagesChanged)="documentsChanged($event)"></gg-image-uploader-viewer>
+			<gg-image-uploader-viewer [uploadUrl]="uploadUrl" [filePath]="filePath" [canUserAdd]="true" [canUserChange]="authorizationStatusInfo?.isAdministrator()" [documents]="supplier.data.documents" (imagesChanged)="documentsChanged($event)"></gg-image-uploader-viewer>
 		</ng-template>
 	</ngb-tab>	
 	<ngb-tab title="{{'SUPPLIER.MENU.ORDERS' | translate}}" *ngIf="anyOrder && authorizationStatusInfo && !authorizationStatusInfo.isGroupOrdersUser()"

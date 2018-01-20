@@ -262,7 +262,7 @@
 	</ngb-tab>
 	<ngb-tab title="{{('PRODUCT.MENU.DOCUMENTS' | translate) + ' (' + (product.data.documents || []).length + ')'}}" id="tabDocuments">
 		<ng-template ngbTabContent>
-			<gg-image-uploader-viewer [canUserAdd]="true" [canUserChange]="authorizationStatusInfo?.isAdministrator()" [documents]="product.data.documents"
+			<gg-image-uploader-viewer [uploadUrl]="uploadUrl" [filePath]="filePath" [canUserAdd]="true" [canUserChange]="authorizationStatusInfo?.isAdministrator()" [documents]="product.data.documents"
 			 (imagesChanged)="documentsChanged($event)"></gg-image-uploader-viewer>
 		</ng-template>
 	</ngb-tab>

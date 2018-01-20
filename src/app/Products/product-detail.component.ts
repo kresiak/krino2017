@@ -48,7 +48,13 @@ export class ProductDetailComponent implements OnInit {
 
     public isPageRunning: boolean = true
 
+    public uploadUrl: string
+    public filePath: string
+
     ngOnInit(): void {
+        this.uploadUrl= this.dataStore.getUploadUrl()
+        this.filePath= this.dataStore.getPictureUrlBase()
+
         this.stateInit();
         this.selectableCategoriesObservable = this.productService.getSelectableCategories();
         this.selectedCategoryIdsObservable = this.productObservable.map(product => product.data.categoryIds);

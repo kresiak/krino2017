@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core'
 import { UploadMetadata, FileHolder, ImageUploadComponent } from "angular2-image-upload";
-import { DataStore } from 'gg-basic-data-services'
 
 @Component({
     selector: 'gg-image-uploader',
@@ -9,11 +8,12 @@ import { DataStore } from 'gg-basic-data-services'
 export class ImageUploaderComponent {
 
     @Input() maxNbOfFiles = 5
+    @Input() uploadUrl: string    
     @Output() imagesChanged= new EventEmitter()
 
     @ViewChild(ImageUploadComponent) imageUploadComponent: ImageUploadComponent;
 
-    constructor(public dataStore: DataStore) { }
+    constructor() { }
 
     public createOurFileObj(file) {
         return {

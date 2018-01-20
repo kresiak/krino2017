@@ -1,5 +1,4 @@
 import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core'
-import { DataStore } from 'gg-basic-data-services'
 
 @Component({
     selector: 'gg-image-uploader-viewer',
@@ -10,11 +9,14 @@ export class ImageUploaderViewerComponent {
     @Input() documents
     @Input() canUserChange: boolean = false
     @Input() canUserAdd: boolean = false
+    @Input() uploadUrl: string    
+    @Input() filePath: string
+    
     @Output() imagesChanged = new EventEmitter()
 
     @ViewChild('uploader') imageUploadComponent;
 
-    constructor(public dataStore: DataStore) { }
+    constructor() { }
 
     ngOnInit():void {
         if (!this.documents)
@@ -43,4 +45,10 @@ export class ImageUploaderViewerComponent {
         document.description= newDescription
         this.imagesChanged.next(this.documents)
     }
+
+    getPictureUrl(filename) {
+        if (!filename) return undefined
+        return this.filePath + '/' + filename        
+    }
+
 }

@@ -65,7 +65,13 @@ export class OtpDetailComponent implements OnInit {
     public selectableUsers: Observable<SelectableData[]>;
     public selectedUserIdsObservable: Observable<any>;
 
-    ngOnInit(): void {        
+    public uploadUrl: string
+    public filePath: string
+
+    ngOnInit(): void {   
+        this.uploadUrl= this.dataStore.getUploadUrl()
+        this.filePath= this.dataStore.getPictureUrlBase()
+        
         this.stateInit();
         this.selectableCategoriesObservable = this.productService.getSelectableCategories();
         this.selectableClassificationsObservable = this.otpService.getSelectableClassifications();

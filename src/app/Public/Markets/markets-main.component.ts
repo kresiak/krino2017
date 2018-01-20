@@ -2,6 +2,7 @@ import { Component, Input, OnInit, Output, EventEmitter, ViewChild } from '@angu
 import { Observable, Subscription } from 'rxjs/Rx'
 import { DataStore } from 'gg-basic-data-services'
 import { AuthAnoynmousService, SignedInStatusInfo } from './../../Shared/Services/auth-anonymous.service'
+import { strictEqual } from 'assert';
 
 @Component(
     {
@@ -26,8 +27,13 @@ export class MarketsMainComponent implements OnInit {
     }
 
 
-
+    public uploadUrl: string
+    public filePath: string
+    
     ngOnInit(): void {
+        this.uploadUrl= this.dataStore.getUploadUrl()
+        this.filePath= this.dataStore.getPictureUrlBase()
+
         this.productsObservable = Observable.combineLatest(this.dataStore.getDataObservable('products.market'), this.authAnoynmousService.getAnnotatedUsers(), (products, users) => {
             return products.map(product => {
                 return {

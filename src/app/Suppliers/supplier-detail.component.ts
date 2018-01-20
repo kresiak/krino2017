@@ -73,7 +73,13 @@ export class SupplierDetailComponent implements OnInit {
 
     public isPageRunning: boolean = true
 
+    public uploadUrl: string
+    public filePath: string
+
     ngOnInit(): void {
+        this.uploadUrl= this.dataStore.getUploadUrl()
+        this.filePath= this.dataStore.getPictureUrlBase()
+        
         this.stateInit()
         this.initForms()
 

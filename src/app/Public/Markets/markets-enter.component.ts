@@ -20,7 +20,10 @@ export class MarketsEnterComponent implements OnInit {
     constructor(private dataStore: DataStore, private formBuilder: FormBuilder, private authAnoynmousService: AuthAnoynmousService) {
     }
 
+    public uploadUrl: string
+
     ngOnInit(): void {
+        this.uploadUrl= this.dataStore.getUploadUrl()
 
         this.marketsEnterForm = this.formBuilder.group({
             nameOfProduct: ['', [Validators.required, Validators.minLength(2)]],

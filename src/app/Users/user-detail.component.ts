@@ -37,7 +37,10 @@ export class UserDetailComponent implements OnInit {
         if (!this.state.selectedTabId) this.state.selectedTabId = '';
     }
 
+    public uploadUrl: string
+    
     ngOnInit(): void {
+        this.uploadUrl= this.dataStore.getUploadUrl()
         this.stateInit();
          this.subscriptionUser=this.userObservable.subscribe(user => {
             if (!user) return
