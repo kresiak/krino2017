@@ -1,9 +1,9 @@
 import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy } from '@angular/core'
 import { FormControl, FormGroup } from '@angular/forms'
 import { Observable, BehaviorSubject } from 'rxjs/Rx'
-import { ConfigService } from 'gg-basic-data-services'
 import { TranslationLoaderService } from '../../Shared/Services/translation.loader.service'
 import {utilsComparators as comparatorsUtils} from 'gg-basic-code'
+import {SearchBoxService} from './search-box.service'
 
 @Component(
     {
@@ -30,7 +30,7 @@ export class SearchBoxComponent implements OnInit {
     public isReverse: boolean = false
     public isReverseObservable: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.isReverse)
 
-    constructor(private translationLoaderService: TranslationLoaderService, private configService: ConfigService) {
+    constructor(private translationLoaderService: TranslationLoaderService, private searchBoxService: SearchBoxService) {
         this.searchForm = new FormGroup({
             searchControl: new FormControl()
         });
@@ -67,16 +67,16 @@ export class SearchBoxComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.nbHitsShownObservable.next(this.nbHitsShown = this.configService.listGetNbHits(this.objectTypeTranslationKey, this.nbHitsShown))
+        this.nbHitsShownObservable.next(this.nbHitsShown = this.searchBoxService.listGetNbHits(this.objectTypeTranslationKey, this.nbHitsShown))
 
-        var initialSearch = this.configService.listGetSearchText(this.objectTypeTranslationKey)
+        var initialSearch = this.searchBoxService.listGetSearchText(this.objectTypeTranslationKey)
         if (initialSearch) {
             this.showSearch = true
             this.searchControl.setValue(initialSearch)
         }
 
         Observable.combineLatest(this.objectsObservable, this.searchControl.valueChanges.debounceTime(400).distinctUntilChanged().startWith(initialSearch).takeWhile(() => this.isPageRunning), (objects, searchTxt: string) => {
-            this.configService.listSaveSearchText(this.objectTypeTranslationKey, searchTxt)
+            this.searchBoxService.listSaveSearchText(this.objectTypeTranslationKey, searchTxt)
             var filterFn = this.createFilterFn(searchTxt)
             return objects.filter(filterFn)
         }).do(objects => {
@@ -117,13 +117,13 @@ export class SearchBoxComponent implements OnInit {
 
     public moreHits() {
         this.nbHitsShown += this.nbHitsIncrement
-        this.configService.listSaveNbHits(this.objectTypeTranslationKey, this.nbHitsShown)
+        this.searchBoxService.listSaveNbHits(this.objectTypeTranslationKey, this.nbHitsShown)
         this.nbHitsShownObservable.next(this.nbHitsShown)
     }
 
     public allHits() {
         this.nbHitsShown = this.nbHits
-        this.configService.listSaveNbHits(this.objectTypeTranslationKey, this.nbHitsShown)
+        this.searchBoxService.listSaveNbHits(this.objectTypeTranslationKey, this.nbHitsShown)
         this.nbHitsShownObservable.next(this.nbHitsShown)
     }
 

@@ -184,7 +184,7 @@ registerLocaleData(localeFr, 'fr');  // https://angular.io/guide/i18n#i18n-pipes
 
 @NgModule({
   imports: [
-    UiModule, ProductsModule, CommentsModule, OrdersModule, XeniaModule,
+    UiModule.forRoot(), ProductsModule, CommentsModule, OrdersModule, XeniaModule,
     BasicServicesModule.forRoot(),
     BasicDataServicesModule.forRoot(),
     PlatformModule.forRoot(),

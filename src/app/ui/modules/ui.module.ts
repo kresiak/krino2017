@@ -45,6 +45,8 @@ import { SigninEnterComponent } from '../login/signin-enter.component'
 
 import { TranslationLoaderService } from '../../Shared/Services/translation.loader.service'
 
+import { SearchBoxService} from '../search/search-box.service'
+
 import { locale as english } from '../locale/en'
 import { locale as french } from '../locale/fr'
 
@@ -80,4 +82,12 @@ export class UiModule {
   constructor(private translationLoader: TranslationLoaderService) {
     this.translationLoader.loadTranslations(english, french)
   }
+
+  static forRoot() {
+    return {
+      ngModule: UiModule,
+      providers: [ SearchBoxService  ]
+    }
+  }
+  
 }
