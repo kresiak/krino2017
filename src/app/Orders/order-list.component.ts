@@ -4,7 +4,7 @@ import { Observable, BehaviorSubject, Subject } from 'rxjs/Rx'
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap'
 import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.service'
 import * as moment from "moment"
-import {utilsComparators as comparatorsUtils} from 'gg-basic-code'
+import {utilsComparators as comparatorsUtils} from 'gg-search-handle-data'
 import {utilsDates as dateUtils, utilsReports as reportsUtils} from 'gg-basic-code'
 
 

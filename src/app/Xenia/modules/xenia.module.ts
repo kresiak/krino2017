@@ -6,7 +6,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router';
 
 
-import { UiModule } from'../../ui/modules/ui.module'
+import { UiModule } from'gg-ui'
+import { SearchHandleDataModule } from 'gg-search-handle-data'
+
 import { CommentsModule } from'../../Comments/modules/comments.module'
 
 import { XeniaMainComponent } from '../xenia-main.component'
@@ -45,7 +47,7 @@ import {PiTypeChoiceComponent} from '../TeamBuilder/pi.type.choice.component'
 @NgModule({
   imports: [
     NgbModule, CommonModule, TranslateModule, RouterModule,
-    FormsModule, ReactiveFormsModule, UiModule, CommentsModule
+    FormsModule, ReactiveFormsModule, UiModule, CommentsModule, SearchHandleDataModule
   ],
   declarations: [
     XeniaMainComponent, XeniaWelcomeMainComponent, 

@@ -4,7 +4,7 @@ import { DataStore } from 'gg-basic-data-services'
 import { PlatformService } from './../Shared/Services/platform.service'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap'
-import {utilsComparators as comparatorsUtils} from 'gg-basic-code'
+import {utilsComparators as comparatorsUtils} from 'gg-search-handle-data'
 import * as moment from "moment"
 import {utilsDates as utilsdate} from 'gg-basic-code'
 

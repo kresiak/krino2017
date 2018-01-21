@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core'
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap'
 import { Observable, BehaviorSubject } from 'rxjs/Rx'
-import {utilsComparators as comparatorsUtils} from 'gg-basic-code'
+import {utilsComparators as comparatorsUtils} from 'gg-search-handle-data'
 
 @Component(
     {

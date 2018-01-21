@@ -12,16 +12,13 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from "moment"
 import {utilsDates as utilsDate} from 'gg-basic-code'
 
-import { ModalConfirmComponent } from './../../ui/modal/modal-confirm.component'
-
-
 @Injectable()
 export class NotificationService {
 
     constructor( @Inject(DataStore) private dataStore: DataStore, @Inject(AuthService) private authService: AuthService, @Inject(ApiService) private apiService: ApiService,
         @Inject(OrderService) private orderService: OrderService, @Inject(OtpService) private otpService: OtpService,
         @Inject(StockService) private stockService: StockService, @Inject(VoucherService) private voucherService: VoucherService,
-        @Inject(ProductService) private productService: ProductService, @Inject(NgbModal) private modalService: NgbModal) {
+        @Inject(ProductService) private productService: ProductService) {
 
     }
 
@@ -213,14 +210,6 @@ export class NotificationService {
 
     // utilities
     // =========
-
-    checkForConfirmation(explicationKey: string = undefined, fnCloseAction = undefined) {
-        var modalRef = this.modalService.open(ModalConfirmComponent)
-        if (explicationKey)
-            modalRef.componentInstance.explicationKey = explicationKey
-        if (fnCloseAction)
-            modalRef.componentInstance.fnCloseAction = fnCloseAction
-    }
 
     mailTo(to: string, subject: string, html: string) {
         this.apiService.callWebService('ggMailTo', {

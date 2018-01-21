@@ -3,7 +3,7 @@ import { Observable, BehaviorSubject } from 'rxjs/Rx'
 import { OtpService } from '../Shared/Services/otp.service'
 import { SapService } from './../Shared/Services/sap.service'
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
-import {utilsComparators as comparatorsUtils} from 'gg-basic-code'
+import {utilsComparators as comparatorsUtils} from 'gg-search-handle-data'
 import {utilsDates as dateUtils, utilsReports as reportsUtils} from 'gg-basic-code'
 import { TranslationLoaderService } from 'gg-translation'
 

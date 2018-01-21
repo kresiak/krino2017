@@ -1,5 +1,5 @@
 import { Component, Input, Output, ViewEncapsulation, ViewChild, EventEmitter, OnInit } from '@angular/core';
-import { Editor } from '../ui/editor/editor'
+import { Editor } from 'gg-ui'
 import { UserService } from '../Shared/Services/user.service'
 import { DataStore } from 'gg-basic-data-services'
 import { Observable } from 'rxjs/Rx'

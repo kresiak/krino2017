@@ -3,11 +3,11 @@ import { Observable, BehaviorSubject } from 'rxjs/Rx'
 import { ProductService } from './../Shared/Services/product.service'
 import { BasketService } from './../Shared/Services/basket.service'
 import { ConfigService } from 'gg-basic-data-services'
-import { NotificationService } from './../Shared/Services/notification.service'
 import { DataStore } from 'gg-basic-data-services'
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.service'
 import {utilsDates as dateUtils, utilsReports as reportsUtils} from 'gg-basic-code'
+import { ConfirmationService } from 'gg-ui'
 
 @Component(
     {
@@ -35,7 +35,7 @@ export class ProductListComponent implements OnInit {
     public products;
 
     constructor(private dataStore: DataStore, private authService: AuthService, private productService: ProductService, private basketService: BasketService,
-        private configService: ConfigService, private notificationService: NotificationService) {
+        private configService: ConfigService, private confirmationService: ConfirmationService) {
     }
 
     public authorizationStatusInfo: AuthenticationStatusInfo
@@ -115,7 +115,7 @@ export class ProductListComponent implements OnInit {
         event.preventDefault()
         event.stopPropagation()
 
-        this.notificationService.checkForConfirmation(isFrigo ? 'PRODUCT.HELP.SET FRIDGE IN MODAL' : 'PRODUCT.HELP.UNSET FRIDGE IN MODAL', () => {
+        this.confirmationService.checkForConfirmation(isFrigo ? 'PRODUCT.HELP.SET FRIDGE IN MODAL' : 'PRODUCT.HELP.UNSET FRIDGE IN MODAL', () => {
             this.logHistory(product, 'is Frigo change', product.data.isFrigo, isFrigo);
             product.data.isFrigo = isFrigo;
             this.dataStore.updateData('products', product.data._id, product.data);

@@ -4,7 +4,7 @@ import { AdminService } from './admin.service'
 import { Observable, BehaviorSubject, ReplaySubject, Subscription } from 'rxjs/Rx'
 import { SelectableData } from 'gg-basic-code'
 import {TranslateService} from '@ngx-translate/core'
-import { StatusInfoInterface } from './../../ui/login/statusInfo.inteface'
+import { StatusInfoInterface } from 'gg-basic-code'
 
 // helper class
 // ============

@@ -7,7 +7,7 @@ import { NavigationService } from './../Shared/Services/navigation.service'
 import { SelectableData } from 'gg-basic-code'
 import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from "moment"
-import {utilsComparators as comparatorsUtils} from 'gg-basic-code'
+import {utilsComparators as comparatorsUtils} from 'gg-search-handle-data'
 import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.service'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import {utilsDates as dateUtils} from 'gg-basic-code'

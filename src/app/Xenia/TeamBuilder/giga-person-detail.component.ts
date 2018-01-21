@@ -2,7 +2,7 @@ import { Component, Input, OnInit, Output, EventEmitter, ViewChild } from '@angu
 import { ActivatedRoute, Params, Router, NavigationExtras } from '@angular/router'
 import { Observable, BehaviorSubject } from 'rxjs/Rx'
 import { DataStore } from 'gg-basic-data-services'
-import {utilsComparators as comparatorsUtils} from 'gg-basic-code'
+import {utilsComparators as comparatorsUtils} from 'gg-search-handle-data'
 import { SelectableData } from 'gg-basic-code'
 import { ConfigService } from 'gg-basic-data-services'
 

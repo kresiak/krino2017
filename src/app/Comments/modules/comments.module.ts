@@ -5,7 +5,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
-import { UiModule } from'../../ui/modules/ui.module'
+import { UiModule } from'gg-ui'
 
 import { CommentComponent } from '../comment.component'
 import { CommentsTabComponent } from '../comments-tab.component'

@@ -5,7 +5,7 @@ import { ProductService } from './../Shared/Services/product.service';
 import { BasketService } from './../Shared/Services/basket.service'
 import { NavigationService } from './../Shared/Services/navigation.service'
 import { SelectableData } from 'gg-basic-code'
-import { Editor} from './../ui/editor/editor'
+import { Editor } from 'gg-ui'
 import { ActivatedRoute, Params, Router } from '@angular/router'
 import {utilsDates as utilsdate} from 'gg-basic-code'
 

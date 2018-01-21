@@ -14,7 +14,8 @@ import { ProductFridgeOrderButtonComponent } from '../product-fridge-order-butto
 import { ProductStockageComponent } from '../product-stockage.component'
 import { ProductDeStockageComponent } from '../product-destockage.component'
 
-import { UiModule } from'../../ui/modules/ui.module'
+import { UiModule } from'gg-ui'
+import { SearchHandleDataModule } from 'gg-search-handle-data'
 import { CommentsModule } from'../../Comments/modules/comments.module'
 import { OrdersModule } from'../../Orders/modules/orders.module'
 
@@ -22,7 +23,7 @@ import { OrdersModule } from'../../Orders/modules/orders.module'
 @NgModule({
   imports: [
     NgbModule, CommonModule, TranslateModule,
-    FormsModule, ReactiveFormsModule, UiModule, CommentsModule, OrdersModule
+    FormsModule, ReactiveFormsModule, UiModule, SearchHandleDataModule, CommentsModule, OrdersModule
   ],
   declarations: [
     ProductGridComponent,  ProductEnterComponent, ProductListComponent, ProductDetailComponent, 

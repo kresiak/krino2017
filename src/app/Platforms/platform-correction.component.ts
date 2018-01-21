@@ -2,7 +2,7 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core'
 import { Observable, Subscription } from 'rxjs/Rx'
 import { DataStore } from 'gg-basic-data-services'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import {utilsComparators as comparatorsUtils} from 'gg-basic-code'
+import {utilsComparators as comparatorsUtils} from 'gg-search-handle-data'
 
 @Component(
     {

@@ -14,7 +14,7 @@ import { SelectableData } from 'gg-basic-code'
 import { ChartService } from './../Shared/Services/chart.service'
 import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from "moment"
-import {utilsComparators as comparatorsUtils} from 'gg-basic-code'
+import {utilsComparators as comparatorsUtils} from 'gg-search-handle-data'
 import {utilsDates as dateUtils} from 'gg-basic-code'
 import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.service'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'

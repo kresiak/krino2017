@@ -5,7 +5,7 @@ import { PlatformService } from './../Shared/Services/platform.service'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SelectableData } from 'gg-basic-code'
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap'
-import {utilsComparators as comparatorsUtils} from 'gg-basic-code'
+import {utilsComparators as comparatorsUtils} from 'gg-search-handle-data'
 
 @Component(
     {

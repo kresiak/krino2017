@@ -15,7 +15,9 @@ import { BasicDataServicesModule } from 'gg-basic-data-services'
 
 import { PlatformModule } from './Platforms/modules/platform.module'
 
-import { UiModule } from './ui/modules/ui.module'
+import { UiModule } from 'gg-ui'
+
+import { SearchHandleDataModule } from 'gg-search-handle-data'
 
 import { ProductsModule } from './products/modules/products.module'
 
@@ -170,7 +172,6 @@ import { TranslationLoaderService, TranslationServicesModule } from 'gg-translat
 
 
 
-import { RainbowDirective } from './Shared/Directives/test.directive'
 
 import { TranslateModule, TranslateLoader, TranslateService  } from '@ngx-translate/core'
 //import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -185,7 +186,7 @@ registerLocaleData(localeFr, 'fr');  // https://angular.io/guide/i18n#i18n-pipes
 
 @NgModule({
   imports: [
-    UiModule.forRoot(), TranslationServicesModule.forRoot(), ProductsModule, CommentsModule, OrdersModule, XeniaModule,
+    UiModule.forRoot(), SearchHandleDataModule.forRoot(), TranslationServicesModule.forRoot(), ProductsModule, CommentsModule, OrdersModule, XeniaModule,
     BasicServicesModule.forRoot(),
     BasicDataServicesModule.forRoot(),
     PlatformModule.forRoot(),
@@ -300,7 +301,6 @@ registerLocaleData(localeFr, 'fr');  // https://angular.io/guide/i18n#i18n-pipes
 
     SupplierSapDetailComponent, SupplierSapListComponent,
     PublicMainComponent, MarketsMainComponent, MarketsEnterComponent, RegisterEnterComponent,
-    RainbowDirective,
   ],
   providers: [NavigationService, OtpChoiceService, SupplierService, OrderService, UserService, ChartService, MenuService,
     SapService, OtpService, EquipeService, StockService, VoucherService, BasketService, NotificationService, AuthAnoynmousService
@@ -308,12 +308,24 @@ registerLocaleData(localeFr, 'fr');  // https://angular.io/guide/i18n#i18n-pipes
   bootstrap: [AppComponent]
 })
 export class AppModule { 
-  constructor(private translationLoader: TranslationLoaderService, private translateService: TranslateService ) {
+  constructor(private translateService: TranslateService ) {
     this.translateService.addLangs(["en", "fr"])
     this.translateService.setDefaultLang('en')
     this.translateService.use('fr')        
 
-    this.translationLoader.loadTranslations(english, french)
-  }
-  
+    var loadTranslations= (...args: ILocale[]): void => {
+      const locales = [...args];
+      locales.forEach((locale) => {
+        this.translateService.setTranslation(locale.lang, locale.data, true);
+      });
+    }
+    
+    loadTranslations(english, french)
+
+  }  
 }
+
+  interface ILocale {
+    lang: string;
+    data: Object;
+  }

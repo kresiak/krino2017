@@ -7,7 +7,8 @@ import { Ng2AutoCompleteModule } from 'ng2-auto-complete';
 
 import { TranslateModule } from '@ngx-translate/core'
 
-import { UiModule } from'../../ui/modules/ui.module'
+import { UiModule } from'gg-ui'
+import { SearchHandleDataModule } from 'gg-search-handle-data'
 import { ProductsModule } from'../../products/modules/products.module'
 
 import { PlatformMainComponent } from '../platform-main-component'
@@ -41,7 +42,7 @@ import { PlatformService } from '../../Shared/Services/platform.service'
     Ng2AutoCompleteModule,
     NgbModule,
     TranslateModule,
-    UiModule, ProductsModule
+    UiModule, ProductsModule, SearchHandleDataModule
   ],
   declarations: [
     PlatformMainComponent, PlatformMachinesComponent, PlatformServicesComponent, PlatformServiceStepListComponent, PlatformServiceStepDetailComponent, PlatformServiceSnapshotsComponent, PlatformServiceSnapshotListComponent,

@@ -13,8 +13,9 @@ import * as moment from "moment"
 import { NavigationService } from './../Shared/Services/navigation.service'
 import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.service'
 import { Router } from '@angular/router'
-import {utilsComparators as comparatorsUtils} from 'gg-basic-code'
+import {utilsComparators as comparatorsUtils} from 'gg-search-handle-data'
 import {utilsDates as utilsdate} from 'gg-basic-code'
+import { ConfirmationService } from 'gg-ui'
 
 @Component(
     {
@@ -28,7 +29,8 @@ export class ProductDetailComponent implements OnInit {
     selectableCurrenciesObservable: Observable<any>;
     serviceSnapshot: any;
     constructor(private dataStore: DataStore, private productService: ProductService, private orderService: OrderService, private navigationService: NavigationService, private modalService: NgbModal,
-        private authService: AuthService, private basketService: BasketService, private router: Router, private configService: ConfigService, private notificationService: NotificationService) {
+        private authService: AuthService, private basketService: BasketService, private router: Router, private configService: ConfigService, private notificationService: NotificationService,
+        private confirmationService: ConfirmationService) {
     }
 
     @Input() productObservable: Observable<any>;
@@ -312,7 +314,7 @@ export class ProductDetailComponent implements OnInit {
         event.preventDefault()
         event.stopPropagation()
 
-        this.notificationService.checkForConfirmation(isFrigo ? 'PRODUCT.HELP.SET FRIDGE IN MODAL' : 'PRODUCT.HELP.UNSET FRIDGE IN MODAL', () => {
+        this.confirmationService.checkForConfirmation(isFrigo ? 'PRODUCT.HELP.SET FRIDGE IN MODAL' : 'PRODUCT.HELP.UNSET FRIDGE IN MODAL', () => {
             this.logHistory('is Frigo change', this.product.data.isFrigo, isFrigo);
             product.data.isFrigo = isFrigo;
             this.dataStore.updateData('products', product.data._id, product.data);

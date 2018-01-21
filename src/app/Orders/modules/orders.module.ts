@@ -4,7 +4,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
-import { UiModule } from'../../ui/modules/ui.module'
+import { UiModule } from'gg-ui'
+import { SearchHandleDataModule } from 'gg-search-handle-data'
+
 import { CommentsModule } from'../../Comments/modules/comments.module'
 
 import { OrderDetailComponent } from '../order-detail.component'
@@ -12,7 +14,7 @@ import { OrderListComponent } from '../order-list.component'
 
 @NgModule({
   imports: [
-    NgbModule, CommonModule, TranslateModule,
+    NgbModule, CommonModule, TranslateModule, SearchHandleDataModule,
     FormsModule, ReactiveFormsModule, UiModule, CommentsModule
   ],
   declarations: [

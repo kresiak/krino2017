@@ -20,6 +20,11 @@
     "src/**/*",    
     "node_modules/gg-basic-data-services/index.ts",
     "node_modules/gg-basic-code/index.ts",
-    "node_modules/gg-translation/index.ts"
+    "node_modules/gg-translation/index.ts",
+    "node_modules/gg-translation/translation.loader.service.ts",
+    "node_modules/gg-ui/index.ts",
+    "node_modules/gg-search-handle-data/index.ts",
+    "node_modules/gg-search-handle-data/node_modules/gg-translation/translation.loader.service.ts",
+    "node_modules/gg-ui/node_modules/gg-translation/index.ts"
   ]
 }
