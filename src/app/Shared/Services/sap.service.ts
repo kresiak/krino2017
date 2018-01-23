@@ -189,10 +189,10 @@ export class SapService {
                 return sapList.filter(s => s.mainData && s.mainData.data && resps.includes(s.mainData.data.resp))
             }))
             .switchMap(sapList => this.dataStore.getDataObservable('otps').map(hashMapFactoryCurry(a => a.name)).map((otpMap: Map<string, any>) => {
-                sapList.filter(s => s.mainData && s.mainData.data && s.mainData.data.otps && s.mainData.data.otps.filter(o => otpMap.has(o)).length ===0).slice(0,10).forEach(s => {
+/*                 sapList.filter(s => s.mainData && s.mainData.data && s.mainData.data.otps && s.mainData.data.otps.filter(o => otpMap.has(o)).length ===0).slice(0,10).forEach(s => {
                     console.log("sapId: " + s.sapId)
                 })
-                return sapList.filter(s => s.mainData && s.mainData.data && s.mainData.data.otps && s.mainData.data.otps.filter(o => otpMap.has(o)).length > 0)
+ */                return sapList.filter(s => s.mainData && s.mainData.data && s.mainData.data.otps && s.mainData.data.otps.filter(o => otpMap.has(o)).length > 0)
             }))
             .map(sapList => {
                 return sapList
