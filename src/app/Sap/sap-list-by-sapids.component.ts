@@ -3,6 +3,7 @@ import { Observable, Subscription } from 'rxjs/Rx'
 import { SapService } from './../Shared/Services/sap.service'
 import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { NavigationService } from './../Shared/Services/navigation.service'
+import { utilsDates as dateUtils, utilsReports as reportsUtils} from 'gg-basic-code'
 
 @Component(
     {
@@ -49,7 +50,9 @@ export class SapListBySapIdsComponent implements OnInit {
                     this.sapPostesEngOpenList.push({
                         sum: sum,
                         poste: sapPoste,
-                        sapId: sapObj.mainData.data.sapId
+                        sapId: sapObj.mainData.data.sapId,
+                        supplier: sapObj.mainData.data.supplier,
+                        resp: sapObj.mainData.data.resp
                     })
                 })
 
@@ -61,13 +64,15 @@ export class SapListBySapIdsComponent implements OnInit {
                         this.sapFacturesItemsList.push({
                             //sum: sum2,
                             sapId: sapObj.mainData.data.sapId,
+                            supplier: sapObj.mainData.data.supplier,
                             poste: sapItem.poste,
                             date: sapItem.dateComptable,   //dateCreation
                             product: sapItem.product,
                             tvac: sapItem.tvac,
                             htva: sapItem.htva, 
                             tvaCode: sapItem.codeTva,
-                            pieceId: sapItem.pieceId
+                            pieceId: sapItem.pieceId,
+                            item: sapItem
                         })
                     })
                 }
@@ -89,6 +94,47 @@ export class SapListBySapIdsComponent implements OnInit {
         this.subscription.unsubscribe()
     }
 
+    createReportEngaged() {
+        var fnFormat = poste => {
+            return {       
+                SapId: poste.sapId,
+                Poste: poste.poste.poste,
+                EngagedAmount: poste.poste.amountEngaged.toLocaleString('fr-BE', {useGrouping: false}),
+                InvoicedAmount: poste.poste.amountFactured.toLocaleString('fr-BE', {useGrouping: false}),
+                StillOpenAmount: poste.poste.amountResiduel.toLocaleString('fr-BE', {useGrouping: false}),
+                QtyEngaged: poste.poste.qtyEngaged,
+                QtyInvoiced: poste.poste.qtyFactured,
+                Product: poste.poste.product,
+                Tva: poste.poste.codeTvaEngag,
+                LastInvoice: dateUtils.formatShortDate(poste.poste.lastInvoiceDate),
+                Supplier: poste.supplier,
+                Responsable: poste.resp
+            }
+        }
+
+        reportsUtils.generateReport(this.sapPostesEngOpenList.map(fnFormat))        
+    }
+
+    createReportInvoiced() {
+        var fnFormat = item => {
+            return {       
+                SapId: item.sapId,
+                Piece: item.pieceId,
+                Poste: item.item.poste,
+                Type: item.item.pieceType,                
+                DateComptable: dateUtils.formatShortDate(item.item.dateComptable),
+                HTva: item.htva.toLocaleString('fr-BE', {useGrouping: false}),
+                TvaC: item.tvac.toLocaleString('fr-BE', {useGrouping: false}),
+                Quantity: item.item.quantity,
+                Product: item.product,
+                Supplier: item.supplier,
+                DatePiece: dateUtils.formatShortDate(item.item.datePiece),
+            }
+        }
+
+        reportsUtils.generateReport(this.sapFacturesItemsList.map(fnFormat))        
+    }
+    
     public beforeTabChange($event: NgbTabChangeEvent) {
         this.state.selectedTabId = $event.nextId;
         this.stateChanged.next(this.state);
