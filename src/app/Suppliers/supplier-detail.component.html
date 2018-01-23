@@ -4,8 +4,8 @@
 	<div class="modal-header">
 		<h4 class="modal-title">{{'SUPPLIER.MSG.YOUR WEB PURCHASE HAS BEEN REGISTERED' | translate}}</h4>
 		<button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
+			<span aria-hidden="true">&times;</span>
+		</button>
 	</div>
 	<div class="modal-body">
 		<p>{{'SUPPLIER.MSG.USE FOLLOWING PURCHASE ID' | translate}} {{sapId}}</p>
@@ -22,6 +22,12 @@
 			<div class="card">
 				<div class="card-body">
 					<gg-supplier-info [supplier]="supplier.data"></gg-supplier-info>
+					<div class="row">
+						<div class="col-sm-2 align-self-center">{{'SUPPLIER.INFO.LABEL.DISABLED' | translate}}</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor-boolean [content]="supplier.data.disabled" (editSaved)="isDisabledUpdated($event)" [readOnly]="!authorizationStatusInfo?.isSuperAdministrator()"></gg-editor-boolean>
+						</div>
+					</div>
 
 					<div class="row" *ngIf="!configService.isProduction()">
 						<div class="col-sm-2">_id:</div>
@@ -45,9 +51,15 @@
 									<div class="card-body">
 										<div class="container-fluid">
 											<div class="row">
-												<div class="col-sm-3 align-self-center"><b>{{'SUPPLIER.COLUMN.DESCRIPTION' | translate}}</b></div>
-												<div class="col-sm-2 align-self-center"><b>{{'SUPPLIER.COLUMN.PRICE' | translate}}</b></div>
-												<div class="col-sm-2 align-self-center" *ngIf="authorizationStatusInfo?.isAdministrator()"><b>{{'SUPPLIER.COLUMN.DISABLE' | translate}}</b></div>
+												<div class="col-sm-3 align-self-center">
+													<b>{{'SUPPLIER.COLUMN.DESCRIPTION' | translate}}</b>
+												</div>
+												<div class="col-sm-2 align-self-center">
+													<b>{{'SUPPLIER.COLUMN.PRICE' | translate}}</b>
+												</div>
+												<div class="col-sm-2 align-self-center" *ngIf="authorizationStatusInfo?.isAdministrator()">
+													<b>{{'SUPPLIER.COLUMN.DISABLE' | translate}}</b>
+												</div>
 											</div>
 											<div *ngFor="let fixCost of fixCosts">
 												<div *ngIf="true">
@@ -118,9 +130,10 @@
 	</ngb-tab>
 	<ngb-tab title="{{('PRODUCT.MENU.DOCUMENTS' | translate) + ' (' + (supplier.data.documents || []).length + ')'}}" id="tabDocuments">
 		<ng-template ngbTabContent>
-			<gg-image-uploader-viewer [uploadUrl]="uploadUrl" [filePath]="filePath" [canUserAdd]="true" [canUserChange]="authorizationStatusInfo?.isAdministrator()" [documents]="supplier.data.documents" (imagesChanged)="documentsChanged($event)"></gg-image-uploader-viewer>
+			<gg-image-uploader-viewer [uploadUrl]="uploadUrl" [filePath]="filePath" [canUserAdd]="true" [canUserChange]="authorizationStatusInfo?.isAdministrator()"
+			 [documents]="supplier.data.documents" (imagesChanged)="documentsChanged($event)"></gg-image-uploader-viewer>
 		</ng-template>
-	</ngb-tab>	
+	</ngb-tab>
 	<ngb-tab title="{{'SUPPLIER.MENU.ORDERS' | translate}}" *ngIf="anyOrder && authorizationStatusInfo && !authorizationStatusInfo.isGroupOrdersUser()"
 	 id="tabOrders">
 		<ng-template ngbTabContent>
@@ -271,7 +284,8 @@
 												<div id="collapseExample" [ngbCollapse]="!showUseVoucherForm">
 													<div class="card">
 														<div class="card-body">
-															<div [innerHtml]="'SUPPLIER.MSG.FILL THIS FORM WEBSHOPPING' | translate:{supplier:supplier.data.name}"></div><br/>
+															<div [innerHtml]="'SUPPLIER.MSG.FILL THIS FORM WEBSHOPPING' | translate:{supplier:supplier.data.name}"></div>
+															<br/>
 															<form [formGroup]="useVoucherForm" (ngSubmit)="save(useVoucherForm.value, useVoucherForm.valid, supplier.data._id, category.id)">
 																<div class="form-group row">
 																	<label for="description" class="col-sm-2 col-form-label col-xl-2">{{'SUPPLIER.LABEL.DESCRIPTION' | translate}}</label>
@@ -288,7 +302,9 @@
 																<div class="form-group row">
 																	<label class="col-sm-2 col-form-label col-xl-2"></label>
 																	<div class="col-sm-10">
-																		<input type="checkbox" #iAgree> <span [innerHtml]="'SUPPLIER.MSG.THE INFORMATION ENTERED WEBSHOPPING IS CORRECT' | translate:{supplier:supplier.data.name}"></span><br>
+																		<input type="checkbox" #iAgree>
+																		<span [innerHtml]="'SUPPLIER.MSG.THE INFORMATION ENTERED WEBSHOPPING IS CORRECT' | translate:{supplier:supplier.data.name}"></span>
+																		<br>
 																	</div>
 																</div>
 																<div class="row">
@@ -318,12 +334,16 @@
 		</ng-template>
 	</ngb-tab>
 	<ngb-tab id="tabMax">
-		<ng-template ngbTabTitle><img src="images/maximize.png" [ngbPopover]="popContent" triggers="mouseenter:mouseleave" /></ng-template>
+		<ng-template ngbTabTitle>
+			<img src="images/maximize.png" [ngbPopover]="popContent" triggers="mouseenter:mouseleave" />
+		</ng-template>
 		<ng-template ngbTabContent></ng-template>
 	</ngb-tab>
 	<ngb-tab id="gotoTop" *ngIf="!isRoot && path!=='dashboard'">
-		<ng-template ngbTabTitle><img src="images/gototop.png" [ngbPopover]="'GENERAL.ACTION.GOTO TOP OF THE PAGE' | translate" triggers="mouseenter:mouseleave"
-			/></ng-template>
+		<ng-template ngbTabTitle>
+			<img src="images/gototop.png" [ngbPopover]="'GENERAL.ACTION.GOTO TOP OF THE PAGE' | translate" triggers="mouseenter:mouseleave"
+			/>
+		</ng-template>
 		<ng-template ngbTabContent></ng-template>
 	</ngb-tab>
 

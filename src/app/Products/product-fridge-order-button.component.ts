@@ -50,7 +50,7 @@ export class ProductFridgeOrderButtonComponent implements OnInit {
 
 
     openModal(template) {
-        if (this.product.data.disabled) return
+        if (this.product.annotation.disabled) return
         var ref = this.modalService.open(template, { keyboard: false, backdrop: "static", size: "lg" });
         var promise = ref.result;
         promise.then((data) => {

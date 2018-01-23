@@ -173,6 +173,11 @@ export class SupplierDetailComponent implements OnInit {
         this.stateChanged.next(this.state);
     }
 
+    isDisabledUpdated(isDisabled){
+        this.supplier.data.disabled = isDisabled
+        this.dataStore.updateData('suppliers', this.supplierId, this.supplier.data);       
+    }
+
     webShoppingUpdated(isEnabled) {
         if (!this.supplier.data.webShopping) this.supplier.data.webShopping = {}
         this.supplier.data.webShopping.isEnabled = isEnabled

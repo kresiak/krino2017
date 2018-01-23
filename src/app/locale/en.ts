@@ -466,7 +466,8 @@ export const locale = {
                 "MSG6": "$ep: the supplier is a e-procurement supplier",
                 "MSG7": "04897: the sap ID of the supplier contains '04897",
                 "MSG8": "$OR: the supplier has been ordered from already",
-                "MSG9": "$DO : suppliers that have documents associated"
+                "MSG9": "$DO : suppliers that have documents associated",
+                "MSG10": "$DI : suppliers that have been blocked"
             },
             "MENU": {
                 "INFO": "Info",
@@ -521,7 +522,8 @@ export const locale = {
                     "TELEPHONE": "Telephone:",
                     "FAX": "Fax:",
                     "CLIENT": "Client:",
-                    "SAP ID": "Sap id:"
+                    "SAP ID": "Sap id:",
+                    "DISABLED": "the supplier is blocked"
                 }
             }
         },
@@ -599,7 +601,8 @@ export const locale = {
                 "DEFINE HERE IF ENCODING TIP": "Define here if encoding the lot number might be needed at delivery for this product",
                 "DEFINE HERE IF THIS PRODUCT TIP": "Define here if this product might potentially be resold from the stock",
                 "SELECT PRODUCT TIP": "select product",
-                "UNSELECT PRODUCT TIP": "unselect product"
+                "UNSELECT PRODUCT TIP": "unselect product",
+                "SUPPLIER DISABLED": "but the supplier has been disabled"
             },
             "ACTIONS": {
                 "ATTENTE VALIDATION TEXT": "waiting for validation:",

@@ -202,6 +202,7 @@ export class ProductService {
                             hasCurrentUserPermissionToShop: !product.userIds || product.userIds.includes(currentUserId),
                             //quantity: basketItemFiltered && basketItemFiltered.length > 0 ? basketItemFiltered[0].quantity : 0,
                             supplierName: supplier ? supplier.name : "unknown",
+                            disabled: product.disabled || (supplier && supplier.disabled),
                             productFrequence: productFrequenceMap.get(product._id) || 0,
                             multipleOccurences: setProductsInDouble.has(product.catalogNr),
                             priceUpdates: (product.priceUpdates || []).map(pu => {
@@ -310,7 +311,7 @@ export class ProductService {
         }
 
         return function(product, txt) {
-            if (txt === '' || txt === '!' || txt === '$' || txt === '$>' || txt === '$<') return !product.data.disabled
+            if (txt === '' || txt === '!' || txt === '$' || txt === '$>' || txt === '$<') return !product.annotation.disabled
 
             if (txt.startsWith('$S/')) {
                 let txt2 = txt.slice(3);
@@ -345,7 +346,7 @@ export class ProductService {
             }
 
             if (txt.startsWith('$M')) {
-                return !product.data.disabled && product.annotation.multipleOccurences;
+                return !product.annotation.disabled && product.annotation.multipleOccurences;
             }
 
             if (txt.startsWith('$DO')) {
@@ -353,7 +354,7 @@ export class ProductService {
             }
 
             if (txt.startsWith('$DI')) {
-                return product.data.disabled;
+                return product.annotation.disabled;
             }
 
             if (txt.startsWith('$PR')) {

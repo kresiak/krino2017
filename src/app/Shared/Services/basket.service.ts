@@ -332,7 +332,7 @@ export class BasketService {
                 userId: this.authService.getUserId(),
                 //equipeId: this.authService.getEquipeId(),
                 supplierId: supplierId,
-                items: products.filter(product => product.annotation.quantity > 0 && !product.data.disabled).map(product => {
+                items: products.filter(product => product.annotation.quantity > 0 && !product.annotation.disabled).map(product => {
                     var obj: any = {
                         productId: product.data._id,
                         quantity: product.annotation.quantity,
@@ -345,7 +345,7 @@ export class BasketService {
                     return obj
                 })
             },
-            basketItems: products.filter(product => product.annotation.quantity > 0 && !product.data.disabled).map(product => product.annotation.basketId)
+            basketItems: products.filter(product => product.annotation.quantity > 0 && !product.annotation.disabled).map(product => product.annotation.basketId)
         };
 
         if (equipeGroup) {

@@ -39,7 +39,7 @@ export class SupplierListComponent implements OnInit {
     }
 
     filterSuppliers = function (supplier, txt) {   // check that there is no use of this. here... 
-        if (txt === '' || txt === '$') return true
+        if (txt === '' || txt === '$') return !supplier.data.disabled
 
         if (txt.toUpperCase().startsWith('$W')) {
             return supplier.data.webShopping && supplier.data.webShopping.isEnabled
@@ -49,6 +49,9 @@ export class SupplierListComponent implements OnInit {
             return supplier.data.documents && supplier.data.documents.length > 0
         }
 
+        if (txt.startsWith('$DI')) {
+            return supplier.data.disabled;
+        }
 
         if (txt.toUpperCase().startsWith('$C')) {
             return supplier.annotation.nbFixCosts > 0

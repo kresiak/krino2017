@@ -64,7 +64,7 @@
 						<div class="col-sm-6 align-self-center">
 							<gg-editor [content]="product.data.name" [showControls]="true" (editSaved)="nameUpdated($event)" [readOnly]="isProductReadOnly()"></gg-editor>
 						</div>
-						<div class="col-sm-1" *ngIf="!authorizationStatusInfo.isPassiveUser() && product.annotation.hasCurrentUserPermissionToShop && !product.data.isFrigo && !product.data.disabled"
+						<div class="col-sm-1" *ngIf="!authorizationStatusInfo.isPassiveUser() && product.annotation.hasCurrentUserPermissionToShop && !product.data.isFrigo && !product.annotation.disabled"
 						 placement="right" [ngbTooltip]="tipAddToBasket">
 							<img class="img-fluid imgSearch" src="images/addToBasket.png" (click)="quantityBasketIncremented()">
 							<span>{{product.annotation.quantity}}</span>
@@ -75,9 +75,13 @@
 					</div>
 					<div class="row" [style.color]="product.data.disabled ? 'magenta' : 'green'">
 						<div class="col-sm-3 align-self-center">{{'PRODUCT.LABEL.IS DISABLED' | translate}}:</div>
-						<div class="col-sm-6 align-self-center">
+						<div class="col-sm-3 align-self-center">
 							<gg-editor-boolean [content]="product.data.disabled" (editSaved)="disablUpdated($event)" [readOnly]="isProductReadOnly()"></gg-editor-boolean>
 						</div>
+						<div class="col-sm-6 align-self-center" *ngIf="!product.data.disabled && product.annotation.disabled" [style.color]="'red'">
+							{{'PRODUCT.LABEL.SUPPLIER DISABLED' | translate}}
+						</div>
+							
 					</div>
 					<div class="row">
 						<div class="col-sm-3 align-self-center">{{'PRODUCT.LABEL.DESCRIPTION' | translate}}:</div>
@@ -216,7 +220,7 @@
 			</div>
 		</ng-template>
 	</ngb-tab>
-	<ngb-tab title="{{'PRODUCT.MENU.PUT INTO BASKET' | translate}}" id="tabBasket" *ngIf="!authorizationStatusInfo.isPassiveUser() && product.annotation.hasCurrentUserPermissionToShop && !product.data.isFrigo  && !product.data.disabled">
+	<ngb-tab title="{{'PRODUCT.MENU.PUT INTO BASKET' | translate}}" id="tabBasket" *ngIf="!authorizationStatusInfo.isPassiveUser() && product.annotation.hasCurrentUserPermissionToShop && !product.data.isFrigo  && !product.annotation.disabled">
 		<ng-template ngbTabContent>
 			<div class="card">
 				<div class="card-body">

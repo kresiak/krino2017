@@ -466,7 +466,8 @@ export const locale = {
                 "MSG6": "$ep: liste des fournisseurs activés e-procurement",
                 "MSG7": "04897: liste des fournisseurs dont le sap ID contient '04897",
                 "MSG8": "$OR: liste des fournisseurs chez qui on a déjà commandé",
-                "MSG9": "$DO : liste des fournisseurs qui ont des documents associés"
+                "MSG9": "$DO : liste des fournisseurs qui ont des documents associés",
+                "MSG10": "$DI : liste des fournisseurs qui ont été bloqués"
             },
             "MENU": {
                 "INFO": "Infos",
@@ -521,7 +522,8 @@ export const locale = {
                     "TELEPHONE": "Téléphone:",
                     "FAX": "Fax:",
                     "CLIENT": "Client:",
-                    "SAP ID": "Sap iD:"
+                    "SAP ID": "Sap iD:",
+                    "DISABLED": "le fournisseur est bloqué"
                 }
             }
         },
@@ -599,7 +601,8 @@ export const locale = {
                 "DEFINE HERE IF ENCODING TIP": "Spécifier ici si l'encodage du numéro de lot peut être nécessaire lors de la livraison de ce produit",
                 "DEFINE HERE IF THIS PRODUCT TIP": "Spécifier ici si le produit peut être revendu via le stock (le magasin interne)",
                 "SELECT PRODUCT TIP": "sélectionner le produit",
-                "UNSELECT PRODUCT TIP": "désélectionner le produit"
+                "UNSELECT PRODUCT TIP": "désélectionner le produit",
+                "SUPPLIER DISABLED": "mais le fournisseur est bloqué"
             },
             "ACTIONS": {
                 "ATTENTE VALIDATION TEXT": "en attente de validation:",
