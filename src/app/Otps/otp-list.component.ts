@@ -103,7 +103,8 @@ export class OtpListComponent implements OnInit {
     createReport(otps) {
 
         var fnFormat = otp => {
-            return {
+            this.otpAddInfo(otp, this.otpSapMap)
+            return {                
                 Otp: otp.data.name,
                 Budget: otp.annotation.budget.toLocaleString('fr-BE', {useGrouping: false}),
                 Engaged: otp.annotation.amountEngaged.toLocaleString('fr-BE', {useGrouping: false}),
