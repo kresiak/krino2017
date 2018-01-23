@@ -9,23 +9,23 @@ import './css/styles.css';
  */
 
 if (environment.production) {
-  enableProdMode();
+    enableProdMode();
 }
 
 platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.log(err));
+    .catch(err => console.log(err));
 
 
-  (Array.prototype as any).groupBy = function(keyFunction) {
+(Array.prototype as any).groupBy = function (keyFunction) {
     var groups = {};
-    this.forEach(function(el) {
+    this.forEach(function (el) {
         var key = keyFunction(el);
         if (key in groups == false) {
             groups[key] = [];
         }
         groups[key].push(el);
     });
-    return Object.keys(groups).map(function(key) {
+    return Object.keys(groups).map(function (key) {
         return {
             key: key,
             values: groups[key]
