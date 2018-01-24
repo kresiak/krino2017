@@ -14,22 +14,20 @@ export class MenuService {
     }
 
     private menu: any[]
-    private statusInfo: AuthenticationStatusInfo
     private menuSubject: ReplaySubject<any[]> = new ReplaySubject(1)
 
     private emitCurrentMenu() {
         this.menuSubject.next(this.menu)
     }
 
-    loginSideEffectObservable(): Observable<any> {
+    private loginSideEffectObservable(): Observable<any> {
         return Observable.combineLatest(this.authService.getStatusObservable(), this.dataStore.getLaboNameObservable(), (statusInfo, laboName) => {
             return {
                 statusInfo: statusInfo,
                 laboName: laboName
             }
         }).do(info => {
-            this.statusInfo = info.statusInfo
-            this.initMenuBasedOnLoginUser(this.statusInfo, info.laboName)
+            this.initMenuBasedOnLoginUser(info.statusInfo, info.laboName)
             this.emitCurrentMenu()
         }).switchMap(info => {
             return Observable.combineLatest(this.notificationService.getLmWarningMessages().map(messagesObj => messagesObj.finishingOtps.length).distinctUntilChanged(),
