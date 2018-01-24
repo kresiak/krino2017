@@ -1834,7 +1834,7 @@ export const locale = {
                         "THE": "Les",
                         "DIRECTORS OF THEMATIC UNIT": "directeurs d'unités thématiques",
                         "PRINCIPAL INVESTIGATOR": "principal investigators",
-                        "TEAM MEMBERS": "membres de votre team"
+                        "TEAM MEMBERS": "membres de ce team"
                     },
                     "HELP": {
                         "TAB TIP LISTE": "Ici vous pouver visualiser et modifier les données personnelles des personnes que vous avez déjà sélectionnées",
@@ -1851,7 +1851,7 @@ export const locale = {
                             "ENTER TRU NAME": "Veuillez entrer le nom de votre unité de recherche thématique"
                         },
                         "PIS": {
-                            "ENTER MEMBERS": "Veuillez spécifier les membres de votre team",
+                            "ENTER MEMBERS": "Veuillez spécifier les membres de ce team",
                             "YOU CAN MODIFY MEMBERS": "Vous pouvez à tout moment ajouter ou enlever des membres ou mettre à jour leur fonction et/ou leur données personnelles",
                             "ENTER EQUIPES": "Vous pouvez organiser votre team en équipes, si vous le souhaitez",
                             "EQUIPE TAB": "Vos équipes",

@@ -61,7 +61,7 @@ export class GigaPersonDetailComponent implements OnInit {
     }
 
     public getUrl(suffix) {
-        var baseUrl= this.configService.isProduction() ? 'http://139.165.57.34/krino/' : 'http://localhost:8080/krino/'
+        var baseUrl= this.configService.isProduction() ? 'http://139.165.57.34/krino/' : 'http://localhost:4200/'
 
         return baseUrl + suffix + '/' + this.personId + '?ggakmgtest=1'
     }
