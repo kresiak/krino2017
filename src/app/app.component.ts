@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs/Rx'
-import { ActivatedRoute, Params, Router } from '@angular/router'
+import { ActivatedRoute, Params, Router, NavigationEnd } from '@angular/router'
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -57,9 +57,51 @@ export class AppComponent implements OnInit {
     public inDbInitialisationProcess: boolean = true
     public laboName: string= ''
 
+    private updateMenuBasedOnUrl(event) {
+        var e = <NavigationEnd>event;
+        var r = e.urlAfterRedirects === '/' ? '/home' : e.urlAfterRedirects;
+        try {
+            this.activateMenu(this.menu.filter(menuitem => menuitem.route === r || r.startsWith(menuitem.route + '?'))[0]);
+            if (this.menu.filter(m => m.active).length === 0) {
+                ['order', 'otp', 'equipe', 'product', 'user', 'category', 'supplier', 'sap'].filter(objType => r.startsWith('/' + objType + '/')).forEach(objType => {
+                    this.menu.push({
+                        title: 'Detail ' + objType,
+                        active: true,
+                        temporary: true
+                    })
+                })
+            }
+        }
+        catch (e) {
+        }
+        finally {
+
+        }
+    }
+
+    public activateMenu(menuItem) {
+        this.menu = this.menu.filter(item => !item.temporary)
+
+        if (menuItem && menuItem.isAttractAttentionMode) {
+            delete menuItem.isAttractAttentionMode
+            delete menuItem.attractAttentionModeText
+        }
+        this.menu.forEach(element => {
+            element.active = false;
+        });
+        if (menuItem) menuItem.active = true;
+    }
+
     ngOnInit(): void {
 
-        this.menuService.initializeMenus()
+        Observable.combineLatest(this.router.events.filter(event => event instanceof NavigationEnd), this.menuService.loginSideEffectObservable(),
+        ((event, nothing) => {
+            this.updateMenuBasedOnUrl(event)
+            //this.emitCurrentMenu()
+        }))
+        .subscribe(() => { });
+
+//        this.menuService.initializeMenus()
 
         this.menuService.getMenuObservable().takeWhile(() => this.isPageRunning).subscribe(menu => {
             this.menu = menu

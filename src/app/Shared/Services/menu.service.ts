@@ -20,7 +20,7 @@ export class MenuService {
         this.menuSubject.next(this.menu)
     }
 
-    private loginSideEffectObservable(): Observable<any> {
+    public loginSideEffectObservable(): Observable<any> {
         return Observable.combineLatest(this.authService.getStatusObservable(), this.dataStore.getLaboNameObservable(), (statusInfo, laboName) => {
             return {
                 statusInfo: statusInfo,
@@ -54,7 +54,7 @@ export class MenuService {
         })
     }
 
-    initializeMenus() {
+/*     initializeMenus() {
         Observable.combineLatest(this.router.events.filter(event => event instanceof NavigationEnd), this.loginSideEffectObservable(),
             ((event, nothing) => {
                 this.updateMenuBasedOnUrl(event)
@@ -62,12 +62,12 @@ export class MenuService {
             }))
             .subscribe(() => { });
     }
-
+ */
     getMenuObservable(): Observable<any[]> {
         return this.menuSubject
     }
 
-    private updateMenuBasedOnUrl(event) {
+/*     private updateMenuBasedOnUrl(event) {
         var e = <NavigationEnd>event;
         var r = e.urlAfterRedirects === '/' ? '/home' : e.urlAfterRedirects;
         try {
@@ -88,7 +88,7 @@ export class MenuService {
 
         }
     }
-
+ */
     private initMenuBasedOnLoginUser(statusInfo: AuthenticationStatusInfo, laboName: string) {
         var isLoggedIn: boolean = statusInfo && statusInfo.isLoggedIn
         this.menu = [
@@ -219,18 +219,6 @@ export class MenuService {
         this.menu = this.menu.filter(item => !item.hide)
     }
 
-    private activateMenu(menuItem) {
-        this.menu = this.menu.filter(item => !item.temporary)
-
-        if (menuItem && menuItem.isAttractAttentionMode) {
-            delete menuItem.isAttractAttentionMode
-            delete menuItem.attractAttentionModeText
-        }
-        this.menu.forEach(element => {
-            element.active = false;
-        });
-        if (menuItem) menuItem.active = true;
-    }
 
 
 }

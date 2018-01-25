@@ -108,9 +108,9 @@
 			/>
 		</li>
 		<li *ngFor="let menuItem of menu" [class.active]="menuItem.active" class="nav-item">
-			<a class="nav-link" [ngbTooltip]="menuItem.attractAttentionModeText" *ngIf="menuItem.isAttractAttentionMode" (click)="menuService.activateMenu(menuItem)"
+			<a class="nav-link" [ngbTooltip]="menuItem.attractAttentionModeText" *ngIf="menuItem.isAttractAttentionMode" (click)="activateMenu(menuItem)"
 			 routerLink="{{menuItem.route}}"><span style="color: lightcoral">{{menuItem.titleKey ? (menuItem.titleKey | translate) : menuItem.title}} !!</span> </a>
-			<a class="nav-link" *ngIf="!menuItem.isAttractAttentionMode" (click)="menuService.activateMenu(menuItem)" routerLink="{{menuItem.route}}">{{menuItem.titleKey ? (menuItem.titleKey | translate) : menuItem.title}}</a>
+			<a class="nav-link" *ngIf="!menuItem.isAttractAttentionMode" (click)="activateMenu(menuItem)" routerLink="{{menuItem.route}}">{{menuItem.titleKey ? (menuItem.titleKey | translate) : menuItem.title}}</a>
 		</li>
 	</ul>
 </nav>
