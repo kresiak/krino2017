@@ -60,11 +60,12 @@ export class TeambuilderService {
                     return labos.filter(l => !l.disabled).filter(l => l._id === team.laboId)[0]
                 }
 
-                var fnGetUnit = (personId, labo) => {
+                var fnGetUnit = (personId, labo, team) => {
                     var u = thematicUnits.filter(t => !t.disabled).filter(u => u.directorId === personId)[0]
                     if (u) return u
-                    if (!labo) return undefined
-                    return thematicUnits.filter(t => !t.disabled).filter(t => t._id === labo.thematicUnitId)[0]
+                    if (!labo && !team) return undefined   
+                    if (labo) return thematicUnits.filter(t => !t.disabled).filter(t => t._id === labo.thematicUnitId)[0]                    
+                    return thematicUnits.filter(t => !t.disabled).filter(t => t._id === team.laboId)[0]
                 }
                 
                 var fnUpdateFunctionsIfMember= (idFunctionToSet: string, idsOfPersonsWithThisFunction: string[], personToCheck: any) => {
@@ -109,7 +110,7 @@ export class TeambuilderService {
 
                     var team = fnGetTeam(p._id)
                     var labo = fnGetLabo(p._id, team)
-                    var unit = fnGetUnit(p._id, labo)
+                    var unit = fnGetUnit(p._id, labo, team)
                     return {
                         data: p,
                         annotation: {
@@ -159,16 +160,23 @@ export class TeambuilderService {
         return this.getThematicUnitsEnabled().map(units => units.filter(unit => unit.directorId === directorId)[0])
     }
 
+
+
     public getUnitsAnnotated(): Observable<any[]> {
-        return Observable.combineLatest(this.getThematicUnits(), this.getLabosAnnotated(), (units, labos) => {
+        return Observable.combineLatest(this.getThematicUnits(), this.getLabosAnnotated(), this.getTeams(), (units, labos, teams) => {
             return units.map(unit => {
                 var ourLabos = labos.filter(l => l.data.thematicUnitId === unit._id)
+                var ourTeams = teams.filter(l => l.laboId === unit._id)
                 var personsSet: Set<string> = new Set<string>()
                 var fnAddPerson = id => { if (id && !personsSet.has(id)) personsSet.add(id) }
                 ourLabos.forEach(l => {
                     fnAddPerson(l.data.directorId);
                     (l.annotation.personIds || []).forEach(m => fnAddPerson(m))
                 })
+                ourTeams.forEach(t => {
+                    fnAddPerson(t.piId);
+                    (t.memberIds || []).forEach(m => fnAddPerson(m))
+                })                
                 return {
                     data: unit,
                     annotation: {

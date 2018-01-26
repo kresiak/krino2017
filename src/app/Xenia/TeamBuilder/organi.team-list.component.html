@@ -17,7 +17,7 @@
 		<ngb-panel *ngFor="let team of teams" [id]="team._id">
 			<ng-template ngbPanelTitle>
 				<div class="row" id="{{team._id}}">
-                    <div class="col-sm-3">{{team.name || getPersonName(team.piId)}}</div>
+                    <div class="col-sm-3">{{team.name || ('Team ' + getPersonName(team.piId))}}</div>
                     <div class="col-sm-3">{{getPersonName(team.piId)}}</div>
                     <div class="col-sm-3">{{(team.memberIds || []).length + 1}}</div>
 				</div>

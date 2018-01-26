@@ -12,12 +12,16 @@ import { AuthService } from '../services/authorization.service'
     }
 )
 export class OrganiUnitDetail implements OnInit {
-    authorizationStatusInfo: any;    
-    
-    personneIds: any[];
+    authorizationStatusInfo: any;
+
+    laboDirectorIds: any[];
+    laboPiIds: any[];
     labosObservable: Observable<any[]>;
+    teamsObservable: Observable<any[]>;
+    
     director: any;
     personsLabDirectorsObservable: Observable<any>;
+    personsPisObservable: Observable<any>;
     personsMembersObservable: Observable<any>;
     directorId: any;
     unit: any;
@@ -30,37 +34,56 @@ export class OrganiUnitDetail implements OnInit {
     @Input() unitObservable: any
 
     ngOnInit(): void {
-        this.personsLabDirectorsObservable = this.unitObservable
+        this.unitObservable
             .do((unit: any) => {
                 this.unit = unit
-                this.directorId= unit.data.directorId
+                this.directorId = unit.data.directorId
             })
             .switchMap(() => {
                 return this.teambuilderService.getPersonAnnotated(this.directorId)
             })
-            .do(thisPerson => {
+            .takeWhile(() => this.isPageRunning).subscribe(thisPerson => {
                 this.director = thisPerson
-            })
-            .switchMap(() => {
-                this.labosObservable= !this.unit ? Observable.from([[]]) : this.teambuilderService.getLabosAnnotatedEnabledByThematicUnit(this.unit.data._id)
+            })        
+
+        
+
+        this.personsLabDirectorsObservable =
+            this.unitObservable.switchMap((unit) => {
+                this.labosObservable = !unit ? Observable.from([[]]) : this.teambuilderService.getLabosAnnotatedEnabledByThematicUnit(unit.data._id)
                 return this.labosObservable
             })
-            .switchMap(labos => {
-                var directorIds= (labos || []).map(l => l.data.directorId)
-                return this.teambuilderService.getPersonsAnnotatedByIds(directorIds)
-            })
+                .switchMap(labos => {
+                    var directorIds = (labos || []).map(l => l.data.directorId)
+                    return this.teambuilderService.getPersonsAnnotatedByIds(directorIds)
+                })
 
-            this.personsLabDirectorsObservable.map(personnes => personnes.map(p => p.data._id)).takeWhile(() => this.isPageRunning).subscribe(res => {
-                this.personneIds = res
-            })                
+        this.personsLabDirectorsObservable.map(personnes => personnes.map(p => p.data._id)).takeWhile(() => this.isPageRunning).subscribe(res => {
+            this.laboDirectorIds = res
+        })
 
-            this.authService.getStatusObservable().takeWhile(() => this.isPageRunning).subscribe(statusInfo => {
-                this.authorizationStatusInfo= statusInfo
-            })        
-          
-            this.personsMembersObservable= this.unitObservable.switchMap((unit) => { 
-                return this.teambuilderService.getPersonsAnnotatedByIds(unit.annotation.personIds)
+        this.personsPisObservable =
+            this.unitObservable.switchMap((unit) => {
+                this.teamsObservable= !unit ? Observable.from([[]]) : this.teambuilderService.getTeamsEnabledByLabo(unit.data._id)
+                return this.teamsObservable
             })
+                .switchMap(teams => {
+                    var piIds= (teams || []).map(t => t.piId)
+                    return this.teambuilderService.getPersonsAnnotatedByIds(piIds)
+                })
+
+        this.personsPisObservable.map(personnes => personnes.map(p => p.data._id)).takeWhile(() => this.isPageRunning).subscribe(res => {
+            this.laboPiIds = res
+        })
+
+
+        this.authService.getStatusObservable().takeWhile(() => this.isPageRunning).subscribe(statusInfo => {
+            this.authorizationStatusInfo = statusInfo
+        })
+
+        this.personsMembersObservable = this.unitObservable.switchMap((unit) => {
+            return this.teambuilderService.getPersonsAnnotatedByIds(unit.annotation.personIds)
+        })
 
     }
 
@@ -68,12 +91,12 @@ export class OrganiUnitDetail implements OnInit {
         this.isPageRunning = false
     }
 
-    personsSelectionChanged(ids)  {
-        this.teambuilderService.saveLaboDirsOfUnit(this.unit.data, ids)
+    personsSelectionChanged(ids) {
+        this.teambuilderService.savePisOfLaboOrUnit(this.unit.data, ids)
     }
 
     nameUpdated(name) {
-        this.unit.data.name= name
+        this.unit.data.name = name
         this.dataStore.updateData(this.teambuilderService.thematicUnitTable, this.unit.data._id, this.unit.data)
     }
 

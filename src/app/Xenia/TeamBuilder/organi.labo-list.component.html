@@ -17,7 +17,7 @@
             <ngb-panel *ngFor="let labo of labos" [id]="labo.data._id">
                 <ng-template ngbPanelTitle>
                     <div class="row" id="{{labo.data._id}}">
-                            <div class="col-sm-3">{{labo.data.name || getPersonName(labo.data.directorId)}}</div>
+                            <div class="col-sm-3">{{labo.data.name || ('Labo ' + getPersonName(labo.data.directorId))}}</div>
                             <div class="col-sm-3">{{getPersonName(labo.data.directorId)}}</div>
                             <div class="col-sm-3">{{labo.annotation.nbPersons}}</div>
                     </div>

@@ -1,6 +1,7 @@
 <div class="card" *ngIf="unit && director">
     <div class="card-body">
-        <h5><span [style.color]="'red'">Research unit</span>: {{unit.data.name || director.annotation.fullName || 'not named yet' }} </h5>
+        <h5>
+            <span [style.color]="'red'">Research unit</span>: {{unit.data.name || director.annotation.fullName || 'not named yet' }} </h5>
         <br/>
         <ngb-tabset>
             <ngb-tab title="{{'PUBLIC.TEAMBUILDER.ORGANI.MENU.ABOUT UNIT' | translate}}" id="tabInfoUnit">
@@ -36,17 +37,28 @@
                     <gg-organi-labo-list [labosObservable]="labosObservable"></gg-organi-labo-list>
                 </ng-template>
             </ngb-tab>
-            <ngb-tab id="tabDirectors" *ngIf="((personsLabDirectorsObservable | async) || []).length > 0">
+            <ngb-tab id="tabTeams" *ngIf="((teamsObservable | async) || []).length > 0">
+                <ng-template ngbTabTitle>
+                    <span [ngbTooltip]="''">
+                        {{('PUBLIC.TEAMBUILDER.ORGANI.MENU.TEAMS' | translate) + ' (' + ((teamsObservable | async) || []).length + ')'}}
+                    </span>
+                </ng-template>
+                <ng-template ngbTabContent>
+                    <gg-organi-team-list [teamsObservable]="teamsObservable"></gg-organi-team-list>
+                </ng-template>
+            </ngb-tab>
+            <!--             <ngb-tab id="tabDirectors" *ngIf="((personsLabDirectorsObservable | async) || []).length > 0">
                 <ng-template ngbTabTitle>
                     <span [ngbTooltip]="'PUBLIC.TEAMBUILDER.ORGANI.MENU.LABO HEADS TIP' | translate">
-                        {{('PUBLIC.TEAMBUILDER.TASKS.MENU.THE' | translate) + ' ' + ('PUBLIC.TEAMBUILDER.ORGANI.MENU.LABO HEADS' | translate)
-                        + ' (' + ((personsLabDirectorsObservable | async) || []).length + ')'}}
+                        {{('PUBLIC.TEAMBUILDER.TASKS.MENU.THE' | translate) + ' ' + ('PUBLIC.TEAMBUILDER.ORGANI.MENU.LABO HEADS' | translate) + '
+                        (' + ((personsLabDirectorsObservable | async) || []).length + ')'}}
                     </span>
                 </ng-template>
                 <ng-template ngbTabContent>
                     <gg-giga-person-list [personsObservable]="personsLabDirectorsObservable"></gg-giga-person-list>
                 </ng-template>
             </ngb-tab>
+ -->
             <ngb-tab id="tabMembers" *ngIf="((personsMembersObservable | async) || []).length > 0">
                 <ng-template ngbTabTitle>
                     <span [ngbTooltip]="'PUBLIC.TEAMBUILDER.ORGANI.MENU.UNIT MEMBERS TIP' | translate">
@@ -58,7 +70,7 @@
                     <gg-giga-person-list [personsObservable]="personsMembersObservable"></gg-giga-person-list>
                 </ng-template>
             </ngb-tab>
-            <ngb-tab id="tabPersonSelection" *ngIf="personneIds && isMyUnit()">
+            <ngb-tab id="tabPersonSelection" *ngIf="laboPiIds && isMyUnit()">
                 <ng-template ngbTabTitle>
                     <span [ngbTooltip]="'PUBLIC.TEAMBUILDER.TASKS.HELP.TAB TIP SELECT' | translate">
                         {{('PUBLIC.TEAMBUILDER.TASKS.MENU.SELECT PERSONS' | translate) + ' ' + ('PUBLIC.TEAMBUILDER.TASKS.MENU.PRINCIPAL INVESTIGATOR'
@@ -66,7 +78,7 @@
                     </span>
                 </ng-template>
                 <ng-template ngbTabContent>
-                    <gg-giga-persons-selection [selectedPersonIds]="personneIds" (selectionChanged)="personsSelectionChanged($event)"></gg-giga-persons-selection>
+                    <gg-giga-persons-selection [selectedPersonIds]="laboPiIds" (selectionChanged)="personsSelectionChanged($event)"></gg-giga-persons-selection>
                 </ng-template>
             </ngb-tab>
         </ngb-tabset>

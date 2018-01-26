@@ -17,7 +17,7 @@
 		<ngb-panel *ngFor="let unit of units" [id]="unit.data._id">
 			<ng-template ngbPanelTitle>
 				<div class="row" id="{{unit.data._id}}">
-                        <div class="col-sm-3">{{unit.data.name || getPersonName(unit.data.directorId)}}</div>
+                        <div class="col-sm-3">{{unit.data.name || ('TRU ' + getPersonName(unit.data.directorId))}}</div>
                         <div class="col-sm-3">{{getPersonName(unit.data.directorId)}}</div>
                         <div class="col-sm-3">{{unit.annotation.nbPersons}}</div>
 				</div>
