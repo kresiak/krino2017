@@ -1,6 +1,6 @@
 <div class="card" *ngIf="thisPersonId && thisUnit">
     <div class="card-body">
-        <h5>Questions and tasks for the Director of a Thematic Research Unit</h5>
+        <h5>{{'PUBLIC.TEAMBUILDER.TASKS.HELP.QUESTIONS TRUD' | translate}}</h5>
 
         <gg-giga-person-task [personsObservable]="personsObservable" [myPersonId]="thisPersonId" [personTypeDescriptionKey]="'PUBLIC.TEAMBUILDER.TASKS.MENU.DIRECTORS OF LABS'"
             (personsSelectionChanged)="personsSelectionChanged($event)">

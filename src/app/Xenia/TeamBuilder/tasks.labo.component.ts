@@ -22,7 +22,9 @@ export class TasksLaboComponent implements OnInit {
 
     public thisPersonId: string
     public pisToSpecify
-    public thisLabo: any
+    public thisLaboOrUnit: any
+
+    public isUnit: boolean= false
 
     ngOnInit(): void {
         this.personsObservable = this.route.params
@@ -34,15 +36,18 @@ export class TasksLaboComponent implements OnInit {
             })
             .do(thisPerson => {
                 this.thisPerson = thisPerson
+                this.isUnit= thisPerson.annotation.isDirector
             })
             .switchMap(thisPerson => {
-                return this.teambuilderService.getLaboEnabledByDirector(this.thisPerson.data._id)
+                return this.isUnit ?
+                this.teambuilderService.getThematicUnitEnabledByDirector(this.thisPerson.data._id)    : 
+                    this.teambuilderService.getLaboEnabledByDirector(this.thisPerson.data._id)
             })
-            .do(thisLabo => {
-                this.thisLabo = thisLabo
+            .do(thisLaboOrUnit => {
+                this.thisLaboOrUnit = thisLaboOrUnit
             })
-            .switchMap(thisLabo => {
-                return !thisLabo ? Observable.from([]) : this.teambuilderService.getTeamsEnabledByLabo(thisLabo._id).map(list => list.map(tu => tu.piId))
+            .switchMap(thisLaboOrUnit => {
+                return !thisLaboOrUnit ? Observable.from([]) : this.teambuilderService.getTeamsEnabledByLabo(thisLaboOrUnit._id).map(list => list.map(tu => tu.piId))
             })
             .switchMap(piIds => {
                 return this.teambuilderService.getPersonsAnnotatedByIds(piIds)
@@ -58,12 +63,12 @@ export class TasksLaboComponent implements OnInit {
     }
 
     personsSelectionChanged(ids) {
-        this.teambuilderService.savePisOfLabo(this.thisLabo, ids)
+        this.teambuilderService.savePisOfLaboOrUnit(this.thisLaboOrUnit, ids)   
     }
 
-    laboNameChanged(name) {
-        this.thisLabo.name= name
-        this.dataStore.updateData(this.teambuilderService.labosTable, this.thisLabo._id, this.thisLabo)
+    laboOrUnitNameChanged(name) {  
+        this.thisLaboOrUnit.name= name
+        this.dataStore.updateData(this.isUnit ? this.teambuilderService.thematicUnitTable : this.teambuilderService.labosTable, this.thisLaboOrUnit._id, this.thisLaboOrUnit)
     }
 }
 

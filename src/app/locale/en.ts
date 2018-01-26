@@ -1851,9 +1851,14 @@ export const locale = {
                         "DIRECTORS OF THEMATIC UNIT": "directors of thematic unit",
                         "DIRECTORS OF LABS": "heads of laboratories",
                         "PRINCIPAL INVESTIGATOR": "principal investigators",
+                        "PRINCIPAL INVESTIGATOR INDEPENDENT": "independent principal investigators",
                         "TEAM MEMBERS": "team members"
                     },
                     "HELP": {
+                        "QUESTIONS HEAD": "Questions and tasks for the head of GIGA",
+                        "QUESTIONS TRUD": "Questions and tasks for the Director of a Thematic Research Unit",
+                        "QUESTIONS LABO DIR": "Questions and tasks for the Head of a laboratory",
+                        "QUESTIONS PI": "Questions and tasks for the Principal investigator",
                         "LIST TASKS": "These are the tasks we would like you to do",
                         "TAB TIP LISTE": "Here you can see and modify the personal data of the persons that you have already selected",
                         "TAB TIP SELECT": "Here you can add (or remove) persons to (or from) the selection",
@@ -1862,12 +1867,13 @@ export const locale = {
                             "A MAIL WILL BE SENT": "Later a mail will be sent to the directors of thematic unit in order to ask them to designate their PIs"
                         },
                         "TRUD": {
+                            "ENTER PIS": "Please enter the indpendent 'Principal investigators' of your thematic unit",
                             "ENTER LABDIRS": "Please enter the 'Heads of Laboratory' of your thematic unit",
                             "A MAIL WILL BE SENT": "Later a mail will be sent to the 'Heads of Laboratory' in order to ask them to describe their team",
                             "ENTER TRU NAME": "Please enter the name of your thematic research unit"
                         },
                         "LABDIR": {
-                            "ENTER PIS": "Please enter the 'Principal investigators' of your laboratory (or the independent PIs of your thematic unit)",
+                            "ENTER PIS": "Please enter the 'Principal investigators' of your laboratory",
                             "A MAIL WILL BE SENT": "Later a mail will be sent to the 'Principal investigators' in order to ask them to describe their team",
                             "INDICATE PI TYPE": "Please indicate what kind of Pi you expect <b>{{person}}</b> to be",
                             "ENTER LAB NAME": "Please enter the name of your laboratory"

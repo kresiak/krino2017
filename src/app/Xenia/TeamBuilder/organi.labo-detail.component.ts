@@ -69,7 +69,7 @@ export class OrganiLaboDetail implements OnInit {
     }
 
     personsSelectionChanged(ids)  {
-        this.teambuilderService.savePisOfLabo(this.labo.data, ids)
+        this.teambuilderService.savePisOfLaboOrUnit(this.labo.data, ids)
     }
 
     nameUpdated(name) {

@@ -286,7 +286,7 @@ export class TeambuilderService {
 
 
 
-    public savePisOfLabo(labo: any, ids: string[]) {
+    public savePisOfLaboOrUnit(labo: any, ids: string[]) {
         if (!labo) return
         this.getTeamsByLabo(labo._id).first().subscribe(teams => {
             var observables: Observable<any>[] = []

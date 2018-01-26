@@ -1849,9 +1849,14 @@ export const locale = {
                         "DIRECTORS OF THEMATIC UNIT": "directeurs d'unités thématiques",
                         "DIRECTORS OF LABS": "chefs de laboratoires",
                         "PRINCIPAL INVESTIGATOR": "principal investigators",
+                        "PRINCIPAL INVESTIGATOR INDEPENDENT": "principal investigators indépendants",
                         "TEAM MEMBERS": "membres de ce team"
                     },
                     "HELP": {
+                        "QUESTIONS HEAD": "Questions et tâches pour le directeur du GIGA",
+                        "QUESTIONS TRUD": "Questions et tâches pour le directeur d'une unité de recherche thématique",
+                        "QUESTIONS LABO DIR": "Questions et tâches pour le responsable d'un laboratoire",
+                        "QUESTIONS PI": "Questions et tâches pour le Principal investigator",                        
                         "TAB TIP LISTE": "Ici vous pouver visualiser et modifier les données personnelles des personnes que vous avez déjà sélectionnées",
                         "TAB TIP SELECT": "Ici vous pouvez ajouter (ou supprimer) des personnes à (ou de) votre sélection",
                         "LIST TASKS": "Pourriez vous accomplir les tâches suivantes?",
@@ -1860,12 +1865,13 @@ export const locale = {
                             "A MAIL WILL BE SENT": "Dans un second temps un e-mail sera envoyé aux directeurs d'unités thématiques afin de leur demander de désigner leurs PIs"
                         },
                         "TRUD": {
-                            "ENTER LABDIRS": "Veuillez spécifier les 'Chefs de laboratoire' de votre unité",
+                            "ENTER PIS": "Veuillez spécifier les 'Principal investigators' indépendants de votre unité thématique",                            
+                            "ENTER LABDIRS": "Veuillez spécifier les 'Chefs de laboratoire' de votre unité thématique",
                             "A MAIL WILL BE SENT": "Dans un second temps un e-mail sera envoyé aux 'Chefs de laboratoire' afin de leur demander de décrire leur équipe",
                             "ENTER TRU NAME": "Veuillez entrer le nom de votre unité de recherche thématique"
                         },
                         "LABDIR": {
-                            "ENTER PIS": "Veuillez spécifier les 'Principal investigators' de votre laboratoire (ou les PIs indépendants de votre unité)",
+                            "ENTER PIS": "Veuillez spécifier les 'Principal investigators' de votre laboratoire",
                             "A MAIL WILL BE SENT": "Dans un second temps un e-mail sera envoyé aux 'Principal investigators' afin de leur demander de décrire leur équipe",
                             "INDICATE PI TYPE": "Veuillez indiquer quel type de PI vous pensez que <b>{{person}}</b> va être",
                             "ENTER LAB NAME": "Veuillez entrer le nom de votre laboratoire"
