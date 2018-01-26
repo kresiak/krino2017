@@ -1,0 +1,37 @@
+<gg-search-box [objectTypeTranslationKey]="'PUBLIC.TEAMBUILDER.ORGANI.GENERAL.LABOS'" [objectsObservable]="labosObservable" [fnFilterObjects]="fnFilter" (listChanged)="labos=$event" *ngIf="personsMap">
+        <ul searchHelp>
+            <li>{{'PUBLIC.TEAMBUILDER.ORGANI.SEARCH HELP.MSG3' | translate}}</li>
+        </ul>
+        <ngb-accordion accordion [closeOthers]="true" #acc="ngbAccordion">
+            <ngb-panel [disabled]="true">
+                <ng-template ngbPanelTitle>
+                    <div class="row">
+                        <div class="col-sm-3"><b>{{'PUBLIC.TEAMBUILDER.ORGANI.COLUMNS.LABO NAME' | translate}}</b></div>
+                        <div class="col-sm-3"><b>{{'PUBLIC.TEAMBUILDER.ORGANI.COLUMNS.DIRECTOR NAME' | translate}}</b></div>
+                        <div class="col-sm-3"><b>{{'PUBLIC.TEAMBUILDER.ORGANI.COLUMNS.NB PERSONS' | translate}}</b></div>
+                    </div>
+                </ng-template>
+                <ng-template ngbPanelContent>
+                </ng-template>
+            </ngb-panel>
+            <ngb-panel *ngFor="let labo of labos" [id]="labo.data._id">
+                <ng-template ngbPanelTitle>
+                    <div class="row" id="{{labo.data._id}}">
+                            <div class="col-sm-3">{{labo.data.name || getPersonName(labo.data.directorId)}}</div>
+                            <div class="col-sm-3">{{getPersonName(labo.data.directorId)}}</div>
+                            <div class="col-sm-3">{{labo.annotation.nbPersons}}</div>
+                    </div>
+                </ng-template>
+                <ng-template ngbPanelContent>
+                    <gg-organi-labo-detail [laboObservable]="getLaboObservable(labo.data._id)" ></gg-organi-labo-detail>
+                </ng-template>
+            </ngb-panel>
+        </ngb-accordion>
+    </gg-search-box>
+    
+    
+    
+    
+    
+    
+    

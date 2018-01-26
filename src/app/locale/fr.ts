@@ -1791,9 +1791,15 @@ export const locale = {
                     }
                 },
                 "ORGANI": {
+                    "GENERAL": {
+                        "LABOS" : "laboratoire(s)",
+                        "UNITS": "unité(s) de recherche thématique",
+                        "TEAMS": "team(s)"
+                    },
                     "MENU": {
                         "UNITS": "Unités de recherche thématique",
                         "TEAMS": "Teams",
+                        "LABOS": "Laboratoires",
                         "PERSONS": "Personnes au Giga",
                         "ADD PERSON": "Créer une personne",
                         "ADD PERSON TIP": "Ajouter une personne dans la base de données, si on ne la trouve pas dans le répertoire actuel",
@@ -1802,28 +1808,36 @@ export const locale = {
                         "ABOUT PI": "Infos au sujet du Pi",
                         "ABOUT DIRECTOR": "Infos au sujet du directeur",
                         "ABOUT UNIT": "Infos au sujet de l'unité thématique de recherche",
+                        "ABOUT LAB": "Infos au sujet du laboratoire",
                         "ABOUT TEAM": "Infos au sujet du projet/team",
                         "LOGIN": "Identifiez-vous",
                         "LOGOUT": "Déconnectez-vous",
                         "TEAM MEMBERS TIP": "Ici vous trouverez toutes les personnes travaillant pour le team",
                         "UNIT MEMBERS": "Les personnes de l'unité",
-                        "UNIT MEMBERS TIP": "Ici vous trouverez toutes les personnes travaillant pour l'unité thématique: les Pis et les mambres de leurs teams",
-                        "UNIT PIS TIP": "Ici vous trouverez tous les Pis travaillant pour l'unité thématique"
+                        "UNIT MEMBERS TIP": "Ici vous trouverez toutes les personnes travaillant pour le laboratoire: les Pis et les membres de leurs teams",
+                        "LAB PIS": "principal investigators",
+                        "LABO HEADS": "chefs de  laboratoire",
+                        "LABO HEADS TIP": "Ici vous trouverez tous les chefs de laboratoire travaillant pour l'unité thématique",
+                        "LAB MEMBERS": "Les personnes du laboratoire",
+                        "LAB MEMBERS TIP": "Ici vous trouverez toutes les personnes travaillant pour le laboratoire"                     
                     },
                     "COLUMNS": {
                         "UNIT NAME": "Nom de l'unité thématique",
                         "PROJECT NAME": "Nom du projet du team",
                         "DIRECTOR NAME": "Directeur",
                         "PI NAME": "Principal Investigator",
-                        "NB PERSONS": "Nb de personnes"
+                        "NB PERSONS": "Nb de personnes",
+                        "LABO NAME": "Laboratoires"
                     },
                     "SEARCH HELP": {
                         "MSG1": "Vous pouvez chercher via le nom de l'unité thématique de recherche ou via le nom du directeur",
-                        "MSG2": "Vous pouvez chercher via le nom du projet des teams ou via le nom d'un pi principal"
+                        "MSG2": "Vous pouvez chercher via le nom du projet des teams ou via le nom d'un pi principal",
+                        "MSG3": "Vous pouvez chercher via le nom du laboratoire ou via le nom du chef de laboratoire"
                     },
                     "LABEL": {
                         "UNIT NAME": "nom de l'unité thématique",
-                        "TEAM NAME": "nom du projet du team"
+                        "TEAM NAME": "nom du projet du team",
+                        "LAB NAME": "nom du laboratoire"
                     }
                 },
                 "TASKS": {
@@ -1833,6 +1847,7 @@ export const locale = {
                         "SELECT PERSONS": "Choisir les",
                         "THE": "Les",
                         "DIRECTORS OF THEMATIC UNIT": "directeurs d'unités thématiques",
+                        "DIRECTORS OF LABS": "chefs de laboratoires",
                         "PRINCIPAL INVESTIGATOR": "principal investigators",
                         "TEAM MEMBERS": "membres de ce team"
                     },
@@ -1845,10 +1860,15 @@ export const locale = {
                             "A MAIL WILL BE SENT": "Dans un second temps un e-mail sera envoyé aux directeurs d'unités thématiques afin de leur demander de désigner leurs PIs"
                         },
                         "TRUD": {
-                            "ENTER PIS": "Veuillez spécifier les 'Principal investigators' de votre unité",
+                            "ENTER LABDIRS": "Veuillez spécifier les 'Chefs de laboratoire' de votre unité",
+                            "A MAIL WILL BE SENT": "Dans un second temps un e-mail sera envoyé aux 'Chefs de laboratoire' afin de leur demander de décrire leur équipe",
+                            "ENTER TRU NAME": "Veuillez entrer le nom de votre unité de recherche thématique"
+                        },
+                        "LABDIR": {
+                            "ENTER PIS": "Veuillez spécifier les 'Principal investigators' de votre laboratoire (ou les PIs indépendants de votre unité)",
                             "A MAIL WILL BE SENT": "Dans un second temps un e-mail sera envoyé aux 'Principal investigators' afin de leur demander de décrire leur équipe",
                             "INDICATE PI TYPE": "Veuillez indiquer quel type de PI vous pensez que <b>{{person}}</b> va être",
-                            "ENTER TRU NAME": "Veuillez entrer le nom de votre unité de recherche thématique"
+                            "ENTER LAB NAME": "Veuillez entrer le nom de votre laboratoire"
                         },
                         "PIS": {
                             "ENTER MEMBERS": "Veuillez spécifier les membres de ce team",

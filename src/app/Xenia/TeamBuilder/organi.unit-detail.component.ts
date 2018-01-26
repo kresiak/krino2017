@@ -15,9 +15,9 @@ export class OrganiUnitDetail implements OnInit {
     authorizationStatusInfo: any;    
     
     personneIds: any[];
-    teamsObservable: Observable<any[]>;
+    labosObservable: Observable<any[]>;
     director: any;
-    personsPisObservable: Observable<any>;
+    personsLabDirectorsObservable: Observable<any>;
     personsMembersObservable: Observable<any>;
     directorId: any;
     unit: any;
@@ -30,7 +30,7 @@ export class OrganiUnitDetail implements OnInit {
     @Input() unitObservable: any
 
     ngOnInit(): void {
-        this.personsPisObservable = this.unitObservable
+        this.personsLabDirectorsObservable = this.unitObservable
             .do((unit: any) => {
                 this.unit = unit
                 this.directorId= unit.data.directorId
@@ -42,15 +42,15 @@ export class OrganiUnitDetail implements OnInit {
                 this.director = thisPerson
             })
             .switchMap(() => {
-                this.teamsObservable= !this.unit ? Observable.from([[]]) : this.teambuilderService.getTeamsEnabledByThematicUnit(this.unit.data._id)
-                return this.teamsObservable
+                this.labosObservable= !this.unit ? Observable.from([[]]) : this.teambuilderService.getLabosAnnotatedEnabledByThematicUnit(this.unit.data._id)
+                return this.labosObservable
             })
-            .switchMap(teams => {
-                var piIds= (teams || []).map(t => t.piId)
-                return this.teambuilderService.getPersonsAnnotatedByIds(piIds)
+            .switchMap(labos => {
+                var directorIds= (labos || []).map(l => l.data.directorId)
+                return this.teambuilderService.getPersonsAnnotatedByIds(directorIds)
             })
 
-            this.personsPisObservable.map(personnes => personnes.map(p => p.data._id)).takeWhile(() => this.isPageRunning).subscribe(res => {
+            this.personsLabDirectorsObservable.map(personnes => personnes.map(p => p.data._id)).takeWhile(() => this.isPageRunning).subscribe(res => {
                 this.personneIds = res
             })                
 
@@ -69,7 +69,7 @@ export class OrganiUnitDetail implements OnInit {
     }
 
     personsSelectionChanged(ids)  {
-        this.teambuilderService.savePisOfUnit(this.unit.data, ids)
+        this.teambuilderService.saveLaboDirsOfUnit(this.unit.data, ids)
     }
 
     nameUpdated(name) {

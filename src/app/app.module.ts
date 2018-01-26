@@ -41,6 +41,7 @@ import { OrganiGigaMain } from './Xenia/TeamBuilder/organi.giga-main.component'
 import { TasksHeadComponent } from './Xenia/TeamBuilder/tasks.head.component'
 import { TasksTrudComponent } from './Xenia/TeamBuilder/tasks.trud.component'
 import { TasksPiComponent } from './Xenia/TeamBuilder/tasks.pi.component'
+import { TasksLaboComponent } from './Xenia/TeamBuilder/tasks.labo.component'
 
 
 import { AppComponent } from './app.component'
@@ -230,6 +231,7 @@ registerLocaleData(localeFr, 'fr');  // https://angular.io/guide/i18n#i18n-pipes
       { path: 'public', component: PublicMainComponent },
       { path: 'taskshead/:id', component: TasksHeadComponent },  
       { path: 'taskstrud/:id', component: TasksTrudComponent },      
+      { path: 'taskslabd/:id', component: TasksLaboComponent },      
       { path: 'taskspi/:id', component: TasksPiComponent },      
       { path: 'organiGiga', component: OrganiGigaMain },            
       {

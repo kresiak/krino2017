@@ -43,7 +43,7 @@ export class GigaPersonDetailComponent implements OnInit {
         })
 
         this.selectableFunctions = this.dataStore.getDataObservable(this.functionTable).takeWhile(() => this.isPageRunning).map(functions => {
-            return functions.sort((a, b) => a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 1).map(f => new SelectableData(f._id, f.name, ['5a3022de02557d00d84aef81', '5a30218002557d00d84aef7e'].includes(f._id)))
+            return functions.sort((a, b) => a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 1).map(f => new SelectableData(f._id, f.name, ['5a3022de02557d00d84aef81', '5a30218002557d00d84aef7e', '5a6a0b2290e2ed2c74e5b34b'].includes(f._id)))
         })
 
         this.authService.getStatusObservable().takeWhile(() => this.isPageRunning).subscribe(statusInfo => {

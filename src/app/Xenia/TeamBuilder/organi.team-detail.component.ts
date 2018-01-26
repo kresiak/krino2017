@@ -66,7 +66,7 @@ export class OrganiTeamDetail implements OnInit {
         this.isPageRunning = false
         if (!this.isMyTeam()) {
             var addedMemberIds: string[]= (this.team.memberIds || []).filter(m => !this.memberIdsInitial.includes(m))
-            var removedMemberIds: string[]= this.memberIdsInitial.filter(m => !((this.team.memberIds || []).includes(m)))
+            var removedMemberIds: string[]= (this.memberIdsInitial || []).filter(m => !((this.team.memberIds || []).includes(m)))
             this.teambuilderService.getPersonsAnnotatedByIds(addedMemberIds.concat(removedMemberIds)).first().subscribe(persons => {
                 var map: Map<string, any>= utils.hashMapFactoryForAnnotated(persons)
                 var fnGetName= (id) => {

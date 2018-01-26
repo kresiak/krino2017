@@ -41,7 +41,8 @@ export class SignedInStatusInfo implements StatusInfoInterface {
     isBossOf(person) {
         if (!this.annotatedUser) return false
         return (person && person.annotation.team && this.annotatedUser.annotation.team && this.annotatedUser.annotation.team._id === person.annotation.team._id && this.annotatedUser.annotation.isPi) || 
-                    (person && person.annotation.unit && this.currentUserId === person.annotation.unit.directorId)
+                    (person && person.annotation.unit && this.currentUserId === person.annotation.unit.directorId) || 
+                    (person && person.annotation.labo && this.currentUserId === person.annotation.labo.directorId) 
     }
 
     hasRightsOnPerson(person) {
@@ -54,6 +55,10 @@ export class SignedInStatusInfo implements StatusInfoInterface {
 
     isMyUnit(unit) {
         return  unit && this.annotatedUser && this.annotatedUser.annotation.isDirector && this.annotatedUser.annotation.unit && this.annotatedUser.annotation.unit._id === unit._id
+    }
+
+    isMyLabo(labo) {
+        return  labo && this.annotatedUser && this.annotatedUser.annotation.isLaboDirector && this.annotatedUser.annotation.labo && this.annotatedUser.annotation.labo._id === labo._id
     }
 
     isMyTeam(team) {

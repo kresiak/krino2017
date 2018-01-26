@@ -36,10 +36,13 @@ import {OrganiTeamDetail} from '../TeamBuilder/organi.team-detail.component'
 import {OrganiTeamList} from '../TeamBuilder/organi.team-list.component'
 import {OrganiUnitDetail} from '../TeamBuilder/organi.unit-detail.component'
 import {OrganiUnitList} from '../TeamBuilder/organi.unit-list.component'
+import {OrganiLaboDetail} from '../TeamBuilder/organi.labo-detail.component'
+import {OrganiLaboList} from '../TeamBuilder/organi.labo-list.component'
 
 import {TasksHeadComponent} from '../TeamBuilder/tasks.head.component'
 import {TasksTrudComponent} from '../TeamBuilder/tasks.trud.component'
 import {TasksPiComponent} from '../TeamBuilder/tasks.pi.component'
+import {TasksLaboComponent} from '../TeamBuilder/tasks.labo.component'
 
 import {PiTypeChoiceComponent} from '../TeamBuilder/pi.type.choice.component'
 
@@ -52,9 +55,10 @@ import {PiTypeChoiceComponent} from '../TeamBuilder/pi.type.choice.component'
   declarations: [
     XeniaMainComponent, XeniaWelcomeMainComponent, 
     XeniaWelcomeIntroComponent, XeniaWelcomeNameComponent, XeniaWelcomeNameConfirmComponent, XeniaWelcomeEmailComponent, XeniaWelcomePiComponent, XeniaWelcomeFinalComponent,
-    GigaFindPersonComponent, GigaPersonsSelectionComponent, GigaPersonDetailComponent, GigaPersonListComponent, GigaPersonTaskComponent, TasksHeadComponent, TasksTrudComponent, TasksPiComponent,
+    GigaFindPersonComponent, GigaPersonsSelectionComponent, GigaPersonDetailComponent, GigaPersonListComponent, GigaPersonTaskComponent, TasksHeadComponent, TasksTrudComponent, TasksPiComponent, TasksLaboComponent,
     PiTypeChoiceComponent,
-    OrganiGigaMain, OrganiTeamDetail, OrganiTeamList, OrganiUnitDetail, OrganiUnitList, GigaPersonEnterComponent
+    OrganiGigaMain, OrganiTeamDetail, OrganiTeamList, OrganiUnitDetail, OrganiUnitList, OrganiLaboDetail, OrganiLaboList,
+    GigaPersonEnterComponent
   ],
   exports: [
       XeniaMainComponent, XeniaWelcomeMainComponent, GigaPersonsSelectionComponent, TasksHeadComponent, TasksTrudComponent, TasksPiComponent, OrganiGigaMain

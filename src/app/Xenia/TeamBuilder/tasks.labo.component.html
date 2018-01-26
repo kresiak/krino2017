@@ -1,0 +1,27 @@
+<div class="card" *ngIf="thisPersonId && thisLabo">
+    <div class="card-body">
+        <h5>Questions and tasks for the Head of a laboratory</h5>
+
+        <gg-giga-person-task [personsObservable]="personsObservable" [myPersonId]="thisPersonId" [personTypeDescriptionKey]="'PUBLIC.TEAMBUILDER.TASKS.MENU.PRINCIPAL INVESTIGATOR'"
+            (personsSelectionChanged)="personsSelectionChanged($event)">
+
+
+            <ul taskDescription>
+                <li>{{'PUBLIC.TEAMBUILDER.TASKS.HELP.LABDIR.ENTER PIS' | translate}}</li>
+                <li>{{'PUBLIC.TEAMBUILDER.TASKS.HELP.LABDIR.A MAIL WILL BE SENT' | translate}}</li>
+
+                <li *ngFor="let pi of pisToSpecify">
+                    <span [innerHtml]="'PUBLIC.TEAMBUILDER.TASKS.HELP.LABDIR.INDICATE PI TYPE' | translate:{person:pi.annotation.fullName}"></span>
+                    <gg-pi-type-choice [thisPerson]="pi" [askForDependentPi]="false" [noSecurity]="true"></gg-pi-type-choice>
+                </li>
+                <li>
+                    <div>
+                        <label>{{'PUBLIC.TEAMBUILDER.TASKS.HELP.LABDIR.ENTER LAB NAME' | translate}}</label>
+                        <gg-editor [content]="thisLabo.name" [showControls]="true" [timeoutSeconds]="5" (editSaved)="laboNameChanged($event)"></gg-editor>
+                    </div>
+                </li>
+            </ul>
+
+        </gg-giga-person-task>
+    </div>
+</div>

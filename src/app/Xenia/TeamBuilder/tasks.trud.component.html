@@ -1,17 +1,15 @@
 <div class="card" *ngIf="thisPersonId && thisUnit">
     <div class="card-body">
-        <gg-giga-person-task [personsObservable]="personsObservable" [myPersonId]="thisPersonId" [personTypeDescriptionKey]="'PUBLIC.TEAMBUILDER.TASKS.MENU.PRINCIPAL INVESTIGATOR'"
+        <h5>Questions and tasks for the Director of a Thematic Research Unit</h5>
+
+        <gg-giga-person-task [personsObservable]="personsObservable" [myPersonId]="thisPersonId" [personTypeDescriptionKey]="'PUBLIC.TEAMBUILDER.TASKS.MENU.DIRECTORS OF LABS'"
             (personsSelectionChanged)="personsSelectionChanged($event)">
 
 
             <ul taskDescription>
-                <li>{{'PUBLIC.TEAMBUILDER.TASKS.HELP.TRUD.ENTER PIS' | translate}}</li>
+                <li>{{'PUBLIC.TEAMBUILDER.TASKS.HELP.TRUD.ENTER LABDIRS' | translate}}</li>
                 <li>{{'PUBLIC.TEAMBUILDER.TASKS.HELP.TRUD.A MAIL WILL BE SENT' | translate}}</li>
 
-                <li *ngFor="let pi of pisToSpecify">
-                    <span [innerHtml]="'PUBLIC.TEAMBUILDER.TASKS.HELP.TRUD.INDICATE PI TYPE' | translate:{person:pi.annotation.fullName}"></span>
-                    <gg-pi-type-choice [thisPerson]="pi" [askForDependentPi]="false" [noSecurity]="true"></gg-pi-type-choice>
-                </li>
                 <li>
                     <div>
                         <label>{{'PUBLIC.TEAMBUILDER.TASKS.HELP.TRUD.ENTER TRU NAME' | translate}}</label>

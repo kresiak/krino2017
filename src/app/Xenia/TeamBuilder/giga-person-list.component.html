@@ -30,8 +30,9 @@
 				<div class="row" id="{{person.data._id}}">
 					<div class="col-sm-2" [style.font-weight]="person.data._id === openPanelId ? 'bold' : 'lighter'">{{person.annotation.fullName}}</div>
 					<div class="col-sm-3">
-						<span *ngIf="person.annotation.unit">{{person.annotation.unit.name || person.annotation.unitHead}}</span>
-						<span *ngIf="person.annotation.team">{{', ' + (person.annotation.team.name ||  person.annotation.teamHead)}}</span>
+						<span *ngIf="person.annotation.unit">{{person.annotation.unit.name || ('unit of ' + person.annotation.unitHead)}}</span>
+						<span *ngIf="person.annotation.labo && person.annotation.laboHead !== person.annotation.unitHead">{{', ' + (person.annotation.labo.name || ('labo ' + person.annotation.laboHead))}}</span>
+						<span *ngIf="person.annotation.team">{{', ' + (person.annotation.team.name ||  ('team ' + person.annotation.teamHead))}}</span>
 					</div>
 					<div class="col-sm-3">
 						<span *ngIf="!person.data.functionNewIds || person.data.functionNewIds.length===0" [style.color]="'red'">{{'PUBLIC.TEAMBUILDER.PERSONS.COLUMN.FUNCTION MISSING' | translate}}</span>

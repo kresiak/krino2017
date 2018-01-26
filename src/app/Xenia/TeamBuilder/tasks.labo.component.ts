@@ -7,11 +7,11 @@ import { DataStore } from 'gg-basic-data-services'
 
 @Component(
     {
-        selector: 'gg-tasks-trud',
-        templateUrl: './tasks.trud.component.html'
+        selector: 'gg-tasks-labo',
+        templateUrl: './tasks.labo.component.html'
     }
 )
-export class TasksTrudComponent implements OnInit {
+export class TasksLaboComponent implements OnInit {
     thisPerson: any;
     personsObservable: Observable<any>;
     isPageRunning: boolean = true;
@@ -21,7 +21,8 @@ export class TasksTrudComponent implements OnInit {
     }
 
     public thisPersonId: string
-    public thisUnit: any
+    public pisToSpecify
+    public thisLabo: any
 
     ngOnInit(): void {
         this.personsObservable = this.route.params
@@ -35,19 +36,21 @@ export class TasksTrudComponent implements OnInit {
                 this.thisPerson = thisPerson
             })
             .switchMap(thisPerson => {
-                return this.teambuilderService.getThematicUnitEnabledByDirector(this.thisPerson.data._id)
+                return this.teambuilderService.getLaboEnabledByDirector(this.thisPerson.data._id)
             })
-            .do(thisUnit => {
-                this.thisUnit = thisUnit
+            .do(thisLabo => {
+                this.thisLabo = thisLabo
             })
-            .switchMap(thisUnit => {
-                return !thisUnit ? Observable.from([]) : this.teambuilderService.getLabosEnabledByThematicUnit(thisUnit._id).map(list => list.map(labo => labo.directorId))
+            .switchMap(thisLabo => {
+                return !thisLabo ? Observable.from([]) : this.teambuilderService.getTeamsEnabledByLabo(thisLabo._id).map(list => list.map(tu => tu.piId))
             })
             .switchMap(piIds => {
                 return this.teambuilderService.getPersonsAnnotatedByIds(piIds)
             })
 
-            this.personsObservable.takeWhile(() => this.isPageRunning).subscribe()
+        this.personsObservable.takeWhile(() => this.isPageRunning).subscribe(pis => {
+            this.pisToSpecify = pis.filter(pi => !pi.data.piType)
+        })
     }
 
     ngOnDestroy(): void {
@@ -55,12 +58,12 @@ export class TasksTrudComponent implements OnInit {
     }
 
     personsSelectionChanged(ids) {
-        this.teambuilderService.saveLaboDirsOfUnit(this.thisUnit, ids)
+        this.teambuilderService.savePisOfLabo(this.thisLabo, ids)
     }
 
-    truNameChanged(name) {
-        this.thisUnit.name= name
-        this.dataStore.updateData(this.teambuilderService.thematicUnitTable, this.thisUnit._id, this.thisUnit)
+    laboNameChanged(name) {
+        this.thisLabo.name= name
+        this.dataStore.updateData(this.teambuilderService.labosTable, this.thisLabo._id, this.thisLabo)
     }
 }
 
