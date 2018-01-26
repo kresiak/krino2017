@@ -116,6 +116,7 @@ export class TeambuilderService {
                         annotation: {
                             functionsTxt: functionsNewTxt || functionsTxt,
                             fullName: p.name + ' ' + p.firstName,
+                            isMainPi: team && team.piId === p._id,
                             isPi: (p.functionNewIds || []).includes(PIid) || (p.functionNewIds || []).includes(coPIid),
                             isDirector: unit && unit.directorId === p._id,
                             isLaboDirector: labo && labo.directorId === p._id,

@@ -29,7 +29,7 @@
             <ngb-tab id="tabPersons" *ngIf="((personsObservable | async) || []).length > 0">
                 <ng-template ngbTabTitle>
                     <span [ngbTooltip]="'PUBLIC.TEAMBUILDER.ORGANI.MENU.TEAM MEMBERS TIP' | translate">
-                        {{('PUBLIC.TEAMBUILDER.TASKS.MENU.THE' | translate) + ' ' + ('PUBLIC.TEAMBUILDER.TASKS.MENU.TEAM MEMBERS' | translate) +
+                        {{('PUBLIC.TEAMBUILDER.ORGANI.MENU.THE' | translate) + ' ' + ('PUBLIC.TEAMBUILDER.TASKS.MENU.TEAM MEMBERS' | translate) +
                         ' (' + ((personsObservable | async) || []).length + ')'}}
                     </span>
                 </ng-template>

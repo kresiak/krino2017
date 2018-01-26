@@ -23,6 +23,7 @@ export class GigaPersonsSelectionComponent implements OnInit {
     public functionTable = 'users.giga.functions.new'
 
     @Input() selectedPersonIds: string[] = []
+    @Input() personTypeDescriptionKey: string= "PUBLIC.TEAMBUILDER.TASKS.MENU.PERSONS"
     @Output() selectionChanged: EventEmitter<any> = new EventEmitter()
 
     public personsObservable: Observable<any>

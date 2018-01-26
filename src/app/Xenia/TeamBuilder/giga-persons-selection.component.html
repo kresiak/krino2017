@@ -1,38 +1,12 @@
 <div class="card">
     <div class="card-body">
+        <h6 [innerHtml]="'PUBLIC.TEAMBUILDER.PERSONS.HELP.SELECTION.INTRO' | translate:{type: (personTypeDescriptionKey | translate)}"></h6>
+        <ul>
+            <li><i>'{{'PUBLIC.TEAMBUILDER.PERSONS.MENU.SELECT PERSON' | translate}}'</i>: {{'PUBLIC.TEAMBUILDER.PERSONS.HELP.SELECTION.TAB1' | translate}}</li>
+            <li><i>'{{'PUBLIC.TEAMBUILDER.PERSONS.MENU.CREATE PERSON' | translate}}'</i>: {{'PUBLIC.TEAMBUILDER.PERSONS.HELP.SELECTION.TAB2' | translate}}</li>            
+            <li><i>'{{'PUBLIC.TEAMBUILDER.PERSONS.MENU.LIST PERSONS' | translate}}'</i>: <span [innerHtml]="'PUBLIC.TEAMBUILDER.PERSONS.HELP.SELECTION.TAB3' | translate:{type: (personTypeDescriptionKey | translate)}"> </span></li>                        
+        </ul>
         <ngb-tabset [activeId]="selectedTabId" #tabset>
-            <ngb-tab *ngIf="persons && persons.length>0" id="tabListPersons">
-                <ng-template ngbTabTitle>
-                    <span [ngbTooltip]="'PUBLIC.TEAMBUILDER.PERSONS.MENU.TIP LIST PERSONS' | translate">
-                        {{'PUBLIC.TEAMBUILDER.PERSONS.MENU.LIST PERSONS' | translate}}
-                    </span>
-                </ng-template>
-
-                <ng-template ngbTabContent>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-sm-2"><b>{{'PUBLIC.TEAMBUILDER.PERSONS.COLUMN.FULLNAME' | translate}}</b></div>
-                                <div class="col-sm-2"><b>{{'PUBLIC.TEAMBUILDER.PERSONS.COLUMN.FUNCTION' | translate}}</b></div>
-                                <div class="col-sm-2"><b>{{'PUBLIC.TEAMBUILDER.PERSONS.COLUMN.TELEPHONE' | translate}}</b></div>
-                                <div class="col-sm-2"><b>{{'PUBLIC.TEAMBUILDER.PERSONS.COLUMN.EMAIL' | translate}}</b></div>
-                                <div class="col-sm-2"><b>{{'PUBLIC.TEAMBUILDER.PERSONS.COLUMN.WEB' | translate}}</b></div>
-                                <div class="col-sm-2"><b>{{'PUBLIC.TEAMBUILDER.PERSONS.COLUMN.DELETE' | translate}}</b></div>
-                            </div>
-                            <div class="row" *ngFor="let person of persons">
-                                <div class="col-sm-2 align-self-center">{{person.annotation.fullName}}</div>
-                                <div class="col-sm-2 align-self-center">{{person.annotation.functionsTxt}}</div>
-                                <div class="col-sm-2 align-self-center">{{person.data.telephone}}</div>
-                                <div class="col-sm-2 align-self-center">{{person.data.email}}</div>
-                                <div class="col-sm-2 align-self-center"><a target="_blank" [href]="person.data.web"><span *ngIf="person.data.web">{{'PUBLIC.TEAMBUILDER.PERSONS.LABEL.CLICK HERE' | translate}}</span></a></div>
-                                <div class="col-sm-2 align-self-center">
-                                    <gg-checkbox-delete [typeObjectKey]="'PUBLIC.TEAMBUILDER.PERSONS.LABEL.PERSON'" (doDelete)="deletePerson(person.data._id)"></gg-checkbox-delete>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </ng-template>
-            </ngb-tab>
             <ngb-tab id="tabAddPersons">
                 <ng-template ngbTabTitle>
                     <span [ngbTooltip]="'PUBLIC.TEAMBUILDER.PERSONS.MENU.TIP SELECT PERSON' | translate">
@@ -46,10 +20,10 @@
                                 <div class="col-sm-12">
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            {{personText ? personText : ('PUBLIC.TEAMBUILDER.PERSONS.LABEL.NO PERSON YET SELECTED' | translate)}}
+                                            {{personText ? (('PUBLIC.TEAMBUILDER.PERSONS.LABEL.PERSON SELECTED' | translate) + personText) : ('PUBLIC.TEAMBUILDER.PERSONS.LABEL.NO PERSON YET SELECTED' | translate)}}
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row" *ngIf="false">
                                         <div class="col-sm-12">
                                             {{'PUBLIC.TEAMBUILDER.PERSONS.LABEL.ENTER A NEW PERSON INFO' | translate}}
                                             <div class="btn btn-link imgSearch" (click)="tabset.select('tabCreatePerson')">{{'PUBLIC.TEAMBUILDER.PERSONS.LABEL.ENTER A NEW PERSON' | translate}}</div>
@@ -74,6 +48,54 @@
 
                 <ng-template ngbTabContent>
                     <gg-giga-person-enter (personHasBeenAdded)="personHasBeenAdded($event)"></gg-giga-person-enter>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab *ngIf="true || (persons && persons.length>0)" id="tabListPersons">
+                <ng-template ngbTabTitle>
+                    <span [ngbTooltip]="'PUBLIC.TEAMBUILDER.PERSONS.MENU.TIP LIST PERSONS' | translate">
+                        {{'PUBLIC.TEAMBUILDER.PERSONS.MENU.LIST PERSONS' | translate}}
+                    </span>
+                </ng-template>
+
+                <ng-template ngbTabContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <b>{{'PUBLIC.TEAMBUILDER.PERSONS.COLUMN.FULLNAME' | translate}}</b>
+                                </div>
+                                <div class="col-sm-2">
+                                    <b>{{'PUBLIC.TEAMBUILDER.PERSONS.COLUMN.FUNCTION' | translate}}</b>
+                                </div>
+                                <div class="col-sm-2">
+                                    <b>{{'PUBLIC.TEAMBUILDER.PERSONS.COLUMN.TELEPHONE' | translate}}</b>
+                                </div>
+                                <div class="col-sm-2">
+                                    <b>{{'PUBLIC.TEAMBUILDER.PERSONS.COLUMN.EMAIL' | translate}}</b>
+                                </div>
+                                <div class="col-sm-2">
+                                    <b>{{'PUBLIC.TEAMBUILDER.PERSONS.COLUMN.WEB' | translate}}</b>
+                                </div>
+                                <div class="col-sm-2">
+                                    <b>{{'PUBLIC.TEAMBUILDER.PERSONS.COLUMN.DELETE' | translate}}</b>
+                                </div>
+                            </div>
+                            <div class="row" *ngFor="let person of persons">
+                                <div class="col-sm-2 align-self-center">{{person.annotation.fullName}}</div>
+                                <div class="col-sm-2 align-self-center">{{person.annotation.functionsTxt}}</div>
+                                <div class="col-sm-2 align-self-center">{{person.data.telephone}}</div>
+                                <div class="col-sm-2 align-self-center">{{person.data.email}}</div>
+                                <div class="col-sm-2 align-self-center">
+                                    <a target="_blank" [href]="person.data.web">
+                                        <span *ngIf="person.data.web">{{'PUBLIC.TEAMBUILDER.PERSONS.LABEL.CLICK HERE' | translate}}</span>
+                                    </a>
+                                </div>
+                                <div class="col-sm-2 align-self-center">
+                                    <gg-checkbox-delete [typeObjectKey]="'PUBLIC.TEAMBUILDER.PERSONS.LABEL.PERSON'" (doDelete)="deletePerson(person.data._id)"></gg-checkbox-delete>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </ng-template>
             </ngb-tab>
         </ngb-tabset>

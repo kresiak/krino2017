@@ -1756,13 +1756,21 @@ export const locale = {
                         "PI TYPE": "PI Type",
                         "DELETE": "Delete person from database"
                     },
+                    "HELP": {
+                        "SELECTION": {
+                            "INTRO": "This part aims to assist you in selecting your <b>{{type}}</b>. You can see here after 3 tabs",
+                            "TAB1": "this tab will allow you easily to find the person(s) you are looking for by consulting the Giga's members database",
+                            "TAB2": "if the person you are looking for is not yet known in the database, you can enter the person from scratch using this tab",
+                            "TAB3": "this tabs allows you to visualize and unselect the <b>{{type}}</b> that you have already selected"
+                        }
+                    },
                     "COLUMN": {
                         "FULLNAME": "Name",
                         "FUNCTION": "Function",
                         "TELEPHONE": "Telephone",
                         "EMAIL": "E-mail address",
                         "WEB": "Link",
-                        "DELETE": "Remove from list",
+                        "DELETE": "Remove from selection",
                         "FUNCTION MISSING": "Please specify his/her function",
                         "FUNCTIONS": "Functions",
                         "MISC": "Various info",
@@ -1776,6 +1784,7 @@ export const locale = {
                         "ADD PERSON": "add person",
                         "REMOVE PERSON": "remove person",
                         "PERSON": "person",
+                        "PERSON SELECTED": "So far you have selected: ",
                         "NO PERSON YET SELECTED": "No person yet selected: please use the field below in order to search the Giga directory for persons",
                         "ENTER A NEW PERSON INFO": "You can as well enter a new person",
                         "ENTER A NEW PERSON": "Click here",
@@ -1821,7 +1830,8 @@ export const locale = {
                         "LABO HEADS": "heads of  laboratory",
                         "LABO HEADS TIP": "Here you can find the list of all the heads of laboratory",
                         "LAB MEMBERS": "Members of the laboratory",
-                        "LAB MEMBERS TIP": "Here you can find the list of all members of the laboratory"
+                        "LAB MEMBERS TIP": "Here you can find the list of all members of the laboratory", 
+                        "THE": "The"
                     },
                     "COLUMNS": {
                         "UNIT NAME": "Name of the unit",
@@ -1845,14 +1855,15 @@ export const locale = {
                 "TASKS": {
                     "MENU": {
                         "TASKS TODO": "Tasks I have todo",
-                        "ABOUT MYSELF": "About you",
+                        "ABOUT MYSELF": "Check the information we have about yourself",
                         "SELECT PERSONS": "Select the",
-                        "THE": "The",
+                        "CHECK YOUR": "Check the data of your",
                         "DIRECTORS OF THEMATIC UNIT": "directors of thematic unit",
                         "DIRECTORS OF LABS": "heads of laboratories",
                         "PRINCIPAL INVESTIGATOR": "principal investigators",
                         "PRINCIPAL INVESTIGATOR INDEPENDENT": "independent principal investigators",
-                        "TEAM MEMBERS": "team members"
+                        "TEAM MEMBERS": "team members",
+                        "PERSONS": "person"
                     },
                     "HELP": {
                         "QUESTIONS HEAD": "Questions and tasks for the head of GIGA",

@@ -1755,13 +1755,21 @@ export const locale = {
                         "PI TYPE": "Type de PI",
                         "DELETE": "Supprimer la personne de la base de données"
                     },
+                    "HELP": {
+                        "SELECTION": {
+                            "INTRO": "Cette partie vous assiste dans le choix de vos <b>{{type}}</b>. A cette fin vous disposez ci-dessous de trois onglets.",
+                            "TAB1": "cet onglet (voie facile) vous permettra de repérer facilement le collaborateur que vous cherchez grâce à la base de données des membres du GIGA",
+                            "TAB2": "en cas d'échec avec l'onglet précédent, si la personne que vous voulez spécifier n'est pas encore enregistrée dans la base des données, vous pouvez entrer ses données grâce à cet onglet",
+                            "TAB3": "cet onglet vous permettra de visualiser et désélectionner les <b>{{type}}</b> que vous avez déjà choisis"
+                        }
+                    },
                     "COLUMN": {
                         "FULLNAME": "Nom",
                         "FUNCTION": "Fonction",
                         "TELEPHONE": "Téléphone",
                         "EMAIL": "Adresse e-mail",
                         "WEB": "Lien",
-                        "DELETE": "Supprimer de la liste",
+                        "DELETE": "Supprimer de la sélection",
                         "FUNCTION MISSING": "Veuillez spécifier sa fonction",
                         "FUNCTIONS": "Fonctions",
                         "MISC": "Diverses infos",
@@ -1772,10 +1780,11 @@ export const locale = {
                     "LABEL": {
                         "FULLNAME": "nom complet",
                         "CLICK HERE": "voir page web",
-                        "ADD PERSON": "ajouter la personne",
-                        "REMOVE PERSON": "supprimer de la liste",
+                        "ADD PERSON": "sélectionner la personne",
+                        "REMOVE PERSON": "supprimer de la sélection",
                         "PERSON": "personne",
-                        "NO PERSON YET SELECTED": "Pas encore de sélection: veuillez utiliser le champ ci-dessous pour chercher des utilisateurs dans le réperoire du Giga",
+                        "PERSON SELECTED": "Votre sélection actuelle: ",
+                        "NO PERSON YET SELECTED": "Pas encore de sélection: veuillez utiliser le champ ci-dessous pour chercher des utilisateurs dans le répertoire des membres du Giga",
                         "ENTER A NEW PERSON INFO": "Vous pouvez aussi entrer une nouvelle personne",
                         "ENTER A NEW PERSON": "Cliquer ici",
                         "SEARCH TIP": "Vous pouvez chercher les noms, prénoms et fonctions de personnes dans notre répertoire Giga",
@@ -1819,7 +1828,8 @@ export const locale = {
                         "LABO HEADS": "chefs de  laboratoire",
                         "LABO HEADS TIP": "Ici vous trouverez tous les chefs de laboratoire travaillant pour l'unité thématique",
                         "LAB MEMBERS": "Les personnes du laboratoire",
-                        "LAB MEMBERS TIP": "Ici vous trouverez toutes les personnes travaillant pour le laboratoire"                     
+                        "LAB MEMBERS TIP": "Ici vous trouverez toutes les personnes travaillant pour le laboratoire", 
+                        "THE": "Les"                     
                     },
                     "COLUMNS": {
                         "UNIT NAME": "Nom de l'unité thématique",
@@ -1843,14 +1853,15 @@ export const locale = {
                 "TASKS": {
                     "MENU": {
                         "TASKS TODO": "Tâches à réaliser",
-                        "ABOUT MYSELF": "A votre sujet",
+                        "ABOUT MYSELF": "Vérifiez les données vous concernant",
                         "SELECT PERSONS": "Choisir les",
-                        "THE": "Les",
+                        "CHECK YOUR": "Vérifiez les données de vos",
                         "DIRECTORS OF THEMATIC UNIT": "directeurs d'unités thématiques",
                         "DIRECTORS OF LABS": "chefs de laboratoires",
                         "PRINCIPAL INVESTIGATOR": "principal investigators",
                         "PRINCIPAL INVESTIGATOR INDEPENDENT": "principal investigators indépendants",
-                        "TEAM MEMBERS": "membres de ce team"
+                        "TEAM MEMBERS": "membres de ce team",
+                        "PERSONS": "collaborateurs"
                     },
                     "HELP": {
                         "QUESTIONS HEAD": "Questions et tâches pour le directeur du GIGA",

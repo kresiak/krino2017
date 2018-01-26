@@ -39,7 +39,7 @@
                 <ngb-tab id="tabPis" *ngIf="((personsPisObservable | async) || []).length > 0">
                     <ng-template ngbTabTitle>
                         <span [ngbTooltip]="'PUBLIC.TEAMBUILDER.ORGANI.MENU.LAB PIS TIP' | translate">
-                            {{('PUBLIC.TEAMBUILDER.TASKS.MENU.THE' | translate) + ' ' + ('PUBLIC.TEAMBUILDER.ORGANI.MENU.LAB PIS' | translate)
+                            {{('PUBLIC.TEAMBUILDER.ORGANI.MENU.THE' | translate) + ' ' + ('PUBLIC.TEAMBUILDER.ORGANI.MENU.LAB PIS' | translate)
                             + ' (' + ((personsPisObservable | async) || []).length + ')'}}
                         </span>
                     </ng-template>
