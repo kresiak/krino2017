@@ -164,10 +164,10 @@ export class TeambuilderService {
 
 
     public getUnitsAnnotated(): Observable<any[]> {
-        return Observable.combineLatest(this.getThematicUnits(), this.getLabosAnnotated(), this.getTeams(), (units, labos, teams) => {
+        return Observable.combineLatest(this.getThematicUnits(), this.getLabosEnabledAnnotated(), this.getTeams(), (units, labos, teams) => {
             return units.map(unit => {
                 var ourLabos = labos.filter(l => l.data.thematicUnitId === unit._id)
-                var ourTeams = teams.filter(l => l.laboId === unit._id)
+                var ourTeams = teams.filter(t => !t.disabled && t.laboId === unit._id)
                 var personsSet: Set<string> = new Set<string>()
                 var fnAddPerson = id => { if (id && !personsSet.has(id)) personsSet.add(id) }
                 ourLabos.forEach(l => {
@@ -213,14 +213,14 @@ export class TeambuilderService {
     }
 
     public getLabosAnnotatedEnabledByThematicUnit(unitId): Observable<any[]> {
-        return this.getLabosAnnotated().map(labos => labos.filter(labo => labo.data.thematicUnitId === unitId))
+        return this.getLabosEnabledAnnotated().map(labos => labos.filter(labo => labo.data.thematicUnitId === unitId))
     }
     
 
-    public getLabosAnnotated(): Observable<any[]> {
+    private getLabosEnabledAnnotated(): Observable<any[]> {
         return Observable.combineLatest(this.getLabos(), this.getTeams(), (labos, teams) => {
-            return labos.map(labo => {
-                var ourTeams = teams.filter(t => t.laboId === labo._id)
+            return labos.filter(labo => !labo.disabled).map(labo => {
+                var ourTeams = teams.filter(t => !t.disabled && t.laboId === labo._id)
                 var personsSet: Set<string> = new Set<string>()
                 var fnAddPerson = id => { if (id && !personsSet.has(id)) personsSet.add(id) }
                 ourTeams.forEach(t => {
