@@ -273,7 +273,7 @@ export class TeambuilderService {
             var observables: Observable<any>[] = []
 
             // new pis
-            var idsToAdd = ids.filter(id => !labos.map(u => u.piId).includes(id))
+            var idsToAdd = ids.filter(id => !labos.map(u => u.directorId).includes(id))
             observables.concat(idsToAdd.map(id => this.dataStore.addData(this.labosTable, { directorId: id, thematicUnitId: unit._id })))
 
             // existing pis, but disabled
