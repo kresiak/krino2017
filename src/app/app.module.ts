@@ -171,7 +171,7 @@ import { ChartService } from './Shared/Services/chart.service'
 import { AuthAnoynmousService } from './Shared/Services/auth-anonymous.service'
 import { TranslationLoaderService, TranslationServicesModule } from 'gg-translation'
 
-
+import { MenuComponent } from './menu.component'
 
 
 import { TranslateModule, TranslateLoader, TranslateService  } from '@ngx-translate/core'
@@ -282,7 +282,7 @@ registerLocaleData(localeFr, 'fr');  // https://angular.io/guide/i18n#i18n-pipes
       { path: '**', redirectTo: '/home' }
     ])
   ],
-  declarations: [AppComponent, HomeComponent,
+  declarations: [AppComponent, HomeComponent,          MenuComponent,
     VoucherListComponent, VoucherDetailComponent, MonitoringDetailComponent,
     AdminMainComponent, AdminWebShoppingComponent, AdminWebShoppingVoucherRequestListComponent, AdminWebShoppingVoucherRequestComponent, AdminAK, AdminLabo,
     LaboratoryEnterComponent, CurrencyEnterComponent,

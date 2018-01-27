@@ -19,8 +19,8 @@ export class MenuService {
     private emitCurrentMenu() {
         this.menuSubject.next(this.menu)
     }
-
-    public loginSideEffectObservable(): Observable<any> {
+    
+    private loginSideEffectObservable(): Observable<any> {
         return Observable.combineLatest(this.authService.getStatusObservable(), this.dataStore.getLaboNameObservable(), (statusInfo, laboName) => {
             return {
                 statusInfo: statusInfo,
@@ -63,7 +63,15 @@ export class MenuService {
             .subscribe(() => { });
     }
  */
-    getMenuObservable(): Observable<any[]> {
+
+    private isInitialized: boolean= false
+
+    public getMenuObservable(): Observable<any[]> {
+        if (! this.isInitialized) {
+            this.loginSideEffectObservable().subscribe()
+            this.isInitialized= true
+        }
+
         return this.menuSubject
     }
 

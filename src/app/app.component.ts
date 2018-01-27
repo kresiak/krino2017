@@ -19,8 +19,8 @@ import { environment } from '../environments/environment';
     templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
-    constructor(private authService: AuthService, private dataStore: DataStore, private menuService: MenuService, private notificationService: NotificationService, private basketService: BasketService,
-        private route: ActivatedRoute, private router: Router, private modalService: NgbModal, private webSocketService: WebSocketService, private _sanitizer: DomSanitizer, public translate: TranslateService,
+    constructor(private authService: AuthService, private dataStore: DataStore, public menuService: MenuService, private notificationService: NotificationService, private basketService: BasketService,
+        private router: Router, private modalService: NgbModal, private webSocketService: WebSocketService, private _sanitizer: DomSanitizer, public translate: TranslateService,
         private configService: ConfigService) {
 
         this.configService.setProduction(environment.production)
@@ -44,7 +44,6 @@ export class AppComponent implements OnInit {
 
     public userValue
     public equipeValue
-    public menu: any[]
     public labManagerMessages
 
     public isPageRunning: boolean = true
@@ -57,55 +56,8 @@ export class AppComponent implements OnInit {
     public inDbInitialisationProcess: boolean = true
     public laboName: string= ''
 
-    private updateMenuBasedOnUrl(event) {
-        var e = <NavigationEnd>event;
-        var r = e.urlAfterRedirects === '/' ? '/home' : e.urlAfterRedirects;
-        try {
-            this.activateMenu(this.menu.filter(menuitem => menuitem.route === r || r.startsWith(menuitem.route + '?'))[0]);
-            if (this.menu.filter(m => m.active).length === 0) {
-                ['order', 'otp', 'equipe', 'product', 'user', 'category', 'supplier', 'sap'].filter(objType => r.startsWith('/' + objType + '/')).forEach(objType => {
-                    this.menu.push({
-                        title: 'Detail ' + objType,
-                        active: true,
-                        temporary: true
-                    })
-                })
-            }
-        }
-        catch (e) {
-        }
-        finally {
-
-        }
-    }
-
-    public activateMenu(menuItem) {
-        this.menu = this.menu.filter(item => !item.temporary)
-
-        if (menuItem && menuItem.isAttractAttentionMode) {
-            delete menuItem.isAttractAttentionMode
-            delete menuItem.attractAttentionModeText
-        }
-        this.menu.forEach(element => {
-            element.active = false;
-        });
-        if (menuItem) menuItem.active = true;
-    }
 
     ngOnInit(): void {
-
-        Observable.combineLatest(this.router.events.filter(event => event instanceof NavigationEnd), this.menuService.loginSideEffectObservable(),
-        ((event, nothing) => {
-            this.updateMenuBasedOnUrl(event)
-            //this.emitCurrentMenu()
-        }))
-        .subscribe(() => { });
-
-//        this.menuService.initializeMenus()
-
-        this.menuService.getMenuObservable().takeWhile(() => this.isPageRunning).subscribe(menu => {
-            this.menu = menu
-        })
 
         this.notificationService.getLmWarningMessages().takeWhile(() => this.isPageRunning).subscribe(res => {
             this.labManagerMessages = res

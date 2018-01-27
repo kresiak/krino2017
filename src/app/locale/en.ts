@@ -1,6 +1,16 @@
 export const locale = {
     "lang": "en",
     "data": {
+        "MENU ROUTE TITLES" : {
+            'ORDER': 'Detail order', 
+            'OTP': 'Detail otp',
+            'EQUIPE': 'Detail team', 
+            'PRODUCT': 'Detail product', 
+            'USER': 'Detail user', 
+            'CATEGORY': 'Detail category', 
+            'SUPPLIER': 'Detail supplier', 
+            'SAP': 'Sap item'
+        },
         "GENERAL": {
             "FORMAT NOT VALID": "the format is not valid",
             "YES": "yes",
