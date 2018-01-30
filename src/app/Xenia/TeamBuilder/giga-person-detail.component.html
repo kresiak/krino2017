@@ -85,11 +85,14 @@
                     <p *ngIf="person.data._id==='59fd991b1fdf3e542868c078'">
                         <a [href]="getUrl('taskshead')" target="_blank">Expérimenter avec cet utilisateur en tant que Head of Giga</a>
                     </p>
-                    <p *ngIf="person.annotation.isLaboDirector || person.annotation.isDirector">
+                    <p *ngIf="person.annotation.isLaboDirector">
                         <a [href]="getUrl('taskslabd')" target="_blank">Expérimenter avec cet utilisateur en tant que Head of Laboratory</a>
                     </p>
                     <p *ngIf="person.annotation.isDirector">
-                        <a [href]="getUrl('taskstrud')" target="_blank">Expérimenter avec cet utilisateur en tant que Thematic Unit Director</a>
+                        <a [href]="getUrl('taskslabd')" target="_blank">Expérimenter avec cet utilisateur en tant que Thematic Unit Director (entrer les PIs non membres d'un labo multi-team)</a>
+                    </p>
+                    <p *ngIf="person.annotation.isDirector">
+                        <a [href]="getUrl('taskstrud')" target="_blank">Expérimenter avec cet utilisateur en tant que Thematic Unit Director (entrer les chefs de labo)</a>
                     </p>
                     <p *ngIf="person.annotation.isMainPi">
                         <a [href]="getUrl('taskspi')" target="_blank">Expérimenter avec cet utilisateur en tant que Pi</a>

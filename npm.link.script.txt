@@ -1,0 +1,5 @@
+npm link gg-search-handle-data
+npm link gg-basic-data-services
+npm link gg-translation
+npm link gg-basic-code
+npm link gg-ui
