@@ -1869,7 +1869,7 @@ export const locale = {
                         "DIRECTORS OF THEMATIC UNIT": "directeurs d'unités thématiques",
                         "DIRECTORS OF LABS": "chefs de laboratoires",
                         "PRINCIPAL INVESTIGATOR": "principal investigators",
-                        "PRINCIPAL INVESTIGATOR INDEPENDENT": "principal investigators indépendants",
+                        "PRINCIPAL INVESTIGATOR INDEPENDENT": "PIs NON membres d'un laboratoire",
                         "TEAM MEMBERS": "membres de ce team",
                         "PERSONS": "collaborateurs"
                     },
@@ -1886,7 +1886,7 @@ export const locale = {
                             "A MAIL WILL BE SENT": "Dans un second temps un e-mail sera envoyé aux directeurs d'unités thématiques afin de leur demander de désigner leurs PIs"
                         },
                         "TRUD": {
-                            "ENTER PIS": "Veuillez spécifier les <b>'Principal investigators' indépendants</b> de votre unité thématique",                            
+                            "ENTER PIS": "Veuillez spécifier les <b>PI's qui ne sont PAS membres d'un laboratoire multi-team</b> de votre unité thématique",                            
                             "ENTER LABDIRS": "Veuillez spécifier les <b>'Chefs de laboratoire'</b> de votre unité thématique",
                             "A MAIL WILL BE SENT": "Dans un second temps un e-mail sera envoyé aux 'Chefs de laboratoire' afin de leur demander de décrire leur équipe",
                             "ENTER TRU NAME": "Veuillez entrer le nom de votre unité de recherche thématique"

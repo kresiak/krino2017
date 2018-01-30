@@ -1871,7 +1871,7 @@ export const locale = {
                         "DIRECTORS OF THEMATIC UNIT": "directors of thematic unit",
                         "DIRECTORS OF LABS": "heads of laboratories",
                         "PRINCIPAL INVESTIGATOR": "principal investigators",
-                        "PRINCIPAL INVESTIGATOR INDEPENDENT": "independent principal investigators",
+                        "PRINCIPAL INVESTIGATOR INDEPENDENT": "PIs NOT member of a laboratory",
                         "TEAM MEMBERS": "team members",
                         "PERSONS": "person"
                     },
@@ -1888,7 +1888,7 @@ export const locale = {
                             "A MAIL WILL BE SENT": "Later a mail will be sent to the directors of thematic unit in order to ask them to designate their PIs"
                         },
                         "TRUD": {
-                            "ENTER PIS": "Please enter the indpendent <b>'Principal investigators'</b> of your thematic unit",
+                            "ENTER PIS": "Please enter the <b>PIs that are NOT member of a multi-team laboratory</b> of your thematic unit",
                             "ENTER LABDIRS": "Please enter the <b>'Heads of Laboratory'</b> of your thematic unit",
                             "A MAIL WILL BE SENT": "Later a mail will be sent to the 'Heads of Laboratory' in order to ask them to describe their team",
                             "ENTER TRU NAME": "Please enter the name of your thematic research unit"
