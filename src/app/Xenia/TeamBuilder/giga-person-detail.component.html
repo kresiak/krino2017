@@ -22,6 +22,12 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-sm-4 col-lg-4 align-self-center">{{'PUBLIC.TEAMBUILDER.PERSONS.LABEL.NATIONALITY' | translate}}</div>
+                                <div class="col-sm-6 align-self-center">
+                                    <gg-editor-autocomplete-country [selectedCountryCode]="person.data.nationality" (countryCodeChanged)="nationalityUpdated($event)" [readOnly]="!hasRights()"></gg-editor-autocomplete-country>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-sm-4 col-lg-4 align-self-center">{{'PUBLIC.TEAMBUILDER.PERSONS.LABEL.EMAIL' | translate}}</div>
                                 <div class="col-sm-6 align-self-center">
                                     <gg-editor [content]="person.data.email" [showControls]="true" [regexp]="'^[0-9a-z_.-]+@[0-9a-z.-]+\\.[a-z]{2,3}$'" (editSaved)="emailUserUpdated($event)"

@@ -1758,8 +1758,8 @@ export const locale = {
                 "PERSONS": {
                     "MENU": {
                         "SELECT PERSON": "Select persons",
-                        "LIST PERSONS": "List of selected persons",
-                        "CREATE PERSON": "Enter a new person",
+                        "LIST PERSONS": "To remove a person from the role...",
+                        "CREATE PERSON": "If you don't find the person...",
                         "TIP SELECT PERSON": "Here you can search for persons in the Giga repertory",
                         "TIP LIST PERSONS": "Here you can also remove spersons from your selection",
                         "TIP CREATE PERSON": "If you don't find a person in the repertory, you can add a new person here manually",
@@ -1789,6 +1789,7 @@ export const locale = {
                         "UNIT PROJECT": "Unit/Team"
                     },
                     "LABEL": {
+                        "NATIONALITY": "nationality",
                         "FULLNAME": "full name",
                         "CLICK HERE": "visit web page",
                         "ADD PERSON": "add person",

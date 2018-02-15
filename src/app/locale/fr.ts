@@ -1757,8 +1757,8 @@ export const locale = {
                 "PERSONS": {
                     "MENU": {
                         "SELECT PERSON": "Trouver les personnes dans le répertoire",
-                        "LIST PERSONS": "Liste des personnes choisies",
-                        "CREATE PERSON": "Entrer une nouvelle personne",
+                        "LIST PERSONS": "Pour retirer la personne du rôle...",
+                        "CREATE PERSON": "Si vous ne trouvez pas la personne...",
                         "TIP SELECT PERSON": "Ici vous pouvez rechercher des personnes dans le répertoire Giga",
                         "TIP LIST PERSONS": "Ici vous pouvez entre autre supprimer des personnes de votre sélection",
                         "TIP CREATE PERSON": "Si vous ne trouvez pas la personne dans le répertoire Giga, vous pouvez entrer ici une personne manuellement",
@@ -1788,6 +1788,7 @@ export const locale = {
                         "UNIT PROJECT": "Unité/Team"
                     },
                     "LABEL": {
+                        "NATIONALITY": "nationalité",
                         "FULLNAME": "nom complet",
                         "CLICK HERE": "voir page web",
                         "ADD PERSON": "sélectionner la personne",

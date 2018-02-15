@@ -88,6 +88,11 @@ export class GigaPersonDetailComponent implements OnInit {
         this.dataStore.updateData(this.personTable, this.person.data._id, this.person.data)
     }
 
+    public nationalityUpdated(countryCode) {
+        this.person.data.nationality = countryCode
+        this.dataStore.updateData(this.personTable, this.person.data._id, this.person.data)        
+    }
+
     public emailUserUpdated(email) {
         this.person.data.email = email
         this.dataStore.updateData(this.personTable, this.person.data._id, this.person.data)
