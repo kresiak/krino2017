@@ -22,7 +22,7 @@ export class CategoryEnterComponent implements OnInit {
     public initCheck() {
         this.categoryForm.controls['name'].valueChanges.debounceTime(400).distinctUntilChanged().startWith('').takeWhile(() => this.isPageRunning)
             .switchMap(catName => {
-                return this.dataStore.getDataObservable('categories').map(categories => categories.filter(c => c.name.toUpperCase().trim() === catName.toUpperCase().trim())[0]).takeWhile(() => this.isPageRunning)
+                return this.dataStore.getDataObservable('categories').map(categories => categories.filter(c => c.name.toUpperCase().trim() === (catName || '').toUpperCase().trim())[0]).takeWhile(() => this.isPageRunning)
             })
             .subscribe(similarCategory => {
                 this.alreadyInDb = similarCategory
