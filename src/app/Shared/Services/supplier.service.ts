@@ -91,13 +91,13 @@ export class SupplierService {
                 if (!this.authService.getUserId() || (!this.authService.getEquipeId() && !this.authService.isCurrentUserGroupOrderUser())) return [];
 
                 return suppliers.map(supplier => {
-                    let voucherCategoryMap = voucherMap && voucherMap.get(supplier._id) ? voucherMap.get(supplier._id)['categoryMap'] : undefined
+                    let voucherCategoryMap = (voucherMap && voucherMap.get(supplier._id)) ? voucherMap.get(supplier._id)['categoryMap'] : undefined
                     let fixCosts= produits.filter(p => p.isFixCost && p.supplierId === supplier._id)
                     return {
                         data: supplier,
                         annotation: {
                             supplierFrequence: supplierFrequenceMap.get(supplier._id) || 0,
-                            voucherCategoryMap: voucherCategoryMap,
+                            voucherCategoryMap: voucherCategoryMap?  Array.from(voucherCategoryMap.entries()) : [],
                             nbFixCosts: fixCosts ? fixCosts.length : 0,
                             webShopping: {
                                 categories: supplier.webShopping && supplier.webShopping.categoryIds ? supplier.webShopping.categoryIds.map(categoryId => {
