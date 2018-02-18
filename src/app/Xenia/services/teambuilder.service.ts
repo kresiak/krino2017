@@ -95,7 +95,7 @@ export class TeambuilderService {
                     fnUpdateFunctionsIfMember(LABODIRid, laboHeadIds, p)
                     fnUpdateFunctionsIfMember(PIid, piIds, p)
 
-                    var selectedFunctions = functions.filter(f => p.functionIds.includes(f._id)) || []
+                    var selectedFunctions = functions.filter(f => (p.functionIds || []).includes(f._id)) || []
                     var selectedFunctionsNew = functionsNew.filter(f => (p.functionNewIds || []).includes(f._id)) || []
                     var functionsTxt = selectedFunctions.sort((a, b) => a.name < b.name ? -1 : 1).reduce((acc, f) => acc + (acc ? ', ' : '') + f.name, '')
                     var functionsNewTxt = selectedFunctionsNew.sort((a, b) => a.name < b.name ? -1 : 1).reduce((acc, f) => acc + (acc ? ', ' : '') + f.name, '')

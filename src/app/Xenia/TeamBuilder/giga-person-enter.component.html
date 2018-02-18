@@ -1,53 +1,5 @@
 <div class="card">
     <div class="card-body">
-        <div class="container-fluid">
-            <form [formGroup]="newUserForm" (ngSubmit)="save(newUserForm.value, newUserForm.valid)">
-                <div class="form-group row">
-                    <label for="name" class="col-sm-4 col-form-label col-xl-4">{{'USER.LABEL.NAME' | translate}}</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" formControlName="name" id="name" placeholder="{{'USER.LABEL.NAME OF THE USER PHOLDER' | translate}}">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="firstName" class="col-sm-4 col-form-label col-xl-4">{{'USER.LABEL.FIRST NAME' | translate}}</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" formControlName="firstName" id="firstName" placeholder="{{'USER.LABEL.FIRST NAME OF THE USER PHOLDER' | translate}}">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="email" class="col-sm-4 col-form-label col-xl-4">{{'USER.LABEL.EMAIL' | translate}}:</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" formControlName="email" id="email" placeholder="{{'USER.LABEL.EMAIL' | translate}}">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="email" class="col-sm-4 col-form-label col-xl-4">{{'USER.LABEL.TELEPHONE' | translate}}:</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" formControlName="telephone" id="telephone" placeholder="{{'USER.LABEL.TELEPHONE' | translate}}">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="email" class="col-sm-4 col-form-label col-xl-4">{{'PUBLIC.TEAMBUILDER.PERSONS.LABEL.U USER' | translate}}:</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" formControlName="ulgId" id="ulgId" placeholder="{{'PUBLIC.TEAMBUILDER.PERSONS.LABEL.U USER' | translate}}">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label col-xl-4">{{'USER.LABEL.FUNCTIONS' | translate}}:</label>
-                    <div class="col-sm-8">
-                        <gg-selector #functionsSelector [selectableData]="selectableFunctions" (selectionChanged)="functionSelectionChanged($event)"
-                            (selectionOptionAdded)="functionHasBeenAdded($event)"></gg-selector>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-3 col-md-2 col-lg-2">
-                        <button class="btn btn-success" type="submit" [disabled]="!newUserForm.valid">{{'FORM.SUBMIT' | translate}}</button>
-                    </div>
-                    <div class="col-sm-3 col-md-2 col-lg-2">
-                        <button class="btn btn-info" [disabled]="newUserForm.pristine" (click)="reset()">{{'FORM.RESET' | translate}}</button>
-                    </div>
-                </div>
-            </form>
-        </div>
+        <gg-form [structure]="formStructure" (formSaved)="formSaved($event)"></gg-form>
     </div>
 </div>

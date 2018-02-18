@@ -1,14 +1,14 @@
 export const locale = {
     "lang": "fr",
     "data": {
-        "MENU ROUTE TITLES" : {
-            'ORDER': 'Détail commande', 
+        "MENU ROUTE TITLES": {
+            'ORDER': 'Détail commande',
             'OTP': 'Détail otp',
-            'EQUIPE': 'Détail équipe', 
-            'PRODUCT': 'Détail produit', 
-            'USER': 'Détail utilisateur', 
-            'CATEGORY': 'Détail catégorie', 
-            'SUPPLIER': 'Détail fournisseur', 
+            'EQUIPE': 'Détail équipe',
+            'PRODUCT': 'Détail produit',
+            'USER': 'Détail utilisateur',
+            'CATEGORY': 'Détail catégorie',
+            'SUPPLIER': 'Détail fournisseur',
             'SAP': 'Pièce sap'
         },
         "GENERAL": {
@@ -1789,6 +1789,9 @@ export const locale = {
                     },
                     "LABEL": {
                         "NATIONALITY": "nationalité",
+                        "FUNCTIONS": "fonctions",
+                        "NAME": "nom",
+                        "FIRST NAME": "prénom",
                         "FULLNAME": "nom complet",
                         "CLICK HERE": "voir page web",
                         "ADD PERSON": "sélectionner la personne",
@@ -1812,7 +1815,7 @@ export const locale = {
                 },
                 "ORGANI": {
                     "GENERAL": {
-                        "LABOS" : "laboratoire(s)",
+                        "LABOS": "laboratoire(s)",
                         "UNITS": "unité(s) de recherche thématique",
                         "TEAMS": "team(s)"
                     },
@@ -1839,8 +1842,8 @@ export const locale = {
                         "LABO HEADS": "chefs de  laboratoire",
                         "LABO HEADS TIP": "Ici vous trouverez tous les chefs de laboratoire travaillant pour l'unité thématique",
                         "LAB MEMBERS": "Les personnes du laboratoire",
-                        "LAB MEMBERS TIP": "Ici vous trouverez toutes les personnes travaillant pour le laboratoire", 
-                        "THE": "Les"                     
+                        "LAB MEMBERS TIP": "Ici vous trouverez toutes les personnes travaillant pour le laboratoire",
+                        "THE": "Les"
                     },
                     "COLUMNS": {
                         "UNIT NAME": "Nom de l'unité thématique",
@@ -1878,7 +1881,7 @@ export const locale = {
                         "QUESTIONS HEAD": "Questions et tâches pour le directeur du GIGA",
                         "QUESTIONS TRUD": "Questions et tâches pour le directeur d'une unité de recherche thématique",
                         "QUESTIONS LABO DIR": "Questions et tâches pour le responsable d'un laboratoire",
-                        "QUESTIONS PI": "Questions et tâches pour le Principal investigator",                        
+                        "QUESTIONS PI": "Questions et tâches pour le Principal investigator",
                         "TAB TIP LISTE": "Ici vous pouver visualiser et modifier les données personnelles des personnes que vous avez déjà sélectionnées",
                         "TAB TIP SELECT": "Ici vous pouvez ajouter (ou supprimer) des personnes à (ou de) votre sélection",
                         "LIST TASKS": "Pourriez vous, en vous servant des onglets ci-dessus, accomplir les tâches suivantes?",
@@ -1887,7 +1890,7 @@ export const locale = {
                             "A MAIL WILL BE SENT": "Dans un second temps un e-mail sera envoyé aux directeurs d'unités thématiques afin de leur demander de désigner leurs PIs"
                         },
                         "TRUD": {
-                            "ENTER PIS": "Veuillez spécifier les <b>PI's qui ne sont PAS membres d'un laboratoire multi-team</b> de votre unité thématique",                            
+                            "ENTER PIS": "Veuillez spécifier les <b>PI's qui ne sont PAS membres d'un laboratoire multi-team</b> de votre unité thématique",
                             "ENTER LABDIRS": "Veuillez spécifier les <b>'Chefs de laboratoire'</b> de votre unité thématique",
                             "A MAIL WILL BE SENT": "Dans un second temps un e-mail sera envoyé aux 'Chefs de laboratoire' afin de leur demander de décrire leur équipe",
                             "ENTER TRU NAME": "Veuillez entrer le nom de votre unité de recherche thématique"

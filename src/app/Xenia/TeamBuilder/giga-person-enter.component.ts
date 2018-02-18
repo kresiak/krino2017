@@ -1,10 +1,10 @@
 import { Component, Input, OnInit, Output, EventEmitter, ViewChild } from '@angular/core'
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Observable, BehaviorSubject } from 'rxjs/Rx'
 import { DataStore } from 'gg-basic-data-services'
 import {utilsComparators as comparatorsUtils} from 'gg-search-handle-data'
 import { SelectableData } from 'gg-basic-code'
 import { TeambuilderService } from '../services/teambuilder.service'
+import { FormItemStructure, FormItemType} from 'gg-ui'
 
 @Component(
     {
@@ -14,7 +14,6 @@ import { TeambuilderService } from '../services/teambuilder.service'
 )
 export class GigaPersonEnterComponent implements OnInit {
     selectableFunctions: Observable<SelectableData[]>;
-    public newUserForm: FormGroup;
 
     public personTable = 'users.giga'
     public functionTable = 'users.giga.functions.new'
@@ -23,63 +22,41 @@ export class GigaPersonEnterComponent implements OnInit {
 
     isPageRunning: boolean = true;
 
-    constructor(private formBuilder: FormBuilder, private dataStore: DataStore, private teambuilderService: TeambuilderService) {
+    constructor(private dataStore: DataStore, private teambuilderService: TeambuilderService) {
     }
 
+    public formStructure: FormItemStructure[]= []
+
     ngOnInit(): void {
-        const emailRegex = /^[0-9a-z_.-]+@[0-9a-z.-]+\.[a-z]{2,3}\s*$/i;
-        const telRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
-
-        this.newUserForm = this.formBuilder.group({
-            name: ['', [Validators.required, Validators.minLength(2)]],
-            firstName: ['', [Validators.required, Validators.minLength(2)]],
-            email: ['', [Validators.required, Validators.pattern(emailRegex)]],
-            telephone: ['', [Validators.pattern(telRegex)]],
-            ulgId: ['']
-        });
-
         this.selectableFunctions = this.dataStore.getDataObservable(this.functionTable).takeWhile(() => this.isPageRunning).map(functions => {
-            return functions.sort((a, b) => a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 1).map(f => new SelectableData(f._id, f.name))
+            return functions.sort((a, b) => a.name.toUpperCase() < b.name.toUpperCase() ? -1 : 1).map(f => new SelectableData(f._id, f.name, ['5a3022de02557d00d84aef81', '5a30218002557d00d84aef7e', '5a6a0b2290e2ed2c74e5b34b'].includes(f._id)))
         })
+        
+        this.formStructure.push(new FormItemStructure('name', 'PUBLIC.TEAMBUILDER.PERSONS.LABEL.NAME', FormItemType.InputText, {isRequired: true, minimalLength: 2}))
+        this.formStructure.push(new FormItemStructure('firstName', 'PUBLIC.TEAMBUILDER.PERSONS.LABEL.FIRST NAME', FormItemType.InputText, {isRequired: true, minimalLength: 2}))
+        this.formStructure.push(new FormItemStructure('email', 'PUBLIC.TEAMBUILDER.PERSONS.LABEL.EMAIL', FormItemType.InputText, {isRequired: true, isEmail:true}))
+        this.formStructure.push(new FormItemStructure('telephone', 'PUBLIC.TEAMBUILDER.PERSONS.LABEL.TELEPHONE', FormItemType.InputText, {isTelephone:true}))
+        this.formStructure.push(new FormItemStructure('ulgId', 'PUBLIC.TEAMBUILDER.PERSONS.LABEL.U USER', FormItemType.InputText, {value:''}))
+        this.formStructure.push(new FormItemStructure('selectedFunctionIds', 'PUBLIC.TEAMBUILDER.PERSONS.LABEL.FUNCTIONS', FormItemType.GigaSelector, {selectableData: this.selectableFunctions}))
     }
 
     ngOnDestroy(): void {
         this.isPageRunning = false
     }
-    @ViewChild('functionsSelector') functionsChild;
 
-    selectedFunctionIds: any[]= [];
-
-    save(formValue, isValid) {
-        this.dataStore.addData(this.personTable, {
-            name: formValue.name.trim(),
-            firstName: formValue.firstName.trim(),
-            email: formValue.email.trim(),
-            telephone: formValue.telephone.trim(),
-            fullName: formValue.name.trim() + ' ' + formValue.firstName.trim(),
-            functionIds: this.selectedFunctionIds,
-            ulgId: formValue.ulgId
-        }).first().subscribe(res => {
+    public formSaved(data) {
+        var person: any= {}
+        if (data.name) person.name = data.name
+        if (data.firstName) person.firstName = data.firstName
+        if (data.email) person.email = data.email
+        if (data.telephone) person.telephone = data.telephone
+        if (data.ulgId) person.ulgId = data.ulgId
+        if (data.selectedFunctionIds) person.functionNewIds = data.selectedFunctionIds
+        person.fullName= ((person.name || '') + (person.name ? ' ' : '') + (person.firstName || '')).trim()
+        this.dataStore.addData(this.personTable, person).first().subscribe(res => {
             this.personHasBeenAdded.next(res._id)
-            this.reset();
+            data.setSuccess('OK')
         });
-    }
-
-    reset() {
-        this.newUserForm.reset();
-        this.functionsChild.emptyContent()            
-    }
-
-    public functionSelectionChanged(ids) {
-        this.selectedFunctionIds = ids;
-    }
-
-    public functionHasBeenAdded(fonction: string) {
-        this.dataStore.getDataObservable(this.functionTable).first().subscribe(functions => {
-            if (functions.filter(f => f.name.toUpperCase().trim() === fonction.toUpperCase().trim()).length === 0) {
-                this.dataStore.addData(this.functionTable, {name: fonction.trim()})
-            }
-        })        
     }
 
 }

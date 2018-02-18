@@ -1,14 +1,14 @@
 export const locale = {
     "lang": "en",
     "data": {
-        "MENU ROUTE TITLES" : {
-            'ORDER': 'Detail order', 
+        "MENU ROUTE TITLES": {
+            'ORDER': 'Detail order',
             'OTP': 'Detail otp',
-            'EQUIPE': 'Detail team', 
-            'PRODUCT': 'Detail product', 
-            'USER': 'Detail user', 
-            'CATEGORY': 'Detail category', 
-            'SUPPLIER': 'Detail supplier', 
+            'EQUIPE': 'Detail team',
+            'PRODUCT': 'Detail product',
+            'USER': 'Detail user',
+            'CATEGORY': 'Detail category',
+            'SUPPLIER': 'Detail supplier',
             'SAP': 'Sap item'
         },
         "GENERAL": {
@@ -1789,6 +1789,9 @@ export const locale = {
                         "UNIT PROJECT": "Unit/Team"
                     },
                     "LABEL": {
+                        "FUNCTIONS": "functions",
+                        "NAME": "name",
+                        "FIRST NAME": "first name",
                         "NATIONALITY": "nationality",
                         "FULLNAME": "full name",
                         "CLICK HERE": "visit web page",
@@ -1813,7 +1816,7 @@ export const locale = {
                 },
                 "ORGANI": {
                     "GENERAL": {
-                        "LABOS" : "laboratory(laboratories)",
+                        "LABOS": "laboratory(laboratories)",
                         "UNITS": "thematic research unit(s)",
                         "TEAMS": "team(s)"
                     },
@@ -1841,7 +1844,7 @@ export const locale = {
                         "LABO HEADS": "heads of  laboratory",
                         "LABO HEADS TIP": "Here you can find the list of all the heads of laboratory",
                         "LAB MEMBERS": "Members of the laboratory",
-                        "LAB MEMBERS TIP": "Here you can find the list of all members of the laboratory", 
+                        "LAB MEMBERS TIP": "Here you can find the list of all members of the laboratory",
                         "THE": "The"
                     },
                     "COLUMNS": {
