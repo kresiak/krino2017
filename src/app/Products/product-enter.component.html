@@ -1,4 +1,4 @@
-<gg-form [structure]="formStructure" [primaryDataObservable]="catNrObservable" [primaryControlName]="'catalogNr'"  (formSaved)="formSaved($event)"></gg-form>
+<gg-form [structure]="formStructure" [primaryDataObservable]="catNrObservable" [primaryControlName]="'catalogNr'" (gigaControlChanged)="controlChanged($event)"  (formSaved)="formSaved($event)"></gg-form>
 
 <!-- <div class="container-fluid">
 	<form [formGroup]="productForm" (ngSubmit)="save(productForm.value, productForm.valid)">

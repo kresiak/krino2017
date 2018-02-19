@@ -45,47 +45,28 @@ export class ProductEnterComponent implements OnInit {
 
         this.authService.getStatusObservable().takeWhile(() => this.isPageRunning).subscribe(statusInfo => {
             this.authorizationStatusInfo = statusInfo
+        })       
+
+        this.currencySelectable.map(list => list.filter(d => d.name==='EUR')[0]).first().subscribe(res => {
+            var euroId= res.id
+            this.formStructure.push(new FormItemStructure('nameOfProduct', 'PRODUCT.LABEL.NAME OF PRODUCT', FormItemType.InputText, {isRequired: true, minimalLength: 5, value: this.productToClone.data.name || ''}))
+            this.formStructure.push(new FormItemStructure('description', 'PRODUCT.LABEL.DESCRIPTION', FormItemType.InputText, {value: this.productToClone.data.description || ''}))
+            this.formStructure.push(new FormItemStructure('price', 'PRODUCT.LABEL.PRICE', FormItemType.InputNumber, {isRequired: true, placeholderKey:'PRODUCT.LABEL.PRICE PER UNIT PHOLDER'}))
+            this.formStructure.push(new FormItemStructure('currency', 'PRODUCT.LABEL.CURRENCY', FormItemType.GigaOptions, {selectableData: this.currencySelectable, value: this.productToClone.data.currencyId || euroId}))        
+            this.formStructure.push(new FormItemStructure('package', 'PRODUCT.LABEL.PACKAGE', FormItemType.InputText, {isRequired: true, value: this.productToClone.data.package || ''}))
+            this.formStructure.push(new FormItemStructure('category', 'PRODUCT.LABEL.CATEGORY', FormItemType.GigaOptions, {isRequired: true, selectableData: this.categorySelectable, 
+                    value: (!this.productToClone.data.categoryIds || this.productToClone.data.categoryIds.length===0) ? undefined : this.productToClone.data.categoryIds[0]}))
+            this.formStructure.push(new FormItemStructure('catalogNr', 'PRODUCT.LABEL.CATALOG NR', FormItemType.InputText, {isRequired: true, value: this.productToClone.data.catalogNr || ''}))
+            this.formStructure.push(new FormItemStructure('noarticle', 'PRODUCT.LABEL.NO OF ARTICLE', FormItemType.InputText, {isRequired: true, value: this.productToClone.data.noArticle || ''}))
+            this.formStructure.push(new FormItemStructure('groupMarch', 'PRODUCT.LABEL.GROUP MARCHANDISE', FormItemType.InputText, {isRequired: true, value: this.productToClone.data.groupMarch || ''}))
+            this.formStructure.push(new FormItemStructure('tva', 'PRODUCT.LABEL.VAT', FormItemType.InputNumber, {isRequired: true, value: this.productToClone.data.tva || ''}))
+            this.formStructure.push(new FormItemStructure('disabled', 'PRODUCT.LABEL.IS DISABLED', FormItemType.InputCheckbox))
+            this.formStructure.push(new FormItemStructure('needsLotNumber', 'PRODUCT.LABEL.MAY ENCODING NUMBER', FormItemType.InputCheckbox))
+            this.formStructure.push(new FormItemStructure('isStock', 'PRODUCT.LABEL.MAY RESOLD STOCK', FormItemType.InputCheckbox))
+            this.formStructure.push(new FormItemStructure('divisionFactor', 'PRODUCT.LABEL.DIVISION FACTOR STOCK', FormItemType.InputNumber, {value: 1}))
+            this.formStructure.push(new FormItemStructure('stockPackage', 'PRODUCT.LABEL.STOCK PACKAGING', FormItemType.InputText, {value: ''}))    
         })
 
-        //TESTER: price avec virgule!!!!!!
-        this.formStructure.push(new FormItemStructure('nameOfProduct', 'PRODUCT.LABEL.NAME OF PRODUCT', FormItemType.InputText, {isRequired: true, minimalLength: 5, value: this.productToClone.data.name || ''}))
-        this.formStructure.push(new FormItemStructure('description', 'PRODUCT.LABEL.DESCRIPTION', FormItemType.InputText, {value: this.productToClone.data.description || ''}))
-        this.formStructure.push(new FormItemStructure('price', 'PRODUCT.LABEL.PRICE', FormItemType.InputNumber, {isRequired: true, placeholderKey:'PRODUCT.LABEL.PRICE PER UNIT PHOLDER'}))
-        this.formStructure.push(new FormItemStructure('currency', 'PRODUCT.LABEL.CURRENCY', FormItemType.GigaOptions, {selectableData: this.currencySelectable, value: this.productToClone.data.currencyId}))        
-        this.formStructure.push(new FormItemStructure('package', 'PRODUCT.LABEL.PACKAGE', FormItemType.InputText, {isRequired: true, value: this.productToClone.data.package || ''}))
-        this.formStructure.push(new FormItemStructure('category', 'PRODUCT.LABEL.CATEGORY', FormItemType.GigaOptions, {isRequired: true, selectableData: this.categorySelectable, 
-                value: (!this.productToClone.data.categoryIds || this.productToClone.data.categoryIds.length===0) ? undefined : this.productToClone.data.categoryIds[0]}))
-        this.formStructure.push(new FormItemStructure('catalogNr', 'PRODUCT.LABEL.CATALOG NR', FormItemType.InputText, {isRequired: true, value: this.productToClone.data.catalogNr || ''}))
-        this.formStructure.push(new FormItemStructure('noarticle', 'PRODUCT.LABEL.NO OF ARTICLE', FormItemType.InputText, {isRequired: true, value: this.productToClone.data.noArticle || ''}))
-        this.formStructure.push(new FormItemStructure('groupMarch', 'PRODUCT.LABEL.GROUP MARCHANDISE', FormItemType.InputText, {isRequired: true, value: this.productToClone.data.groupMarch || ''}))
-        this.formStructure.push(new FormItemStructure('tva', 'PRODUCT.LABEL.VAT', FormItemType.InputNumber, {isRequired: true, value: this.productToClone.data.tva || ''}))
-        this.formStructure.push(new FormItemStructure('disabled', 'PRODUCT.LABEL.IS DISABLED', FormItemType.InputCheckbox))
-        this.formStructure.push(new FormItemStructure('needsLotNumber', 'PRODUCT.LABEL.MAY ENCODING NUMBER', FormItemType.InputCheckbox))
-        this.formStructure.push(new FormItemStructure('isStock', 'PRODUCT.LABEL.MAY RESOLD STOCK', FormItemType.InputCheckbox))
-        this.formStructure.push(new FormItemStructure('divisionFactor', 'PRODUCT.LABEL.DIVISION FACTOR STOCK', FormItemType.InputNumber, {value: 1}))
-        this.formStructure.push(new FormItemStructure('stockPackage', 'PRODUCT.LABEL.STOCK PACKAGING', FormItemType.InputText, {value: ''}))
-
-
-/*         const priceRegEx = `^\\d+(.\\d*)?$`;
-
-        this.productForm = this.formBuilder.group({
-            nameOfProduct: [this.productToClone.data.name || '', [Validators.required, Validators.minLength(5)]],
-            description: [this.productToClone.data.description || ''],
-            price: ['', [Validators.required, Validators.pattern(priceRegEx)]],
-            package: [this.productToClone.data.package || '', Validators.required],
-            category: ['-1', this.isCategoryIdSelected],
-            currency: ['-1'],
-            catalogNr: [this.productToClone.data.catalogNr || '', Validators.required],
-            noarticle: [this.productToClone.data.noArticle || '', Validators.required],
-            groupMarch: [this.productToClone.data.groupMarch || '', Validators.required],
-            tva: [this.productToClone.data.tva || '', Validators.required],
-            disabled: [''],
-            isStock: [''],
-            needsLotNumber: [''],
-            divisionFactor: ['1'],
-            stockPackage: ['']
-        });
- */
     }
 
     ngOnDestroy(): void {
@@ -130,9 +111,14 @@ export class ProductEnterComponent implements OnInit {
         });
     }
 
-/*     categoryChanged(categoryId) {
-        var category = this.categories.filter(c => c.data._id === categoryId)[0]
-        this.productForm.patchValue({ noarticle: category ? category.data.noArticle : '', groupMarch: category ? category.data.groupMarch : '' })
+    controlChanged(data) {
+        if (data.name==='category') {
+            var category = this.categories.filter(c => c.data._id === data.value)[0]
+            if (category) {
+                data.fnChangeControl('noarticle', category.data.noArticle)
+                data.fnChangeControl('groupMarch', category.data.groupMarch)
+            }
+        }
     }
- */
+
 }
