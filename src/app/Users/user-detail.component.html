@@ -24,61 +24,61 @@
 			<div class="card">
 				<div class="card-body">
 					<div class="row">
-						<div class="col-sm-3 align-self-center">{{'USER.LABEL.IS BLOCKED' | translate}}</div>
+						<div class="col-sm-3 align-self-center">{{'USER.LABEL.IS BLOCKED' | translate}}:</div>
 						<div class="col-sm-6 align-self-center">
 							<gg-editor-boolean [content]="user.data.isBlocked" (editSaved)="isBlockedUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-sm-3 align-self-center">{{'USER.LABEL.IS LABO USER' | translate}}</div>
+						<div class="col-sm-3 align-self-center">{{'USER.LABEL.IS LABO USER' | translate}}:</div>
 						<div class="col-sm-6 align-self-center">
 							<gg-editor-boolean [content]="user.data.isLaboUser" (editSaved)="isLaboUserUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-sm-3 align-self-center">{{'USER.LABEL.IS ADMINISTRATOR' | translate}}</div>
+						<div class="col-sm-3 align-self-center">{{'USER.LABEL.IS ADMINISTRATOR' | translate}}:</div>
 						<div class="col-sm-6 align-self-center">
 							<gg-editor-boolean [content]="user.data.isAdmin" (editSaved)="isAdminUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
 						</div>
 					</div>
 					<div class="row" ngbTooltip="{{'USER.HELP.SUPER ADMINISTRATOR' | translate}}">
-						<div class="col-sm-3 align-self-center">{{'USER.LABEL.SUPER ADMINISTRATOR' | translate}}</div>
+						<div class="col-sm-3 align-self-center">{{'USER.LABEL.SUPER ADMINISTRATOR' | translate}}:</div>
 						<div class="col-sm-6 align-self-center">
 							<gg-editor-boolean [content]="user.data.isSuperAdmin" (editSaved)="isSuperAdminUpdated($event)" [readOnly]="!authorizationStatusInfo || (!authorizationStatusInfo.isSuperAdministrator() && ! authorizationStatusInfo.isProgrammer())"></gg-editor-boolean>
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-sm-3 align-self-center">{{'USER.LABEL.IS RECEPTIONIST' | translate}}</div>
+						<div class="col-sm-3 align-self-center">{{'USER.LABEL.IS RECEPTIONIST' | translate}}:</div>
 						<div class="col-sm-6 align-self-center">
 							<gg-editor-boolean [content]="user.data.isReceptionist" (editSaved)="isReceptionistUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-sm-3 align-self-center">{{'USER.LABEL.IS LAB MANAGER' | translate}}</div>
+						<div class="col-sm-3 align-self-center">{{'USER.LABEL.IS LAB MANAGER' | translate}}:</div>
 						<div class="col-sm-6 align-self-center">
 							<gg-editor-boolean [content]="user.data.isLabManager" (editSaved)="isLabManagerUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-sm-3 align-self-center">{{'USER.LABEL.IS KRINO PROGRAMMER' | translate}}</div>
+						<div class="col-sm-3 align-self-center">{{'USER.LABEL.IS KRINO PROGRAMMER' | translate}}:</div>
 						<div class="col-sm-6 align-self-center">
 							<gg-editor-boolean [content]="user.data.isProgrammer" (editSaved)="isProgrammerUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-sm-3 align-self-center">{{'USER.LABEL.IS PLATFORM ADMINISTRATOR' | translate}}</div>
+						<div class="col-sm-3 align-self-center">{{'USER.LABEL.IS PLATFORM ADMINISTRATOR' | translate}}:</div>
 						<div class="col-sm-6 align-self-center">
 							<gg-editor-boolean [content]="user.data.isPlatformAdmin" (editSaved)="isPlatformAdminUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-sm-3 align-self-center">{{'USER.LABEL.USER IS NOT ALLOWED TO ORDER PRODUCTS' | translate}}</div>
+						<div class="col-sm-3 align-self-center">{{'USER.LABEL.USER IS NOT ALLOWED TO ORDER PRODUCTS' | translate}}:</div>
 						<div class="col-sm-6 align-self-center">
 							<gg-editor-boolean [content]="user.data.isPassiveUser" (editSaved)="isPassiveUserUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
 						</div>
 					</div>
 					<div class="row" [ngbTooltip]="'USER.HELP.ALLOWED CHANGE OTP TIP' | translate">
-						<div class="col-sm-3 align-self-center">{{'USER.LABEL.ALLOWED CHANGE OTP' | translate}}</div>
+						<div class="col-sm-3 align-self-center">{{'USER.LABEL.ALLOWED CHANGE OTP' | translate}}:</div>
 						<div class="col-sm-6 align-self-center">
 							<gg-editor-boolean [content]="user.data.isOtpAware" (editSaved)="isOtpAwareUserUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
 						</div>
