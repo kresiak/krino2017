@@ -1,68 +1,47 @@
 import { Component, Input, Output, OnInit, ViewChild } from '@angular/core'
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { DataStore } from 'gg-basic-data-services'
-import { SelectableData } from 'gg-basic-code'
 import { Observable, Subscription } from 'rxjs/Rx'
+import { FormItemStructure, FormItemType} from 'gg-ui'
 
 @Component({
-    //moduleId: module.id,
     selector: 'gg-category-enter',
     templateUrl: './category-enter.component.html'
 })
 export class CategoryEnterComponent implements OnInit {
-    alreadyInDb: boolean= false;
-    public categoryForm: FormGroup;
 
-    constructor(private dataStore: DataStore, private formBuilder: FormBuilder) {
+    constructor(private dataStore: DataStore) {
 
     }
 
     public isPageRunning: boolean = true
 
-    public initCheck() {
-        this.categoryForm.controls['name'].valueChanges.debounceTime(400).distinctUntilChanged().startWith('').takeWhile(() => this.isPageRunning)
-            .switchMap(catName => {
-                return this.dataStore.getDataObservable('categories').map(categories => categories.filter(c => c.name.toUpperCase().trim() === (catName || '').toUpperCase().trim())[0]).takeWhile(() => this.isPageRunning)
-            })
-            .subscribe(similarCategory => {
-                this.alreadyInDb = similarCategory
-            })
-    }
+    public formStructure: FormItemStructure[]= []
+    public categoryNameObservable
 
     ngOnInit(): void {
+        this.categoryNameObservable= this.dataStore.getDataObservable('categories').map(categories => categories.map(c => c.name))
 
-        this.categoryForm = this.formBuilder.group({
-            name: ['', [Validators.required, Validators.minLength(5)]],
-            noArticle: ['', [Validators.required, Validators.minLength(5)]],
-            groupMarch: ['', [Validators.required, Validators.minLength(5)]],
-            isBlocked: [''],
-            isOffice: ['']
-        });
-
-        this.initCheck()
+        this.formStructure.push(new FormItemStructure('name', 'CATEGORY.LABEL.NAME', FormItemType.InputText, {isRequired: true, minimalLength: 5}))
+        this.formStructure.push(new FormItemStructure('noArticle', 'CATEGORY.LABEL.NO OF ARTICLE ENTER', FormItemType.InputText, {isRequired: true, minimalLength: 5}))
+        this.formStructure.push(new FormItemStructure('groupMarch', 'CATEGORY.LABEL.GROUP MARCHANDISE ENTER', FormItemType.InputText, {isRequired: true, minimalLength: 5}))
+        this.formStructure.push(new FormItemStructure('isBlocked', 'CATEGORY.LABEL.IS BLOCKED ENTER', FormItemType.InputCheckbox))
+        this.formStructure.push(new FormItemStructure('isOffice', 'CATEGORY.LABEL.OFFICE SPECIFIC ENTER', FormItemType.InputCheckbox))
     }
 
     ngOnDestroy(): void {
         this.isPageRunning = false
     }
 
-
-    save(formValue, isValid) {
+    formSaved(data) {
         this.dataStore.addData('categories', {
-            name: formValue.name,
-            noArticle: formValue.noArticle,
-            groupMarch: formValue.groupMarch,
-            isBlocked: formValue.isBlocked !== '' && formValue.isBlocked !== null,
-            isOffice: formValue.isOffice !== '' && formValue.isOffice !== null
+            name: data.name,
+            noArticle: data.noArticle,
+            groupMarch: data.groupMarch,
+            isBlocked: data.isBlocked,
+            isOffice: data.isOffice
         }).first().subscribe(res => {
-            var x = res;
-            this.reset();
+            data.setSuccess('OK')
         });
-    }
-
-    reset() {
-        this.categoryForm.reset();
-        this.initCheck()     // For a mysterious reason, this has to be called after reset... valueChanges seem to be lost after reset   
     }
 
 }
