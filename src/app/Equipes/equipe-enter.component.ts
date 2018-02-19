@@ -1,70 +1,49 @@
 import { Component, Input, Output, OnInit, ViewChild } from '@angular/core'
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { DataStore } from 'gg-basic-data-services'
 import { SelectableData } from 'gg-basic-code'
 import { AuthService } from '../Shared/Services/auth.service'
 import { Observable, Subscription } from 'rxjs/Rx'
+import { FormItemStructure, FormItemType} from 'gg-ui'
+
 
 @Component({
-        //moduleId: module.id,
         selector: 'gg-equipe-enter',
         templateUrl: './equipe-enter.component.html'    
 })
 export class EquipeEnterComponent implements OnInit {
-    public equipeForm: FormGroup;
     public selectableUsers: Observable<any>;
-    public selectedUserIds;
-    public selectableManagers: Observable<any>;
-    public selectedManagerIds;
 
-    constructor(private dataStore: DataStore, private formBuilder: FormBuilder, private authService: AuthService) {
+    constructor(private dataStore: DataStore, private authService: AuthService) {
 
     }
- 
-    @ViewChild('userSelector') usersChild;
-    @ViewChild('mgrSelector') mgrsChild;
-    
 
+    public formStructure: FormItemStructure[]= []
+    
     ngOnInit():void {
         this.selectableUsers = this.authService.getSelectableUsers();
-        this.selectableManagers = this.authService.getSelectableUsers();
-        this.equipeForm = this.formBuilder.group({                      
-            name: ['', [Validators.required, Validators.minLength(2)]],
-            description: ['', Validators.required],
-            nbOfMonthAheadAllowed: [''],
-            isBlocked: ['']
-        });
+
+        this.formStructure.push(new FormItemStructure('name', 'EQUIPE.LABEL.NAME', FormItemType.InputText, {isRequired: true, minimalLength: 2, placeholderKey:'EQUIPE.LABEL.NAME PHOLDER'}))
+        this.formStructure.push(new FormItemStructure('description', 'EQUIPE.LABEL.DESCRIPTION', FormItemType.InputText, {isRequired: true}))
+        this.formStructure.push(new FormItemStructure('nbOfMonthAheadAllowed', 'EQUIPE.LABEL.MONTHS AHEAD ALLOWED', FormItemType.InputNumber, {minNumber: 0}))        
+        this.formStructure.push(new FormItemStructure('isBlocked', 'EQUIPE.LABEL.IS BLOCKED', FormItemType.InputCheckbox))
+        this.formStructure.push(new FormItemStructure('selectedUserIds', 'EQUIPE.LABEL.WITH FOLLOWING USERS', FormItemType.GigaSelector, {selectableData: this.selectableUsers}))        
+        this.formStructure.push(new FormItemStructure('selectedManagerIds', 'EQUIPE.LABEL.HEADS OF EQUIPE', FormItemType.GigaSelector, {selectableData: this.selectableUsers}))        
     }
 
-    save(formValue, isValid)
+    formSaved(data)
     {
-        this.dataStore.addData('equipes', {
-            name: formValue.name,
-            description: formValue.description,
-            nbOfMonthAheadAllowed: formValue.nbOfMonthAheadAllowed,
-            isBlocked: formValue.isBlocked!=='' && formValue.isBlocked!== null,
-            userIds: this.selectedUserIds,
-            managerIds: this.selectedManagerIds
-        }).first().subscribe(res =>
+        var equipe: any= {}
+        equipe.name= data.name
+        equipe.description= data.description
+        equipe.nbOfMonthAheadAllowed= data.nbOfMonthAheadAllowed
+        equipe.isBlocked= data.isBlocked
+        equipe.userIds= data.selectedUserIds
+        equipe.managerIds= data.selectedManagerIds
+
+        this.dataStore.addData('equipes', equipe).first().subscribe(res =>
         {
-            var x=res;
-            this.reset();
+            data.setSuccess('OK')            
         });
-    }
-
-    reset()
-    {
-        this.equipeForm.reset();    
-        this.usersChild.emptyContent()    
-        this.mgrsChild.emptyContent()
-    }
-
-    userSelectionChanged(selectedUserIds: string[]) {        
-        this.selectedUserIds = selectedUserIds;
-    }
-
-    managerSelectionChanged(selectedManagerIds: string[]) {        
-        this.selectedManagerIds = selectedManagerIds;
     }
 
 }
