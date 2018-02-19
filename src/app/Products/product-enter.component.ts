@@ -8,7 +8,6 @@ import { FormItemStructure, FormItemType} from 'gg-ui'
 
 
 @Component({
-    //moduleId: module.id,
     selector: 'gg-product-enter',
     templateUrl: './product-enter.component.html'
 })
@@ -61,10 +60,10 @@ export class ProductEnterComponent implements OnInit {
             this.formStructure.push(new FormItemStructure('groupMarch', 'PRODUCT.LABEL.GROUP MARCHANDISE', FormItemType.InputText, {isRequired: true, value: this.productToClone.data.groupMarch || ''}))
             this.formStructure.push(new FormItemStructure('tva', 'PRODUCT.LABEL.VAT', FormItemType.InputNumber, {isRequired: true, value: this.productToClone.data.tva || ''}))
             this.formStructure.push(new FormItemStructure('disabled', 'PRODUCT.LABEL.IS DISABLED', FormItemType.InputCheckbox))
-            this.formStructure.push(new FormItemStructure('needsLotNumber', 'PRODUCT.LABEL.MAY ENCODING NUMBER', FormItemType.InputCheckbox))
-            this.formStructure.push(new FormItemStructure('isStock', 'PRODUCT.LABEL.MAY RESOLD STOCK', FormItemType.InputCheckbox))
-            this.formStructure.push(new FormItemStructure('divisionFactor', 'PRODUCT.LABEL.DIVISION FACTOR STOCK', FormItemType.InputNumber, {value: 1}))
-            this.formStructure.push(new FormItemStructure('stockPackage', 'PRODUCT.LABEL.STOCK PACKAGING', FormItemType.InputText, {value: ''}))    
+            this.formStructure.push(new FormItemStructure('needsLotNumber', 'PRODUCT.LABEL.MAY ENCODING NUMBER', FormItemType.InputCheckbox, {tooltipKey: 'PRODUCT.LABEL.DEFINE HERE IF ENCODING TIP'}))
+            this.formStructure.push(new FormItemStructure('isStock', 'PRODUCT.LABEL.MAY RESOLD STOCK', FormItemType.InputCheckbox, {tooltipKey: 'PRODUCT.LABEL.DEFINE HERE IF THIS PRODUCT TIP'}))
+            this.formStructure.push(new FormItemStructure('divisionFactor', 'PRODUCT.LABEL.DIVISION FACTOR STOCK', FormItemType.InputNumber, {value: 1, tooltipKey: 'PRODUCT.LABEL.IF FOR EXAMPLE YOU BUY A BOX TIP'}))
+            this.formStructure.push(new FormItemStructure('stockPackage', 'PRODUCT.LABEL.STOCK PACKAGING', FormItemType.InputText, {value: '', tooltipKey: 'PRODUCT.LABEL.ENTER HERE A TEXT TIP'}))    
         })
 
     }
