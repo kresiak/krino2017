@@ -1,11 +1,12 @@
-<div class="container-fluid">
+<gg-form [structure]="formStructure" [primaryDataObservable]="catNrObservable" [primaryControlName]="'catalogNr'"  (formSaved)="formSaved($event)"></gg-form>
+
+<!-- <div class="container-fluid">
 	<form [formGroup]="productForm" (ngSubmit)="save(productForm.value, productForm.valid)">
 		<div class="form-group row">
 			<label for="nameOfProduct" class="col-sm-2 col-form-label col-xl-2">{{'PRODUCT.LABEL.NAME OF PRODUCT' | translate}}</label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control" formControlName="nameOfProduct" id="nameOfProduct" placeholder="{{'PRODUCT.LABEL.NAME OF PRODUCT' | translate}}">
 			</div>
-			<!--<p *ngIf="productForm.controls.description.errors">This field is required!</p>-->
 		</div>
 		<div class="form-group row" [ngbTooltip]="'PRODUCT.LABEL.ENTER HERE A TEXT OF DESCRIPTION TIP' | translate" >
 			<label for="description" class="col-sm-2 col-form-label col-xl-2">{{'PRODUCT.LABEL.DESCRIPTION' | translate}}</label>
@@ -24,14 +25,12 @@
                     <option *ngFor="let currency of currencyData"  [ngValue]="currency.id" >{{currency.name}}</option>
                 </select>				
 			</div>
-			<!--<p *ngIf="productForm.controls.price.errors">This field is required!</p>-->
 		</div>
 		<div class="form-group row">
 			<label for="package" class="col-sm-2 col-form-label col-xl-2">{{'PRODUCT.LABEL.PACKAGE' | translate}}</label>
 			<div class="col-sm-10">
 				<input type="text" min="1" step="any" class="form-control" formControlName="package" id="package" placeholder="{{'PRODUCT.LABEL.PACKAGE' | translate}}">
 			</div>
-			<!--<p *ngIf="productForm.controls.package.errors">This field is required!</p>-->
 		</div>
 		<div class="form-group row">
 			<label for="category" class="col-sm-2 col-form-label col-xl-2">{{'PRODUCT.LABEL.CATEGORY' | translate}}</label>
@@ -47,28 +46,24 @@
 			<div class="col-sm-10">
 				<input type="text" min="1" step="any" class="form-control" formControlName="catalogNr" id="catalogNr" placeholder="{{'PRODUCT.LABEL.CATALOG NR' | translate}}">
 			</div>
-			<!--<p *ngIf="productForm.controls.catalogNr.errors">This field is required!</p>-->
 		</div>
 		<div class="form-group row">
 			<label for="noarticle" class="col-sm-2 col-form-label col-xl-2">{{'PRODUCT.LABEL.NO OF ARTICLE' | translate}}</label>
 			<div class="col-sm-10">
 				<input type="text" min="1" step="any" class="form-control" formControlName="noarticle" id="noarticle" placeholder="{{'PRODUCT.LABEL.NO OF ARTICLE' | translate}}">
 			</div>
-			<!--<p *ngIf="productForm.controls.noarticle.errors">This field is required!</p>-->
 		</div>
 		<div class="form-group row">
 			<label for="groupMarch" class="col-sm-2 col-form-label col-xl-2">{{'PRODUCT.LABEL.GROUP MARCHANDISE' | translate}}</label>
 			<div class="col-sm-10">
 				<input type="text" min="1" step="any" class="form-control" formControlName="groupMarch" id="groupMarch" placeholder="{{'PRODUCT.LABEL.GROUP MARCHANDISE' | translate}}">
 			</div>
-			<!--<p *ngIf="productForm.controls.groupMarch.errors">This field is required!</p>-->
 		</div>
 		<div class="form-group row">
 			<label for="tva" class="col-sm-2 col-form-label col-xl-2">{{'PRODUCT.LABEL.VAT' | translate}}</label>
 			<div class="col-sm-10">
 				<input type="number" min="0" step="any" class="form-control" formControlName="tva" id="tva" placeholder="{{'PRODUCT.LABEL.VAT' | translate}}">
 			</div>
-			<!--<p *ngIf="productForm.controls.tva.errors">This field is required!</p>-->
 		</div>
 		<div class="form-group row">
 			<label for="disabled" class="col-sm-2 col-form-label col-xl-2 align-self-center">{{'PRODUCT.LABEL.IS DISABLED' | translate}}</label>
@@ -116,4 +111,4 @@
 			</div>
 		</div>
 	</form>
-</div>
+</div> -->

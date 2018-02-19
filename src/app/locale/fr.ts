@@ -582,6 +582,7 @@ export const locale = {
                 "PACKAGE": "conditionnement",
                 "CATALOG NR": "no catalogue",
                 "PRICE": "prix",
+                "CURRENCY": "devise",
                 "NO OF ARTICLE": "no d'article",
                 "GROUP MARCHANDISE": "groupe marchandise",
                 "VAT": "tva",

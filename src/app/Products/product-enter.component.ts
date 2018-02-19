@@ -1,10 +1,11 @@
 import { Component, Input, Output, OnInit } from '@angular/core'
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ProductService } from '../Shared/Services/product.service'
 import { SelectableData } from 'gg-basic-code'
 import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.service'
 import { Observable } from 'rxjs/Rx'
 import {utilsDates as utilsdate} from 'gg-basic-code'
+import { FormItemStructure, FormItemType} from 'gg-ui'
+
 
 @Component({
     //moduleId: module.id,
@@ -12,15 +13,18 @@ import {utilsDates as utilsdate} from 'gg-basic-code'
     templateUrl: './product-enter.component.html'
 })
 export class ProductEnterComponent implements OnInit {
-    public currencyData: SelectableData[]
-    public productForm: FormGroup;
+    public currencySelectable: Observable<any>
+    public categorySelectable: Observable<any>
+    public catNrObservable: Observable<any>
 
-    constructor(private formBuilder: FormBuilder, private productService: ProductService, private authService: AuthService) {
+    constructor(private productService: ProductService, private authService: AuthService) {
 
     }
 
     @Input() supplierId: string
     @Input() productToClone: any= {data: {}, annotation: {}}
+
+    public formStructure: FormItemStructure[]= []
 
     public categoryData: SelectableData[]
     public categories
@@ -30,29 +34,39 @@ export class ProductEnterComponent implements OnInit {
 
     public authorizationStatusInfo: AuthenticationStatusInfo
 
-    public isCategoryIdSelected(control: FormControl) {   // custom validator implementing ValidatorFn 
-        if (control.value === '-1') {
-            return { "category": true };
-        }
-
-        return null;
-    }
-
     public isPageRunning: boolean = true
 
     ngOnInit(): void {
-        this.productService.getSelectableCategories().takeWhile(() => this.isPageRunning).subscribe(cd => this.categoryData = cd.filter(c => !c.isBlocked));
-
-        this.productService.getSelectableCurrencies().takeWhile(() => this.isPageRunning).subscribe(cu => this.currencyData = cu.filter(c => !c.isBlocked));
-
+        this.categorySelectable= this.productService.getSelectableCategories().map(categories => categories.filter(c => !c.isBlocked))
+        this.currencySelectable= this.productService.getSelectableCurrencies().map(currencies => currencies.filter(c => !c.isBlocked))
+        this.catNrObservable= this.productService.getAnnotatedProductsAll().map(products => products.map(p => p.data.catalogNr))
+        
         this.productService.getAnnotatedCategories().takeWhile(() => this.isPageRunning).subscribe(categories => this.categories = categories)
 
         this.authService.getStatusObservable().takeWhile(() => this.isPageRunning).subscribe(statusInfo => {
             this.authorizationStatusInfo = statusInfo
         })
 
+        //TESTER: price avec virgule!!!!!!
+        this.formStructure.push(new FormItemStructure('nameOfProduct', 'PRODUCT.LABEL.NAME OF PRODUCT', FormItemType.InputText, {isRequired: true, minimalLength: 5, value: this.productToClone.data.name || ''}))
+        this.formStructure.push(new FormItemStructure('description', 'PRODUCT.LABEL.DESCRIPTION', FormItemType.InputText, {value: this.productToClone.data.description || ''}))
+        this.formStructure.push(new FormItemStructure('price', 'PRODUCT.LABEL.PRICE', FormItemType.InputNumber, {isRequired: true, placeholderKey:'PRODUCT.LABEL.PRICE PER UNIT PHOLDER'}))
+        this.formStructure.push(new FormItemStructure('currency', 'PRODUCT.LABEL.CURRENCY', FormItemType.GigaOptions, {selectableData: this.currencySelectable, value: this.productToClone.data.currencyId}))        
+        this.formStructure.push(new FormItemStructure('package', 'PRODUCT.LABEL.PACKAGE', FormItemType.InputText, {isRequired: true, value: this.productToClone.data.package || ''}))
+        this.formStructure.push(new FormItemStructure('category', 'PRODUCT.LABEL.CATEGORY', FormItemType.GigaOptions, {isRequired: true, selectableData: this.categorySelectable, 
+                value: (!this.productToClone.data.categoryIds || this.productToClone.data.categoryIds.length===0) ? undefined : this.productToClone.data.categoryIds[0]}))
+        this.formStructure.push(new FormItemStructure('catalogNr', 'PRODUCT.LABEL.CATALOG NR', FormItemType.InputText, {isRequired: true, value: this.productToClone.data.catalogNr || ''}))
+        this.formStructure.push(new FormItemStructure('noarticle', 'PRODUCT.LABEL.NO OF ARTICLE', FormItemType.InputText, {isRequired: true, value: this.productToClone.data.noArticle || ''}))
+        this.formStructure.push(new FormItemStructure('groupMarch', 'PRODUCT.LABEL.GROUP MARCHANDISE', FormItemType.InputText, {isRequired: true, value: this.productToClone.data.groupMarch || ''}))
+        this.formStructure.push(new FormItemStructure('tva', 'PRODUCT.LABEL.VAT', FormItemType.InputNumber, {isRequired: true, value: this.productToClone.data.tva || ''}))
+        this.formStructure.push(new FormItemStructure('disabled', 'PRODUCT.LABEL.IS DISABLED', FormItemType.InputCheckbox))
+        this.formStructure.push(new FormItemStructure('needsLotNumber', 'PRODUCT.LABEL.MAY ENCODING NUMBER', FormItemType.InputCheckbox))
+        this.formStructure.push(new FormItemStructure('isStock', 'PRODUCT.LABEL.MAY RESOLD STOCK', FormItemType.InputCheckbox))
+        this.formStructure.push(new FormItemStructure('divisionFactor', 'PRODUCT.LABEL.DIVISION FACTOR STOCK', FormItemType.InputNumber, {value: 1}))
+        this.formStructure.push(new FormItemStructure('stockPackage', 'PRODUCT.LABEL.STOCK PACKAGING', FormItemType.InputText, {value: ''}))
 
-        const priceRegEx = `^\\d+(.\\d*)?$`;
+
+/*         const priceRegEx = `^\\d+(.\\d*)?$`;
 
         this.productForm = this.formBuilder.group({
             nameOfProduct: [this.productToClone.data.name || '', [Validators.required, Validators.minLength(5)]],
@@ -71,25 +85,14 @@ export class ProductEnterComponent implements OnInit {
             divisionFactor: ['1'],
             stockPackage: ['']
         });
-
-        this.productForm.controls['catalogNr'].valueChanges.debounceTime(400).distinctUntilChanged().startWith('').takeWhile(() => this.isPageRunning)
-            .subscribe(catNr => {
-            this.alreadyCatNrInDb=false
-            if (catNr && catNr.length > 3) {   // Testing catNr because on KR computer it crashed with catNr === null - don't understand how it could happen
-                this.productService.getAnnotatedProductsByCatalogNr(catNr).first().subscribe(prodList => {
-                    this.alreadyCatNrInDb= prodList && prodList.length > 0
-                })
-            }
-        })
+ */
     }
 
     ngOnDestroy(): void {
         this.isPageRunning = false
     }
 
-    save(formValue, isValid) {
-        if (!isValid) return
-        if (!formValue.nameOfProduct) return
+    formSaved(formValue) {
         if (!this.authorizationStatusInfo || !this.authorizationStatusInfo.isLoggedIn) return
         this.savingNewProduct= true
         this.lastProductSaved= ''
@@ -101,18 +104,17 @@ export class ProductEnterComponent implements OnInit {
             price: formValue.price,
             package: formValue.package,
             categoryIds: [formValue.category],
-            currencyId: formValue.currency === '-1' ? undefined : formValue.currency,
+            currencyId: formValue.currency,
             catalogNr: formValue.catalogNr,
             noArticle: formValue.noarticle,
             groupMarch: formValue.groupMarch,
             tva: formValue.tva,
-            disabled: (!this.authorizationStatusInfo.isAdministrator() && !this.authorizationStatusInfo.isSuperAdministrator())  ||  
-                                    (formValue.disabled !== '' && formValue.disabled !== null) ,
+            disabled: (!this.authorizationStatusInfo.isAdministrator() && !this.authorizationStatusInfo.isSuperAdministrator())  || formValue.disabled,
             onCreateValidation: (!this.authorizationStatusInfo.isAdministrator() && !this.authorizationStatusInfo.isSuperAdministrator()),
-            needsLotNumber: formValue.needsLotNumber !== '' && formValue.needsLotNumber !== null,
-            isStock: formValue.isStock !== '' && formValue.isStock !== null,
+            needsLotNumber: formValue.needsLotNumber,
+            isStock: formValue.isStock,
             isLabo: !this.authorizationStatusInfo.isSuperAdministrator(),
-            divisionFactor: +formValue.divisionFactor,
+            divisionFactor: formValue.divisionFactor,
             stockPackage: formValue.stockPackage,
             history: [
                 {
@@ -122,21 +124,15 @@ export class ProductEnterComponent implements OnInit {
                 }
             ],
         }).subscribe(res => {
+            formValue.setSuccess('OK')
             this.lastProductSaved= res.name
-            var x = res;
-            this.reset();
             this.savingNewProduct= false
         });
     }
 
-    reset() {
-        this.productForm.reset();
-        this.productForm.controls['category'].setValue('-1');
-        this.productForm.controls['currency'].setValue('-1');
-    }
-
-    categoryChanged(categoryId) {
+/*     categoryChanged(categoryId) {
         var category = this.categories.filter(c => c.data._id === categoryId)[0]
         this.productForm.patchValue({ noarticle: category ? category.data.noArticle : '', groupMarch: category ? category.data.groupMarch : '' })
     }
+ */
 }
