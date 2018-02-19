@@ -1,89 +1,60 @@
 import { Component, Input, Output, OnInit, ViewChild } from '@angular/core'
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { DataStore } from 'gg-basic-data-services'
-import { SelectableData } from 'gg-basic-code'
-import { ProductService } from '../Shared/Services/product.service'
 import { Observable, Subscription } from 'rxjs/Rx'
-import * as moment from "moment"
 import {utilsDates as dateUtils} from 'gg-basic-code'
+import { FormItemStructure, FormItemType} from 'gg-ui'
 
 @Component({
-    //moduleId: module.id,
     selector: 'gg-otp-enter',
     templateUrl: './otp-enter.component.html'
 })
 export class OtpEnterComponent implements OnInit {
-    public otpForm: FormGroup;
 
-    constructor(private dataStore: DataStore, private formBuilder: FormBuilder, private productService: ProductService) {
+    constructor(private dataStore: DataStore) {
 
     }
-
-    public datStart: string
-    public datEnd: string
-    public selectableCategoriesObservable: Observable<any>;
 
     @Input() equipeId: string;
 
-    @ViewChild('datStart') datStartChild;
-    @ViewChild('datEnd') datEndChild;
+    public formStructure: FormItemStructure[]= []
 
     ngOnInit(): void {
-        this.selectableCategoriesObservable = this.productService.getSelectableCategories();
-
-        var md = moment()
-
-        this.otpForm = this.formBuilder.group({
-            name: ['', [Validators.required, Validators.minLength(5)]],
-            isAnnual: [''],
-            budget: ['', Validators.required],
-            description: ['', Validators.required],
-            isBlocked: [''],
-            isClosed: [''],
-            isLimitedToOwner: [''],
-            note: [''],
-            excludeFixCost: ['']
-        });
+        this.formStructure.push(new FormItemStructure('name', 'OTP.LABEL.OTP', FormItemType.InputText, {isRequired: true, minimalLength: 5}))
+        this.formStructure.push(new FormItemStructure('isAnnual', 'OTP.LABEL.IS ANNUAL', FormItemType.InputCheckbox))
+        this.formStructure.push(new FormItemStructure('budget', 'OTP.LABEL.BUDGET', FormItemType.InputNumber, {isRequired: true, minNumber: 1}))        
+        this.formStructure.push(new FormItemStructure('description', 'OTP.LABEL.DESCRIPTION', FormItemType.InputText, {isRequired: true}))
+        this.formStructure.push(new FormItemStructure('datStart', 'OTP.LABEL.FROM', FormItemType.GigaDate))
+        this.formStructure.push(new FormItemStructure('datEnd', 'OTP.LABEL.TO', FormItemType.GigaDate))        
+        this.formStructure.push(new FormItemStructure('note', 'OTP.LABEL.NOTE', FormItemType.InputText))        
+        this.formStructure.push(new FormItemStructure('isBlocked', 'OTP.LABEL.IS BLOCKED', FormItemType.InputCheckbox))
+        this.formStructure.push(new FormItemStructure('isLimitedToOwner', 'OTP.LABEL.LIMITED OWNER', FormItemType.InputCheckbox))
+        this.formStructure.push(new FormItemStructure('isClosed', 'OTP.LABEL.IS CLOSED', FormItemType.InputCheckbox))
+        this.formStructure.push(new FormItemStructure('excludeFixCost', 'OTP.LABEL.CANNOT TRANSPORT COSTS', FormItemType.InputCheckbox))        
     }
 
-    save(formValue, isValid) {
+    formSaved(data) {
         var newOtpEnter: any = {
-            name: formValue.name,
-            isAnnual: formValue.isAnnual !== '' && formValue.isAnnual !== null,
-            description: formValue.description,
-            isBlocked: formValue.isBlocked !== '' && formValue.isBlocked !== null,
-            isClosed: formValue.isClosed !== '' && formValue.isClosed !== null,
-            excludeFixCost: formValue.excludeFixCost !== '' && formValue.excludeFixCost !== null,
-            isLimitedToOwner: formValue.isLimitedToOwner !== '' && formValue.isLimitedToOwner !== null,
+            name: data.name,
+            isAnnual: data.isAnnual,
+            description: data.description,
+            isBlocked: data.isBlocked,
+            isClosed: data.isClosed,
+            excludeFixCost: data.excludeFixCost,
+            isLimitedToOwner: data.isLimitedToOwner,
             equipeId: this.equipeId,
-            note: formValue.note
+            note: data.note
         }
         let budgetPeriods = []
         budgetPeriods.push({
-            budget: formValue.budget,
-            datStart: this.datStart || dateUtils.nowFormated(),
-            datEnd: this.datEnd || dateUtils.nowFormated()
+            budget: data.budget,
+            datStart: data.datStart || dateUtils.nowFormated(),
+            datEnd: data.datEnd || dateUtils.nowFormated()
         })
         newOtpEnter.budgetPeriods = budgetPeriods
         this.dataStore.addData('otps', newOtpEnter
         ).first().subscribe(res => {
-            var x = res;
-            this.reset();
+            data.setSuccess('OK')            
         });
-    }
-
-    reset() {
-        this.otpForm.reset();
-        this.datStartChild.emptyContent()
-        this.datEndChild.emptyContent()
-    }
-
-    dateUpdatedStart(date) {
-        this.datStart = date;
-    }
-
-    dateUpdatedEnd(date) {
-        this.datEnd = date;
     }
 
 }
