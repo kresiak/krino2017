@@ -78,8 +78,10 @@ export class OrganiGigaMain implements OnInit {
         this.annotatedLaboToMail.forEach(labo => {
             this.teambuilderService.mailTBLaboDir(this.sendToTestEmail ? this.testEmail : labo.annotation.chef.data.email, 
                             labo.annotation.chef.data.firstName, labo.annotation.chef.data._id, this.testOnServer).subscribe((res) => {
-                labo.data.mailSent= true
-                this.dataStore.updateData('users.giga.labos', labo.data._id, labo.data)
+                if (!this.sendToTestEmail) {
+                    labo.data.mailSent= true
+                    this.dataStore.updateData('users.giga.labos', labo.data._id, labo.data)    
+                }
                 console.log(labo.annotation.chef.data.email, 'done')
             }, (err) => {
                 labo.data.mailError= err
