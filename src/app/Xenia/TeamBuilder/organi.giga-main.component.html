@@ -1,12 +1,13 @@
 <div class="card">
     <div class="card-body">
-        <h5>GIGA  {{authorizationStatusInfo?.isLoggedIn ? (', ' + authorizationStatusInfo.getCurrentUserName() ) : ''}} </h5>
+        <h5>GIGA {{authorizationStatusInfo?.isLoggedIn ? (', ' + authorizationStatusInfo.getCurrentUserName() ) : ''}} </h5>
         <br/>
         <ngb-tabset>
             <ngb-tab id="tabLogin">
                 <ng-template ngbTabTitle>
                     <span [ngbTooltip]="''">
-                        {{(authorizationStatusInfo?.isLoggedIn ? 'PUBLIC.TEAMBUILDER.ORGANI.MENU.LOGOUT' : 'PUBLIC.TEAMBUILDER.ORGANI.MENU.LOGIN') | translate}}
+                        {{(authorizationStatusInfo?.isLoggedIn ? 'PUBLIC.TEAMBUILDER.ORGANI.MENU.LOGOUT' : 'PUBLIC.TEAMBUILDER.ORGANI.MENU.LOGIN')
+                        | translate}}
                     </span>
                 </ng-template>
                 <ng-template ngbTabContent>
@@ -65,6 +66,28 @@
                 </ng-template>
                 <ng-template ngbTabContent>
                     <gg-giga-person-enter></gg-giga-person-enter>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab id="tabSendMails" *ngIf="annotatedLaboToMail && authorizationStatusInfo?.isLoggedIn && authorizationStatusInfo?.isAdministrator()">
+                <ng-template ngbTabTitle>
+                    <span>
+                        Send Mail Temporary Tool
+                    </span>
+                </ng-template>
+                <ng-template ngbTabContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row" *ngFor="let labo of annotatedLaboToMail">
+                                <div class="col-sm-3">{{labo.data.thematicUnitId}}</div>
+                                <div class="col-sm-3">{{labo.annotation.chef.data._id}}</div>
+                                <div class="col-sm-3">{{labo.annotation.chef.data.email}}</div>
+                                <div class="col-sm-3">{{labo.annotation.chef.annotation.fullName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn btn-info" (click)="sendMails()">test mail</button>
+                    </div>
                 </ng-template>
             </ngb-tab>
         </ngb-tabset>

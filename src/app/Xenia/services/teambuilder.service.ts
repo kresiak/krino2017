@@ -1,11 +1,12 @@
 import { Injectable, Inject } from '@angular/core'
 import { Observable, BehaviorSubject, Subject } from 'rxjs/Rx'
 import { DataStore } from 'gg-basic-data-services'
-import {utilsObservables as utils2} from 'gg-basic-code'
+import { ApiService } from 'gg-basic-data-services'
+import { utilsObservables as utils2 } from 'gg-basic-code'
 
 @Injectable()
 export class TeambuilderService {
-    constructor( @Inject(DataStore) private dataStore: DataStore) { }
+    constructor( @Inject(DataStore) private dataStore: DataStore, private apiService: ApiService) { }
 
     personTable = 'users.giga'
     functionTable = 'users.giga.functions'
@@ -24,7 +25,7 @@ export class TeambuilderService {
         const TRUDid = '5a3022de02557d00d84aef81'  //thematic research unit id in DB
         const PIid = '5a30218002557d00d84aef7e'  //PI id in DB
         const coPIid = '5a3d7072590b2663d0b3323b'
-        const LABODIRid= '5a6a0b2290e2ed2c74e5b34b'
+        const LABODIRid = '5a6a0b2290e2ed2c74e5b34b'
 
         return Observable.combineLatest(this.dataStore.getDataObservable(this.personTable), this.dataStore.getDataObservable(this.functionTable), this.dataStore.getDataObservable(this.functionNewTable),
             this.getThematicUnits(), this.getLabos(), this.getTeams(),
@@ -63,19 +64,19 @@ export class TeambuilderService {
                 var fnGetUnit = (personId, labo, team) => {
                     var u = thematicUnits.filter(t => !t.disabled).filter(u => u.directorId === personId)[0]
                     if (u) return u
-                    if (!labo && !team) return undefined   
-                    if (labo) return thematicUnits.filter(t => !t.disabled).filter(t => t._id === labo.thematicUnitId)[0]                    
+                    if (!labo && !team) return undefined
+                    if (labo) return thematicUnits.filter(t => !t.disabled).filter(t => t._id === labo.thematicUnitId)[0]
                     return thematicUnits.filter(t => !t.disabled).filter(t => t._id === team.laboId)[0]
                 }
-                
-                var fnUpdateFunctionsIfMember= (idFunctionToSet: string, idsOfPersonsWithThisFunction: string[], personToCheck: any) => {
+
+                var fnUpdateFunctionsIfMember = (idFunctionToSet: string, idsOfPersonsWithThisFunction: string[], personToCheck: any) => {
                     var removeFromArray = (array: any[], id) => {
                         if (!array || array.length === 0) return
                         var index = array.indexOf(id)
                         if (index > -1) {
                             array.splice(index, 1)
                         }
-                    }    
+                    }
 
                     if (idsOfPersonsWithThisFunction.includes(personToCheck._id) && !((personToCheck.functionNewIds || []).includes(idFunctionToSet))) {
                         personToCheck.functionNewIds = personToCheck.functionNewIds || []
@@ -86,7 +87,7 @@ export class TeambuilderService {
                     }
                 }
 
-                var laboHeadIds: string[]= labos.filter(tu => !tu.disabled).map(tu => tu.directorId)
+                var laboHeadIds: string[] = labos.filter(tu => !tu.disabled).map(tu => tu.directorId)
                 var unitHeadIds: string[] = thematicUnits.filter(tu => !tu.disabled).map(tu => tu.directorId)    // persons.filter(p => p.unitHeadIds).map(p => p.unitHeadIds).reduce((acc, ids) => acc.concat(ids), []) || []  // collect all TRUD
                 var piIds: string[] = teams.filter(t => !t.disabled).map(t => t.piId)   // persons.filter(p => p.piIds).map(p => p.piIds).reduce((acc, ids) => acc.concat(ids), []) || []  // collect all TRUD
 
@@ -177,7 +178,7 @@ export class TeambuilderService {
                 ourTeams.forEach(t => {
                     fnAddPerson(t.piId);
                     (t.memberIds || []).forEach(m => fnAddPerson(m))
-                })                
+                })
                 return {
                     data: unit,
                     annotation: {
@@ -193,7 +194,7 @@ export class TeambuilderService {
     // =====
 
     public getLabos(): Observable<any[]> {
-        return this.dataStore.getDataObservable(this.labosTable)   
+        return this.dataStore.getDataObservable(this.labosTable)
     }
 
     public getLabosEnabled(): Observable<any[]> {
@@ -215,7 +216,7 @@ export class TeambuilderService {
     public getLabosAnnotatedEnabledByThematicUnit(unitId): Observable<any[]> {
         return this.getLabosEnabledAnnotated().map(labos => labos.filter(labo => labo.data.thematicUnitId === unitId))
     }
-    
+
 
     private getLabosEnabledAnnotated(): Observable<any[]> {
         return Observable.combineLatest(this.getLabos(), this.getTeams(), (labos, teams) => {
@@ -238,7 +239,7 @@ export class TeambuilderService {
         })
     }
 
-    
+
 
     // Teams
     // ======
@@ -254,7 +255,7 @@ export class TeambuilderService {
     public getTeamEnabledByPi(piId): Observable<any> {
         return this.getTeamsEnabled().map(teams => teams.filter(team => team.piId === piId)[0])
     }
-    
+
     private getTeamsByLabo(laboId): Observable<any[]> {
         return this.getTeams().map(teams => teams.filter(team => team.laboId === laboId))
     }
@@ -291,7 +292,7 @@ export class TeambuilderService {
             Observable.forkJoin(observables).subscribe()
         })
     }
-    
+
 
 
 
@@ -318,6 +319,17 @@ export class TeambuilderService {
 
             Observable.forkJoin(observables).subscribe()
         })
+    }
+
+    mailTBLaboDir(to: string, firstName, id: string, isTest: boolean= false) {
+        return this.apiService.callWebService('ggMailTbLaboDirTo', {
+            data: {
+                to: to,
+                firstName: firstName,
+                id: id,
+                isTest: isTest
+            }
+        }).first()
     }
 
 }

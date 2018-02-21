@@ -77,16 +77,19 @@
                                 </div>
                             </div>
                             <div class="row" *ngFor="let scanTxt of listOfScans; let pos=index;trackBy: trackByFn">
-                                <div class="col-sm-4 align-self-center">
+                                <div class="col-sm-3 align-self-center">
                                     <input [ggFocus]="pos===currentPos" type="text" [ngModel]="listOfScans[pos]" class="form-control" (input)="onChangeMethod(pos, $event)"
-                                        (blur)="onBlurMethod(pos, $event)" />
+                                         />
+                                </div>
+                                <div class="col-sm-3 align-self-center" >
+                                    <input type="text" class="form-control" (blur)="onBlurMethod(pos, $event)"/>
                                 </div>
                                 <div class="col-sm-2 align-self-center">
                                     <span>
                                         <img src="images/close.png" (click)="resetControl(pos)" />
                                     </span>
                                 </div>
-                                <div class="col-sm-6 align-self-center" [style.color]="'red'" *ngIf="errors[pos]">
+                                <div class="col-sm-4 align-self-center" [style.color]="'red'" *ngIf="errors[pos]">
                                     {{errors[pos]}}
                                 </div>
                             </div>
