@@ -1888,6 +1888,7 @@ export const locale = {
                         "QUESTIONS PI": "Questions et tâches pour le Principal investigator",
                         "TAB TIP LISTE": "Ici vous pouver visualiser et modifier les données personnelles des personnes que vous avez déjà sélectionnées",
                         "TAB TIP SELECT": "Ici vous pouvez ajouter (ou supprimer) des personnes à (ou de) votre sélection",
+                        "YOU HAVE TASKS": "Il vous reste des tâches à réaliser!! Voir l'onglet des tâches.",
                         "LIST TASKS": "Pourriez vous, en vous servant des onglets ci-dessus, accomplir les tâches suivantes?",
                         "HEAD": {
                             "ENTER UNITS HEAD": "Veuillez spécifier les <b>directeurs des différentes unités thématiques</b>",

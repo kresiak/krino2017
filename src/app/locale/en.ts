@@ -1891,6 +1891,7 @@ export const locale = {
                         "LIST TASKS": "These are the tasks we would like you to do. Please use the forms that you will find in the tabs above.",
                         "TAB TIP LISTE": "Here you can see and modify the personal data of the persons that you have already selected",
                         "TAB TIP SELECT": "Here you can add (or remove) persons to (or from) the selection",
+                        "YOU HAVE TASKS": "You still have tasks to do!!",
                         "HEAD": {
                             "ENTER UNITS HEAD": "Please enter the <b>heads of the thematic units</b>",
                             "A MAIL WILL BE SENT": "Later a mail will be sent to the directors of thematic unit in order to ask them to designate their PIs"

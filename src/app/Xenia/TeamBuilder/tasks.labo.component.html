@@ -1,6 +1,7 @@
 <div class="card" *ngIf="thisPersonId && thisLabo">
     <div class="card-body">
         <h5>{{'PUBLIC.TEAMBUILDER.TASKS.HELP.QUESTIONS LABO DIR' | translate}}</h5>
+        <h6 [style.color]="'red'" *ngIf="!thisLabo.name || (pisToSpecify && pisToSpecify.length > 0) ">{{'PUBLIC.TEAMBUILDER.TASKS.HELP.YOU HAVE TASKS' | translate}}</h6>
 
         <gg-giga-person-task [personsObservable]="personsObservable" [myPersonId]="thisPersonId" [personTypeDescriptionKey]="'PUBLIC.TEAMBUILDER.TASKS.MENU.PRINCIPAL INVESTIGATOR'"
             (personsSelectionChanged)="personsSelectionChanged($event)">
