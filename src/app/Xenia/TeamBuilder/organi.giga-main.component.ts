@@ -5,6 +5,7 @@ import { AuthService } from '../services/authorization.service'
 import { DataStore } from 'gg-basic-data-services'
 import { SelectableData } from 'gg-basic-code'
 import { SignedInStatusInfo } from '../services/authorization.service';
+import {utilsDates as utilsdate} from 'gg-basic-code'
 
 @Component(
     {
@@ -36,16 +37,19 @@ export class OrganiGigaMain implements OnInit {
             this.authorizationStatusInfo = statusInfo
         })
 
-        Observable.combineLatest(this.personsObservable, this.dataStore.getDataObservable('users.giga.labos'), (personsAnnotated, labos) => {
+        Observable.combineLatest(this.personsObservable, this.dataStore.getDataObservable('users.giga.labos'), this.dataStore.getDataObservable('users.giga.thematic.units'), 
+            (personsAnnotated, labos, units) => {
             return labos.filter(labo => !labo.mailSent && !labo.disabled).map(labo => {
                 var theLaboChef = personsAnnotated.filter(p => p.data._id === labo.directorId)[0]
+                var theUnit= units.filter(u => u._id === labo.thematicUnitId)[0]
                 return {
                     data: labo,
                     annotation: {
-                        chef: theLaboChef ? theLaboChef : undefined
+                        chef: theLaboChef ? theLaboChef : undefined,
+                        unit: theUnit ? theUnit.name : 'unknown unit'
                     }
                 }
-            })
+            }).sort((a, b) => a.annotation.chef.data._id < b.annotation.chef.data._id ? -1 : 1)
         }).takeWhile(() => this.isPageRunning).subscribe(res => {
             this.annotatedLaboToMail = res
         })
@@ -61,7 +65,7 @@ export class OrganiGigaMain implements OnInit {
 
     //this.teambuilderService.mailTBLaboDir('benoit.ernst@uliege.be', '59fd991b1fdf3e542868c11d').subscribe((res) => {
 
-    testEmail= 'kvasza@gmail.com' //benoit.ernst@uliege.be
+    testEmail= 'kvasza@gmail.com,benoit.ernst@uliege.be' //benoit.ernst@uliege.be
     testOnServer: boolean= false
     sendToTestEmail: boolean= true
 
@@ -84,7 +88,10 @@ export class OrganiGigaMain implements OnInit {
                 }
                 console.log(labo.annotation.chef.data.email, 'done')
             }, (err) => {
-                labo.data.mailError= err
+                labo.data.mailError= {
+                    error: err,
+                    date: utilsdate.nowFormated()
+                } 
                 this.dataStore.updateData('users.giga.labos', labo.data._id, labo.data)
                 console.log('there is an error ' + labo.annotation.chef.data.email + ': ' + err)
             })

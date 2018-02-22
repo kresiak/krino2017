@@ -77,11 +77,31 @@
                 <ng-template ngbTabContent>
                     <div class="card">
                         <div class="card-body">
-                            <div class="row" *ngFor="let labo of annotatedLaboToMail">
-                                <div class="col-sm-3">{{labo.data.thematicUnitId}}</div>
-                                <div class="col-sm-3">{{labo.annotation.chef.data._id}}</div>
-                                <div class="col-sm-3">{{labo.annotation.chef.data.email}}</div>
-                                <div class="col-sm-3">{{labo.annotation.chef.annotation.fullName}}</div>
+                            <div class="row">This is reserved for Alex Kvasz. Don't use it</div>
+                            <div class="row">
+                                    <div class="col-sm-3">Test email addresses</div>
+                                    <div class="col-sm-6">
+                                        <input [(ngModel)]="testEmail" class="form-control" type="text" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                <div class="col-sm-3">Send to test emails</div>
+                                <div class="col-sm-3">
+                                    <input [(ngModel)]="sendToTestEmail" type="checkbox" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">Don't send. Only display stuff on server</div>
+                                <div class="col-sm-3">
+                                    <input [(ngModel)]="testOnServer" type="checkbox" />
+                                </div>
+                            </div>
+                            <div class="row" *ngFor="let labo of annotatedLaboToMail; let i = index">
+                                <div class="col-sm-3">{{labo.annotation.unit}}</div>
+                                <div class="col-sm-3">{{labo.annotation.chef ? labo.annotation.chef.data._id : labo.data._id}}</div>
+                                <div class="col-sm-3">{{labo.annotation.chef ? labo.annotation.chef.data.email : '?'}}</div>
+                                <div class="col-sm-2">{{labo.annotation.chef ? labo.annotation.chef.annotation.fullName : '?'}}</div>
+                                <div class="col-sm-1">{{i+1}}</div>
                             </div>
                         </div>
                     </div>
