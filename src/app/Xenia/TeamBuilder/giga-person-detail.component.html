@@ -75,7 +75,7 @@
             </div>
         </ng-template>
     </ngb-tab>
-    <ngb-tab [title]="'PUBLIC.TEAMBUILDER.PERSONS.MENU.DELETE' | translate" id="tabDelete" *ngIf="person.annotation.canDelete && hasRights()">
+    <ngb-tab [title]="'PUBLIC.TEAMBUILDER.PERSONS.MENU.DELETE' | translate" id="tabDelete" *ngIf="!noSecurity && person.annotation.canDelete && hasRights()">
         <ng-template ngbTabContent>
             <div class="card">
                 <div class="card-body">
@@ -93,9 +93,6 @@
                     </p>
                     <p *ngIf="person.annotation.isLaboDirector">
                         <a [href]="getUrl('taskslabd')" target="_blank">Expérimenter avec cet utilisateur en tant que Head of Laboratory</a>
-                    </p>
-                    <p *ngIf="person.annotation.isDirector">
-                        <a [href]="getUrl('taskslabd')" target="_blank">Expérimenter avec cet utilisateur en tant que Thematic Unit Director (entrer les PIs non membres d'un labo multi-team)</a>
                     </p>
                     <p *ngIf="person.annotation.isDirector">
                         <a [href]="getUrl('taskstrud')" target="_blank">Expérimenter avec cet utilisateur en tant que Thematic Unit Director (entrer les chefs de labo)</a>
