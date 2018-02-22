@@ -8,7 +8,9 @@
 				<div class="row">
                     <div class="col-sm-3"><b>{{'PUBLIC.TEAMBUILDER.ORGANI.COLUMNS.UNIT NAME' | translate}}</b></div>
                     <div class="col-sm-3"><b>{{'PUBLIC.TEAMBUILDER.ORGANI.COLUMNS.DIRECTOR NAME' | translate}}</b></div>
-                    <div class="col-sm-3"><b>{{'PUBLIC.TEAMBUILDER.ORGANI.COLUMNS.NB PERSONS' | translate}}</b></div>
+                    <div class="col-sm-2"><b>{{'PUBLIC.TEAMBUILDER.ORGANI.COLUMNS.NB LABOS' | translate}}</b></div>
+                    <div class="col-sm-2"><b>{{'PUBLIC.TEAMBUILDER.ORGANI.COLUMNS.NB TEAMS' | translate}}</b></div>
+                    <div class="col-sm-2"><b>{{'PUBLIC.TEAMBUILDER.ORGANI.COLUMNS.NB PERSONS' | translate}}</b></div>
 				</div>
 			</ng-template>
 			<ng-template ngbPanelContent>
@@ -19,7 +21,9 @@
 				<div class="row" id="{{unit.data._id}}">
                         <div class="col-sm-3">{{unit.data.name || ('TRU ' + getPersonName(unit.data.directorId))}}</div>
                         <div class="col-sm-3">{{getPersonName(unit.data.directorId)}}</div>
-                        <div class="col-sm-3">{{unit.annotation.nbPersons}}</div>
+                        <div class="col-sm-2">{{unit.annotation.nbLabos}}</div>
+                        <div class="col-sm-2">{{unit.annotation.nbTeams}}</div>
+                        <div class="col-sm-2">{{unit.annotation.nbPersons}}</div>
 				</div>
 			</ng-template>
 			<ng-template ngbPanelContent>

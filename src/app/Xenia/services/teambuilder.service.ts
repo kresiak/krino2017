@@ -165,25 +165,24 @@ export class TeambuilderService {
 
 
     public getUnitsAnnotated(): Observable<any[]> {
-        return Observable.combineLatest(this.getThematicUnits(), this.getLabosEnabledAnnotated(), this.getTeams(), (units, labos, teams) => {
+        return Observable.combineLatest(this.getThematicUnits(), this.getLabosEnabledAnnotated(), (units, labos) => {
             return units.map(unit => {
                 var ourLabos = labos.filter(l => l.data.thematicUnitId === unit._id)
-                var ourTeams = teams.filter(t => !t.disabled && t.laboId === unit._id)
                 var personsSet: Set<string> = new Set<string>()
                 var fnAddPerson = id => { if (id && !personsSet.has(id)) personsSet.add(id) }
+                var nbTeams: number=0
                 ourLabos.forEach(l => {
+                    nbTeams += l.annotation.nbTeams
                     fnAddPerson(l.data.directorId);
                     (l.annotation.personIds || []).forEach(m => fnAddPerson(m))
-                })
-                ourTeams.forEach(t => {
-                    fnAddPerson(t.piId);
-                    (t.memberIds || []).forEach(m => fnAddPerson(m))
                 })
                 return {
                     data: unit,
                     annotation: {
                         nbPersons: personsSet.size,
-                        personIds: Array.from(personsSet.values())
+                        personIds: Array.from(personsSet.values()),
+                        nbLabos: ourLabos.length,
+                        nbTeams: nbTeams
                     }
                 }
             })
@@ -232,6 +231,7 @@ export class TeambuilderService {
                     data: labo,
                     annotation: {
                         nbPersons: personsSet.size,
+                        nbTeams: ourTeams.length,
                         personIds: Array.from(personsSet.values())
                     }
                 }
@@ -296,7 +296,7 @@ export class TeambuilderService {
 
 
 
-    public savePisOfLaboOrUnit(labo: any, ids: string[]) {
+    public savePisOfLabo(labo: any, ids: string[]) {
         if (!labo) return
         this.getTeamsByLabo(labo._id).first().subscribe(teams => {
             var observables: Observable<any>[] = []

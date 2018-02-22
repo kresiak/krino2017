@@ -70,17 +70,6 @@
                     <gg-giga-person-list [personsObservable]="personsMembersObservable"></gg-giga-person-list>
                 </ng-template>
             </ngb-tab>
-            <ngb-tab id="tabPersonSelection" *ngIf="laboPiIds && isMyUnit()">
-                <ng-template ngbTabTitle>
-                    <span [ngbTooltip]="'PUBLIC.TEAMBUILDER.TASKS.HELP.TAB TIP SELECT' | translate">
-                        {{('PUBLIC.TEAMBUILDER.TASKS.MENU.SELECT PERSONS' | translate) + ' ' + ('PUBLIC.TEAMBUILDER.TASKS.MENU.PRINCIPAL INVESTIGATOR'
-                        | translate)}}
-                    </span>
-                </ng-template>
-                <ng-template ngbTabContent>
-                    <gg-giga-persons-selection [selectedPersonIds]="laboPiIds" (selectionChanged)="personsSelectionChanged($event)"></gg-giga-persons-selection>
-                </ng-template>
-            </ngb-tab>
         </ngb-tabset>
     </div>
 </div>

@@ -1,12 +1,12 @@
-<div class="card" *ngIf="thisPersonId && thisLaboOrUnit">
+<div class="card" *ngIf="thisPersonId && thisLabo">
     <div class="card-body">
-        <h5>{{(isUnit ? 'PUBLIC.TEAMBUILDER.TASKS.HELP.QUESTIONS TRUD' : 'PUBLIC.TEAMBUILDER.TASKS.HELP.QUESTIONS LABO DIR') | translate}}</h5>
+        <h5>{{'PUBLIC.TEAMBUILDER.TASKS.HELP.QUESTIONS LABO DIR' | translate}}</h5>
 
-        <gg-giga-person-task [personsObservable]="personsObservable" [myPersonId]="thisPersonId" [personTypeDescriptionKey]="isUnit ? 'PUBLIC.TEAMBUILDER.TASKS.MENU.PRINCIPAL INVESTIGATOR INDEPENDENT' : 'PUBLIC.TEAMBUILDER.TASKS.MENU.PRINCIPAL INVESTIGATOR'"
+        <gg-giga-person-task [personsObservable]="personsObservable" [myPersonId]="thisPersonId" [personTypeDescriptionKey]="'PUBLIC.TEAMBUILDER.TASKS.MENU.PRINCIPAL INVESTIGATOR'"
             (personsSelectionChanged)="personsSelectionChanged($event)">
 
             <ul taskDescription>
-                <li [innerHtml]="(isUnit ? 'PUBLIC.TEAMBUILDER.TASKS.HELP.TRUD.ENTER PIS' : 'PUBLIC.TEAMBUILDER.TASKS.HELP.LABDIR.ENTER PIS') | translate"></li>
+                <li [innerHtml]="'PUBLIC.TEAMBUILDER.TASKS.HELP.LABDIR.ENTER PIS' | translate"></li>
                 <li>{{'PUBLIC.TEAMBUILDER.TASKS.HELP.LABDIR.A MAIL WILL BE SENT' | translate}}</li>
 
                 <li *ngFor="let pi of pisToSpecify">
@@ -15,8 +15,8 @@
                 </li>
                 <li>
                     <div>
-                        <label>{{(isUnit ? 'PUBLIC.TEAMBUILDER.TASKS.HELP.TRUD.ENTER TRU NAME' : 'PUBLIC.TEAMBUILDER.TASKS.HELP.LABDIR.ENTER LAB NAME') | translate}}</label>
-                        <gg-editor [content]="thisLaboOrUnit.name" [showControls]="true" [timeoutSeconds]="5" (editSaved)="laboOrUnitNameChanged($event)"></gg-editor>
+                        <label>{{'PUBLIC.TEAMBUILDER.TASKS.HELP.LABDIR.ENTER LAB NAME' | translate}}</label>
+                        <gg-editor [content]="thisLabo.name" [showControls]="true" [timeoutSeconds]="5" (editSaved)="laboNameChanged($event)"></gg-editor>
                     </div>
                 </li>
             </ul>

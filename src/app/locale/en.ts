@@ -1854,6 +1854,8 @@ export const locale = {
                         "DIRECTOR NAME": "Director",
                         "PI NAME": "Principal Investigator",
                         "NB PERSONS": "Nb of persons",
+                        "NB LABOS": "Nb of labs",
+                        "NB TEAMS": "Nb of teams",
                         "LABO NAME": "Laboratories"
                     },
                     "SEARCH HELP": {
@@ -1864,7 +1866,8 @@ export const locale = {
                     "LABEL": {
                         "UNIT NAME": "name of the unit",
                         "TEAM NAME": "name of the project of the team",
-                        "LAB NAME": "name of the laboratory"
+                        "LAB NAME": "name of the laboratory",
+                        "LAB MAIL SENT": "Email already sent"
                     }
                 },
                 "TASKS": {

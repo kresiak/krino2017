@@ -15,13 +15,11 @@ export class OrganiUnitDetail implements OnInit {
     authorizationStatusInfo: any;
 
     laboDirectorIds: any[];
-    laboPiIds: any[];
     labosObservable: Observable<any[]>;
     teamsObservable: Observable<any[]>;
     
     director: any;
     personsLabDirectorsObservable: Observable<any>;
-    personsPisObservable: Observable<any>;
     personsMembersObservable: Observable<any>;
     directorId: any;
     unit: any;
@@ -62,21 +60,6 @@ export class OrganiUnitDetail implements OnInit {
             this.laboDirectorIds = res
         })
 
-        this.personsPisObservable =
-            this.unitObservable.switchMap((unit) => {
-                this.teamsObservable= !unit ? Observable.from([[]]) : this.teambuilderService.getTeamsEnabledByLabo(unit.data._id)
-                return this.teamsObservable
-            })
-                .switchMap(teams => {
-                    var piIds= (teams || []).map(t => t.piId)
-                    return this.teambuilderService.getPersonsAnnotatedByIds(piIds)
-                })
-
-        this.personsPisObservable.map(personnes => personnes.map(p => p.data._id)).takeWhile(() => this.isPageRunning).subscribe(res => {
-            this.laboPiIds = res
-        })
-
-
         this.authService.getStatusObservable().takeWhile(() => this.isPageRunning).subscribe(statusInfo => {
             this.authorizationStatusInfo = statusInfo
         })
@@ -89,10 +72,6 @@ export class OrganiUnitDetail implements OnInit {
 
     ngOnDestroy(): void {
         this.isPageRunning = false
-    }
-
-    personsSelectionChanged(ids) {
-        this.teambuilderService.savePisOfLaboOrUnit(this.unit.data, ids)
     }
 
     nameUpdated(name) {

@@ -69,11 +69,16 @@ export class OrganiLaboDetail implements OnInit {
     }
 
     personsSelectionChanged(ids)  {
-        this.teambuilderService.savePisOfLaboOrUnit(this.labo.data, ids)
+        this.teambuilderService.savePisOfLabo(this.labo.data, ids)
     }
 
     nameUpdated(name) {
         this.labo.data.name= name
+        this.dataStore.updateData(this.teambuilderService.labosTable, this.labo.data._id, this.labo.data)
+    }
+
+    emailStatusUpdated(flag){
+        this.labo.data.mailSent= flag
         this.dataStore.updateData(this.teambuilderService.labosTable, this.labo.data._id, this.labo.data)
     }
 
