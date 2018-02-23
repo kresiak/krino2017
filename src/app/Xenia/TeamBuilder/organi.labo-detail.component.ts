@@ -22,6 +22,8 @@ export class OrganiLaboDetail implements OnInit {
     directorId: any;
     labo: any;
 
+    initialTab: string= 'tabTeams'
+
     isPageRunning: boolean = true;
 
     constructor(private teambuilderService: TeambuilderService, private dataStore: DataStore, private authService: AuthService) {

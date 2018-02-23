@@ -24,6 +24,8 @@ export class OrganiUnitDetail implements OnInit {
     directorId: any;
     unit: any;
 
+    initialTab: string='tabLabos'
+
     isPageRunning: boolean = true;
 
     constructor(private teambuilderService: TeambuilderService, private dataStore: DataStore, private authService: AuthService) {
@@ -32,6 +34,7 @@ export class OrganiUnitDetail implements OnInit {
     @Input() unitObservable: any
 
     ngOnInit(): void {
+
         this.unitObservable
             .do((unit: any) => {
                 this.unit = unit

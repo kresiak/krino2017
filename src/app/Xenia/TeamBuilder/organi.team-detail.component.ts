@@ -23,6 +23,8 @@ export class OrganiTeamDetail implements OnInit {
     piId: string
     team: any
 
+    initialTab: string= 'tabPersons'
+
     isPageRunning: boolean = true;
 
     constructor(private teambuilderService: TeambuilderService, private dataStore: DataStore, private authService: AuthService) {

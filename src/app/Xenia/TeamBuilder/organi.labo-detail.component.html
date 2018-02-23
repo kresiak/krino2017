@@ -3,7 +3,7 @@
         <h5>
             <span [style.color]="'red'">Labo</span>: {{labo.data.name || director.annotation.fullName || 'not named yet' }} </h5>
         <br/>
-        <ngb-tabset>
+        <ngb-tabset [activeId]="initialTab">
             <ngb-tab title="{{'PUBLIC.TEAMBUILDER.ORGANI.MENU.ABOUT LAB' | translate}}" id="tabInfoLabo">
                 <ng-template ngbTabContent>
                     <div class="card">
