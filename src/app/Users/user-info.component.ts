@@ -18,26 +18,26 @@ export class UserInfoComponent implements OnInit {
     public selectedEquipeIdsObservable
 
     ngOnInit(): void {
-        this.subscriptionAuthorization= this.authService.getStatusObservable().subscribe(statusInfo => {
+        this.authService.getStatusObservable().takeWhile(()=> this.isPageRunning).subscribe(statusInfo => {
             this.authorizationStatusInfo = statusInfo
         });
 
         this.selectableEquipes = this.equipeService.getSelectableEquipes();
-        this.selectedEquipeIdsObservable= this.authService.getAnnotatedUserById(this.user.data._id).map(user => user.annotation.equipes.map(eq => eq._id))        
+        this.selectedEquipeIdsObservable= this.authService.getAnnotatedUserById(this.user.data._id).takeWhile(()=> this.isPageRunning).map(user => user ? user.annotation.equipes.map(eq => eq._id): [])        
     }
     
     @Input() user; 
 
+    public isPageRunning: boolean = true
     ngOnDestroy(): void {
-         this.subscriptionAuthorization.unsubscribe()
+        this.isPageRunning = false
     }
-
+    
     equipeSelectionChanged(selectedIds: string[]) {
         this.dataStore.reverseFKUpdate('equipes', 'userIds', selectedIds, this.user.data._id)
     }
 
 
-    public subscriptionAuthorization: Subscription   
     public authorizationStatusInfo: AuthenticationStatusInfo
     //private subscriptionUser: Subscription         
 
