@@ -363,6 +363,10 @@ export class AuthService {
         return this.authInfoSubject.map(authInfo => authInfo.currentEquipeId);
     }
 
+    getLoggedInObservable(): Observable<any> {
+        return this.authInfoSubject.filter(authInfo => authInfo && authInfo.isLoggedIn)
+    }
+
     getStatusObservable(): Observable<AuthenticationStatusInfo> {
         return this.authInfoSubject
     }

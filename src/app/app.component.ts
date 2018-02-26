@@ -10,7 +10,7 @@ import { BasketService } from './Shared/Services/basket.service'
 import { MenuService } from './Shared/Services/menu.service'
 import { DataStore, WebSocketService, ConfigService } from 'gg-basic-data-services'
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser"
-import {TranslateService} from '@ngx-translate/core'
+import { TranslateService } from '@ngx-translate/core'
 import { environment } from '../environments/environment';
 
 @Component({
@@ -22,6 +22,8 @@ export class AppComponent implements OnInit {
     constructor(private authService: AuthService, private dataStore: DataStore, public menuService: MenuService, private notificationService: NotificationService, private basketService: BasketService,
         private router: Router, private modalService: NgbModal, private webSocketService: WebSocketService, private _sanitizer: DomSanitizer, public translate: TranslateService,
         private configService: ConfigService) {
+
+        this.dataStore.setApplication(this.dataStore.KRINO)
 
         this.configService.setProduction(environment.production)
 
@@ -54,39 +56,41 @@ export class AppComponent implements OnInit {
 
 
     public inDbInitialisationProcess: boolean = true
-    public laboName: string= ''
+    public laboName: string = ''
 
 
     ngOnInit(): void {
 
-        this.notificationService.getLmWarningMessages().takeWhile(() => this.isPageRunning).subscribe(res => {
+        this.authService.getLoggedInObservable().take(1).switchMap(() => this.notificationService.getLmWarningMessages().takeWhile(() => this.isPageRunning)).subscribe(res => {
             this.labManagerMessages = res
         })
 
-        this.basketService.getBasketItemsForCurrentUser().takeWhile(() => this.isPageRunning).subscribe(items => {
+        this.authService.getLoggedInObservable().take(1).switchMap(() => this.basketService.getBasketItemsForCurrentUser().takeWhile(() => this.isPageRunning)).subscribe(items => {
             this.nbProductsInBasket = items.length
         })
 
         Observable.combineLatest(
-            this.dataStore.getLaboNameObservable().takeWhile(() => this.isPageRunning), 
-            this.dataStore.getDataObservable('labos.list').map(labos => labos.map(labo => {
-            return {
-                id: labo.shortcut,
-                value: labo.name
-            }
-                })).takeWhile(() => this.isPageRunning), 
-        (laboName, laboList) => {
-            return {
-                laboName: laboName,
-                laboList: laboList
-            }
-        }).do(info => {
-            this.laboList= info.laboList
-            var labo= info.laboList.filter(l => l.id === info.laboName)[0]
-            this.laboName= labo ? labo.value : undefined
-        }).subscribe(res => {
+            this.dataStore.getLaboNameObservable().takeWhile(() => this.isPageRunning),
+            this.dataStore.getDataObservable('labos.list').map(labos => {
+                return labos.map(labo => {
+                    return {
+                        id: labo.shortcut,
+                        value: labo.name
+                    }
+                })
+            }).takeWhile(() => this.isPageRunning),
+            (laboName, laboList) => {
+                return {
+                    laboName: laboName,
+                    laboList: laboList
+                }
+            }).do(info => {
+                this.laboList = info.laboList
+                var labo = info.laboList.filter(l => l.id === info.laboName)[0]
+                this.laboName = labo ? labo.value : undefined
+            }).subscribe(res => {
 
-        })
+            })
 
         Observable.combineLatest(this.authService.getUserSimpleListObservable().takeWhile(() => this.isPageRunning), this.authService.getStatusObservable().takeWhile(() => this.isPageRunning), (usersShort, statusInfo) => {
             return {
@@ -95,21 +99,21 @@ export class AppComponent implements OnInit {
             }
         }).do(info => {
             this.authorizationStatusInfo = info.statusInfo
-            this.usersShort= info.usersShort
+            this.usersShort = info.usersShort
 
             this.userValue = this.usersShort.filter(user => user.id === info.statusInfo.currentUserId)[0]
 
-            this.needsEquipeSelection= !this.userValue ? true : !(this.usersShort.filter(u => u.id === info.statusInfo.currentUserId)[0] || {equipeNotNeeded: false}).equipeNotNeeded
+            this.needsEquipeSelection = !this.userValue ? true : !(this.usersShort.filter(u => u.id === info.statusInfo.currentUserId)[0] || { equipeNotNeeded: false }).equipeNotNeeded
 
         }).switchMap(info => {
-            return  this.authService.getPossibleEquipeSimpleListObservable(this.authorizationStatusInfo).takeWhile(() => this.isPageRunning)
+            return this.authService.getPossibleEquipeSimpleListObservable(this.authorizationStatusInfo).takeWhile(() => this.isPageRunning)
         }).do(possibleEquipes => {
             this.possibleEquipes = possibleEquipes
             this.equipeValue = this.possibleEquipes.filter(eq => eq.id === this.authorizationStatusInfo.currentEquipeId)[0]
         })
-        .takeWhile(() => this.isPageRunning).subscribe(res => {
-            this.inDbInitialisationProcess= false
-        })       
+            .takeWhile(() => this.isPageRunning).subscribe(res => {
+                this.inDbInitialisationProcess = false
+            })
     }
 
     ngOnDestroy(): void {
@@ -164,7 +168,7 @@ export class AppComponent implements OnInit {
 
     laboSelected(value) {
         if (!value) return
-        this.inDbInitialisationProcess= true
+        this.inDbInitialisationProcess = true
         this.authService.setUserId('', false)
         this.dataStore.setLaboName(value.id)
     }
@@ -172,7 +176,7 @@ export class AppComponent implements OnInit {
     title = 'Krino';
 
     changeLabo() {
-        this.authorizationStatusInfo.logout()        
+        this.authorizationStatusInfo.logout()
         this.dataStore.setLaboName(undefined)
     }
 

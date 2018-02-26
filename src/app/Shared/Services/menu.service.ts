@@ -29,7 +29,8 @@ export class MenuService {
         }).do(info => {
             this.initMenuBasedOnLoginUser(info.statusInfo, info.laboName)
             this.emitCurrentMenu()
-        }).switchMap(info => {
+        }).switchMap(info => {            
+            if (!info.statusInfo.isLoggedIn) return Observable.from([{isAdmin: false}])
             return Observable.combineLatest(this.notificationService.getLmWarningMessages().map(messagesObj => messagesObj.finishingOtps.length).distinctUntilChanged(),
                 this.notificationService.getNbPrivateMessages(info.statusInfo.currentUserId).distinctUntilChanged(),
                 this.translationLoaderService.getTranslationWord('DASHBOARD.ALERTS.EXPIRING OTPS'), this.translationLoaderService.getTranslationWord('DASHBOARD.ALERTS.PRIVATE MSGS'),
@@ -42,7 +43,7 @@ export class MenuService {
                         isAdmin: info.statusInfo.isAdministrator()
                     }
                 })
-        }).do(data => {
+        }).do((data : any) => {
             var needsHighlight: boolean = ((data.isAdmin ? data.nbFinishingOtp : 0) + data.nbPrivateMessages) > 0
 
             var item = this.menu.filter(menuitem => menuitem.route === '/dashboard')[0]
