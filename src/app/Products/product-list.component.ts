@@ -62,7 +62,7 @@ export class ProductListComponent implements OnInit {
         this.selectedProductIdsMap = new Set(this.selectedProductIds)
         this.stateInit();
 
-        this.basketService.getBasketProductsSetForCurrentUser().subscribe(basketPorductsMap => {
+        this.basketService.getBasketProductsSetForCurrentUser().takeWhile(() => this.isPageRunning).subscribe(basketPorductsMap => {
             this.basketPorductsMap = basketPorductsMap
             this.productService.setBasketInformationOnProducts(this.basketPorductsMap, this.products)
         })

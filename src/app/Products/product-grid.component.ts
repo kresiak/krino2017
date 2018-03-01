@@ -84,7 +84,7 @@ export class ProductGridComponent implements OnInit
 
     getProductCategoryIdsObservable(id: string) : Observable<any>
     {
-        return this.productsObservable.map(products => products.filter(product => product.data._id === id)[0].data.categoryIds);
+        return this.productsObservable.takeWhile((products) => products && products.length && this.isPageRunning).map(products => products.filter(product => product.data._id === id)[0].data.categoryIds);
     }
 
     descriptionUpdated(desc: string, product) {

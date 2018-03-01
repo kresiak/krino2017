@@ -55,7 +55,7 @@ export class SapDetailComponent implements OnInit {
             this.authorizationStatusInfo = statusInfo
         });
 
-        this.sapObservable.takeWhile(() => this.isPageRunning).do(res => {
+        this.sapObservable.takeWhile((res) => res && res.mainData && this.isPageRunning).do(res => {
             this.sapObj= res
             this.sapItem= res.mainData
             this.sapEngage= res.engaged

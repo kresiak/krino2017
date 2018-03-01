@@ -60,7 +60,7 @@ export class StockService {
     }
 
     getAnnotatedStockProductsAll(): Observable<any> {
-        return this.getAnnotatedStockProducts(this.dataStore.getDataObservable('products.stock')).map(sps => sps.groupBy(sp => sp.data.productId));
+        return this.getAnnotatedStockProducts(this.dataStore.getDataObservable('products.stock')).map(sps => (sps && sps.length > 0) ? sps.groupBy(sp => sp.data.productId) : []);
     }
 
 /*    getNbAvailableInStockByProduct(): Observable<any> {

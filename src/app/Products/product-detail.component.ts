@@ -58,8 +58,8 @@ export class ProductDetailComponent implements OnInit {
         this.filePath= this.dataStore.getPictureUrlBase()
 
         this.stateInit();
-        this.selectableCategoriesObservable = this.productService.getSelectableCategories();
-        this.selectedCategoryIdsObservable = this.productObservable.map(product => product.data.categoryIds);
+        this.selectableCategoriesObservable = this.productService.getSelectableCategories().takeWhile(() => this.isPageRunning);
+        this.selectedCategoryIdsObservable = this.productObservable.takeWhile((product) => this.isPageRunning && product).map(product => product.data.categoryIds)
 
         this.selectableCurrenciesObservable= this.productService.getCurrenciesForAutocomplete()
 
@@ -67,7 +67,7 @@ export class ProductDetailComponent implements OnInit {
         this.selectableUsers = this.authService.getSelectableUsers();
         this.selectedUserIdsObservable = this.productObservable.map(product => product.data.userIds);
 
-        this.productObservable.takeWhile(() => this.isPageRunning)
+        this.productObservable.takeWhile((product) => this.isPageRunning && product)
             .do(product => {
                 if (!comparatorsUtils.softCopy(this.product, product))
                     this.product = product;
@@ -89,7 +89,7 @@ export class ProductDetailComponent implements OnInit {
             this.authorizationStatusInfo = statusInfo
         })
 
-        this.basketService.getBasketProductsSetForCurrentUser().subscribe(basketPorductsMap => {
+        this.basketService.getBasketProductsSetForCurrentUser().takeWhile(() => this.isPageRunning && this.product).subscribe(basketPorductsMap => {
             this.basketPorductsMap = basketPorductsMap
             this.productService.setBasketInformationOnProducts(this.basketPorductsMap, [this.product])
         })
