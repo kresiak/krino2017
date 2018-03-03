@@ -24,7 +24,8 @@ export class OtpEnterComponent implements OnInit {
         this.formStructure.push(new FormItemStructure('budget', 'OTP.LABEL.BUDGET', FormItemType.InputNumber, {isRequired: true, minNumber: 1}))        
         this.formStructure.push(new FormItemStructure('description', 'OTP.LABEL.DESCRIPTION', FormItemType.InputText, {isRequired: true}))
         this.formStructure.push(new FormItemStructure('datStart', 'OTP.LABEL.FROM', FormItemType.GigaDate))
-        this.formStructure.push(new FormItemStructure('datEnd', 'OTP.LABEL.TO', FormItemType.GigaDate))        
+        this.formStructure.push(new FormItemStructure('datEnd', 'OTP.LABEL.TO', FormItemType.GigaDate)) 
+        this.formStructure.push(new FormItemStructure('priority', 'OTP.LABEL.PRIORITY', FormItemType.InputNumber, {isRequired: true, minNumber: 1}))                       
         this.formStructure.push(new FormItemStructure('note', 'OTP.LABEL.NOTE', FormItemType.InputText))        
         this.formStructure.push(new FormItemStructure('isBlocked', 'OTP.LABEL.IS BLOCKED', FormItemType.InputCheckbox))
         this.formStructure.push(new FormItemStructure('isLimitedToOwner', 'OTP.LABEL.LIMITED OWNER', FormItemType.InputCheckbox))
@@ -42,7 +43,8 @@ export class OtpEnterComponent implements OnInit {
             excludeFixCost: data.excludeFixCost,
             isLimitedToOwner: data.isLimitedToOwner,
             equipeId: this.equipeId,
-            note: data.note
+            note: data.note,
+            priority: data.priority
         }
         let budgetPeriods = []
         budgetPeriods.push({
