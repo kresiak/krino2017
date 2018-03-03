@@ -25,7 +25,7 @@ export class ClassificationListComponent implements OnInit {
     filterClassifications(classification, txt) {
         if (txt === '' || txt === '#') return true
 
-        return classification.data.name.toUpperCase().includes(txt) || classification.data.description.toUpperCase().includes(txt)
+        return (classification.data.name || '').toUpperCase().includes(txt) || (classification.data.description || '').toUpperCase().includes(txt)
     }
 
 
