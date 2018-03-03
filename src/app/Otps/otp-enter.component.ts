@@ -9,6 +9,7 @@ import { FormItemStructure, FormItemType} from 'gg-ui'
     templateUrl: './otp-enter.component.html'
 })
 export class OtpEnterComponent implements OnInit {
+    otpNameObservable: Observable<any[]>;
 
     constructor(private dataStore: DataStore) {
 
@@ -19,6 +20,9 @@ export class OtpEnterComponent implements OnInit {
     public formStructure: FormItemStructure[]= []
 
     ngOnInit(): void {
+        this.otpNameObservable= this.dataStore.getDataObservable('otps').map(otps => otps.map(o => o.name))
+
+
         this.formStructure.push(new FormItemStructure('name', 'OTP.LABEL.OTP', FormItemType.InputText, {isRequired: true, minimalLength: 5}))
         this.formStructure.push(new FormItemStructure('isAnnual', 'OTP.LABEL.IS ANNUAL', FormItemType.InputCheckbox))
         this.formStructure.push(new FormItemStructure('budget', 'OTP.LABEL.BUDGET', FormItemType.InputNumber, {isRequired: true, minNumber: 1}))        
