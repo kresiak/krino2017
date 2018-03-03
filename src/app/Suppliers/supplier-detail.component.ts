@@ -210,6 +210,7 @@ export class SupplierDetailComponent implements OnInit {
     }
 
     nbVouchersOrderedUpdated(categoryId, nbOrdered) {
+        if (!this.currentAnnotatedUser) return
         if (!this.currentAnnotatedUser.data.voucherRequests) this.currentAnnotatedUser.data.voucherRequests = []
         let request = this.currentAnnotatedUser.data.voucherRequests.filter(request => request.supplierId === this.supplierId && request.categoryId === categoryId)[0]
         if (!request) {
