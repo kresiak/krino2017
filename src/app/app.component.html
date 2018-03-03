@@ -13,7 +13,7 @@
 		<h6 class="modal-title col-sm-10">{{laboName}}</h6>
 		<button type="button" class="close col-sm-2" aria-label="Close" (click)="d('Cross click')">
 			<span aria-hidden="true">&times;</span>
-			</button>
+		</button>
 	</div>
 	<div class="modal-body">
 		<div class="card" style="border:none">
@@ -48,7 +48,8 @@
 						<button style="font-size:12px;" type="button" (click)="openModal(passwordModal)" class="form-control btn btn-link">{{'LOGIN.ENTER PWD' | translate}}</button>
 					</div>
 					<div class="col-sm-11 align-self-center" *ngIf="authorizationStatusInfo && !authorizationStatusInfo.isLoggedIn">
-						<button [ngbTooltip]="tipLaboName" placement="bottom" style="font-size:12px;" type="button" (click)="changeLabo()" class="form-control btn btn-link">{{'LOGIN.LABO.CHANGE' | translate}}  {{authorizationStatusInfo.isLoginError? ('(' + ('LOGIN.PWD ERR' | translate) + ')') : ''}}</button>
+						<button [ngbTooltip]="tipLaboName" placement="bottom" style="font-size:12px;" type="button" (click)="changeLabo()" class="form-control btn btn-link">{{'LOGIN.LABO.CHANGE' | translate}} {{authorizationStatusInfo.isLoginError? ('(' + ('LOGIN.PWD ERR' | translate) +
+							')') : ''}}</button>
 					</div>
 
 				</div>
@@ -59,12 +60,17 @@
 					 (click)="changeLabo()">{{laboName}}</label>
 				</div>
 				<div class="col-sm-2 align-self-center" *ngIf="nbProductsInBasket > 0 && !authorizationStatusInfo.isPassiveUser()">
-					<div class="col-sm-1"><img height="25" width="25" src="images/shopping-basket-info-icon.png" class="imgSearch" (click)="navigateToBasket()"
-						 placement="bottom" [ngbTooltip]="tipOpenBasket" /></div>
+					<div class="col-sm-1">
+						<img height="25" width="25" src="images/shopping-basket-info-icon.png" class="imgSearch" (click)="navigateToBasket()"
+						 placement="bottom" [ngbTooltip]="tipOpenBasket" />
+					</div>
 				</div>
 			</div>
 		</div>
-		<div class="col-xs-12 col-sm-12 col-md-4 col-lg-2 align-self-center" *ngIf="!laboName && laboList && laboList.length > 0">
+		<div class="col-xs-12 col-sm-12 col-md-4 col-lg-2 align-self-center" *ngIf="laboLoading">
+				<img src="images/loading.gif" />			
+		</div>
+		<div class="col-xs-12 col-sm-12 col-md-4 col-lg-2 align-self-center" *ngIf="!laboLoading && !laboName && laboList && laboList.length > 0">
 			<div class="form-group">
 				<!-- LABO -->
 				<input class="form-control" style="margin-top:8px;height:32px;line-height:32px;font-size:12px;cursor:pointer;" ng2-auto-complete
@@ -88,7 +94,7 @@
 	</ng-container>
 </gg-main-header>
 
-<gg-menus [menuObservable]="menuService.getMenuObservable()" [extraRoutes]="['order', 'otp', 'equipe', 'product', 'user', 'category', 'supplier', 'sap']" 
-			[translateKeyRoot]="'MENU ROUTE TITLES'" ></gg-menus>
+<gg-menus [menuObservable]="menuService.getMenuObservable()" [extraRoutes]="['order', 'otp', 'equipe', 'product', 'user', 'category', 'supplier', 'sap']"
+ [translateKeyRoot]="'MENU ROUTE TITLES'"></gg-menus>
 
 <router-outlet></router-outlet>

@@ -166,11 +166,14 @@ export class AppComponent implements OnInit {
         }
     }
 
+    laboLoading: boolean= false
+
     laboSelected(value) {
         if (!value) return
+        this.laboLoading= true
         this.inDbInitialisationProcess = true
         this.authService.setUserId('', false)
-        this.dataStore.setLaboName(value.id)
+        this.dataStore.setLaboName(value.id, () => { this.laboLoading= false} )
     }
 
     title = 'Krino';
