@@ -269,29 +269,29 @@ export const locale = {
                     "INITIAL BUDGET": "initial budget for period:",
                     "START DATE": "start date:",
                     "END DATE": "end date:",
-                    "CREANCE DATE": "date of the claim:",
+                    "CREANCE DATE": "intermediary date:",
                     "ADDED LATER": "budget added later:",
                     "BUDGET BLOCKED": "budget blocked:",
                     "THAT CAN USED": "budget that can be used:",
-                    "BUDGET INCREMENT": "Budget increment",
+                    "BUDGET INCREMENT": "Budget majoration",
                     "DATE": "Date",
                     "COMMENT": "Comment",
                     "AMOUNT BLOCKED": "blocked amount",
                     "REASON/COMMENT": "reason / comment:",
                     "BUDGET CHANGE PHOLDER": "Budget change",
-                    "DATE DE LA CREANCE": "date of the claim",
-                    "DEPENSE POUR LA PERIODE": "total spending desired at claim date"
+                    "DATE DE LA CREANCE": "intermediary date",
+                    "DEPENSE POUR LA PERIODE": "total spending desired at the intermediary date"
                 },
                 "COLUMN": {
                     "BUDGET OF THE PERIOD": "Budget of the period",
                     "DATE START": "Date start",
                     "DATE END": "Date end",
-                    "BUDGET INCREMENT": "Budget increment",
+                    "BUDGET INCREMENT": "Budget majoration",
                     "DATE": "Date",
                     "COMMENT": "Comment",
                     "AMOUNT BLOCKED": "Amount blocked",
                     "REASON/COMMENT": "Reason/Comment",
-                    "DATE DE LA CREANCE": "Date of the claim",
+                    "DATE DE LA CREANCE": "Intermediary date",
                     "DEPENSE POUR LA PERIODE": "Desired total spending"
                 },
                 "MENU": {
@@ -302,9 +302,9 @@ export const locale = {
                     "BLOCKED AMOUNTS": "Blocked amounts",
                     "LIST BLOCKED AMOUNT": "List of blocked amount",
                     "ADD BLOCKED AMOUNT": "Add a blocked amount",
-                    "CREANCES": "Claim dates",
-                    "LIST DE CREANCES": "List of claim dates",
-                    "ENTER UNE NOUVELLE CREANCE": "Add a claim date"
+                    "CREANCES": "Intermediary spending targets",
+                    "LIST DE CREANCES": "List of intermediary spending targets",
+                    "ENTER UNE NOUVELLE CREANCE": "Add an intermediary spending target date"
                 },
                 "MSG": {
                     "CREANCE ERROR": "There was an error: a spending amount at a later date must always be superior to an earlier one! Also it must be less than the available budget for that period."
@@ -350,7 +350,7 @@ export const locale = {
                 "LIMITED": "Limited",
                 "CLOSED": "Closed",
                 "NO PRIORITY": "No priority",
-                "CREANCE": "(claim)"
+                "CREANCE": "(interm. obj.)"
             },
             "SEARCH HELP": {
                 "MSG1": "RWAL: if the OTP, its classification or the associated project contains 'RWAL'",
@@ -362,7 +362,7 @@ export const locale = {
                 "MSG7": "#P0: if the OTP has no priority/priority=0 set (those otps will never be chosen)",
                 "MSG8": "#OK: if the OTP is OK, and could be chosen, provided that the dates and budget are adequate. (neither deleted, nor blocked, nor closed, nor priority 0)",
                 "MSG9": "#NO: if the OTP can't be chosen (blocked or closed or priority 0)",
-                "MSG10": "#CR: if the OTP has a coming claim date",
+                "MSG10": "#CR: if the OTP has a coming intermediary spending objective",
                 "MSG11": "$DO : if the OTP has documents associated"
             }
         },

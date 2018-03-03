@@ -269,29 +269,29 @@ export const locale = {
                     "INITIAL BUDGET": "budget initial pour la période:",
                     "START DATE": "date de début:",
                     "END DATE": "date de fin:",
-                    "CREANCE DATE": "date de créance:",
+                    "CREANCE DATE": "date intermédiaire:",
                     "ADDED LATER": "budget ajouté ultérieurement:",
                     "BUDGET BLOCKED": "budget bloqué:",
                     "THAT CAN USED": "budget total initialement à disposition:",
-                    "BUDGET INCREMENT": "incrément de budget",
+                    "BUDGET INCREMENT": "majoration de budget",
                     "DATE": "date",
                     "COMMENT": "commentaire",
                     "AMOUNT BLOCKED": "montant bloqué",
                     "REASON/COMMENT": "raison / commentaire:",
                     "BUDGET CHANGE PHOLDER": "changement de budget",
-                    "DATE DE LA CREANCE": "date de la créance",
+                    "DATE DE LA CREANCE": "date intermédiaire",
                     "DEPENSE POUR LA PERIODE": "dépense totale visée à cette date"
                 },
                 "COLUMN": {
                     "BUDGET OF THE PERIOD": "Budget pour la période",
                     "DATE START": "Début",
                     "DATE END": "Fin",
-                    "BUDGET INCREMENT": "Incrément de budget",
+                    "BUDGET INCREMENT": "Majoration de budget",
                     "DATE": "Date",
                     "COMMENT": "Commentaire",
                     "AMOUNT BLOCKED": "Montant bloqué",
                     "REASON/COMMENT": "Raison / commentaire",
-                    "DATE DE LA CREANCE": "Date de la créance",
+                    "DATE DE LA CREANCE": "Date imtermédiaire",
                     "DEPENSE POUR LA PERIODE": "Dépense totale visée"
                 },
                 "MENU": {
@@ -302,12 +302,12 @@ export const locale = {
                     "BLOCKED AMOUNTS": "Montants bloqués",
                     "LIST BLOCKED AMOUNT": "Liste de montants bloqués",
                     "ADD BLOCKED AMOUNT": "Ajouter un montant bloqué",
-                    "CREANCES": "Dates de créances",
-                    "LIST DE CREANCES": "Liste des dates de créances",
-                    "ENTER UNE NOUVELLE CREANCE": "Ajouter une date de créance"
+                    "CREANCES": "Dates des objectifs de dépense intermédiaire",
+                    "LIST DE CREANCES": "Liste des objectifs de dépense intermédiaire",
+                    "ENTER UNE NOUVELLE CREANCE": "Ajouter un objectif de dépense intermédiaire"
                 },
                 "MSG": {
-                    "CREANCE ERROR": "Erreur: la dépense totale pour une date ultérieure doit toujours être supérieure à celle d'une créance antérieure! Elle doit aussi être inférieure au montant total de budget disponible pour la période."
+                    "CREANCE ERROR": "Erreur: la dépense totale pour une date ultérieure doit toujours être supérieure à celle de l'objectif antérieur! Elle doit aussi être inférieure au montant total de budget disponible pour la période."
                 }
             },
             "LABEL": {
@@ -350,7 +350,7 @@ export const locale = {
                 "LIMITED": "Limité",
                 "CLOSED": "Fermé",
                 "NO PRIORITY": "Sans priorité",
-                "CREANCE": "(créance)"
+                "CREANCE": "(obj. interm.)"
             },
             "SEARCH HELP": {
                 "MSG1": "RWAL: si l'OTP, sa classification ou l'équipe associée contient 'RWAL'",
@@ -362,7 +362,7 @@ export const locale = {
                 "MSG7": "#P0: si l'OTP n'a pas de priorité (et ne sera donc jamais choisi)",
                 "MSG8": "#OK: si l'OTP est OK et peut donc en principe, si les dates et le budget restant collent, être choisi (ni supprimé, ni bloqué, ni fermé, ni priorité 0)",
                 "MSG9": "#NO: si l'OTP, à cause de son statut, ne peut être choisi (bloqué ou fermé ou priorité 0)",
-                "MSG10": "#CR: si l'OTP a une date de créance en cours",
+                "MSG10": "#CR: si l'OTP a un objectif de dépense intermédiaire",
                 "MSG11": "$DO : liste des otps qui ont des documents associés"
             }
         },
