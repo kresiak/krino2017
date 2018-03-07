@@ -23,9 +23,10 @@ export class AppComponent implements OnInit {
         private router: Router, private modalService: NgbModal, private webSocketService: WebSocketService, private _sanitizer: DomSanitizer, public translate: TranslateService,
         private configService: ConfigService) {
 
+        this.configService.setProduction(environment.production)
+
         this.dataStore.setApplication(this.dataStore.KRINO)
 
-        this.configService.setProduction(environment.production)
 
         this.webSocketService.init()
         this.authService.initFromLocalStorage()
@@ -166,14 +167,14 @@ export class AppComponent implements OnInit {
         }
     }
 
-    laboLoading: boolean= false
+    laboLoading: boolean = false
 
     laboSelected(value) {
         if (!value) return
-        this.laboLoading= true
+        this.laboLoading = true
         this.inDbInitialisationProcess = true
         this.authService.setUserId('', false)
-        this.dataStore.setLaboName(value.id, () => { this.laboLoading= false} )
+        this.dataStore.setLaboName(value.id, () => { this.laboLoading = false })
     }
 
     title = 'Krino';

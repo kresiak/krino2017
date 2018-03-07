@@ -217,12 +217,6 @@ export class MenuService {
                 title: 'Participate',
                 titleKey: 'MENU.PARTICIPATE',
                 active: false
-            },
-            {
-                route: '/xenia',
-                title: 'Xenia',
-                titleKey: 'MENU.XENIA',
-                active: false
             }
         ];
         this.menu = this.menu.filter(item => !item.hide)

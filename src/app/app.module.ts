@@ -25,25 +25,6 @@ import { OrdersModule } from './Orders/modules/orders.module'
 
 import { CommentsModule } from './Comments/modules/comments.module'
 
-import { XeniaModule } from './Xenia/modules/xenia.module'
-
-import { XeniaMainComponent } from './Xenia/xenia-main.component'
-import { XeniaWelcomeMainComponent } from './Xenia/xenia-welcome-main.component'
-import { XeniaWelcomeIntroComponent } from './Xenia/welcome/welcome-intro.component'
-import { XeniaWelcomeNameComponent } from './Xenia/welcome/welcome-name.component'
-import { XeniaWelcomeNameConfirmComponent } from './Xenia/welcome/welcome-name-confirm.component'
-import { XeniaWelcomeEmailComponent } from './Xenia/welcome/welcome-email.component'
-import { XeniaWelcomePiComponent } from './Xenia/welcome/welcome-pi.component'
-import { XeniaWelcomeFinalComponent } from './Xenia/welcome/welcome-final.component'
-import { GigaPersonsSelectionComponent } from './Xenia/TeamBuilder/giga-persons-selection.component'
-import { OrganiGigaMain } from './Xenia/TeamBuilder/organi.giga-main.component'
-
-import { TasksHeadComponent } from './Xenia/TeamBuilder/tasks.head.component'
-import { TasksTrudComponent } from './Xenia/TeamBuilder/tasks.trud.component'
-import { TasksPiComponent } from './Xenia/TeamBuilder/tasks.pi.component'
-import { TasksLaboComponent } from './Xenia/TeamBuilder/tasks.labo.component'
-
-
 import { AppComponent } from './app.component'
 import { HomeComponent } from './home.component'
 
@@ -184,7 +165,7 @@ registerLocaleData(localeFr, 'fr');  // https://angular.io/guide/i18n#i18n-pipes
 
 @NgModule({
   imports: [
-    UiModule.forRoot(), SearchHandleDataModule.forRoot(), TranslationServicesModule.forRoot(), ProductsModule, CommentsModule, OrdersModule, XeniaModule,
+    UiModule.forRoot(), SearchHandleDataModule.forRoot(), TranslationServicesModule.forRoot(), ProductsModule, CommentsModule, OrdersModule,
     BasicServicesModule.forRoot(),
     BasicDataServicesModule.forRoot(),
     PlatformModule.forRoot(),
@@ -226,56 +207,6 @@ registerLocaleData(localeFr, 'fr');  // https://angular.io/guide/i18n#i18n-pipes
       { path: 'communication', component: CommunicationEnterComponent },
       { path: 'platform', component: PlatformMainComponent },
       { path: 'public', component: PublicMainComponent },
-      { path: 'taskshead/:id', component: TasksHeadComponent },  
-      { path: 'taskstrud/:id', component: TasksTrudComponent },      
-      { path: 'taskslabd/:id', component: TasksLaboComponent },      
-      { path: 'taskspi/:id', component: TasksPiComponent },      
-      { path: 'organiGiga', component: OrganiGigaMain },            
-      {
-        path: 'xenia',
-        component: XeniaMainComponent,
-        children: [
-          {
-            path: 'welcome',
-            component: XeniaWelcomeMainComponent,
-            children: [
-              {
-                path: '',
-                pathMatch: 'full',
-                redirectTo: 'intro'
-              },
-              {
-                path: 'intro',
-                component: XeniaWelcomeIntroComponent
-              },
-              {
-                path: 'name',
-                component: XeniaWelcomeNameComponent
-              },
-              {
-                path: 'nameConfirm',
-                component: XeniaWelcomeNameConfirmComponent
-              },
-              {
-                path: 'email',
-                component: XeniaWelcomeEmailComponent
-              },
-              {
-                path: 'pi',
-                component: XeniaWelcomePiComponent
-              },
-              {
-                path: 'final',
-                component: XeniaWelcomeFinalComponent
-              }
-            ]
-          },
-          {
-            path: 'teambuilder',
-            component: GigaPersonsSelectionComponent
-          }
-        ]
-      },
       { path: '**', redirectTo: '/home' }
     ])
   ],
