@@ -33,7 +33,9 @@ export class ProductStockageComponent implements OnInit {
 
     public isPageRunning: boolean = true
 
-    public listOfScans = ['']
+    private emptyScan= () => comparatorsUtils.clone({id: '', lot: ''})
+
+    public listOfScans = [this.emptyScan()]
 
     public errors = []
 
@@ -70,36 +72,46 @@ export class ProductStockageComponent implements OnInit {
     onBlurMethod(pos, data) {
         if (!this.listOfScans[+pos]) return
         if (pos === this.listOfScans.length - 1) {
-            this.listOfScans.push('')
+            this.listOfScans.push(this.emptyScan())
             this.currentPos = pos + 1
         }
     }
 
-    onChangeMethod(pos, data) {
+    private getRelevantScans() {
+        return this.listOfScans.filter(line => line.id.trim() && !this.entriesMap.has(line.id.trim()))
+    }
+
+    onChangeIdMethod(pos, data) {
         this.errors[pos]=''
         var txt = data.target.value.trim()        
-        this.listOfScans[+pos] = txt
+        this.listOfScans[+pos].id = txt
         if (this.entriesMap.has(txt)) {
             var entry= this.entriesMap.get(txt)
             this.errors[pos]= "Cette étiquette existe déjà! (" + entry.annotation.productName + ' ajouté le ' +  entry.data.dateCreate + ')'
         }
-        this.nbBeenAdded= this.listOfScans.filter(txt => txt.trim() && !this.entriesMap.has(txt.trim())).length
+        this.nbBeenAdded= this.getRelevantScans().length
     }
 
+    onChangeLotMethod(pos, data) {
+        var txt = data.target.value.trim()        
+        this.listOfScans[+pos].lot = txt
+    }
+    
     trackByFn(index, item) {
         return index; // or item.id
     }
 
     resetControl(pos) {
-        this.listOfScans[pos] = ''
-        this.nbBeenAdded= this.listOfScans.filter(txt => txt.trim() && !this.entriesMap.has(txt.trim())).length
+        this.listOfScans[pos] = this.emptyScan()
+        this.nbBeenAdded= this.getRelevantScans().length
     }
 
     save() {
-        var newScans = this.listOfScans.filter(txt => txt.trim() && !this.entriesMap.has(txt.trim())).map(txt => {
+        var newScans = this.getRelevantScans().map(line => {
             return {
                 productId: this.productId,
-                scanId: txt,
+                scanId: line.id,
+                lot: line.lot,
                 userIdCreate: this.authorizationStatusInfo.currentUserId,
                 dateCreate: utilsdate.nowFormated()
             }
@@ -111,14 +123,14 @@ export class ProductStockageComponent implements OnInit {
     }
 
     reset() {
-        this.listOfScans = ['']
+        this.listOfScans = [this.emptyScan()]
         this.currentPos = 0
         this.errors= []
         this.nbBeenAdded=0
     }
 
     isDisabled() {
-        return this.listOfScans.filter(txt => txt.trim()).length === 0
+        return this.listOfScans.filter(line => line.id.trim()).length === 0
     }
 
     deleteEntry(stockId) {

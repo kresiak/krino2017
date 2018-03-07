@@ -693,7 +693,8 @@ export const locale = {
                     "USER OUT": "Utilisateur qui a déstoqué",
                     "DATE IN": "Date stockage",
                     "DATE OUT": "Date déstockage",
-                    "DELETE": "Supprimer"
+                    "DELETE": "Supprimer",
+                    "LOT": "Lot"
                 },
                 "LABEL": {
                     "NB IN STOCK": "Actullement dans le stock:"

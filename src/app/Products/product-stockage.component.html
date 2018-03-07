@@ -25,6 +25,9 @@
                                 <div class="col-sm-2 align-self-center">
                                     <b>{{'PRODUCT.STOCKAGE.COLUMN.SCANID' | translate}}</b>
                                 </div>
+                                <div class="col-sm-1 align-self-center">
+                                    <b>{{'PRODUCT.STOCKAGE.COLUMN.LOT' | translate}}</b>
+                                </div>
                                 <div class="col-sm-2 align-self-center">
                                     <b>{{'PRODUCT.STOCKAGE.COLUMN.DATE IN' | translate}}</b>
                                 </div>
@@ -37,13 +40,16 @@
                                 <div class="col-sm-2 align-self-center">
                                     <b>{{'PRODUCT.STOCKAGE.COLUMN.USER OUT' | translate}}</b>
                                 </div>
-                                <div class="col-sm-2 align-self-center">
+                                <div class="col-sm-1 align-self-center">
                                     <b>{{'PRODUCT.STOCKAGE.COLUMN.DELETE' | translate}}</b>
                                 </div>
                             </div>
                             <div class="row" *ngFor="let stockage of entries; let pos= index">
                                 <div class="col-sm-2 align-self-center">
                                     {{stockage.scanId}}
+                                </div>
+                                <div class="col-sm-1 align-self-center">
+                                    {{stockage.lot}}
                                 </div>
                                 <div class="col-sm-2 align-self-center">
                                     {{stockage.dateCreate | fullDate}}
@@ -57,7 +63,7 @@
                                 <div class="col-sm-2 align-self-center">
                                     {{ getUserName(stockage.userIdOut)}}
                                 </div>
-                                <div class="col-sm-2 align-self-center">
+                                <div class="col-sm-1 align-self-center">
                                     <gg-checkbox-delete [typeObjectKey]="'GENERAL.OBJECT.ENTRY'" (doDelete)="deleteEntry(stockage._id)"></gg-checkbox-delete>
                                 </div>
                             </div>
@@ -70,7 +76,11 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-sm-4 align-self-center">
+                                <div class="col-sm-3 align-self-center">
+                                    <b>{{'PRODUCT.STOCKAGE.COLUMN.SCANID' | translate}}</b>
+                                </div>
+                                <div class="col-sm-3 align-self-center">
+                                    <b>{{'PRODUCT.STOCKAGE.COLUMN.LOT' | translate}}</b>
                                 </div>
                                 <div class="col-sm-2 align-self-center">
                                     <b>{{'GENERAL.ACTION.DELETE' | translate}}</b>
@@ -78,11 +88,12 @@
                             </div>
                             <div class="row" *ngFor="let scanTxt of listOfScans; let pos=index;trackBy: trackByFn">
                                 <div class="col-sm-3 align-self-center">
-                                    <input [ggFocus]="pos===currentPos" type="text" [ngModel]="listOfScans[pos]" class="form-control" (input)="onChangeMethod(pos, $event)"
-                                         />
+                                    <input [ggFocus]="pos===currentPos" type="text" [ngModel]="listOfScans[pos].id" class="form-control" (input)="onChangeIdMethod(pos, $event)"
+                                    />
                                 </div>
-                                <div class="col-sm-3 align-self-center" >
-                                    <input type="text" class="form-control" (blur)="onBlurMethod(pos, $event)"/>
+                                <div class="col-sm-3 align-self-center">
+                                    <input type="text" class="form-control" [ngModel]="listOfScans[pos].lot" (blur)="onBlurMethod(pos, $event)" (input)="onChangeLotMethod(pos, $event)"
+                                    />
                                 </div>
                                 <div class="col-sm-2 align-self-center">
                                     <span>

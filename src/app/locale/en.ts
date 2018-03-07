@@ -693,7 +693,8 @@ export const locale = {
                     "USER OUT": "User who stocked out",
                     "DATE IN": "Date stocked in",
                     "DATE OUT": "Date stocked out",
-                    "DELETE": "Delete"
+                    "DELETE": "Delete",
+                    "LOT": "Lot"
                 },
                 "LABEL": {
                     "NB IN STOCK": "Currently in the stock:"
