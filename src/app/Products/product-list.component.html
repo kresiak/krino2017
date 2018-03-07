@@ -35,7 +35,7 @@
 					<div class="col-sm-2">{{product.data.catalogNr}}</div>
 					<div class="col-sm-2">{{product.data.price | ggCurrency:product.annotation.currency}}</div>
 					<div class="col-sm-1">
-						<img [ngbTooltip]="tipContentFrigo" *ngIf="product.data.isFrigo && !isProductReadOnly(product)" height="25"
+						<img [ngbTooltip]="tipContentFrigo" *ngIf="product.data.isFrigo	 && !isProductReadOnly(product)" height="25"
 						 width="25" src="images/refrigator.png" (click)="saveFrigoProperty($event, product, false)" [ngbTooltip]="'PRODUCT.HELP.ACTIVATE FRIDGE' | translate" />
 
 						<img *ngIf="product.data.isFrigo && isProductReadOnly(product)" height="25" width="25" src="images/refrigator.png"
@@ -46,6 +46,7 @@
 					<div class="col-sm-1" >
 						<img height="25" width="25" src="images/shopping-basket-info-icon.png" *ngIf="product.annotation.hasBasket" />
 						<img height="25" width="25" src="images/closed.png" *ngIf="product.annotation.disabled"/>
+						<span *ngIf="product.annotation.hasStockage">{{product.annotation.nbInStockage}} stock</span>
 					</div>
 
 				</div>
