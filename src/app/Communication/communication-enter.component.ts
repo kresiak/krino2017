@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.service'
 import {NotificationService} from '../Shared/Services/notification.service'
 import { Observable, Subscription } from 'rxjs/Rx'
+import { FormItemStructure, FormItemType} from 'gg-ui'
 
 @Component(
     {
@@ -13,7 +14,6 @@ import { Observable, Subscription } from 'rxjs/Rx'
 )
 
 export class CommunicationEnterComponent implements OnInit {
-    public communicationMessageForm: FormGroup;
     public messagesList;
     public currentUserId: string;
     public messageObject;
@@ -22,12 +22,12 @@ export class CommunicationEnterComponent implements OnInit {
     public subscriptionUsers: Subscription
     public subscriptionMessages: Subscription
 
+    public formStructure: FormItemStructure[]= [] 
+
     constructor(private formBuilder: FormBuilder, private dataStore: DataStore, private authService: AuthService, private notificationService: NotificationService ) {}
 
     ngOnInit(): void {
-        this.communicationMessageForm = this.formBuilder.group({
-            communicationMessage: ['', Validators.required]
-        });
+        this.formStructure.push(new FormItemStructure('communicationMessage', 'MESSAGES', FormItemType.InputText, {isRequired: true, minimalLength: 2}))
 
         this.subscriptionUsers = this.authService.getUserIdObservable().subscribe(id => {
             this.currentUserId = id
@@ -48,21 +48,15 @@ export class CommunicationEnterComponent implements OnInit {
          this.subscriptionMessages.unsubscribe()
     }
   
-    save(formValue, isValid)
+    formSaved(data)
     {
         this.dataStore.addData('messages', {
-            message: formValue.communicationMessage,
+            message: data.communicationMessage,
             userId: this.currentUserId
         }).subscribe(res =>
         {
-            var x=res;
-            this.reset();
+            data.setSuccess('OK')            
         });
-    };
-
-    reset()
-    {
-        this.communicationMessageForm.reset();        
     };
 
     messageUpdated(messageContent, messageObject) {
