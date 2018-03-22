@@ -25,9 +25,9 @@ export class CommunicationEnterComponent implements OnInit {
     public formStructure: FormItemStructure[]= [] 
 
     constructor(private formBuilder: FormBuilder, private dataStore: DataStore, private authService: AuthService, private notificationService: NotificationService ) {}
-
+                    //supprimer formBuilder?
     ngOnInit(): void {
-        this.formStructure.push(new FormItemStructure('communicationMessage', 'MESSAGES', FormItemType.InputText, {isRequired: true, minimalLength: 2}))
+        this.formStructure.push(new FormItemStructure('communicationMessage', 'COMMUNICATION.MENU.NEW MESSAGE', FormItemType.InputText, {isRequired: true}))
 
         this.subscriptionUsers = this.authService.getUserIdObservable().subscribe(id => {
             this.currentUserId = id
