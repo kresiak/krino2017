@@ -185,10 +185,10 @@ export class SapService {
 
     private getSapItemsFilteredByResponsablesObservable(): Observable<any> {
         return this.dataStore.getDataObservable('sap.fusion')
-            .switchMap(sapList => this.dataStore.getLaboResponsablesObservable().map(resps => {
+/*             .switchMap(sapList => this.dataStore.getLaboResponsablesObservable().map(resps => {
                 return sapList.filter(s => s.mainData && s.mainData.data && resps.includes(s.mainData.data.resp))
             }))
-            .switchMap(sapList => this.dataStore.getDataObservable('otps').map(hashMapFactoryCurry(a => a.name)).map((otpMap: Map<string, any>) => {
+ */            .switchMap(sapList => this.dataStore.getDataObservable('otps').map(hashMapFactoryCurry(a => a.name)).map((otpMap: Map<string, any>) => {
 /*                 sapList.filter(s => s.mainData && s.mainData.data && s.mainData.data.otps && s.mainData.data.otps.filter(o => otpMap.has(o)).length ===0).slice(0,10).forEach(s => {
                     console.log("sapId: " + s.sapId)
                 })
