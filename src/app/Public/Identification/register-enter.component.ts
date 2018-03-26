@@ -3,7 +3,7 @@ import { Observable, Subscription } from 'rxjs/Rx'
 import { DataStore } from 'gg-basic-data-services'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { AuthAnoynmousService, SignedInStatusInfo } from './../../Shared/Services/auth-anonymous.service'
-
+import { FormItemStructure, FormItemType} from 'gg-ui'
 
 @Component(
     {
@@ -18,29 +18,28 @@ export class RegisterEnterComponent implements OnInit {
     flagIsError: boolean = false
     errorMsg: string
 
+    public formStructure: FormItemStructure[]= []
 
-    constructor(private dataStore: DataStore, private formBuilder: FormBuilder, private authAnoynmousService: AuthAnoynmousService) {
+    constructor(private dataStore: DataStore, private authAnoynmousService: AuthAnoynmousService) {
     }
 
     ngOnInit(): void {
         const emailRegex = /^[0-9a-z_.-]+@[0-9a-z.-]+\.[a-z]{2,3}$/i;
 
-        this.registerEnterForm = this.formBuilder.group({
-            firstName: ['', [Validators.required, Validators.minLength(2)]],
-            lastName: ['', [Validators.required, Validators.minLength(2)]],
-            email: ['', [Validators.required, Validators.pattern(emailRegex)]],
-            laboName: ['', [Validators.required, Validators.minLength(2)]],
-            password: ['', [Validators.required, Validators.minLength(2)]],
-            repeatPassword: ['', [Validators.required, Validators.minLength(2)]]
-        });
+        this.formStructure.push(new FormItemStructure('firstName', 'PUBLIC.IDENTIFICATION.LABEL.FIRST NAME', FormItemType.InputText, {isRequired: true, minimalLength: 2}))
+        this.formStructure.push(new FormItemStructure('lastName', 'PUBLIC.IDENTIFICATION.LABEL.LAST NAME', FormItemType.InputText, {isRequired: true, minimalLength: 2}))
+        this.formStructure.push(new FormItemStructure('email', 'PUBLIC.IDENTIFICATION.LABEL.E-MAIL ADDRESS', FormItemType.InputText, {isRequired: true, minimalLength: 2}))
+        this.formStructure.push(new FormItemStructure('laboName', 'PUBLIC.IDENTIFICATION.LABEL.LABO', FormItemType.InputText, {isRequired: true, minimalLength: 2}))
+        this.formStructure.push(new FormItemStructure('password', 'PUBLIC.IDENTIFICATION.LABEL.PASSWORD', FormItemType.InputText, {isRequired: true, minimalLength: 2}))
+        this.formStructure.push(new FormItemStructure('repeatPassword', 'PUBLIC.IDENTIFICATION.LABEL.REPEAT PASSWORD', FormItemType.InputText, {isRequired: true, minimalLength: 2}))
 
         this.authAnoynmousService.getStatusObservable().takeWhile(() => this.isPageRunning).subscribe(statusInfo => {
             this.authorizationStatusInfo = statusInfo
         })
     }
 
-    saveUser(formValue, isValid) {
-        if (formValue.password !== formValue.repeatPassword) {
+    formSaved(data) {
+        if (data.password !== data.repeatPassword) {
             this.flagIsError = true
             this.errorMsg = 'Password not matching'
             return
@@ -49,18 +48,17 @@ export class RegisterEnterComponent implements OnInit {
         this.flagIsError = false
         this.errorMsg = ''
 
-        this.dataStore.getDataObservable('users.public').first().map(users => users.filter(u => u.email === formValue.email.trim()).length).subscribe(nbUsersAlready => {
+        this.dataStore.getDataObservable('users.public').first().map(users => users.filter(u => u.email === data.email.trim()).length).subscribe(nbUsersAlready => {
             if (nbUsersAlready === 0) {
                 this.dataStore.addData('users.public', {
-                    firstName: formValue.firstName,
-                    name: formValue.lastName,
-                    email: formValue.email.trim(),
-                    departmentName: formValue.laboName,
-                    password: formValue.password
+                    firstName: data.firstName,
+                    name: data.lastName,
+                    email: data.email.trim(),
+                    departmentName: data.laboName,
+                    password: data.password
                 }).first().subscribe(res => {
-                    var x = res;
-                    this.resetRegisterEnterForm();
-                });
+                    data.setSuccess('OK')
+            });
             }
             else {
                 this.flagIsError = true
@@ -68,10 +66,6 @@ export class RegisterEnterComponent implements OnInit {
             }
         })
 
-    }
-
-    resetRegisterEnterForm() {
-        this.registerEnterForm.reset();
     }
 
     ngOnDestroy(): void {

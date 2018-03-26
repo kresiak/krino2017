@@ -1,5 +1,7 @@
 <div class="card">
     <div class="card-body">
+        <gg-form [structure]="formStructure"   (formSaved)="formSaved($event)"></gg-form>
+        <!--
         <div class="container-fluid">
             <form [formGroup]="registerEnterForm" (ngSubmit)="saveUser(registerEnterForm.value, registerEnterForm.valid)">
                 <div class="form-group row">
@@ -51,5 +53,6 @@
                 There is an error: {{errorMsg}}
             </div>
         </div>
+    -->
     </div>
 </div>
