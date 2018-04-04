@@ -1,0 +1,60 @@
+<div class="card">
+    <div class="card-body">
+        <ngb-tabset>
+            <ngb-tab title="{{'COMMUNICATION.MENU.NEW MESSAGE' | translate}}" id="newMessage">
+                <ng-template ngbTabContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="container-fluid">
+                                <form [formGroup]="communicationMessageForm" (ngSubmit)="save(communicationMessageForm.value, communicationMessageForm.valid)">
+                                    <div class="form-group row">
+                                        <label for="communicationMessage" class="col-sm-2 col-form-label col-xl-2">{{'COMMUNICATION.LABEL.MESSAGE' | translate}}:</label>
+                                        <div class="col-sm-10">
+                                            <textarea rows="6" class="form-control" formControlName="communicationMessage" placeholder="{{'COMMUNICATION.LABEL.ENTER MESSAGE INFORMATION PHOLDER' | translate}}"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3 col-md-2 col-lg-2">
+                                            <button class="btn btn-success" type="submit" [disabled]="!communicationMessageForm.valid">{{'FORM.SUBMIT' | translate}}</button>
+                                        </div>
+                                        <div class="col-sm-3 col-md-2 col-lg-2">
+                                            <button class="btn btn-info"  [disabled]="communicationMessageForm.pristine" (click)="reset()">{{'FORM.RESET' | translate}}</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="{{'COMMUNICATION.MENU.LIST OF MESSAGES' | translate}}" id="listOfMessages">
+                <ng-template ngbTabContent>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-sm-2 align-self-center"><b>{{'COMMUNICATION.COLUMN.WHEN' | translate}}</b></div>
+                                    <div class="col-sm-2 align-self-center"><b>{{'COMMUNICATION.COLUMN.ADMINISTRATOR' | translate}}</b></div>
+                                    <div class="col-sm-5 align-self-center"><b>{{'COMMUNICATION.COLUMN.MESSAGE' | translate}}</b></div>
+                                    <div class="col-sm-2 align-self-center"><b>{{'COMMUNICATION.COLUMN.DISABLED' | translate}}</b></div>
+                                </div>
+                                <div *ngFor="let messageObject of messagesList">
+                                    <div class="row">
+                                        <div class="col-sm-2 align-self-center"><gg-date-pointer [date]="messageObject.data.createDate"></gg-date-pointer></div>
+                                        <div class="col-sm-2 align-self-center">{{messageObject.annotation.user}}</div>
+                                        <div class="col-sm-5 align-self-center">
+                                            <gg-editor [content]="messageObject.data.message" [showControls]="true" (editSaved)="messageUpdated($event, messageObject)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor>
+                                        </div>
+                                        <div class="col-sm-2 align-self-center">
+                                            <gg-editor-boolean [content]="messageObject.data.isDisabled" (editSaved)="isDisabled($event, messageObject)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+        </ngb-tabset>
+    </div>
+</div>
