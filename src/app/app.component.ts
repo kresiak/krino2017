@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
         this.dataStore.setApplication(this.dataStore.KRINO)
 
 
-        this.webSocketService.init()
+        this.webSocketService.init(this.dataStore.KRINO)
         this.authService.initFromLocalStorage()
 
         setTimeout(() => {
