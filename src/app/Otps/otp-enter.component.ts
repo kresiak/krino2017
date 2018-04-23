@@ -25,7 +25,7 @@ export class OtpEnterComponent implements OnInit {
 
         this.formStructure.push(new FormItemStructure('name', 'OTP.LABEL.OTP', FormItemType.InputText, {isRequired: true, minimalLength: 5}))
         this.formStructure.push(new FormItemStructure('isAnnual', 'OTP.LABEL.IS ANNUAL', FormItemType.InputCheckbox))
-        this.formStructure.push(new FormItemStructure('budget', 'OTP.LABEL.BUDGET', FormItemType.InputNumber, {isRequired: true, minNumber: 1}))        
+        this.formStructure.push(new FormItemStructure('budget', 'OTP.LABEL.BUDGET', FormItemType.InputMoney, {isRequired: true, minNumber: 1}))        
         this.formStructure.push(new FormItemStructure('description', 'OTP.LABEL.DESCRIPTION', FormItemType.InputText, {isRequired: true}))
         this.formStructure.push(new FormItemStructure('datStart', 'OTP.LABEL.FROM', FormItemType.GigaDate))
         this.formStructure.push(new FormItemStructure('datEnd', 'OTP.LABEL.TO', FormItemType.GigaDate)) 
