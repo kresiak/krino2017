@@ -4,7 +4,7 @@ import { OtpService } from '../Shared/Services/otp.service'
 import { DataStore } from 'gg-basic-data-services'
 import { ProductService } from '../Shared/Services/product.service'
 import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.service'
-import { SelectableData } from 'gg-basic-code'
+import { SelectableData, utilsReports as reportsUtils } from 'gg-basic-code'
 
 @Component(
     {
@@ -27,6 +27,24 @@ export class ClassificationListComponent implements OnInit {
 
         return (classification.data.name || '').toUpperCase().includes(txt) || (classification.data.description || '').toUpperCase().includes(txt)
     }
+
+    createReport(classifications) {
+
+        var fnFormat = classificationsItem => {
+            return {
+                'Name': classificationsItem.data.name,
+                'Description': classificationsItem.data.description || '',
+                'Categories': classificationsItem.annotation.categoriesTxt,
+                'Available Unrestricted': classificationsItem.annotation.availableUnRestricted.toLocaleString('fr-BE', {useGrouping: false}),
+                'Available Restricted': classificationsItem.annotation.availableRestricted.toLocaleString('fr-BE', {useGrouping: false})
+            }
+        }
+
+        var listNonDeleted = classifications.map(fnFormat)
+
+        reportsUtils.generateReport(listNonDeleted)
+    }
+
 
 
     ngOnInit(): void {

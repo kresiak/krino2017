@@ -1,4 +1,5 @@
-<gg-search-box [objectTypeTranslationKey]="'GENERAL.CATEGORIES'" [objectsObservable]="categoryObservable" [fnFilterObjects]="filterCategories" (listChanged)="categories=$event">
+<gg-search-box [objectTypeTranslationKey]="'GENERAL.CATEGORIES'" [objectsObservable]="categoryObservable" [fnFilterObjects]="filterCategories" (listChanged)="categories=$event"
+(reportNeeded)="createReport($event)" [hasReport]="true" >
 	<ul searchHelp>
 		<li>{{'CATEGORY.SEARCH HELP.MSG1' | translate}}</li>
 		<li>{{'CATEGORY.SEARCH HELP.MSG2' | translate}}</li>

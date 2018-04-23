@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core'
 import { Observable, Subject } from 'rxjs/Rx'
 import { NgbPanelChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { utilsReports as reportsUtils } from 'gg-basic-code'
 
 @Component(
     {
@@ -39,6 +40,25 @@ export class CategoryListComponent implements OnInit {
         return (category.data.name && (category.data.name.toUpperCase().includes(txt))) || (category.annotation.classificationsTxt || '').toUpperCase().includes(txt) || (category.data.noArticle || '').toUpperCase().includes(txt) 
             || (category.data.groupMarch || '').toUpperCase().includes(txt)
     }
+
+    createReport(categories) {
+
+        var fnFormat = cat => {
+            return {
+                'Name': cat.data.name,
+                'Classifications': cat.annotation.classificationsTxt,
+                'Blocked': cat.data.isBlocked ? 'Blocked' : 'Active',
+                'No article': cat.data.noArticle || '',
+                'Group march.': cat.data.groupMarch || ''
+            }
+        }
+
+        var listNonDeleted = categories.filter(cat => !cat.data.isBlocked).map(fnFormat)
+        var listDeleted = categories.filter(cat => cat.data.isBlocked).map(fnFormat)
+
+        reportsUtils.generateReport(listNonDeleted.concat(listDeleted))
+    }
+
 
     ngOnInit(): void {
         this.stateInit();

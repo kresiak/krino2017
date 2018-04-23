@@ -1,5 +1,5 @@
 <gg-search-box [objectTypeTranslationKey]="'GENERAL.CLASSIFICATIONS'" [objectsObservable]="classificationsObservable" [fnFilterObjects]="filterClassifications"
-    (listChanged)="classificationsList= $event">
+    (listChanged)="classificationsList= $event" (reportNeeded)="createReport($event)" [hasReport]="true" >
     <ul searchHelp>
 		<li>{{'OTP.CLASSIFICATION.SEARCH HELP.MSG1' | translate}}</li>
     </ul>
