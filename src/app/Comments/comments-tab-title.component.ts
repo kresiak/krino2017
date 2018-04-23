@@ -11,6 +11,7 @@ import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.s
 export class CommentsTabTitleComponent implements OnInit {
     nbMessages: number;
     @Input() data: any;
+    @Input() titleKey: string= 'GENERAL.COMMENTS.TAB TITLE'
 
     constructor(private dataStore: DataStore, private authService: AuthService, private notificationService: NotificationService) {
     }

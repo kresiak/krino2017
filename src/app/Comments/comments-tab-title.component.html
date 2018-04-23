@@ -1,2 +1,2 @@
-<span style="color: indianred" *ngIf="nbMessages" [ngbTooltip]="'GENERAL.COMMENTS.TAB TITLE TIP' | translate">{{'GENERAL.COMMENTS.TAB TITLE' | translate }} ({{nbMessages}}) !!</span>
-<span *ngIf="!nbMessages">{{'GENERAL.COMMENTS.TAB TITLE' | translate }} {{getNbTotalMessagesText()}}</span>
+<span style="color: indianred" *ngIf="nbMessages" [ngbTooltip]="'GENERAL.COMMENTS.TAB TITLE TIP' | translate">{{titleKey | translate }} ({{nbMessages}}) !!</span>
+<span *ngIf="!nbMessages">{{titleKey | translate }} {{getNbTotalMessagesText()}}</span>
