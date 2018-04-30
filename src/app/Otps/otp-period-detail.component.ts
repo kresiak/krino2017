@@ -11,6 +11,8 @@ import {utilsComparators as comparatorsUtils} from 'gg-search-handle-data'
 import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.service'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import {utilsDates as dateUtils} from 'gg-basic-code'
+import { FormItemStructure, FormItemType} from 'gg-ui'
+
 
 @Component(
     {
@@ -21,8 +23,6 @@ import {utilsDates as dateUtils} from 'gg-basic-code'
 export class OtpPeriodDetailComponent implements OnInit {
     constructor(private dataStore: DataStore, private authService: AuthService, private formBuilder: FormBuilder, private otpService: OtpService) {
     }
-    public budgetChangeForm: FormGroup
-    public dateInBudgetChangeForm: string
 
     public blockedAmountForm: FormGroup
 
@@ -37,6 +37,7 @@ export class OtpPeriodDetailComponent implements OnInit {
 
     public authorizationStatusInfo: AuthenticationStatusInfo;
 
+    public formStructure1: FormItemStructure[]= []
 
 
     ngOnInit(): void {
@@ -44,11 +45,10 @@ export class OtpPeriodDetailComponent implements OnInit {
             this.authorizationStatusInfo = statusInfo
         });
 
-        this.budgetChangeForm = this.formBuilder.group({
-            budgetChange: ['', [Validators.required]],
-            commentBudgetChange: ['', [Validators.required]]
-        })
-
+        this.formStructure1.push(new FormItemStructure('budgetChange', 'OTP.PERIOD.LABEL.BUDGET INCREMENT', FormItemType.InputMoney, {isRequired: true}))        
+        this.formStructure1.push(new FormItemStructure('dateInBudgetChangeForm', 'OTP.PERIOD.LABEL.DATE', FormItemType.GigaDate))        
+        this.formStructure1.push(new FormItemStructure('commentBudgetChange', 'OTP.PERIOD.LABEL.COMMENT', FormItemType.InputText, {isRequired: true}))
+        
         this.blockedAmountForm = this.formBuilder.group({
             blockedAmount: ['', [Validators.required]],
             comment: ['', [Validators.required]]
@@ -64,22 +64,18 @@ export class OtpPeriodDetailComponent implements OnInit {
         return this.budgetPeriod.creances.sort(dateUtils.getSortFn(x => x.date, true))
     }
 
-    SaveBudgetChange(formValue, isValid) {
-        if (!isValid) return
+
+    SaveBudgetChange(data) {
         if (!this.budgetPeriod.budgetHistory) this.budgetPeriod.budgetHistory = []
 
         this.budgetPeriod.budgetHistory.push({
-            budgetIncrement: formValue.budgetChange,
-            date: this.dateInBudgetChangeForm || dateUtils.nowFormated(),
-            comment: formValue.commentBudgetChange
+            budgetIncrement: data.budgetChange,
+            date: data.dateInBudgetChangeForm || dateUtils.nowFormated(),
+            comment: data.commentBudgetChange
         })
         this.dataStore.updateData('otps', this.otp.data._id, this.otp.data).first().subscribe(res => {
-            this.resetBudgetChange();
+            data.setSuccess('OK')  
         });
-    }
-
-    resetBudgetChange() {
-        this.budgetChangeForm.reset();
     }
 
     saveBlockedAmount(formValue, isValid) {
@@ -218,10 +214,10 @@ export class OtpPeriodDetailComponent implements OnInit {
         this.dataStore.updateData('otps', this.otp.data._id, this.otp.data);
     }
 
-    dateBudgetChangeInForm(dateInForm) {
+/*     dateBudgetChangeInForm(dateInForm) {
         this.dateInBudgetChangeForm = dateInForm
     }
-
+ */
     blockedAmountUpdated(blockedAmountItem, amount) {
         if (! +amount && amount !== '0') return
         blockedAmountItem.amount = +amount

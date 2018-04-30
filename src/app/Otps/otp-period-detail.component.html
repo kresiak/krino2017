@@ -62,9 +62,15 @@
                                         <div class="row">
                                             <div class="container-fluid">
                                                 <div class="row">
-                                                    <div class="col-sm-2 align-self-center"><b>{{'OTP.PERIOD.COLUMN.BUDGET INCREMENT' | translate}}</b></div>
-                                                    <div class="col-sm-4 align-self-center"><b>{{'OTP.PERIOD.COLUMN.DATE' | translate}}</b></div>
-                                                    <div class="col-sm-3 align-self-center"><b>{{'OTP.PERIOD.COLUMN.COMMENT' | translate}}</b></div>
+                                                    <div class="col-sm-2 align-self-center">
+                                                        <b>{{'OTP.PERIOD.COLUMN.BUDGET INCREMENT' | translate}}</b>
+                                                    </div>
+                                                    <div class="col-sm-4 align-self-center">
+                                                        <b>{{'OTP.PERIOD.COLUMN.DATE' | translate}}</b>
+                                                    </div>
+                                                    <div class="col-sm-3 align-self-center">
+                                                        <b>{{'OTP.PERIOD.COLUMN.COMMENT' | translate}}</b>
+                                                    </div>
                                                 </div>
                                                 <div *ngFor="let budgetHistoryItem of budgetPeriod.budgetHistory">
                                                     <!--FOR in History items (we are in a praticular history of budget) -->
@@ -91,38 +97,9 @@
                         <ngb-tab title="{{'OTP.PERIOD.MENU.ADD BUDGET CHANGE' | translate}}" id="tabAddBudgetChange" *ngIf="authorizationStatusInfo?.isAdministrator()">
                             <ng-template ngbTabContent>
                                 <div class="card">
-                                    <form [formGroup]="budgetChangeForm" (ngSubmit)="SaveBudgetChange(budgetChangeForm.value, budgetChangeForm.valid)">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <div class="form-group row">
-                                                    <label for="budgetChange" class="col-sm-3 col-form-label col-xl-3">{{'OTP.PERIOD.LABEL.BUDGET INCREMENT' | translate}}</label>
-                                                    <div class="col-sm-7">
-                                                        <input type="number" min="0" step="any" class="form-control" formControlName="budgetChange" id="budgetChange" placeholder="{{'OTP.PERIOD.LABEL.BUDGET CHANGE PHOLDER' | translate}}">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <div class="col-sm-3 align-self-center">{{'OTP.PERIOD.LABEL.DATE' | translate}}</div>
-                                                    <div class="col-sm-7 align-self-center">
-                                                        <gg-editor-date [content]="" (editSaved)="dateBudgetChangeInForm($event)"></gg-editor-date>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <div class="col-sm-3 align-self-center">{{'OTP.PERIOD.LABEL.COMMENT' | translate}}</div>
-                                                    <div class="col-sm-7 align-self-center">
-                                                        <input type="text" class="form-control" formControlName="commentBudgetChange" id="commentBudgetChange" placeholder="{{'OTP.PERIOD.LABEL.COMMENT' | translate}}">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <div class="col-sm-3 col-md-2 col-lg-2">
-                                                        <button class="btn btn-success" type="submit" [disabled]="!budgetChangeForm.valid">{{'FORM.SUBMIT' | translate}}</button>
-                                                    </div>
-                                                    <div class="col-sm-3 col-md-2 col-lg-2">
-                                                        <button class="btn btn-info" [disabled]="budgetChangeForm.pristine" (click)="resetBudgetChange()">{{'FORM.RESET' | translate}}</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
+                                    <div class="card-body">
+                                        <gg-form [structure]="formStructure1" (formSaved)="SaveBudgetChange($event)"></gg-form>
+                                    </div>
                                 </div>
                             </ng-template>
                         </ngb-tab>
@@ -144,8 +121,12 @@
                                         <div class="row">
                                             <div class="container-fluid">
                                                 <div class="row">
-                                                    <div class="col-sm-3 "><b>{{'OTP.PERIOD.COLUMN.AMOUNT BLOCKED' | translate}}</b></div>
-                                                    <div class="col-sm-6 "><b>{{'OTP.PERIOD.COLUMN.REASON/COMMENT' | translate}}</b></div>
+                                                    <div class="col-sm-3 ">
+                                                        <b>{{'OTP.PERIOD.COLUMN.AMOUNT BLOCKED' | translate}}</b>
+                                                    </div>
+                                                    <div class="col-sm-6 ">
+                                                        <b>{{'OTP.PERIOD.COLUMN.REASON/COMMENT' | translate}}</b>
+                                                    </div>
                                                 </div>
                                                 <div *ngFor="let blockedAmountItem of budgetPeriod.blockedAmounts">
                                                     <!--FOR in History items (we are in a praticular history of budget) -->
@@ -221,17 +202,24 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    
-                                                    <div class="col-sm-3 align-self-center"><b>{{'OTP.PERIOD.COLUMN.DATE DE LA CREANCE' | translate}}</b></div>
-                                                    <div class="col-sm-3 align-self-center"><b>{{'OTP.PERIOD.COLUMN.DEPENSE POUR LA PERIODE' | translate}}</b></div>
-                                                    <div class="col-sm-3 align-self-center"><b>{{'OTP.PERIOD.COLUMN.COMMENT' | translate}}</b></div>
+
+                                                    <div class="col-sm-3 align-self-center">
+                                                        <b>{{'OTP.PERIOD.COLUMN.DATE DE LA CREANCE' | translate}}</b>
+                                                    </div>
+                                                    <div class="col-sm-3 align-self-center">
+                                                        <b>{{'OTP.PERIOD.COLUMN.DEPENSE POUR LA PERIODE' | translate}}</b>
+                                                    </div>
+                                                    <div class="col-sm-3 align-self-center">
+                                                        <b>{{'OTP.PERIOD.COLUMN.COMMENT' | translate}}</b>
+                                                    </div>
                                                 </div>
                                                 <div *ngFor="let creanceItem of getBudgetPeriodCreances()">
                                                     <!--FOR in History items (we are in a praticular history of budget) -->
-                                                    
+
                                                     <div class="row">
                                                         <div class="col-sm-3 align-self-center">
-                                                            <gg-editor-date [content]="creanceItem.date" (editSavedWithCancelOption)="dateCreanceChangeUpdated(creanceItem, $event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-date>
+                                                            <gg-editor-date [content]="creanceItem.date" (editSavedWithCancelOption)="dateCreanceChangeUpdated(creanceItem, $event)"
+                                                                [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-date>
                                                         </div>
                                                         <div class="col-sm-3 align-self-center">
                                                             <gg-editor [isMonetary]="true" [content]="creanceItem.amount" [showControls]="true" (editSavedWithCancelOption)="depenseCreanceChangeUpdated(creanceItem, $event)"
@@ -252,7 +240,7 @@
                         <ngb-tab title="{{'OTP.PERIOD.MENU.ENTER UNE NOUVELLE CREANCE' | translate}}" id="tabEnterNouvelleCreance" *ngIf="authorizationStatusInfo?.isAdministrator()">
                             <ng-template ngbTabContent>
                                 <div class="card">
-                                    <form [formGroup]="nouvelleCreanceForm" (ngSubmit)="SaveNouvelleCreance(nouvelleCreanceForm.value, nouvelleCreanceForm.valid)"> 
+                                    <form [formGroup]="nouvelleCreanceForm" (ngSubmit)="SaveNouvelleCreance(nouvelleCreanceForm.value, nouvelleCreanceForm.valid)">
                                         <div class="card">
                                             <div class="card-body">
                                                 <div class="form-group row">
@@ -260,19 +248,20 @@
                                                     <div class="col-sm-7 align-self-center">
                                                         <gg-editor-date [content]="" (editSaved)="dateNouvelleCreanceInForm($event)"></gg-editor-date>
                                                     </div>
-                                                </div>        
+                                                </div>
                                                 <div class="form-group row">
                                                     <label for="depenseNouvelleCreance" class="col-sm-3 col-form-label col-xl-3">{{'OTP.PERIOD.LABEL.DEPENSE POUR LA PERIODE' | translate}}</label>
                                                     <div class="col-sm-7">
-                                                        <input type="number" min="0" step="any" class="form-control" formControlName="depenseNouvelleCreance" id="depenseNouvelleCreance" placeholder="{{'OTP.PERIOD.LABEL.DEPENSE POUR LA PERIODE' | translate}}">
+                                                        <input type="number" min="0" step="any" class="form-control" formControlName="depenseNouvelleCreance" id="depenseNouvelleCreance"
+                                                            placeholder="{{'OTP.PERIOD.LABEL.DEPENSE POUR LA PERIODE' | translate}}">
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                        <div class="col-sm-3 align-self-center">{{'OTP.PERIOD.LABEL.COMMENT' | translate}}</div>
-                                                        <div class="col-sm-7 align-self-center">
-                                                            <input type="text" class="form-control" formControlName="commentNouvelleCreance" id="commentNouvelleCreance" placeholder="{{'OTP.PERIOD.LABEL.COMMENT' | translate}}">
-                                                        </div>
+                                                    <div class="col-sm-3 align-self-center">{{'OTP.PERIOD.LABEL.COMMENT' | translate}}</div>
+                                                    <div class="col-sm-7 align-self-center">
+                                                        <input type="text" class="form-control" formControlName="commentNouvelleCreance" id="commentNouvelleCreance" placeholder="{{'OTP.PERIOD.LABEL.COMMENT' | translate}}">
                                                     </div>
+                                                </div>
                                                 <div class="form-group row">
                                                     <div class="col-sm-3 col-md-2 col-lg-2">
                                                         <button class="btn btn-success" type="submit" [disabled]="!nouvelleCreanceForm.valid">{{'FORM.SUBMIT' | translate}}</button>
