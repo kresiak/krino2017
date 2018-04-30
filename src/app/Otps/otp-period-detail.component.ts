@@ -35,6 +35,7 @@ export class OtpPeriodDetailComponent implements OnInit {
     public formStructure1: FormItemStructure[] = []
     public formStructure2: FormItemStructure[] = []
     public formStructure3: FormItemStructure[] = []
+    public formStructure4: FormItemStructure[] = []
 
 
     ngOnInit(): void {
@@ -52,6 +53,9 @@ export class OtpPeriodDetailComponent implements OnInit {
         this.formStructure3.push(new FormItemStructure('dateNouvelleCreanceForm', 'OTP.PERIOD.LABEL.DATE DE LA CREANCE', FormItemType.GigaDate))
         this.formStructure3.push(new FormItemStructure('depenseNouvelleCreance', 'OTP.PERIOD.LABEL.DEPENSE POUR LA PERIODE', FormItemType.InputMoney, { isRequired: true }))
         this.formStructure3.push(new FormItemStructure('commentNouvelleCreance', 'OTP.PERIOD.LABEL.COMMENT', FormItemType.InputText, { isRequired: true }))
+
+        this.formStructure4.push(new FormItemStructure('dateCreance2', 'OTP.PERIOD.LABEL.DATE DE LA CREANCE 2', FormItemType.GigaDate))
+        this.formStructure4.push(new FormItemStructure('commentCreance2', 'OTP.PERIOD.LABEL.COMMENT', FormItemType.InputText, { isRequired: true }))
 
     }
 
@@ -88,6 +92,10 @@ export class OtpPeriodDetailComponent implements OnInit {
         return this.budgetPeriod.creances.sort(dateUtils.getSortFn(x => x.date, true))
     }
 
+    public getBudgetPeriodCreances2() {
+        return this.budgetPeriod.creances2.sort(dateUtils.getSortFn(x => x.date, true))
+    }
+    
     checkCreances(): boolean {
         var lastAmount = -1
         var isOk: boolean = true
@@ -121,6 +129,20 @@ export class OtpPeriodDetailComponent implements OnInit {
             data.setError('OTP.PERIOD.MSG.CREANCE ERROR')
         }
     }
+
+    SaveNouvelleCreance2(data) {
+        if (!this.budgetPeriod.creances2) this.budgetPeriod.creances2 = []
+
+        this.budgetPeriod.creances2.push({
+            date: data.dateCreance2 || dateUtils.nowFormated(),
+            description: data.commentCreance2
+        })
+
+        this.dataStore.updateData('otps', this.otp.data._id, this.otp.data).first().subscribe(res => {
+            data.setSuccess('OK')
+        })
+    }
+
 
     // updates in creances
     // ===================
@@ -163,6 +185,11 @@ export class OtpPeriodDetailComponent implements OnInit {
         this.dataStore.updateData('otps', this.otp.data._id, this.otp.data);
     }
 
+    dateCreance2ChangeUpdated(creanceItem, date) {
+        creanceItem.date = date
+        this.dataStore.updateData('otps', this.otp.data._id, this.otp.data);
+    }    
+   
     // updates of period itself
     //==========================
 
@@ -202,7 +229,7 @@ export class OtpPeriodDetailComponent implements OnInit {
 
     // updates of budget blocked
     //===========================    
-   
+
     blockedAmountUpdated(blockedAmountItem, amount) {
         if (! +amount && amount !== '0') return
         blockedAmountItem.amount = +amount

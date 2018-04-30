@@ -279,6 +279,7 @@ export const locale = {
                     "REASON/COMMENT": "raison / commentaire:",
                     "BUDGET CHANGE PHOLDER": "changement de budget",
                     "DATE DE LA CREANCE": "date intermédiaire",
+                    "DATE DE LA CREANCE 2": "date de créance",                    
                     "DEPENSE POUR LA PERIODE": "dépense totale visée à cette date"
                 },
                 "COLUMN": {
@@ -291,6 +292,7 @@ export const locale = {
                     "AMOUNT BLOCKED": "Montant bloqué",
                     "REASON/COMMENT": "Raison / commentaire",
                     "DATE DE LA CREANCE": "Date imtermédiaire",
+                    "DATE DE LA CREANCE 2": "Date de créance",
                     "DEPENSE POUR LA PERIODE": "Dépense totale visée"
                 },
                 "MENU": {
@@ -303,7 +305,10 @@ export const locale = {
                     "ADD BLOCKED AMOUNT": "Ajouter un montant bloqué",
                     "CREANCES": "Dates des objectifs de dépense intermédiaire",
                     "LIST DE CREANCES": "Liste des objectifs de dépense intermédiaire",
-                    "ENTER UNE NOUVELLE CREANCE": "Ajouter un objectif de dépense intermédiaire"
+                    "ENTER UNE NOUVELLE CREANCE": "Ajouter un objectif de dépense intermédiaire",
+                    "CREANCES 2": "Dates de créance",
+                    "LIST DE CREANCES 2": "Liste des dates de créance",
+                    "ENTER UNE NOUVELLE CREANCE 2": "Ajouter une date de créance"              
                 },
                 "MSG": {
                     "CREANCE ERROR": "Erreur: la dépense totale pour une date ultérieure doit toujours être supérieure à celle de l'objectif antérieur! Elle doit aussi être inférieure au montant total de budget disponible pour la période."

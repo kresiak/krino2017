@@ -279,6 +279,7 @@ export const locale = {
                     "REASON/COMMENT": "reason / comment:",
                     "BUDGET CHANGE PHOLDER": "Budget change",
                     "DATE DE LA CREANCE": "intermediary date",
+                    "DATE DE LA CREANCE 2": "date of creance",
                     "DEPENSE POUR LA PERIODE": "total spending desired at the intermediary date"
                 },
                 "COLUMN": {
@@ -291,6 +292,7 @@ export const locale = {
                     "AMOUNT BLOCKED": "Amount blocked",
                     "REASON/COMMENT": "Reason/Comment",
                     "DATE DE LA CREANCE": "Intermediary date",
+                    "DATE DE LA CREANCE 2": "Date of 'creance'",
                     "DEPENSE POUR LA PERIODE": "Desired total spending"
                 },
                 "MENU": {
@@ -303,7 +305,10 @@ export const locale = {
                     "ADD BLOCKED AMOUNT": "Add a blocked amount",
                     "CREANCES": "Intermediary spending targets",
                     "LIST DE CREANCES": "List of intermediary spending targets",
-                    "ENTER UNE NOUVELLE CREANCE": "Add an intermediary spending target date"
+                    "ENTER UNE NOUVELLE CREANCE": "Add an intermediary spending target date",
+                    "CREANCES 2": "Dates of 'Creance'",
+                    "LIST DE CREANCES 2": "List of dates of 'creance'",
+                    "ENTER UNE NOUVELLE CREANCE 2": "Add a new 'creance' date"                    
                 },
                 "MSG": {
                     "CREANCE ERROR": "There was an error: a spending amount at a later date must always be superior to an earlier one! Also it must be less than the available budget for that period."

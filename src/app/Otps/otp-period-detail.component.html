@@ -228,4 +228,57 @@
             </div>
         </ng-template>
     </ngb-tab>
+    <ngb-tab title="{{'OTP.PERIOD.MENU.CREANCES 2' | translate}}" id="tabCreances2">
+        <ng-template ngbTabContent>
+            <div class="card">
+                <div class="card-body">
+                    <ngb-tabset>
+                        <ngb-tab title="{{'OTP.PERIOD.MENU.LIST DE CREANCES 2' | translate}}" id="tabListDeCreances2" *ngIf="budgetPeriod.creances2 && budgetPeriod.creances2.length > 0">
+                            <ng-template ngbTabContent>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="container-fluid">
+                                                <div class="row">
+                                                    <div class="col-sm-3 align-self-center">
+                                                        <b>{{'OTP.PERIOD.COLUMN.DATE DE LA CREANCE 2' | translate}}</b>
+                                                    </div>
+                                                    <div class="col-sm-6 align-self-center">
+                                                        <b>{{'OTP.PERIOD.COLUMN.COMMENT' | translate}}</b>
+                                                    </div>
+                                                </div>
+                                                <div *ngFor="let creanceItem of getBudgetPeriodCreances2()">
+                                                    <!--FOR in History items (we are in a praticular history of budget) -->
+
+                                                    <div class="row">
+                                                        <div class="col-sm-3 align-self-center">
+                                                            <gg-editor-date [content]="creanceItem.date" (editSaved)="dateCreance2ChangeUpdated(creanceItem, $event)"
+                                                                [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-date>
+                                                        </div>
+                                                        <div class="col-sm-6 align-self-center">
+                                                            <gg-editor [content]="creanceItem.description" [showControls]="true" (editSaved)="commentCreanceChangeUpdated(creanceItem, $event)"
+                                                                [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+                        <ngb-tab title="{{'OTP.PERIOD.MENU.ENTER UNE NOUVELLE CREANCE 2' | translate}}" id="tabEnterNouvelleCreance2" *ngIf="authorizationStatusInfo?.isAdministrator()">
+                            <ng-template ngbTabContent>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <gg-form [structure]="formStructure4" (formSaved)="SaveNouvelleCreance2($event)"></gg-form>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+                    </ngb-tabset>
+                </div>
+            </div>
+        </ng-template>
+    </ngb-tab>
 </ngb-tabset>
