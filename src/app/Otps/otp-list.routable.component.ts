@@ -17,6 +17,8 @@ import {utilsComparators as comparatorsUtils} from 'gg-search-handle-data'
     }
 )
 export class OtpListComponentRoutable implements OnInit {
+    nbCreanceSoonOtps: number= 0;
+    otpsObservableCreanceSoon: Observable<any>;
     nbExpiringOtps: number= 0;
     constructor(private equipeService: EquipeService, private navigationService: NavigationService, private authService: AuthService, private sapService: SapService, private otpService: OtpService,
         private dataStore: DataStore, private productService: ProductService) { }
@@ -37,7 +39,10 @@ export class OtpListComponentRoutable implements OnInit {
         })
         this.otpsObservable = this.otpService.getAnnotatedOtps();
 
-        this.otpsObservableExpiring = this.otpService.getAnnotatedFinishingOtps();
+        this.otpsObservableExpiring = this.otpService.getAnnotatedFinishingOtps();       
+
+        this.otpsObservableCreanceSoon = this.otpService.getAnnotatedCreanceSoonOtps();
+
         this.equipesObservable = this.equipeService.getAnnotatedEquipes();
         this.authService.getStatusObservable().takeWhile(() => this.isPageRunning).subscribe(statusInfo => {
             this.authorizationStatusInfo = statusInfo
@@ -46,6 +51,11 @@ export class OtpListComponentRoutable implements OnInit {
         this.otpsObservableExpiring.takeWhile(() => this.isPageRunning).subscribe(otps => {
             this.nbExpiringOtps= otps ? otps.length : 0
         })
+
+        this.otpsObservableCreanceSoon.takeWhile(() => this.isPageRunning).subscribe(otps => {
+            this.nbCreanceSoonOtps= otps ? otps.length : 0
+        })
+        
     }
 
 

@@ -29,8 +29,8 @@ export class NotificationService {
         return Observable.combineLatest(this.orderService.getAnnotatedFridgeOrders(), this.stockService.getAnnotatedStockOrdersAll(),
             this.voucherService.getOpenRequestedVouchers(), this.voucherService.getAnnotatedUsedVouchersReadyForSap(),
             this.getAnnotatedRecentLogs(24), this.getAdminMonitorForCurrentUser(), this.orderService.getAnnotedOrdersByStatus('Received by SAP'), this.orderService.getAnnotedOrdersValidable(),
-            this.otpService.getAnnotatedFinishingOtps(), this.productService.getAnnotatedProductsOnValidationWait(),
-            (annotatedFridgeOrders, annotatedStockOrders, openRequestVouchers, usedVouchers, logs, adminConfig, classicOrders, validableOrders, finishingOtps, productsOnValidationWait) => {
+            this.otpService.getAnnotatedFinishingOtps(), this.otpService.getAnnotatedCreanceSoonOtps(), this.productService.getAnnotatedProductsOnValidationWait(),
+            (annotatedFridgeOrders, annotatedStockOrders, openRequestVouchers, usedVouchers, logs, adminConfig, classicOrders, validableOrders, finishingOtps, creanceSoonOtps, productsOnValidationWait) => {
                 let annotatedFridgeOrdersOk = annotatedFridgeOrders.filter(o => !o.data.isDelivered)
                 let annotatedStockOrdersOk = annotatedStockOrders.filter(o => !o.data.isProcessed)
 
@@ -43,6 +43,7 @@ export class NotificationService {
                     classicOrders: classicOrders,
                     validableOrders: validableOrders,
                     finishingOtps: finishingOtps,
+                    creanceSoonOtps: creanceSoonOtps,
                     productsOnValidationWait: productsOnValidationWait,
                     equipeMonitors: logs.filter(log => log.data.type === 'equipe' && adminConfig.equipe.ids.includes(log.data.id) && log.data.amount > adminConfig.equipe.amount),
                     otpMonitors: logs.filter(log => log.data.type === 'otp' && adminConfig.otp.ids.includes(log.data.id) && log.data.amount > adminConfig.otp.amount),

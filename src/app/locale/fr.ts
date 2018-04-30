@@ -245,6 +245,7 @@ export const locale = {
             "MENU": {
                 "VIEW OTPS": "Liste d'otp",
                 "SOON EXPIRING": "Bientôt fini",
+                "SOON CREANCE": "Bientôt une créance",
                 "CREATE OTP": "Créer un otp",
                 "CHOICE SIMULATOR": "Simulation de choix d'otp",
                 "PRODUCT CLASSIFICATIONS": "Classifications de produits",
@@ -1349,6 +1350,7 @@ export const locale = {
                 "NEW ORDERS READY FOR SAP": "Nouvelles commandes prêtes pour SAP",
                 "IN WAIT FOR VALIDATION": "En attente de validation",
                 "SOON EXPIRING": "Sur le point d'expirer",
+                "SOON CREANCE": "Bientôt une créance",
                 "FOLLOWING ORDERS": "Commandes suivantes",
                 "PRIVATE MESSAGES": "Lisez les"
             },

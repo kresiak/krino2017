@@ -16,6 +16,13 @@
 
                 </ng-template>
             </ngb-tab>
+            <ngb-tab title="{{'OTP.MENU.SOON CREANCE' | translate}} ({{nbCreanceSoonOtps}})" id="tabViewSoonCreance" *ngIf="nbCreanceSoonOtps">
+                <ng-template ngbTabContent>
+
+                    <gg-otp-list [state]="state" [otpsObservable]="otpsObservableCreanceSoon"></gg-otp-list>
+
+                </ng-template>
+            </ngb-tab>
             <ngb-tab title="{{'OTP.MENU.CREATE OTP' | translate}}" id="tabCreate" *ngIf="authorizationStatusInfo.isAdministrator()">
                 <ng-template ngbTabContent>
                     <div class="card">
@@ -26,7 +33,7 @@
                     </div>
                 </ng-template>
             </ngb-tab>
-            <ngb-tab title="{{'OTP.MENU.CHOICE SIMULATOR' | translate}}" id="tabByClassification" >
+            <ngb-tab title="{{'OTP.MENU.CHOICE SIMULATOR' | translate}}" id="tabByClassification">
                 <ng-template ngbTabContent>
                     <gg-otp-checker></gg-otp-checker>
                 </ng-template>

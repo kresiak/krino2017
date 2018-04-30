@@ -245,6 +245,7 @@ export const locale = {
             "MENU": {
                 "VIEW OTPS": "View Otps",
                 "SOON EXPIRING": "Soon expiring",
+                "SOON CREANCE": "Soon a 'creance'",
                 "CREATE OTP": "Create an Otp",
                 "CHOICE SIMULATOR": "Otp choice simulator",
                 "PRODUCT CLASSIFICATIONS": "Product classifications",
@@ -1350,6 +1351,7 @@ export const locale = {
                 "NEW ORDERS READY FOR SAP": "New orders ready for SAP",
                 "IN WAIT FOR VALIDATION": "In wait for validation",
                 "SOON EXPIRING": "Soon expiring",
+                "SOON CREANCE": "Soon a 'créance'",
                 "FOLLOWING ORDERS": "Following orders",
                 "PRIVATE MESSAGES": "Check them"
             },

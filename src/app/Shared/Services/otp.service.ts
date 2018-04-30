@@ -176,6 +176,17 @@ export class OtpService {
         }));
     }
 
+    getAnnotatedCreanceSoonOtps(): Observable<any> {
+        return this.getAnnotatedOtps().map(otps => otps.filter(otp => otp.annotation.currentPeriodAnnotation && otp.annotation.currentPeriodAnnotation.datNextCreance2).filter(otp => {
+            var warningNbMonthsToEnd= +otp.data.warningNbMonthsToEnd
+            if (!warningNbMonthsToEnd) return false
+            var dat= moment(otp.annotation.currentPeriodAnnotation.datNextCreance2, 'DD/MM/YYYY HH:mm:ss').add(-warningNbMonthsToEnd, 'month').add(1, 'day').startOf('day') 
+            var now = moment()
+            return now.isAfter(dat)
+        }));
+    }
+
+
     getAnnotatedOtpsByEquipe(equipeId): Observable<any> {
         return this.getAnnotatedOtps().map(otps => otps.filter(otp => otp.data.equipeId === equipeId));
     }
