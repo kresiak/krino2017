@@ -24,8 +24,6 @@ export class OtpPeriodDetailComponent implements OnInit {
     constructor(private dataStore: DataStore, private authService: AuthService, private formBuilder: FormBuilder, private otpService: OtpService) {
     }
 
-    public blockedAmountForm: FormGroup
-
     public nouvelleCreanceForm: FormGroup
     public dateNouvelleCreanceForm: string
 
@@ -38,6 +36,7 @@ export class OtpPeriodDetailComponent implements OnInit {
     public authorizationStatusInfo: AuthenticationStatusInfo;
 
     public formStructure1: FormItemStructure[]= []
+    public formStructure2: FormItemStructure[]= []
 
 
     ngOnInit(): void {
@@ -49,10 +48,8 @@ export class OtpPeriodDetailComponent implements OnInit {
         this.formStructure1.push(new FormItemStructure('dateInBudgetChangeForm', 'OTP.PERIOD.LABEL.DATE', FormItemType.GigaDate))        
         this.formStructure1.push(new FormItemStructure('commentBudgetChange', 'OTP.PERIOD.LABEL.COMMENT', FormItemType.InputText, {isRequired: true}))
         
-        this.blockedAmountForm = this.formBuilder.group({
-            blockedAmount: ['', [Validators.required]],
-            comment: ['', [Validators.required]]
-        })
+        this.formStructure2.push(new FormItemStructure('blockedAmount', 'OTP.PERIOD.LABEL.AMOUNT BLOCKED', FormItemType.InputMoney, {isRequired: true}))        
+        this.formStructure2.push(new FormItemStructure('comment', 'OTP.PERIOD.LABEL.REASON/COMMENT', FormItemType.InputText, {isRequired: true}))
 
         this.nouvelleCreanceForm = this.formBuilder.group({
             depenseNouvelleCreance: ['', [Validators.required]],
@@ -78,21 +75,16 @@ export class OtpPeriodDetailComponent implements OnInit {
         });
     }
 
-    saveBlockedAmount(formValue, isValid) {
-        if (!isValid) return
+    saveBlockedAmount(data) {
         if (!this.budgetPeriod.blockedAmounts) this.budgetPeriod.blockedAmounts = []
 
         this.budgetPeriod.blockedAmounts.push({
-            amount: formValue.blockedAmount,
-            comment: formValue.comment
+            amount: data.blockedAmount,
+            comment: data.comment
         })
         this.dataStore.updateData('otps', this.otp.data._id, this.otp.data).first().subscribe(res => {
-            this.resetBlockedAmount();
+            data.setSuccess('OK')  
         });
-    }
-
-    resetBlockedAmount() {
-        this.blockedAmountForm.reset();
     }
 
     checkCreances(): boolean {

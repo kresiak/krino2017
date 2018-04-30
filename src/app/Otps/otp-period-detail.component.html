@@ -150,32 +150,9 @@
                         <ngb-tab title="{{'OTP.PERIOD.MENU.ADD BLOCKED AMOUNT' | translate}}" id="tabAddBlockAmount" *ngIf="authorizationStatusInfo?.isAdministrator()">
                             <ng-template ngbTabContent>
                                 <div class="card">
-                                    <form [formGroup]="blockedAmountForm" (ngSubmit)="saveBlockedAmount(blockedAmountForm.value, blockedAmountForm.valid)">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <div class="form-group row">
-                                                    <div class="col-sm-3 align-self-center">{{'OTP.PERIOD.LABEL.AMOUNT BLOCKED' | translate}}:</div>
-                                                    <div class="col-sm-7 align-self-center">
-                                                        <input type="number" min="0" step="any" class="form-control" formControlName="blockedAmount" id="blockedAmount" placeholder="{{'OTP.PERIOD.LABEL.AMOUNT BLOCKED' | translate}}">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <div class="col-sm-3 align-self-center">{{'OTP.PERIOD.LABEL.REASON/COMMENT' | translate}}</div>
-                                                    <div class="col-sm-7 align-self-center">
-                                                        <input type="text" class="form-control" formControlName="comment" id="comment" placeholder="{{'OTP.PERIOD.LABEL.COMMENT' | translate}}">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <div class="col-sm-3 col-md-2 col-lg-2">
-                                                        <button class="btn btn-success" type="submit" [disabled]="!blockedAmountForm.valid">{{'FORM.SUBMIT' | translate}}</button>
-                                                    </div>
-                                                    <div class="col-sm-3 col-md-2 col-lg-2">
-                                                        <button class="btn btn-info" [disabled]="blockedAmountForm.pristine" (click)="resetBlockedAmount()">{{'FORM.RESET' | translate}}</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
+                                    <div class="card-body">
+                                        <gg-form [structure]="formStructure2" (formSaved)="saveBlockedAmount($event)"></gg-form>
+                                    </div>
                                 </div>
                             </ng-template>
                         </ngb-tab>
