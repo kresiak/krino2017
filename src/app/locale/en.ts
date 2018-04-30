@@ -354,7 +354,8 @@ export const locale = {
                 "LIMITED": "Limited",
                 "CLOSED": "Closed",
                 "NO PRIORITY": "No priority",
-                "CREANCE": "(interm. obj.)"
+                "CREANCE": "(interm. obj.)",
+                "CREANCE 2": "(dat. cr.)"
             },
             "SEARCH HELP": {
                 "MSG1": "RWAL: if the OTP, its classification or the associated project contains 'RWAL'",

@@ -51,7 +51,9 @@
 						{{otp.annotation.amountAvailable | ggCurrency}}
 					</div>
 					<div class="col-sm-3" *ngIf="otp.annotation.currentPeriodAnnotation">{{ (otp.annotation.currentPeriodAnnotation.datStart | compactDate) + ' - ' + ((otp.annotation.currentPeriodAnnotation.datNextCreance || otp.annotation.currentPeriodAnnotation.datEnd) | compactDate) }} <span *ngIf="otp.annotation.minSapDate"> ({{otp.annotation.minSapDate | compactDate}}) </span>
-							<span *ngIf="otp.annotation.currentPeriodAnnotation.datNextCreance">{{'OTP.COLUMN.CREANCE' | translate}}</span> </div>
+							<span *ngIf="otp.annotation.currentPeriodAnnotation.datNextCreance">{{'OTP.COLUMN.CREANCE' | translate}}</span> 
+							<span *ngIf="otp.annotation.currentPeriodAnnotation.datNextCreance2">{{'OTP.COLUMN.CREANCE 2' | translate}}</span>
+						</div>
 					<div class="col-sm-3" *ngIf="!otp.annotation.currentPeriodAnnotation" [style.color]="'red'">{{'OTP.COLUMN.NOT FOR CURRENT PERIOD' | translate}}</div>
 <!--					<div class="col-sm-1">{{ otp.annotation.nbSapItems || '' }}</div>-->
 					<div class="col-sm-2">{{otp.annotation.nbSapItems + ' / ' }} <span [style.color]="(getStatusText(otp)|async) ? 'red' : 'green'">{{(getStatusText(otp)|async) || '-'}}</span></div>

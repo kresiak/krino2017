@@ -354,7 +354,8 @@ export const locale = {
                 "LIMITED": "Limité",
                 "CLOSED": "Fermé",
                 "NO PRIORITY": "Sans priorité",
-                "CREANCE": "(obj. interm.)"
+                "CREANCE": "(obj. interm.)",
+                "CREANCE 2": "(dat. cr.)"
             },
             "SEARCH HELP": {
                 "MSG1": "RWAL: si l'OTP, sa classification ou l'équipe associée contient 'RWAL'",
