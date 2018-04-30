@@ -64,6 +64,7 @@ export class OtpService {
         if (p.creances) 
             var xxx=120
         var creances= !p.creances ? undefined : p.creances.filter(c => utilsDate.isDateAfterNow(c.date)).sort(utilsDate.getSortFn(c => c.date, true))
+        var creances2= !p.creances2 ? undefined : p.creances2.filter(c => utilsDate.isDateAfterNow(c.date)).sort(utilsDate.getSortFn(c => c.date, true))
         return {
             changesSum: changesSum,
             blockedSum: blockedSum,
@@ -71,7 +72,8 @@ export class OtpService {
             budgetAvailable: ((creances && creances.length > 0) ? +(creances[0].amount) : +p.budget) + changesSum - blockedSum,
             datStart: p.datStart,
             datEnd: p.datEnd,
-            datNextCreance: (creances && creances.length > 0) ? creances[0].date : undefined 
+            datNextCreance: (creances && creances.length > 0) ? creances[0].date : undefined, 
+            datNextCreance2: (creances2 && creances2.length > 0) ? creances2[0].date : undefined
         }
     }
 

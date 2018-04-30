@@ -366,8 +366,9 @@ export const locale = {
                 "MSG7": "#P0: si l'OTP n'a pas de priorité (et ne sera donc jamais choisi)",
                 "MSG8": "#OK: si l'OTP est OK et peut donc en principe, si les dates et le budget restant collent, être choisi (ni supprimé, ni bloqué, ni fermé, ni priorité 0)",
                 "MSG9": "#NO: si l'OTP, à cause de son statut, ne peut être choisi (bloqué ou fermé ou priorité 0)",
-                "MSG10": "#CR: si l'OTP a un objectif de dépense intermédiaire",
-                "MSG11": "$DO : liste des otps qui ont des documents associés"
+                "MSG10": "#OI: si l'OTP a un objectif de dépense intermédiaire",
+                "MSG11": "$DO : liste des otps qui ont des documents associés",
+                "MSG12": "#CR: si l'OTP a une date de créance à venir"
             }
         },
         "CATEGORY": {

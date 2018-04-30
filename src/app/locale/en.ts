@@ -366,8 +366,9 @@ export const locale = {
                 "MSG7": "#P0: if the OTP has no priority/priority=0 set (those otps will never be chosen)",
                 "MSG8": "#OK: if the OTP is OK, and could be chosen, provided that the dates and budget are adequate. (neither deleted, nor blocked, nor closed, nor priority 0)",
                 "MSG9": "#NO: if the OTP can't be chosen (blocked or closed or priority 0)",
-                "MSG10": "#CR: if the OTP has a coming intermediary spending objective",
-                "MSG11": "$DO : if the OTP has documents associated"
+                "MSG10": "#OI: if the OTP has a coming intermediary spending objective",
+                "MSG11": "$DO : if the OTP has documents associated",
+                "MSG12": "#CR: if the OTP has a coming 'creance date'"
             }
         },
         "CATEGORY": {
