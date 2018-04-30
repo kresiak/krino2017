@@ -7,11 +7,11 @@ import { NavigationService } from './../Shared/Services/navigation.service'
 import { SelectableData } from 'gg-basic-code'
 import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from "moment"
-import {utilsComparators as comparatorsUtils} from 'gg-search-handle-data'
+import { utilsComparators as comparatorsUtils } from 'gg-search-handle-data'
 import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.service'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
-import {utilsDates as dateUtils} from 'gg-basic-code'
-import { FormItemStructure, FormItemType} from 'gg-ui'
+import { utilsDates as dateUtils } from 'gg-basic-code'
+import { FormItemStructure, FormItemType } from 'gg-ui'
 
 
 @Component(
@@ -24,9 +24,6 @@ export class OtpPeriodDetailComponent implements OnInit {
     constructor(private dataStore: DataStore, private authService: AuthService, private formBuilder: FormBuilder, private otpService: OtpService) {
     }
 
-    public nouvelleCreanceForm: FormGroup
-    public dateNouvelleCreanceForm: string
-
     @Input() budgetPeriod
     @Input() otp
     @Input() budgetAnnotation
@@ -35,8 +32,9 @@ export class OtpPeriodDetailComponent implements OnInit {
 
     public authorizationStatusInfo: AuthenticationStatusInfo;
 
-    public formStructure1: FormItemStructure[]= []
-    public formStructure2: FormItemStructure[]= []
+    public formStructure1: FormItemStructure[] = []
+    public formStructure2: FormItemStructure[] = []
+    public formStructure3: FormItemStructure[] = []
 
 
     ngOnInit(): void {
@@ -44,23 +42,22 @@ export class OtpPeriodDetailComponent implements OnInit {
             this.authorizationStatusInfo = statusInfo
         });
 
-        this.formStructure1.push(new FormItemStructure('budgetChange', 'OTP.PERIOD.LABEL.BUDGET INCREMENT', FormItemType.InputMoney, {isRequired: true}))        
-        this.formStructure1.push(new FormItemStructure('dateInBudgetChangeForm', 'OTP.PERIOD.LABEL.DATE', FormItemType.GigaDate))        
-        this.formStructure1.push(new FormItemStructure('commentBudgetChange', 'OTP.PERIOD.LABEL.COMMENT', FormItemType.InputText, {isRequired: true}))
-        
-        this.formStructure2.push(new FormItemStructure('blockedAmount', 'OTP.PERIOD.LABEL.AMOUNT BLOCKED', FormItemType.InputMoney, {isRequired: true}))        
-        this.formStructure2.push(new FormItemStructure('comment', 'OTP.PERIOD.LABEL.REASON/COMMENT', FormItemType.InputText, {isRequired: true}))
+        this.formStructure1.push(new FormItemStructure('budgetChange', 'OTP.PERIOD.LABEL.BUDGET INCREMENT', FormItemType.InputMoney, { isRequired: true }))
+        this.formStructure1.push(new FormItemStructure('dateInBudgetChangeForm', 'OTP.PERIOD.LABEL.DATE', FormItemType.GigaDate))
+        this.formStructure1.push(new FormItemStructure('commentBudgetChange', 'OTP.PERIOD.LABEL.COMMENT', FormItemType.InputText, { isRequired: true }))
 
-        this.nouvelleCreanceForm = this.formBuilder.group({
-            depenseNouvelleCreance: ['', [Validators.required]],
-            commentNouvelleCreance: ['', [Validators.required]]
-        })
+        this.formStructure2.push(new FormItemStructure('blockedAmount', 'OTP.PERIOD.LABEL.AMOUNT BLOCKED', FormItemType.InputMoney, { isRequired: true }))
+        this.formStructure2.push(new FormItemStructure('comment', 'OTP.PERIOD.LABEL.REASON/COMMENT', FormItemType.InputText, { isRequired: true }))
+
+        this.formStructure3.push(new FormItemStructure('dateNouvelleCreanceForm', 'OTP.PERIOD.LABEL.DATE DE LA CREANCE', FormItemType.GigaDate))
+        this.formStructure3.push(new FormItemStructure('depenseNouvelleCreance', 'OTP.PERIOD.LABEL.DEPENSE POUR LA PERIODE', FormItemType.InputMoney, { isRequired: true }))
+        this.formStructure3.push(new FormItemStructure('commentNouvelleCreance', 'OTP.PERIOD.LABEL.COMMENT', FormItemType.InputText, { isRequired: true }))
+
     }
 
-    public getBudgetPeriodCreances() {
-        return this.budgetPeriod.creances.sort(dateUtils.getSortFn(x => x.date, true))
+    ngOnDestroy(): void {
+        this.isPageRunning = false
     }
-
 
     SaveBudgetChange(data) {
         if (!this.budgetPeriod.budgetHistory) this.budgetPeriod.budgetHistory = []
@@ -71,7 +68,7 @@ export class OtpPeriodDetailComponent implements OnInit {
             comment: data.commentBudgetChange
         })
         this.dataStore.updateData('otps', this.otp.data._id, this.otp.data).first().subscribe(res => {
-            data.setSuccess('OK')  
+            data.setSuccess('OK')
         });
     }
 
@@ -83,14 +80,18 @@ export class OtpPeriodDetailComponent implements OnInit {
             comment: data.comment
         })
         this.dataStore.updateData('otps', this.otp.data._id, this.otp.data).first().subscribe(res => {
-            data.setSuccess('OK')  
+            data.setSuccess('OK')
         });
+    }
+
+    public getBudgetPeriodCreances() {
+        return this.budgetPeriod.creances.sort(dateUtils.getSortFn(x => x.date, true))
     }
 
     checkCreances(): boolean {
         var lastAmount = -1
         var isOk: boolean = true
-        var copied= comparatorsUtils.clone(this.budgetPeriod.creances)
+        var copied = comparatorsUtils.clone(this.budgetPeriod.creances)
         copied.sort(dateUtils.getSortFn(x => x.date)).forEach(c => {
             if (isOk) {
                 if (c.amount > this.budgetAnnotation.budgetTotalAvailable) isOk = false
@@ -101,61 +102,60 @@ export class OtpPeriodDetailComponent implements OnInit {
         return isOk
     }
 
-    public creanceFormError: boolean= false
-
-    SaveNouvelleCreance(formValue, isValid) {        
-        if (!isValid) return
+    SaveNouvelleCreance(data) {
         if (!this.budgetPeriod.creances) this.budgetPeriod.creances = []
-        this.creanceFormError= false
 
         this.budgetPeriod.creances.push({
-            date: this.dateNouvelleCreanceForm || dateUtils.nowFormated(),
-            amount: formValue.depenseNouvelleCreance,
-            description: formValue.commentNouvelleCreance
+            date: data.dateNouvelleCreanceForm || dateUtils.nowFormated(),
+            amount: data.depenseNouvelleCreance,
+            description: data.commentNouvelleCreance
         })
 
         if (this.checkCreances()) {
             this.dataStore.updateData('otps', this.otp.data._id, this.otp.data).first().subscribe(res => {
-                this.resetNouvelleCreance();
+                data.setSuccess('OK')
             });
         }
         else {
             this.budgetPeriod.creances.pop()
-            this.creanceFormError=true
+            data.setError('OTP.PERIOD.MSG.CREANCE ERROR')
         }
     }
 
-    public creanceUpdateError: boolean= false
+    // updates in creances
+    // ===================
+
+    public creanceUpdateError: boolean = false
 
     dateCreanceChangeUpdated(creanceItem, data) {
-        var dateChange= data.value
-        this.creanceUpdateError= false
-        var saved= creanceItem.date
+        var dateChange = data.value
+        this.creanceUpdateError = false
+        var saved = creanceItem.date
         creanceItem.date = dateChange
         if (this.checkCreances()) {
             this.dataStore.updateData('otps', this.otp.data._id, this.otp.data);
         }
         else {
-            this.creanceUpdateError= true
-            creanceItem.date= saved
+            this.creanceUpdateError = true
+            creanceItem.date = saved
             data.fnCancel()
-        }        
+        }
     }
 
     depenseCreanceChangeUpdated(creanceItem, data) {
-        var depenseChange= data.value
+        var depenseChange = data.value
         if (! +depenseChange && depenseChange !== '0') return
-        this.creanceUpdateError= false
-        var saved= creanceItem.amount
+        this.creanceUpdateError = false
+        var saved = creanceItem.amount
         creanceItem.amount = +depenseChange
         if (this.checkCreances()) {
             this.dataStore.updateData('otps', this.otp.data._id, this.otp.data);
         }
         else {
-            this.creanceUpdateError= true
-            creanceItem.amount= saved
+            this.creanceUpdateError = true
+            creanceItem.amount = saved
             data.fnCancel()
-        }        
+        }
     }
 
     commentCreanceChangeUpdated(creanceItem, description) {
@@ -163,17 +163,8 @@ export class OtpPeriodDetailComponent implements OnInit {
         this.dataStore.updateData('otps', this.otp.data._id, this.otp.data);
     }
 
-
-
-
-    resetNouvelleCreance() {
-        this.nouvelleCreanceForm.reset();
-    }
-
-
-    ngOnDestroy(): void {
-        this.isPageRunning = false
-    }
+    // updates of period itself
+    //==========================
 
     budgetPeriodUpdated(budget) {
         this.budgetPeriod.budget = +budget;
@@ -189,6 +180,9 @@ export class OtpPeriodDetailComponent implements OnInit {
         this.budgetPeriod.datEnd = date;
         this.dataStore.updateData('otps', this.otp.data._id, this.otp.data);
     }
+
+    // updates of budget changes
+    //===========================    
 
     budgetChangeUpdated(budgetHistoryItem, budgetChange) {
         if (! +budgetChange && budgetChange !== '0') return
@@ -206,10 +200,9 @@ export class OtpPeriodDetailComponent implements OnInit {
         this.dataStore.updateData('otps', this.otp.data._id, this.otp.data);
     }
 
-/*     dateBudgetChangeInForm(dateInForm) {
-        this.dateInBudgetChangeForm = dateInForm
-    }
- */
+    // updates of budget blocked
+    //===========================    
+   
     blockedAmountUpdated(blockedAmountItem, amount) {
         if (! +amount && amount !== '0') return
         blockedAmountItem.amount = +amount
@@ -219,10 +212,6 @@ export class OtpPeriodDetailComponent implements OnInit {
     blockedAmountCommentUpdated(blockedAmountItem, comment) {
         blockedAmountItem.comment = comment
         this.dataStore.updateData('otps', this.otp.data._id, this.otp.data);
-    }
-
-    dateNouvelleCreanceInForm(dateInForm) {
-        this.dateNouvelleCreanceForm = dateInForm
     }
 
 }

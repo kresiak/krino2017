@@ -217,42 +217,9 @@
                         <ngb-tab title="{{'OTP.PERIOD.MENU.ENTER UNE NOUVELLE CREANCE' | translate}}" id="tabEnterNouvelleCreance" *ngIf="authorizationStatusInfo?.isAdministrator()">
                             <ng-template ngbTabContent>
                                 <div class="card">
-                                    <form [formGroup]="nouvelleCreanceForm" (ngSubmit)="SaveNouvelleCreance(nouvelleCreanceForm.value, nouvelleCreanceForm.valid)">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <div class="form-group row">
-                                                    <div class="col-sm-3 align-self-center">{{'OTP.PERIOD.LABEL.DATE DE LA CREANCE' | translate}}</div>
-                                                    <div class="col-sm-7 align-self-center">
-                                                        <gg-editor-date [content]="" (editSaved)="dateNouvelleCreanceInForm($event)"></gg-editor-date>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label for="depenseNouvelleCreance" class="col-sm-3 col-form-label col-xl-3">{{'OTP.PERIOD.LABEL.DEPENSE POUR LA PERIODE' | translate}}</label>
-                                                    <div class="col-sm-7">
-                                                        <input type="number" min="0" step="any" class="form-control" formControlName="depenseNouvelleCreance" id="depenseNouvelleCreance"
-                                                            placeholder="{{'OTP.PERIOD.LABEL.DEPENSE POUR LA PERIODE' | translate}}">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <div class="col-sm-3 align-self-center">{{'OTP.PERIOD.LABEL.COMMENT' | translate}}</div>
-                                                    <div class="col-sm-7 align-self-center">
-                                                        <input type="text" class="form-control" formControlName="commentNouvelleCreance" id="commentNouvelleCreance" placeholder="{{'OTP.PERIOD.LABEL.COMMENT' | translate}}">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <div class="col-sm-3 col-md-2 col-lg-2">
-                                                        <button class="btn btn-success" type="submit" [disabled]="!nouvelleCreanceForm.valid">{{'FORM.SUBMIT' | translate}}</button>
-                                                    </div>
-                                                    <div class="col-sm-3 col-md-2 col-lg-2">
-                                                        <button class="btn btn-info" [disabled]="nouvelleCreanceForm.pristine" (click)="resetNouvelleCreance()">{{'FORM.RESET' | translate}}</button>
-                                                    </div>
-                                                    <div class="col-sm-5 col-md-7 col-lg-7" [style.color]="'red'" *ngIf="creanceFormError">
-                                                        {{'OTP.PERIOD.MSG.CREANCE ERROR' | translate}}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
+                                    <div class="card-body">
+                                        <gg-form [structure]="formStructure3" (formSaved)="SaveNouvelleCreance($event)"></gg-form>
+                                    </div>
                                 </div>
                             </ng-template>
                         </ngb-tab>
