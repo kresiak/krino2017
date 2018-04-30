@@ -1357,6 +1357,7 @@ export const locale = {
             },
             "ALERTS": {
                 "EXPIRING OTPS": "There are expiring otp! ",
+                "CREANCE OTPS": "There are otp with 'creance' soon! ",
                 "PRIVATE MSGS": "There are private messages! ",
                 "PLEASE CHECK YOUR DASHBOARD": "Please check your dashboard: you have {{nbTotal}} new orders waiting"
             },

@@ -32,24 +32,27 @@ export class MenuService {
         }).switchMap(info => {            
             if (!info.statusInfo.isLoggedIn) return Observable.from([{isAdmin: false}])
             return Observable.combineLatest(this.notificationService.getLmWarningMessages().map(messagesObj => messagesObj.finishingOtps.length).distinctUntilChanged(),
+                this.notificationService.getLmWarningMessages().map(messagesObj => messagesObj.creanceSoonOtps.length).distinctUntilChanged(),
                 this.notificationService.getNbPrivateMessages(info.statusInfo.currentUserId).distinctUntilChanged(),
-                this.translationLoaderService.getTranslationWord('DASHBOARD.ALERTS.EXPIRING OTPS'), this.translationLoaderService.getTranslationWord('DASHBOARD.ALERTS.PRIVATE MSGS'),
-                (nbFinishingOtp, nbPrivateMessages, msgExpiringOtps, msgPrivateMessages) => {
+                this.translationLoaderService.getTranslationWord('DASHBOARD.ALERTS.EXPIRING OTPS'), this.translationLoaderService.getTranslationWord('DASHBOARD.ALERTS.PRIVATE MSGS'), this.translationLoaderService.getTranslationWord('DASHBOARD.ALERTS.CREANCE OTPS'),
+                (nbFinishingOtp, nbCreanceSoonOtp, nbPrivateMessages, msgExpiringOtps, msgPrivateMessages, msgSoonCreance) => {
                     return {
                         nbFinishingOtp: nbFinishingOtp,
+                        nbCreanceSoonOtp: nbCreanceSoonOtp,
                         nbPrivateMessages: nbPrivateMessages,
                         msgExpiringOtps: msgExpiringOtps,
                         msgPrivateMessages: msgPrivateMessages,
+                        msgSoonCreance: msgSoonCreance,
                         isAdmin: info.statusInfo.isAdministrator()
                     }
                 })
         }).do((data : any) => {
-            var needsHighlight: boolean = ((data.isAdmin ? data.nbFinishingOtp : 0) + data.nbPrivateMessages) > 0
+            var needsHighlight: boolean = ((data.isAdmin ? (data.nbFinishingOtp + data.nbCreanceSoonOtp) : 0) + data.nbPrivateMessages) > 0
 
             var item = this.menu.filter(menuitem => menuitem.route === '/dashboard')[0]
             if (item) {
                 item.isAttractAttentionMode = needsHighlight
-                item.attractAttentionModeText = needsHighlight ? ((data.isAdmin && data.nbFinishingOtp > 0) ? data.msgExpiringOtps : '') + (data.nbPrivateMessages > 0 ? data.msgPrivateMessages : '') : ''
+                item.attractAttentionModeText = needsHighlight ? ((data.isAdmin && data.nbFinishingOtp > 0) ? data.msgExpiringOtps : '') + ((data.isAdmin && data.nbCreanceSoonOtp > 0) ? data.msgSoonCreance : '') + (data.nbPrivateMessages > 0 ? data.msgPrivateMessages : '') : ''
                 this.emitCurrentMenu()
             }
         })

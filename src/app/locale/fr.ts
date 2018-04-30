@@ -1356,6 +1356,7 @@ export const locale = {
             },
             "ALERTS": {
                 "EXPIRING OTPS": "Des otps vont expirer! ",
+                "CREANCE OTPS": "Date de créance bientôt! ",
                 "PRIVATE MSGS": "Vous avez des messages! ",
                 "PLEASE CHECK YOUR DASHBOARD": "Veuillez consulter votre tableau de bord: vous avez {{nbTotal}} nouvelles commandes en attente"
             },
