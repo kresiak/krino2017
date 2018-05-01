@@ -32,7 +32,7 @@
 					<div class="row">
 						<div class="col-sm-4 align-self-center">{{'OTP.LABEL.FIRST SAP ACTIVITY' | translate}}:</div>
 						<div class="col-sm-6 align-self-center">
-							{{otp.annotation.minSapDate | shortDate}}  {{otp.annotation.minSapId}}
+							{{otp.annotation.minSapDate | shortDate}} {{otp.annotation.minSapId}}
 						</div>
 					</div>
 					<div class="row" [style.color]="!otp.data.priority ? 'red' : 'black'">
@@ -79,7 +79,7 @@
 							<gg-selector [selectableData]="selectableUsers" [selectedIds]="selectedUserIdsObservable" (selectionChanged)="userSelectionChanged($event)"
 							 [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-selector>
 						</div>
-					</div>					
+					</div>
 					<div class="row" [style.color]="otp.data.isBlocked ? 'red' : 'black'">
 						<div class="col-sm-4 align-self-center">{{'OTP.LABEL.IS BLOCKED' | translate}}:</div>
 						<div class="col-sm-6 align-self-center">
@@ -108,7 +108,7 @@
 			</div>
 		</ng-template>
 	</ngb-tab>
-	
+
 	<ngb-tab title="{{'OTP.MENU.BUDGET' | translate}}" id="tabBudget">
 		<ng-template ngbTabContent>
 			<div class="card">
@@ -149,9 +149,15 @@
 																<ngb-panel [disabled]="true">
 																	<ng-template ngbPanelTitle>
 																		<div class="row">
-																			<div class="col-sm-2"><b>{{'OTP.PERIOD.COLUMN.BUDGET OF THE PERIOD' | translate}}</b></div>
-																			<div class="col-sm-4"><b>{{'OTP.PERIOD.COLUMN.DATE START' | translate}}</b></div>
-																			<div class="col-sm-4"><b>{{'OTP.PERIOD.COLUMN.DATE END' | translate}}</b></div>
+																			<div class="col-sm-2">
+																				<b>{{'OTP.PERIOD.COLUMN.BUDGET OF THE PERIOD' | translate}}</b>
+																			</div>
+																			<div class="col-sm-4">
+																				<b>{{'OTP.PERIOD.COLUMN.DATE START' | translate}}</b>
+																			</div>
+																			<div class="col-sm-4">
+																				<b>{{'OTP.PERIOD.COLUMN.DATE END' | translate}}</b>
+																			</div>
 																		</div>
 																	</ng-template>
 																	<ng-template ngbPanelContent>
@@ -177,38 +183,9 @@
 											<ngb-tab title="{{'OTP.MENU.ADD BUDGET PERIOD' | translate}}" id="tabAddNewBudgetPeriod" *ngIf="authorizationStatusInfo?.isAdministrator() && otp.data.isAnnual">
 												<ng-template ngbTabContent>
 													<div class="card">
-														<form [formGroup]="annualForm" (ngSubmit)="SaveNewBudget(annualForm.value, annualForm.valid)">
-															<div class="card">
-																<div class="card-body">
-																	<div class="form-group row">
-																		<label for="budgetAnnual" class="col-sm-3 col-form-label col-xl-3">{{'OTP.LABEL.BUDGET' | translate}}:</label>
-																		<div class="col-sm-7">
-																			<input type="number" min="0" step="any" class="form-control" formControlName="budgetAnnual" id="budgetAnnual" placeholder="{{'OTP.LABEL.BUDGET' | translate}}">
-																		</div>
-																	</div>
-																	<div class="form-group row">
-																		<div class="col-sm-3 align-self-center">{{'OTP.LABEL.FROM' | translate}}:</div>
-																		<div class="col-sm-7 align-self-center">
-																			<gg-editor-date [content]="" (editSaved)="dateStartAnnualUpdated($event)"></gg-editor-date>
-																		</div>
-																	</div>
-																	<div class="form-group row">
-																		<div class="col-sm-3 align-self-center">{{'OTP.LABEL.TO' | translate}}:</div>
-																		<div class="col-sm-7 align-self-center">
-																			<gg-editor-date [content]="" (editSaved)="dateEndAnnualUpdated($event)"></gg-editor-date>
-																		</div>
-																	</div>
-																	<div class="form-group row">
-																		<div class="col-sm-3 col-md-2 col-lg-2">
-																			<button class="btn btn-success" type="submit" [disabled]="!annualForm.valid">{{'FORM.SUBMIT' | translate}}</button>
-																		</div>
-																		<div class="col-sm-3 col-md-2 col-lg-2">
-																			<button class="btn btn-info" [disabled]="annualForm.pristine" (click)="reset()">{{'FORM.RESET' | translate}}</button>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</form>
+														<div class="card-body">
+															<gg-form [structure]="formStructure" (formSaved)="SaveNewBudget($event)"></gg-form>
+														</div>
 													</div>
 												</ng-template>
 											</ngb-tab>
@@ -318,9 +295,10 @@
 	</ngb-tab>
 	<ngb-tab title="{{('PRODUCT.MENU.DOCUMENTS' | translate) + ' (' + (otp.data.documents || []).length + ')'}}" id="tabDocuments">
 		<ng-template ngbTabContent>
-			<gg-image-uploader-viewer [uploadUrl]="uploadUrl" [filePath]="filePath" [canUserAdd]="true" [canUserChange]="authorizationStatusInfo?.isAdministrator()" [documents]="otp.data.documents" (imagesChanged)="documentsChanged($event)"></gg-image-uploader-viewer>
+			<gg-image-uploader-viewer [uploadUrl]="uploadUrl" [filePath]="filePath" [canUserAdd]="true" [canUserChange]="authorizationStatusInfo?.isAdministrator()"
+			 [documents]="otp.data.documents" (imagesChanged)="documentsChanged($event)"></gg-image-uploader-viewer>
 		</ng-template>
-	</ngb-tab>		
+	</ngb-tab>
 	<ngb-tab title="{{'OTP.MENU.ORDERS' | translate}}" *ngIf="anyOrder" id="tabOrders">
 		<ng-template ngbTabContent>
 			<gg-order-list [ordersObservable]="ordersObservable" [state]="state.Orders" [path]="path+'|O:Orders'" (stateChanged)="childOrdersStateChanged($event)"></gg-order-list>
@@ -328,33 +306,22 @@
 	</ngb-tab>
 	<ngb-tab title="{{'OTP.MENU.SAP' | translate}}" *ngIf="sapIdList" id="tabSaps">
 		<ng-template ngbTabContent>
-			<div class="card">
-				<div class="card-body">
-					<ngb-tabset>
-						<ngb-tab title="{{'OTP.MENU.ALL ITEMS' | translate}}" id="tabSapsAll">
-							<ng-template ngbTabContent>
-								<gg-sap-by-sapids-list [sapIdList]="sapIdList" [otp]="otp" [state]="state.Saps" [path]="path+'|O:Saps'" (stateChanged)="childSapsStateChanged($event)"></gg-sap-by-sapids-list>
-							</ng-template>
-						</ngb-tab>
-						<!--						<ngb-tab title="By date" id="tabSapsByDate">
-							<ng-template ngbTabContent>
-								<gg-sap-by-date [otp]="otp.data.name"></gg-sap-by-date>
-							</ng-template>
-						</ngb-tab>
---></ngb-tabset>
-				</div>
-			</div>
+			<gg-sap-by-sapids-list [sapIdList]="sapIdList" [otp]="otp" [state]="state.Saps" [path]="path+'|O:Saps'" (stateChanged)="childSapsStateChanged($event)"></gg-sap-by-sapids-list>
 		</ng-template>
 	</ngb-tab>
 
 
 	<ngb-tab id="tabMax">
-		<ng-template ngbTabTitle><img src="images/maximize.png" [ngbPopover]="popContent" triggers="mouseenter:mouseleave" /></ng-template>
+		<ng-template ngbTabTitle>
+			<img src="images/maximize.png" [ngbPopover]="popContent" triggers="mouseenter:mouseleave" />
+		</ng-template>
 		<ng-template ngbTabContent></ng-template>
 	</ngb-tab>
 	<ngb-tab id="gotoTop" *ngIf="!isRoot && path!=='dashboard'">
-		<ng-template ngbTabTitle><img src="images/gototop.png" [ngbPopover]="'GENERAL.ACTION.GOTO TOP OF THE PAGE' | translate" triggers="mouseenter:mouseleave"
-			/></ng-template>
+		<ng-template ngbTabTitle>
+			<img src="images/gototop.png" [ngbPopover]="'GENERAL.ACTION.GOTO TOP OF THE PAGE' | translate" triggers="mouseenter:mouseleave"
+			/>
+		</ng-template>
 		<ng-template ngbTabContent></ng-template>
 	</ngb-tab>
 

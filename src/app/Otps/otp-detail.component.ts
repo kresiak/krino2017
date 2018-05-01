@@ -17,7 +17,8 @@ import * as moment from "moment"
 import {utilsComparators as comparatorsUtils} from 'gg-search-handle-data'
 import {utilsDates as dateUtils} from 'gg-basic-code'
 import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.service'
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
+import { FormItemStructure, FormItemType } from 'gg-ui'
+
 
 @Component(
     {
@@ -29,12 +30,9 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 export class OtpDetailComponent implements OnInit {
     constructor(private dataStore: DataStore, private productService: ProductService, private orderService: OrderService, private userService: UserService,
         private chartService: ChartService, private navigationService: NavigationService, private router: Router, private authService: AuthService, private sapService: SapService,
-        private formBuilder: FormBuilder, private otpService: OtpService, private equipeService: EquipeService, private configService: ConfigService) {
+        private otpService: OtpService, private equipeService: EquipeService, private configService: ConfigService) {
     }
     public pieSpentChart;
-    public annualForm: FormGroup;
-    public datStartAnnual: string
-    public datEndAnnual: string
     
     @Input() otpObservable: Observable<any>;
     @Input() state;
@@ -68,6 +66,8 @@ export class OtpDetailComponent implements OnInit {
     public uploadUrl: string
     public filePath: string
 
+    public formStructure: FormItemStructure[] = []
+    
     ngOnInit(): void {   
         this.uploadUrl= this.dataStore.getUploadUrl()
         this.filePath= this.dataStore.getPictureUrlBase()
@@ -106,28 +106,23 @@ export class OtpDetailComponent implements OnInit {
 
         this.equipeListObservable = this.equipeService.getEquipesForAutocomplete()       
 
-        this.annualForm = this.formBuilder.group({
-            budgetAnnual: ['', [Validators.required]]
-        });
-
+        this.formStructure.push(new FormItemStructure('budgetAnnual', 'OTP.LABEL.BUDGET', FormItemType.InputMoney, { isRequired: true }))
+        this.formStructure.push(new FormItemStructure('datStartAnnual', 'OTP.LABEL.FROM', FormItemType.GigaDate))
+        this.formStructure.push(new FormItemStructure('datEndAnnual', 'OTP.LABEL.TO', FormItemType.GigaDate))
+        
     }
 
-    SaveNewBudget(formValue, isValid) {
-        if (!isValid) return
+    SaveNewBudget(data) {
         if (!this.otp.data.budgetPeriods) this.otp.data.budgetPeriods = []
 
         this.otp.data.budgetPeriods.push({
-            budget: formValue.budgetAnnual,
-            datStart: this.datStartAnnual || dateUtils.nowFormated(),
-            datEnd: this.datEndAnnual || dateUtils.nowFormated()
+            budget: data.budgetAnnual,
+            datStart: data.datStartAnnual || dateUtils.nowFormated(),
+            datEnd: data.datEndAnnual || dateUtils.nowFormated()
         })
         this.dataStore.updateData('otps', this.otp.data._id, this.otp.data).first().subscribe(res => {
-            this.reset();
+            data.setSuccess('OK')
         });
-    }
-
-    reset() {
-        this.annualForm.reset();
     }
 
     ngOnDestroy(): void {
@@ -234,14 +229,6 @@ export class OtpDetailComponent implements OnInit {
     priorityUpdated(priority) {
         this.otp.data.priority = priority;
         this.dataStore.updateData('otps', this.otp.data._id, this.otp.data);
-    }
-
-    dateStartAnnualUpdated(date) {
-        this.datStartAnnual = date;
-    }
-
-    dateEndAnnualUpdated(date) {
-        this.datEndAnnual = date;
     }
 
     updatedIsAnnualChecked(isAnnual) {
