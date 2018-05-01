@@ -338,7 +338,8 @@ export const locale = {
                 "SPENT INVOICES": "montant facturé",
                 "BUDGET": "budget",
                 "FROM": "de",
-                "TO": "à"
+                "TO": "à",
+                "LIMIT WITHOUT OFFER": "montant maximal si on n'a pas 3 offres"
             },
             "COLUMN": {
                 "OTP": "Otp",

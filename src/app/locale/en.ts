@@ -338,7 +338,8 @@ export const locale = {
                 "SPENT INVOICES": "amount spent in invoices",
                 "BUDGET": "budget",
                 "FROM": "from",
-                "TO": "to"
+                "TO": "to",
+                "LIMIT WITHOUT OFFER": "maximal amount spendable without offers"
             },
             "COLUMN": {
                 "OTP": "OTP",

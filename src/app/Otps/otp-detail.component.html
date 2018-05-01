@@ -104,6 +104,17 @@
 							<gg-editor-boolean [content]="otp.data.excludeFixCost" (editSaved)="propertyChanged('excludeFixCost', $event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
 						</div>
 					</div>
+					<div class="row">
+						<div class="col-sm-4 align-self-center">{{'OTP.LABEL.LIMIT WITHOUT OFFER' | translate}}:</div>
+						<div class="col-sm-6 align-self-center">
+							<gg-editor [isMonetary]="true" [content]="otp.data.limitIfNoOffers" [showControls]="true" (editSaved)="propertyChanged('limitIfNoOffers', $event)"
+							 [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor>
+						</div>
+					</div>
+
+
+
+
 				</div>
 			</div>
 		</ng-template>
@@ -201,7 +212,8 @@
 										<div class="row">
 											<div class="col-sm-4 align-self-center">{{'OTP.WARNING.MONTHS BEFORE END' | translate}}</div>
 											<div class="col-sm-6 align-self-center">
-												<gg-editor-number [content]="otp.data.warningNbMonthsToEnd" (editSaved)="propertyChanged('warningNbMonthsToEnd', $event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-number>
+												<gg-editor-number [content]="otp.data.warningNbMonthsToEnd" (editSaved)="propertyChanged('warningNbMonthsToEnd', $event)"
+												 [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-number>
 											</div>
 										</div>
 										<div class="row">
