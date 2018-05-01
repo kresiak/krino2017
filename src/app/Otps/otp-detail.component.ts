@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core'
 import { ActivatedRoute, Params, Router, NavigationExtras } from '@angular/router'
-import { Observable, Subscription } from 'rxjs/Rx'
+import { Observable } from 'rxjs/Rx'
 import { DataStore } from 'gg-basic-data-services'
 import { ProductService } from './../Shared/Services/product.service';
 import { OrderService } from './../Shared/Services/order.service';
@@ -14,8 +14,8 @@ import { SelectableData } from 'gg-basic-code'
 import { ChartService } from './../Shared/Services/chart.service'
 import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from "moment"
-import {utilsComparators as comparatorsUtils} from 'gg-search-handle-data'
-import {utilsDates as dateUtils} from 'gg-basic-code'
+import { utilsComparators as comparatorsUtils } from 'gg-search-handle-data'
+import { utilsDates as dateUtils } from 'gg-basic-code'
 import { AuthenticationStatusInfo, AuthService } from '../Shared/Services/auth.service'
 import { FormItemStructure, FormItemType } from 'gg-ui'
 
@@ -33,7 +33,7 @@ export class OtpDetailComponent implements OnInit {
         private otpService: OtpService, private equipeService: EquipeService, private configService: ConfigService) {
     }
     public pieSpentChart;
-    
+
     @Input() otpObservable: Observable<any>;
     @Input() state;
     @Input() path: string
@@ -46,7 +46,7 @@ export class OtpDetailComponent implements OnInit {
     }
 
     public equipeListObservable
-    public otp;    
+    public otp;
     public sapIdList: any[]
     public ordersObservable;
     public selectableCategoriesObservable: Observable<any>;
@@ -56,9 +56,6 @@ export class OtpDetailComponent implements OnInit {
     public selectedClassificationIdsObservable: Observable<any>;
     public anyOrder: boolean;
     public authorizationStatusInfo: AuthenticationStatusInfo;
-    public subscriptionAuthorization: Subscription
-    public subscriptionOtp: Subscription
-    public subscriptionSapIdList: Subscription    
 
     public selectableUsers: Observable<SelectableData[]>;
     public selectedUserIdsObservable: Observable<any>;
@@ -67,11 +64,11 @@ export class OtpDetailComponent implements OnInit {
     public filePath: string
 
     public formStructure: FormItemStructure[] = []
-    
-    ngOnInit(): void {   
-        this.uploadUrl= this.dataStore.getUploadUrl()
-        this.filePath= this.dataStore.getPictureUrlBase()
-        
+
+    ngOnInit(): void {
+        this.uploadUrl = this.dataStore.getUploadUrl()
+        this.filePath = this.dataStore.getPictureUrlBase()
+
         this.stateInit();
         this.selectableCategoriesObservable = this.productService.getSelectableCategories();
         this.selectableClassificationsObservable = this.otpService.getSelectableClassifications();
@@ -81,35 +78,31 @@ export class OtpDetailComponent implements OnInit {
         this.selectedCategoryIdsObservable = this.otpObservable.map(otp => (otp && otp.data) ? otp.data.categoryIds : []);
         this.selectedClassificationIdsObservable = this.otpObservable.map(otp => (otp && otp.data) ? otp.data.classificationIds : []);
 
-        this.subscriptionOtp = this.otpObservable.subscribe(otp => {
-            if (!otp) return
+        this.otpObservable.takeWhile(()=> this.isPageRunning).switchMap(otp => this.orderService.hasOtpAnyOrder(otp.data._id).takeWhile(()=> this.isPageRunning))
+                .subscribe(anyOrder => this.anyOrder = anyOrder);
 
+        this.otpObservable.takeWhile(()=> this.isPageRunning).do(otp => {
+            if (!otp) return
             if (!comparatorsUtils.softCopy(this.otp, otp))
                 this.otp = otp;
-
             if (otp) {
                 this.selectedUserIdsObservable = Observable.from([this.otp.data.userIds]);
-                
                 this.ordersObservable = this.orderService.getAnnotedOrdersByOtp(otp.data._id);
-                this.orderService.hasOtpAnyOrder(otp.data._id).subscribe(anyOrder => this.anyOrder = anyOrder);
-
-                this.subscriptionSapIdList = this.sapService.getSapItemsByOtpObservable(otp.data.name).subscribe(lst => {
-                    this.sapIdList = lst
-                })
-
                 this.pieSpentChart = this.chartService.getSpentPieData(this.otp.annotation.amountSpent / this.otp.annotation.budget * 100);
             }
-        });
-        this.subscriptionAuthorization = this.authService.getStatusObservable().subscribe(statusInfo => {
+        }).switchMap(otp => this.sapService.getSapItemsByOtpObservable(otp.data.name).takeWhile(()=> this.isPageRunning)).subscribe(lst => {
+            this.sapIdList = lst})
+
+        this.authService.getStatusObservable().takeWhile(()=> this.isPageRunning).subscribe(statusInfo => {
             this.authorizationStatusInfo = statusInfo
         });
 
-        this.equipeListObservable = this.equipeService.getEquipesForAutocomplete()       
+        this.equipeListObservable = this.equipeService.getEquipesForAutocomplete()
 
         this.formStructure.push(new FormItemStructure('budgetAnnual', 'OTP.LABEL.BUDGET', FormItemType.InputMoney, { isRequired: true }))
         this.formStructure.push(new FormItemStructure('datStartAnnual', 'OTP.LABEL.FROM', FormItemType.GigaDate))
         this.formStructure.push(new FormItemStructure('datEndAnnual', 'OTP.LABEL.TO', FormItemType.GigaDate))
-        
+
     }
 
     SaveNewBudget(data) {
@@ -125,10 +118,10 @@ export class OtpDetailComponent implements OnInit {
         });
     }
 
+    isPageRunning: boolean= true
+
     ngOnDestroy(): void {
-        this.subscriptionAuthorization.unsubscribe()
-        this.subscriptionOtp.unsubscribe()
-        this.subscriptionSapIdList.unsubscribe()
+        this.isPageRunning = false
     }
 
     categorySelectionChanged(selectedIds: string[]) {
@@ -258,7 +251,7 @@ export class OtpDetailComponent implements OnInit {
 
     documentsChanged(newDocuments) {
         this.otp.data.documents = newDocuments;
-        this.dataStore.updateData('otps', this.otp.data._id, this.otp.data);        
+        this.dataStore.updateData('otps', this.otp.data._id, this.otp.data);
     }
 
     userSelectionChanged(selectedIds: string[]) {
