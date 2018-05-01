@@ -8,25 +8,25 @@
 					<div class="row">
 						<div class="col-sm-4 align-self-center">{{'OTP.LABEL.OTP' | translate}}:</div>
 						<div class="col-sm-6 align-self-center">
-							<gg-editor [content]="otp.data.name" [showControls]="true" (editSaved)="nameUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor>
+							<gg-editor [content]="otp.data.name" [showControls]="true" (editSaved)="propertyChanged('name', $event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-sm-4 align-self-center">{{'OTP.LABEL.DESCRIPTION' | translate}}:</div>
 						<div class="col-sm-6 align-self-center">
-							<gg-editor [content]="otp.data.description" [showControls]="true" (editSaved)="descriptionUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor>
+							<gg-editor [content]="otp.data.description" [showControls]="true" (editSaved)="propertyChanged('description', $event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-sm-4 align-self-center">{{'OTP.LABEL.EQUIPE' | translate}}:</div>
 						<div class="col-sm-6 align-self-center">
-							<gg-editor-autocomplete [selectableData]="equipeListObservable" [selectedId]="otp.data.equipeId" (idChanged)="equipeChanged($event)"></gg-editor-autocomplete>
+							<gg-editor-autocomplete [selectableData]="equipeListObservable" [selectedId]="otp.data.equipeId" (idChanged)="propertyChanged('equipeId', $event)"></gg-editor-autocomplete>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-sm-4 align-self-center">{{'OTP.LABEL.NOTE' | translate}}:</div>
 						<div class="col-sm-6 align-self-center">
-							<gg-editor [content]="otp.data.note" [showControls]="true" (editSaved)="noteUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor>
+							<gg-editor [content]="otp.data.note" [showControls]="true" (editSaved)="propertyChanged('note', $event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor>
 						</div>
 					</div>
 					<div class="row">
@@ -38,7 +38,7 @@
 					<div class="row" [style.color]="!otp.data.priority ? 'red' : 'black'">
 						<div class="col-sm-4 align-self-center">{{'OTP.LABEL.PRIORITY' | translate}}:</div>
 						<div class="col-sm-6 align-self-center">
-							<gg-editor-number [content]="otp.data.priority" (editSaved)="priorityUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-number>
+							<gg-editor-number [content]="otp.data.priority" (editSaved)="propertyChanged('priority', $event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-number>
 						</div>
 					</div>
 					<div class="row">
@@ -63,45 +63,45 @@
 					<div class="row">
 						<div class="col-sm-4 align-self-center">{{'OTP.LABEL.CLASSIFICATION' | translate}}:</div>
 						<div class="col-sm-6 align-self-center">
-							<gg-selector [selectableData]="selectableClassificationsObservable" [selectedIds]="selectedClassificationIdsObservable" (selectionChanged)="classificationChanged($event)"
+							<gg-selector [selectableData]="selectableClassificationsObservable" [selectedIds]="selectedClassificationIdsObservable" (selectionChanged)="propertyChanged('classificationIds', $event)"
 							 (selectionOptionAdded)="classificationHasBeenAdded($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-selector>
 						</div>
 					</div>
 					<div class="row" [style.color]="otp.data.isLimitedToOwner ? 'red' : 'black'">
 						<div class="col-sm-4 align-self-center">{{'OTP.LABEL.LIMITED OWNER' | translate}}:</div>
 						<div class="col-sm-6 align-self-center">
-							<gg-editor-boolean [content]="otp.data.isLimitedToOwner" (editSaved)="limitedToOwnerUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
+							<gg-editor-boolean [content]="otp.data.isLimitedToOwner" (editSaved)="propertyChanged('isLimitedToOwner', $event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-sm-4 align-self-center">{{'OTP.LABEL.LIMITED USERS' | translate}}</div>
 						<div class="col-sm-6 align-self-center">
-							<gg-selector [selectableData]="selectableUsers" [selectedIds]="selectedUserIdsObservable" (selectionChanged)="userSelectionChanged($event)"
+							<gg-selector [selectableData]="selectableUsers" [selectedIds]="selectedUserIdsObservable" (selectionChanged)="propertyChanged('userIds', $event)"
 							 [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-selector>
 						</div>
 					</div>
 					<div class="row" [style.color]="otp.data.isBlocked ? 'red' : 'black'">
 						<div class="col-sm-4 align-self-center">{{'OTP.LABEL.IS BLOCKED' | translate}}:</div>
 						<div class="col-sm-6 align-self-center">
-							<gg-editor-boolean [content]="otp.data.isBlocked" (editSaved)="blockedUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
+							<gg-editor-boolean [content]="otp.data.isBlocked" (editSaved)="propertyChanged('isBlocked', $event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
 						</div>
 					</div>
 					<div class="row" [style.color]="otp.data.isClosed ? 'red' : 'black'">
 						<div class="col-sm-4 align-self-center">{{'OTP.LABEL.IS CLOSED' | translate}}:</div>
 						<div class="col-sm-6 align-self-center">
-							<gg-editor-boolean [content]="otp.data.isClosed" (editSaved)="closedUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
+							<gg-editor-boolean [content]="otp.data.isClosed" (editSaved)="propertyChanged('isClosed', $event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
 						</div>
 					</div>
 					<div class="row" [style.color]="otp.data.isDeleted ? 'red' : 'black'">
 						<div class="col-sm-4 align-self-center">{{'OTP.LABEL.IS DELETED' | translate}}:</div>
 						<div class="col-sm-6 align-self-center">
-							<gg-editor-boolean [content]="otp.data.isDeleted" (editSaved)="deletedUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
+							<gg-editor-boolean [content]="otp.data.isDeleted" (editSaved)="propertyChanged('isDeleted', $event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
 						</div>
 					</div>
 					<div class="row" [style.color]="otp.data.excludeFixCost ? 'red' : 'black'">
 						<div class="col-sm-4 align-self-center">{{'OTP.LABEL.CANNOT TRANSPORT COSTS' | translate}}:</div>
 						<div class="col-sm-6 align-self-center">
-							<gg-editor-boolean [content]="otp.data.excludeFixCost" (editSaved)="excludeFixCostUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
+							<gg-editor-boolean [content]="otp.data.excludeFixCost" (editSaved)="propertyChanged('excludeFixCost', $event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
 						</div>
 					</div>
 				</div>
@@ -136,7 +136,7 @@
 										<div class="row">
 											<label class="col-sm-3 col-form-label col-xl-3 align-self-center">{{'OTP.LABEL.IS ANNUAL' | translate}}:</label>
 											<div class="col-md-3 align-self-center">
-												<gg-editor-boolean [content]="otp.data.isAnnual" (editSaved)="updatedIsAnnualChecked($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
+												<gg-editor-boolean [content]="otp.data.isAnnual" (editSaved)="propertyChanged('isAnnual', $event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-boolean>
 											</div>
 										</div>
 
@@ -201,19 +201,19 @@
 										<div class="row">
 											<div class="col-sm-4 align-self-center">{{'OTP.WARNING.MONTHS BEFORE END' | translate}}</div>
 											<div class="col-sm-6 align-self-center">
-												<gg-editor-number [content]="otp.data.warningNbMonthsToEnd" (editSaved)="warningNbMonthsToEndUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-number>
+												<gg-editor-number [content]="otp.data.warningNbMonthsToEnd" (editSaved)="propertyChanged('warningNbMonthsToEnd', $event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-number>
 											</div>
 										</div>
 										<div class="row">
 											<div class="col-sm-4 align-self-center">{{'OTP.WARNING.REPEATS AFTER WARNING' | translate}}</div>
 											<div class="col-sm-6 align-self-center">
-												<gg-editor-number [content]="otp.data.warningNbRepeats" (editSaved)="warningNbRepeatsUpdated($event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-number>
+												<gg-editor-number [content]="otp.data.warningNbRepeats" (editSaved)="propertyChanged('warningNbRepeats', $event)" [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-number>
 											</div>
 										</div>
 										<div class="row">
 											<div class="col-sm-4 align-self-center">{{'OTP.WARNING.DAYS WAIT REPEAT' | translate}}</div>
 											<div class="col-sm-6 align-self-center">
-												<gg-editor-number [content]="otp.data.warningNbDaysBetweenRepeats" (editSaved)="warningNbDaysBetweenRepeatsUpdated($event)"
+												<gg-editor-number [content]="otp.data.warningNbDaysBetweenRepeats" (editSaved)="propertyChanged('warningNbDaysBetweenRepeats', $event)"
 												 [readOnly]="!authorizationStatusInfo?.isAdministrator()"></gg-editor-number>
 											</div>
 										</div>
@@ -296,7 +296,7 @@
 	<ngb-tab title="{{('PRODUCT.MENU.DOCUMENTS' | translate) + ' (' + (otp.data.documents || []).length + ')'}}" id="tabDocuments">
 		<ng-template ngbTabContent>
 			<gg-image-uploader-viewer [uploadUrl]="uploadUrl" [filePath]="filePath" [canUserAdd]="true" [canUserChange]="authorizationStatusInfo?.isAdministrator()"
-			 [documents]="otp.data.documents" (imagesChanged)="documentsChanged($event)"></gg-image-uploader-viewer>
+			 [documents]="otp.data.documents" (imagesChanged)="propertyChanged('documents', $event)"></gg-image-uploader-viewer>
 		</ng-template>
 	</ngb-tab>
 	<ngb-tab title="{{'OTP.MENU.ORDERS' | translate}}" *ngIf="anyOrder" id="tabOrders">

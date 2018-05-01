@@ -168,95 +168,13 @@ export class OtpDetailComponent implements OnInit {
         this.stateChanged.next(this.state);
     }
 
-
-    equipeChanged(newid) {
-        if (!newid) return
-        this.otp.data.equipeId = newid;
-        this.dataStore.updateData('otps', this.otp.data._id, this.otp.data);
-    }
-
-    classificationChanged(selectedIds) {
-        this.otp.data.classificationIds = selectedIds;
-        this.dataStore.updateData('otps', this.otp.data._id, this.otp.data);
-    }
-
     classificationHasBeenAdded(newCategory) {
         this.dataStore.addData('otp.product.classifications', { 'name': newCategory });
     }
 
-    nameUpdated(name) {
-        this.otp.data.name = name;
-        this.dataStore.updateData('otps', this.otp.data._id, this.otp.data);
-    }
-
-    descriptionUpdated(description) {
-        this.otp.data.description = description;
-        this.dataStore.updateData('otps', this.otp.data._id, this.otp.data);
-    }
-
-    noteUpdated(note) {
-        this.otp.data.note = note;
-        this.dataStore.updateData('otps', this.otp.data._id, this.otp.data);
-    }
-
-    limitedToOwnerUpdated(flg) {
-        this.otp.data.isLimitedToOwner = flg;
-        this.dataStore.updateData('otps', this.otp.data._id, this.otp.data);
-    }
-
-    blockedUpdated(block) {
-        this.otp.data.isBlocked = block;
-        this.dataStore.updateData('otps', this.otp.data._id, this.otp.data);
-    }
-
-    deletedUpdated(flg) {
-        this.otp.data.isDeleted = flg;
-        this.dataStore.updateData('otps', this.otp.data._id, this.otp.data);
-    }
-
-    closedUpdated(close) {
-        this.otp.data.isClosed = close;
-        this.dataStore.updateData('otps', this.otp.data._id, this.otp.data);
-    }
-
-    priorityUpdated(priority) {
-        this.otp.data.priority = priority;
-        this.dataStore.updateData('otps', this.otp.data._id, this.otp.data);
-    }
-
-    updatedIsAnnualChecked(isAnnual) {
-        this.otp.data.isAnnual = isAnnual
-        this.dataStore.updateData('otps', this.otp.data._id, this.otp.data);
-    }
-
-    excludeFixCostUpdated(excludeCost) {
-        this.otp.data.excludeFixCost = excludeCost
-        this.dataStore.updateData('otps', this.otp.data._id, this.otp.data);
-    }
-
-    warningNbMonthsToEndUpdated(monthsToEnd) {
-        this.otp.data.warningNbMonthsToEnd = monthsToEnd
-        this.dataStore.updateData('otps', this.otp.data._id, this.otp.data);
-    }
-
-    warningNbRepeatsUpdated(numberOfRepeats) {
-        this.otp.data.warningNbRepeats = numberOfRepeats
-        this.dataStore.updateData('otps', this.otp.data._id, this.otp.data);
-    }
-
-    warningNbDaysBetweenRepeatsUpdated(numberOfDays) {
-        this.otp.data.warningNbDaysBetweenRepeats = numberOfDays
-        this.dataStore.updateData('otps', this.otp.data._id, this.otp.data);
-    }
-
-    documentsChanged(newDocuments) {
-        this.otp.data.documents = newDocuments;
-        this.dataStore.updateData('otps', this.otp.data._id, this.otp.data);
-    }
-
-    userSelectionChanged(selectedIds: string[]) {
-        this.otp.data.userIds = selectedIds;
-        this.dataStore.updateData('otps', this.otp.data._id, this.otp.data);
+    propertyChanged(propName, val) {
+        this.otp.data[propName] = val
+        this.dataStore.updateData('otps', this.otp.data._id, this.otp.data);        
     }
 
 }
