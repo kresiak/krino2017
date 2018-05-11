@@ -1283,7 +1283,8 @@ export const locale = {
                         "NUMBER OF REPEATS AFTER FIRST WARNING": "number of repeats after first warning:",
                         "NUMBER OF DAYS TO WAIT BEFORE REPEAT": "number of days to wait before repeat:",
                         "DELIVERY ID": "delivery address id as in Sap",
-                        "DELIVERY ID TIP": "This information is necessary in order to have the right delivery address printed on the the order. This number can be found in Sap or by asking Stephane Galambos"
+                        "DELIVERY ID TIP": "This information is necessary in order to have the right delivery address printed on the the order. This number can be found in Sap or by asking Stephane Galambos",
+                        "GROUP ACHETEUR": "groupe acheteur id as in Sap"
                     }
                 },
                 "PLATFORM": {

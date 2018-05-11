@@ -1282,7 +1282,8 @@ export const locale = {
                         "NUMBER OF REPEATS AFTER FIRST WARNING": "nombre de répétitions après premier avertissement:",
                         "NUMBER OF DAYS TO WAIT BEFORE REPEAT": "nombre de jours avant la répétition:",
                         "DELIVERY ID": "identificateur sap de l'adresse de livraison",
-                        "DELIVERY ID TIP": "Cette information est nécesssaire pour que l'adresse de livraison s'imprime correctement sur le bon de livraison. Il peut être trouvé dansSap ou via Stephane Galambos"
+                        "DELIVERY ID TIP": "Cette information est nécesssaire pour que l'adresse de livraison s'imprime correctement sur le bon de livraison. Il peut être trouvé dansSap ou via Stephane Galambos",
+                        "GROUP ACHETEUR": "groupe acheteur id comme dans Sap"
                     }
                 },
                 "PLATFORM": {

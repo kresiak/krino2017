@@ -254,6 +254,11 @@ export class AdminLabo {
         this.saveLabo()        
     }
 
+    groupAcheteurId(sapId) {
+        this.labo.data.groupAcheteurId = sapId
+        this.saveLabo()        
+    }    
+
     supplierUpdated(supplier: string) {
         this.labo.data.platformSellingSupplierId = supplier
         this.saveLabo()
