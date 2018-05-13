@@ -5,6 +5,8 @@
                 <ng-template ngbTabContent>
                     <div class="card">
                         <div class="card-body">
+                            <gg-form [structure]="formStructure"  (formSaved)="formSaved($event)"></gg-form>
+                            <!--
                             <div class="container-fluid">
                                 <form [formGroup]="communicationMessageForm" (ngSubmit)="save(communicationMessageForm.value, communicationMessageForm.valid)">
                                     <div class="form-group row">
@@ -23,6 +25,7 @@
                                     </div>
                                 </form>
                             </div>
+                            -->
                         </div>
                     </div>
                 </ng-template>
